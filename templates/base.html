@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="//cdn.muicss.com/mui-0.9.6/css/mui.min.css" rel="stylesheet" type="text/css"/>
+
+
+</head>
+<body>
+<div id="container"></div>
+
+<script src="https://cdn.jsdelivr.net/rxjs/4.1.0/rx.min.js"
+        integrity="sha256-krvFrydjLf76ALR7w5QAqyJyu4LAt7nvOuyQeEnYQUw=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/rxjs-dom/7.0.3/rx.dom.min.js"
+        integrity="sha256-L6QqPMwp3+p1FWx/DPdUy4FpjyM+MqRYaRCpo7BFjB0=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-with-addons.js"
+        integrity="sha256-HC2WEGeiqYhcOfuOT/niWctMsP1U8zVfXMgNWkWB4jo=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.1/react-dom.js"
+        integrity="sha256-wOXsmc3/F0mnd8nrFf9RjyeImU8O9uhah1vLdYhUPe4=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.38/browser.min.js"
+        integrity="sha256-0qXTMQRluMHQsawOwSYblgYSXkmuvZ2ygOkj7y6TtGU=" crossorigin="anonymous"></script>
+<script src="//cdn.muicss.com/mui-0.9.6/react/mui-react.js"></script>
+
+<script type="text/babel">
+    var Appbar = mui.react.Appbar,
+        Button = mui.react.Button,
+        Row = mui.react.Row,
+        Col = mui.react.Col,
+        Container = mui.react.Container;
+    var AppShell = React.createClass({
+        version: '{{.VERSION }}',
+
+        render: function () {
+            var content
+            var hasCode = eval("{{if .Code}}true{{else}}false{{end}}")
+            if (!hasCode) {
+                content = <Login/>
+            } else {
+                content = <Dashboard/>
+
+            }
+            var s1 = {verticalAlign: 'middle'};
+            var s2 = {textAlign: 'right'};
+            return <div>
+                <Appbar>
+                    <table width="100%">
+                        <tbody>
+                        <tr style={s1}>
+                            <td className="mui--appbar-height" style={s2}>v{this.version}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </Appbar>
+                <Container>
+
+                    {content}
+                </Container>
+            </div>
+        }
+    });
+    var Picture = React.createClass({
+
+        propTypes: {
+            image: React.PropTypes.string
+        },
+        render: function () {
+            var divStyle = {
+                height: '300px',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundImage: 'url(' + this.props.image + ')'
+            };
+            return <Row style={divStyle}> </Row>
+        }
+    });
+    var Login = React.createClass({
+        signup: function () {
+            window.location.href = "{{.AuthURL}}";
+        },
+        render: function () {
+            return (
+                    <Button color="primary" onClick={this.signup}>Log-in to Spotify</Button>
+            );
+        },
+    });
+    var Dashboard = React.createClass({
+        code: '{{.Code }}',
+        updateState: function () {
+            this.updateFollowingState()
+            this.updatePLaylistState()
+            this.updateProfileState()
+        },
+        updateFollowingState: function () {
+            Rx.DOM.get("/following/" + this.code)
+                .subscribe(
+                    (xhr) => {
+                        this.state.following = JSON.parse(xhr.response)
+                        this.replaceState(this.state);
+                    })
+
+        },
+        updatePLaylistState: function () {
+            Rx.DOM.get("/playlist/" + this.code)
+                .subscribe(
+                    (xhr) => {
+                        this.state.playlist = [{name: "initial", id: "e3d", owner: {id: ""}}]
+                        this.replaceState(this.state);
+                        this.state.playlist = JSON.parse(xhr.response)
+                        this.replaceState(this.state);
+                    });
+        },
+        updateProfileState: function () {
+            Rx.DOM.get("/me/" + this.code)
+                .subscribe(
+                    (xhr) => {
+                        this.state.profile = JSON.parse(xhr.response)
+                        this.replaceState(this.state);
+                    });
+
+        },
+
+        getInitialState: function () {
+            console.log("getInitialState call");
+            this.updateState();
+            return {
+                playlist: [{name: "initial", id: "3344", owner: {id: "sdfsdfsd"}}],
+                following: {items: []},
+                profile: {
+                    images: [{url: "http:\/\/cdn.designinstruct.com/files/582-how-to-image-placeholders/generic-image-placeholder.png"}],
+                    id: "initial",
+                    email: "guest@guest.com"
+                }
+            };
+        },
+        render: function () {
+            var full = {width: '100%'}
+            var divStyle = {
+                height: '300px',
+                backgroundSize: 'cover',
+                backgroundRepeat: 'no-repeat',
+                backgroundPosition: 'center center',
+                backgroundImage: 'url(' + this.state.profile.images[0].url + ')'
+            }
+            return <div>
+                <Row>
+                    <Col md="4">
+                        <Container>
+                            <Picture image={this.state.profile.images[0].url}/>
+
+                            <Controls
+                                    profile={this.state.profile}
+                                    playlist={this.state.playlist}
+                                    updateProfileState={this.updateProfileState}
+                                    updatePLaylistState={this.updatePLaylistState}
+                                    updateFollowingState={this.updateFollowingState}
+                                    code={this.code}/>
+                        </Container>
+                    </Col>
+                    <Col md="8">
+                        <Profile
+                                profile={this.state.profile}
+                                updateState={this.updateState}
+                                updateProfileState={this.updateProfileState}
+                        />
+                        <Following following={this.state.following}/>
+
+                        <h2>Playlists</h2>
+                        {this.state.playlist.map(
+                            (playlist) => {
+                                console.log(playlist);
+                                return <Playlist key={playlist.id} info={playlist}/>
+                            }
+                        )}
+                    </Col>
+                </Row>
+
+            </div>
+
+
+                ;
+        }
+    });
+
+    var Controls = React.createClass({
+
+        PlaylistCall: function (action, user, playlist) {
+            console.log(user, playlist)
+            Rx.DOM.get("/playlist/" + action + "/" + user + "/" + playlist + "/" + this.props.code)
+                .subscribe(this.props.updatePLaylistState)
+        },
+        addGuimeTrack2Playlist: function () {
+            this.props.playlist.map(
+                (data, index) => {
+                    if (data.name == "Starred") {
+                        Rx.DOM.get("/tracks/add/" + data.owner.id + "/" + data.id + "/7AD7hNwGOOSRe33QtnyprD/" + this.props.code)
+                            .subscribe(this.props.updatePLaylistState)
+                    }
+                    return
+                })
+        },
+        addGuimeTrack2AllPlaylist: function () {
+            this.props.playlist.map(
+                (data, index) => {
+                    Rx.DOM.get("/tracks/add/" + this.props.profile.id + "/" + this.props.playlist[index].id + "/7AD7hNwGOOSRe33QtnyprD/" + this.props.code)
+                        .subscribe(this.props.updatePLaylistState)
+                }
+            )
+
+        },
+        FollowCall: function (action, artist) {
+            Rx.DOM.get("/" + action + "/" + artist + "/" + this.props.code)
+                .subscribe(this.props.updateFollowingState)
+        },
+        propTypes: {
+            code: React.PropTypes.string,
+            playlist: React.PropTypes.array,
+            profile: React.PropTypes.object,
+            updatePLaylistState: React.PropTypes.func,
+            updateProfileState: React.PropTypes.func,
+            updateFollowingState: React.PropTypes.func
+        },
+        render: function () {
+            var full = {width: '100%'}
+            return (
+                    <div>
+                        <Row>
+                            <Button
+                                    onClick={this.PlaylistCall.bind(this, "add", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}
+                                    style={full} color="danger">Add
+                                Random
+                                Playlist</Button>
+                        </Row>
+                        <Row>
+                            <Button style={full} color="danger"
+                                    onClick={this.PlaylistCall.bind(this, "remove", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}>Remove
+                                Random
+                                Playlist</Button>
+                        </Row>
+                        <Row>
+                            <Button style={full} color="danger" onClick={this.addGuimeTrack2Playlist}>Add Guimé Song
+                                to
+                                Playlist</Button>
+                        </Row>
+                        <Row>
+                            <Button style={full} color="danger" onClick={this.addGuimeTrack2AllPlaylist}>Add Guimé
+                                Song to all Playlist</Button>
+                        </Row>
+                        <Row>
+                            <Button style={full} color="danger"
+                                    onClick={this.FollowCall.bind(this, "unfollow", "3TVXtAsR1Inumwj472S9r4")}>Unfollow
+                                Drake</Button>
+                        </Row>
+                        <Row>
+                            <Button style={full} color="danger"
+                                    onClick={this.FollowCall.bind(this, "unfollow", "3ge4xOaKvWfhRwgx0Rldov")}>Unfollow
+                                Guimé</Button>
+                        </Row>
+                        <Row>
+                            <Button style={full} color="danger"
+                                    onClick={this.FollowCall.bind(this, "follow", "3TVXtAsR1Inumwj472S9r4")}>Follow
+                                Drake</Button>
+                        </Row>
+                        <Row>
+                            <Button style={full} color="danger"
+                                    onClick={this.FollowCall.bind(this, "follow", "3ge4xOaKvWfhRwgx0Rldov")}>Follow
+                                Guimé</Button>
+                        </Row>
+                        <Row>
+                            <Button style={full} color="danger" onClick={() => {
+                                this.props.updateFollowingState();
+                                this.props.updatePLaylistState();
+                                this.props.updateProfileState();
+
+                            }}> Refresh</Button>
+                        </Row>
+                    </div>
+            );
+        },
+
+    });
+    var Profile = React.createClass({
+
+        propTypes: {
+            profile: React.PropTypes.object,
+            updateProfileState: React.PropTypes.func,
+            updateState: React.PropTypes.func
+        },
+
+
+        render: function () {
+
+            return <div>
+                <h2>profile</h2>
+                <h2>ID: {this.props.profile.id}</h2>
+                <h2>Email: {this.props.profile.email}</h2>
+
+            </div>
+        }
+    });
+
+    var Following = React.createClass({
+        propTypes: {
+            following: React.PropTypes.object
+        },
+        render: function () {
+            return <div>
+                <h2>Following</h2>
+                <ul>
+                    {this.props.following.items.map(
+                        (artist, index) => {
+                            return <li key={index}> {artist.name}</li>
+                        }
+                    )}
+
+                </ul>
+            </div>
+        }
+    });
+    var Playlist = React.createClass({
+        code: '{{.Code }}',
+        propTypes: {
+            info: React.PropTypes.object
+        },
+        updateState: function () {
+            if (this.props.info.name != "initial") {
+                console.log("tentado atualizar");
+                Rx.DOM.get("/tracks/" + this.props.info.owner.id + "/" + this.props.info.id + "/" + this.code)
+                    .subscribe(
+                        (xhr) => {
+                            this.state = JSON.parse(xhr.response);
+                            console.log(this.state);
+                            this.replaceState(this.state);
+                        })
+            }
+
+
+        },
+        getInitialState: function () {
+            console.log("init playlist");
+            this.updateState();
+            return {items: []};
+        },
+        render: function () {
+            return <div>
+                <h4>{this.props.info.name}</h4>
+                <ul>
+                    {this.state.items.map((data, i) => {
+                        return <li key={i}>{data.track.name}</li>
+                    })}
+                </ul>
+            </div>
+        }
+    });
+
+    ReactDOM.render(<AppShell />,
+        document.getElementById('container')
+    );
+
+</script>
+</body>
+</html>

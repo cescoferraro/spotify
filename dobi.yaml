@@ -1,0 +1,85 @@
+meta:
+    project: spotify
+    default: production
+
+
+env=production-vars:
+    variables: [VERSION=0.0.11]
+
+image=golang:
+    image: golang
+    tags: ["latest"]
+    pull: "once"
+
+mount=deploy-script:
+    bind: deploy.sh
+    path: /deploy.sh
+
+mount=source:
+    bind: .
+    path: /go/src/github.com/cescoferraro/spotify
+
+mount=kube-ssl:
+     bind: /home/cescoferraro/code/go/src/bitbucket.org/cescoferraro/cluster
+     path: /home/{env.USER}/code/go/src/bitbucket.org/cescoferraro/cluster
+
+mount=kube-config:
+     bind: ~/.kube
+     path: /config/.kube
+
+
+
+job=build:
+    use: golang
+    artifact: dist/spotify
+    user: "{user.uid}"
+    mounts: [source]
+    working-dir: /go/src/github.com/cescoferraro/spotify
+    interactive: true
+    command:   bash -c "go build -o dist/spotify -ldflags \"-X main.VERSION=$VERSION\" main.go spotify.go"
+    depends: [production-vars]
+    env:
+      - "VERSION={env.VERSION}"
+
+image=production:
+    image: cescoferraro/spotify
+    tags: ["{env.VERSION}"]
+    context: .
+    depends: [build, production-vars]
+
+
+image=watch-image:
+    image: cescoferraro/spotify
+    tags: ["watch"]
+    context: .
+    dockerfile: dockerfiles/Dockerfile.watch
+
+job=watch:
+    net-mode: host
+    ports: ["8080:8080"]
+    use: watch-image
+    mounts: [source]
+    working-dir: /go/src/github.com/cescoferraro/spotify
+    interactive: true
+    command: /usr/bin/reflex -r '\.go' -s -- bash -c "go run -ldflags \"-X main.VERSION=$VERSION\" main.go spotify.go"
+    depends: [production-vars]
+    env:
+      - "VERSION={env.VERSION}"
+
+
+image=deploy-builder:
+    image: cescoferraro/spotify
+    tags: ["deploy"]
+    context: .
+    dockerfile: dockerfiles/Dockerfile.deploy
+
+job=deploy:
+    use: deploy-builder
+    artifact: ./dist/spotify
+    mounts: [deploy-script, kube-config, kube-ssl]
+    user: "{user.uid}"
+    depends: [production-vars, "production:push"]
+    command: /deploy.sh
+    env:
+      - "VERSION={env.VERSION:}"
+    description: "Build the ARM static binary"
