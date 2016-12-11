@@ -1,12 +1,10 @@
-FROM    golang:1.7.3-alpine
-
+FROM    cescoferraro/gonode
 RUN     apk add -U git bash curl tree
-
 RUN     go get github.com/cespare/reflex && \
         cp /go/bin/reflex /usr/bin/ && \
         rm -rf /go/src/* /go/pkg/* /go/bin/*
-
-
 ENV     PS1="# "
 ENV     GOBIN=/go/bin
+ADD package.json package.json
+RUN npm i -g webpack
 ENV     CGO_ENABLED=0

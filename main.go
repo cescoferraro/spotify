@@ -5,9 +5,13 @@ import (
 	"github.com/zmb3/spotify"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/middleware"
-	"log"
 	"html/template"
 	"github.com/pressly/chi/render"
+	"os"
+	"path/filepath"
+	"log"
+	"io/ioutil"
+	"encoding/json"
 )
 
 var (
@@ -23,9 +27,9 @@ func init() {
 
 func runTemplates() {
 	var err error
-	TEMPLATES, err = template.ParseGlob("templates/*")
+	TEMPLATES, err = template.ParseFiles("static/index.html")
 	if err != nil {
-		log.Fatal(err.Error())
+		//log.Fatal(err.Error())
 	}
 }
 
@@ -49,24 +53,20 @@ func main() {
 		CompileTempleteIf(!isProd())
 		code := r.URL.Query().Get("code")
 		if code != "" {
-			go func() {
-				_, err := retrieveToken(code)
-				if err != nil {
-					log.Println(err.Error())
-				}
-				return
-			}()
+			//go func() {
+			_, err := retrieveToken(code)
+			if err != nil {
+				log.Println(err.Error())
+			}
+			//}()
 		}
-		err := TEMPLATES.ExecuteTemplate(w, "base.html", struct {
-			AuthURL string
-			Code    string
-			VERSION string
-		}{
-			AuthURL:SPOTIFYAUTH.AuthURL(state),
-			Code: code,
-			VERSION: VERSION,
-		})
 
+		cookie := http.Cookie{Name:"AuthURL", Value:SPOTIFYAUTH.AuthURL(state)}
+		http.SetCookie(w, &cookie)
+		cookie = http.Cookie{Name:"VERSION", Value:VERSION}
+		http.SetCookie(w, &cookie)
+
+		err := TEMPLATES.ExecuteTemplate(w, "index.html", nil)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
@@ -98,18 +98,44 @@ func main() {
 		code := chi.URLParam(r, "code")
 		user, err := getProfile(code)
 		if err != nil {
-			log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		render.JSON(w, r, user)
 	})
+	r.Post("/recommendations/:code", func(w http.ResponseWriter, r *http.Request) {
+		code := chi.URLParam(r, "code")
+
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		var artists []string
+		err = json.Unmarshal(body, &artists)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		log.Println(artists)
+		indications, err := getRecommendations(artists, code)
+		if err != nil {
+			log.Println(err.Error())
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		render.JSON(w, r, indications)
+	})
 
 	r.Get("/following/:code", func(w http.ResponseWriter, r *http.Request) {
 		code := chi.URLParam(r, "code")
+
 		playlists, err := getArtists(code)
 		if err != nil {
-			log.Println(err.Error())
+			//log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -131,7 +157,7 @@ func main() {
 		playlist := chi.URLParam(r, "playlist")
 		err := removePlaylist(id, playlist, code)
 		if err != nil {
-			log.Println(err.Error())
+			//log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -143,7 +169,7 @@ func main() {
 		playlist := chi.URLParam(r, "playlist")
 		err := addPlaylist(id, playlist, code)
 		if err != nil {
-			log.Println(err.Error())
+			//log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
@@ -168,13 +194,17 @@ func main() {
 		track := chi.URLParam(r, "track")
 		trap, err := addTrackToPlaylist(id, playlist, track, code)
 		if err != nil {
-			log.Println(err.Error())
+			//log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		render.JSON(w, r, trap)
 	})
+	workDir, _ := os.Getwd()
+	filesDir := filepath.Join(workDir, "static")
+	r.FileServer("/static", http.Dir(filesDir))
 
+	log.Println("Starting Spotify API Tester ...")
 	log.Fatal(http.ListenAndServe(":8080", r))
 
 }

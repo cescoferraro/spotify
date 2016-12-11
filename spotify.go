@@ -7,7 +7,6 @@ import (
 	"golang.org/x/oauth2"
 	"time"
 	"sync"
-	"log"
 )
 
 var Tokens = ToK{Token:make(map[string]*oauth2.Token)}
@@ -77,13 +76,11 @@ func unfollowArtists(code string, ids ...string) error {
 }
 
 func retrieveToken(code string) (*oauth2.Token, error) {
-	Tokens.Lock()
 	var err error
 	if Tokens.Token[code] == nil {
-
-		log.Println("fresh token")
+		Tokens.Lock()
 		Tokens.Token[code], err = SPOTIFYAUTH.Exchange(code)
-
+		Tokens.Unlock()
 		go func() {
 			time.Sleep(5 * time.Minute)
 			delete(Tokens.Token, code)
@@ -92,7 +89,6 @@ func retrieveToken(code string) (*oauth2.Token, error) {
 			return Tokens.Token[code], err
 		}
 	}
-	Tokens.Unlock()
 	return Tokens.Token[code], nil
 }
 
@@ -111,6 +107,32 @@ func getProfile(code string) (*spotify.PrivateUser, error) {
 		return user, err
 	}
 	return user, nil
+}
+
+func getRecommendations(artists []string, code string) (*spotify.Recommendations, error) {
+	recommendations := new(spotify.Recommendations)
+	var err error
+	token, err := retrieveToken(code)
+	if err != nil {
+		errors.Wrap(err, "retrieveToken")
+		return recommendations, err
+	}
+	client := SPOTIFYAUTH.NewClient(token)
+	artistSeed := []spotify.ID{}
+	for _, artist := range artists {
+		artistSeed = append(artistSeed, spotify.ID(artist))
+
+	}
+	seed := spotify.Seeds{
+		Artists:artistSeed,
+	}
+
+	recommendations, err = client.GetRecommendations(seed, new(spotify.TrackAttributes), new(spotify.Options))
+	if err != nil {
+		errors.Wrap(err, "GetRecommendations")
+		return recommendations, err
+	}
+	return recommendations, nil
 }
 
 type ArtistType struct {
@@ -138,7 +160,7 @@ func getArtists(code string) (*spotify.FullArtistCursorPage, error) {
 }
 
 func getPLaylists(code string) ([]spotify.SimplePlaylist, error) {
-	var playlists *spotify.SimplePlaylistPage
+	var playlists = new(spotify.SimplePlaylistPage)
 	token, err := retrieveToken(code)
 	if err != nil {
 		errors.Wrap(err, "retrieveToken")
@@ -184,36 +206,34 @@ func addTrackToPlaylist(id, playlist, track, code string) (string, error) {
 	return snap, nil
 }
 
-
-func addPlaylist(id, playlist, code string) ( error) {
+func addPlaylist(id, playlist, code string) (error) {
 	token, err := retrieveToken(code)
 	if err != nil {
 		errors.Wrap(err, "retrieveToken")
-		return  err
+		return err
 	}
 	client := SPOTIFYAUTH.NewClient(token)
 	err = client.FollowPlaylist(spotify.ID(id), spotify.ID(playlist), true)
 	if err != nil {
 		errors.Wrap(err, "client.CurrentUser")
-		return  err
+		return err
 	}
-	return  nil
+	return nil
 }
 
-
-func removePlaylist(id, playlist, code string) ( error) {
+func removePlaylist(id, playlist, code string) (error) {
 	token, err := retrieveToken(code)
 	if err != nil {
 		errors.Wrap(err, "retrieveToken")
-		return  err
+		return err
 	}
 	client := SPOTIFYAUTH.NewClient(token)
 	err = client.UnfollowPlaylist(spotify.ID(id), spotify.ID(playlist))
 	if err != nil {
 		errors.Wrap(err, "client.CurrentUser")
-		return  err
+		return err
 	}
-	return  nil
+	return nil
 }
 
 

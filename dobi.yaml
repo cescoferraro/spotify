@@ -4,7 +4,7 @@ meta:
 
 
 env=production-vars:
-    variables: [VERSION=0.0.11]
+    variables: [VERSION=0.0.23]
 
 image=golang:
     image: golang
@@ -61,7 +61,7 @@ job=watch:
     mounts: [source]
     working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command: /usr/bin/reflex -r '\.go' -s -- bash -c "go run -ldflags \"-X main.VERSION=$VERSION\" main.go spotify.go"
+    command: /usr/bin/reflex -c reflex.conf
     depends: [production-vars]
     env:
       - "VERSION={env.VERSION}"
