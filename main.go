@@ -27,7 +27,7 @@ func init() {
 
 func runTemplates() {
 	var err error
-	TEMPLATES, err = template.ParseFiles("static/index.html")
+	TEMPLATES, err = template.ParseFiles("www/index.html")
 	if err != nil {
 		//log.Fatal(err.Error())
 	}
@@ -42,37 +42,17 @@ func CompileTempleteIf(condition bool) {
 func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Get("/follow", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
 		url := SPOTIFYAUTH.AuthURL(state)
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 	})
 	r.Get("/status", func(w http.ResponseWriter, r *http.Request) {
 		render.JSON(w, r, Tokens.Token)
 	})
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		CompileTempleteIf(!isProd())
-		code := r.URL.Query().Get("code")
-		if code != "" {
-			//go func() {
-			_, err := retrieveToken(code)
-			if err != nil {
-				log.Println(err.Error())
-			}
-			//}()
-		}
-
-		cookie := http.Cookie{Name:"AuthURL", Value:SPOTIFYAUTH.AuthURL(state)}
-		http.SetCookie(w, &cookie)
-		cookie = http.Cookie{Name:"VERSION", Value:VERSION}
-		http.SetCookie(w, &cookie)
-
-		err := TEMPLATES.ExecuteTemplate(w, "index.html", nil)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
+	r.Get("/version", func(w http.ResponseWriter, r *http.Request) {
+		render.JSON(w, r, VERSION)
 	})
+
 	r.Get("/follow/:id/:code", func(w http.ResponseWriter, r *http.Request) {
 		code := chi.URLParam(r, "code")
 		id := chi.URLParam(r, "id")
@@ -201,8 +181,8 @@ func main() {
 		render.JSON(w, r, trap)
 	})
 	workDir, _ := os.Getwd()
-	filesDir := filepath.Join(workDir, "static")
-	r.FileServer("/static", http.Dir(filesDir))
+	filesDir := filepath.Join(workDir, "www")
+	r.FileServer("/", http.Dir(filesDir))
 
 	log.Println("Starting Spotify API Tester ...")
 	log.Fatal(http.ListenAndServe(":8080", r))

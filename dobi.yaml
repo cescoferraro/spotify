@@ -36,7 +36,7 @@ job=build:
     mounts: [source]
     working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command:   bash -c "go build -o dist/spotify -ldflags \"-X main.VERSION=$VERSION\" main.go spotify.go"
+    command:   bash -c "go build -o dist/spotify -ldflags \"-X main.VERSION=$VERSION\" *.go"
     depends: [production-vars]
     env:
       - "VERSION={env.VERSION}"
@@ -61,7 +61,7 @@ job=watch:
     mounts: [source]
     working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command: /usr/bin/reflex -c reflex.conf
+    command: /usr/bin/
     depends: [production-vars]
     env:
       - "VERSION={env.VERSION}"

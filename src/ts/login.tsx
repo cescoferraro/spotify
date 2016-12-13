@@ -1,9 +1,6 @@
 import * as MUI from "muicss/react";
-import { Button, Row, Container, Col } from "muicss/react";
 import * as React from "react";
 import * as Cookies from "cookies-js";
-let Button = MUI.Button;
-let Container = MUI.Container;
 declare var window: any;
 
 
@@ -25,7 +22,7 @@ let style = {
         backgroundSize: 'contain',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center center',
-        backgroundImage: 'url(static/images/spotify_logo.png)'
+        backgroundImage: 'url(images/spotify_logo.png)'
     },
     textStyle: {
         alignSelf: 'center',
@@ -44,23 +41,23 @@ export interface LoginProps {
 
 export class Login extends React.Component<any,any> {
     signup() {
-        window.location.href = Cookies.get('AuthURL');
+        window.location.href = '/login';
     };
 
     render() {
         console.log(style)
-        return (<Container style={style.ContainerStyle}>
-            <Button variant="raised" style={style.ButtonStyle} size="large" color="accent" onClick={this.signup}>
-                <Row>
-                    <Col md="5" style={style.flex}>
+        return (<MUI.Container style={style.ContainerStyle}>
+            <MUI.Button variant="raised" style={style.ButtonStyle} size="large" color="accent" onClick={this.signup}>
+                <MUI.Row>
+                    <MUI.Col md="5" style={style.flex}>
                         <p style={style.textStyle} className="mui--pull-right">Log in with </p>
-                    </Col>
-                    <Col md="7" style={style.logo}>
+                    </MUI.Col>
+                    <MUI.Col md="7" style={style.logo}>
 
-                    </Col>
-                </Row>
+                    </MUI.Col>
+                </MUI.Row>
 
-            </Button>
-        </Container>);
+            </MUI.Button>
+        </MUI.Container>);
     }
 }

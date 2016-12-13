@@ -77,18 +77,18 @@ func unfollowArtists(code string, ids ...string) error {
 
 func retrieveToken(code string) (*oauth2.Token, error) {
 	var err error
+	Tokens.Lock()
 	if Tokens.Token[code] == nil {
-		Tokens.Lock()
+
 		Tokens.Token[code], err = SPOTIFYAUTH.Exchange(code)
 		Tokens.Unlock()
 		go func() {
 			time.Sleep(5 * time.Minute)
 			delete(Tokens.Token, code)
 		}()
-		if err != nil {
-			return Tokens.Token[code], err
-		}
+		return Tokens.Token[code], err
 	}
+	Tokens.Unlock()
 	return Tokens.Token[code], nil
 }
 

@@ -67,6 +67,15 @@ export class Dashboard extends React.Component<any,any> {
     }
 
 
+
+
+
+
+
+
+
+
+
     updateProfileState() {
         Rx.DOM.get("/me/" + Utils.GetCode("code"))
             .subscribe(
@@ -79,10 +88,14 @@ export class Dashboard extends React.Component<any,any> {
     }
 
 
+
+
+
+
+
     render() {
         let plays, recom, foll;
         console.log(this.state.profile);
-
 
         if (this.state.following.items.length != 0) {
             {
@@ -90,21 +103,17 @@ export class Dashboard extends React.Component<any,any> {
             }
             console.log(this.state.following);
 
-
             if (this.state.recommendation != null) {
                 console.log("about to create recommendation component")
                 console.log(this.state.recommendation)
                 recom = <Recommendations recommendation={this.state.recommendation}/>;
             } else {
                 plays = <h2>No Recommendations for you Today!</h2>;
-
             }
+
         } else {
             plays = <h2>You are not following anyone!</h2>;
-
         }
-
-
         if (this.state.playlists[ 0 ] != null) {
             plays = <Playlists playlists={this.state.playlists}/>;
         } else {

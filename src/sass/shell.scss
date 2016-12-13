@@ -1,0 +1,26 @@
+$primary-color: black;
+
+.pip {
+  background-color: $primary-color;
+}
+
+.logo {
+  height: auto;
+  width: 10%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2000px-Spotify_logo_without_text.svg.png);
+}
+
+.left {
+  text-align: left
+}
+
+.right {
+  text-align: right
+}
+
+.center {
+  vertical-align: middle
+}
