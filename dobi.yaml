@@ -4,12 +4,7 @@ meta:
 
 
 env=production-vars:
-    variables: [VERSION=0.0.23]
-
-image=golang:
-    image: golang
-    tags: ["latest"]
-    pull: "once"
+    variables: [VERSION=0.0.25]
 
 mount=deploy-script:
     bind: deploy.sh
@@ -27,10 +22,15 @@ mount=kube-config:
      bind: ~/.kube
      path: /config/.kube
 
+image=dev-image:
+    image: cescoferraro/spotify
+    tags: ["watch"]
+    context: .
+    dockerfile: dockerfiles/Dockerfile.watch
 
 
 job=build:
-    use: golang
+    use: dev-image
     artifact: dist/spotify
     user: "{user.uid}"
     mounts: [source]
@@ -41,6 +41,21 @@ job=build:
     env:
       - "VERSION={env.VERSION}"
 
+
+
+job=front:
+    use: dev-image
+    artifact: wwww
+    user: "{user.uid}"
+    mounts: [source]
+    working-dir: /go/src/github.com/cescoferraro/spotify
+    interactive: true
+    command:   bash -c "webpack -p"
+    depends: [production-vars]
+    env:
+      - "VERSION={env.VERSION}"
+
+
 image=production:
     image: cescoferraro/spotify
     tags: ["{env.VERSION}"]
@@ -48,23 +63,18 @@ image=production:
     depends: [build, production-vars]
 
 
-image=watch-image:
-    image: cescoferraro/spotify
-    tags: ["watch"]
-    context: .
-    dockerfile: dockerfiles/Dockerfile.watch
-
 job=watch:
     net-mode: host
-    ports: ["8080:8080"]
-    use: watch-image
+    ports: ["8080:8080","8000:8000"]
+    use: dev-image
     mounts: [source]
     working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command: /usr/bin/
+    command: /usr/bin/reflex -c reflex.conf
     depends: [production-vars]
     env:
       - "VERSION={env.VERSION}"
+      - "DOCKER=true"
 
 
 image=deploy-builder:
@@ -78,7 +88,7 @@ job=deploy:
     artifact: ./dist/spotify
     mounts: [deploy-script, kube-config, kube-ssl]
     user: "{user.uid}"
-    depends: [production-vars, "production:push"]
+    depends: [production-vars,front ,"production:push"]
     command: /deploy.sh
     env:
       - "VERSION={env.VERSION:}"

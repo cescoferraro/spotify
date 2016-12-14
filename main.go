@@ -5,39 +5,20 @@ import (
 	"github.com/zmb3/spotify"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/middleware"
-	"html/template"
 	"github.com/pressly/chi/render"
 	"os"
 	"path/filepath"
 	"log"
 	"io/ioutil"
 	"encoding/json"
+	"bytes"
 )
 
 var (
-	TEMPLATES *template.Template
 	SPOTIFYAUTH spotify.Authenticator = spotifyAuth()
 	state = "abc123"
 	VERSION string
 )
-
-func init() {
-	CompileTempleteIf(isProd())
-}
-
-func runTemplates() {
-	var err error
-	TEMPLATES, err = template.ParseFiles("www/index.html")
-	if err != nil {
-		//log.Fatal(err.Error())
-	}
-}
-
-func CompileTempleteIf(condition bool) {
-	if condition {
-		runTemplates()
-	}
-}
 
 func main() {
 	r := chi.NewRouter()
@@ -174,15 +155,27 @@ func main() {
 		track := chi.URLParam(r, "track")
 		trap, err := addTrackToPlaylist(id, playlist, track, code)
 		if err != nil {
-			//log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		render.JSON(w, r, trap)
 	})
-	workDir, _ := os.Getwd()
-	filesDir := filepath.Join(workDir, "www")
-	r.FileServer("/", http.Dir(filesDir))
+	if isProd() {
+		workDir, _ := os.Getwd()
+		filesDir := filepath.Join(workDir, "www")
+		r.FileServer("/", http.Dir(filesDir))
+	} else {
+
+		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+			var buffer bytes.Buffer
+			buffer.WriteString("http://localhost:8000")
+			if r.URL.RawQuery != "" {
+				buffer.WriteString("?" + r.URL.RawQuery)
+			}
+			log.Println("redirenting to " + buffer.String())
+			http.Redirect(w, r, buffer.String(), http.StatusTemporaryRedirect)
+		})
+	}
 
 	log.Println("Starting Spotify API Tester ...")
 	log.Fatal(http.ListenAndServe(":8080", r))

@@ -1,28 +1,8 @@
-
-:root {
-  --cesco: black;
-}
-
 .logo {
+  width: 64px;
   height: 64px;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
   content: url('../images/spotify_logo_appbar.png');
-}
-
-.color {
-  background-color: var(--cesco);
-}
-
-.flex {
-  display: flex;
-}
-
-.full {
-  width: 100%;
-}
-
-.verticalAlign {
-  align-self: center;
 }

@@ -35,6 +35,13 @@ func isProd() bool {
 	}
 	return false
 }
+func isDocker() bool {
+	prod := os.Getenv("DOCKER");
+	if prod == "true" {
+		return true
+	}
+	return false
+}
 
 func followArtists(code string, ids ...string) error {
 	var err error

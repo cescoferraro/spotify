@@ -1,7 +1,9 @@
 let argv = require('argv');
 let path = require('path');
+let webpack = require('webpack');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let CopyWebpackPlugin = require('copy-webpack-plugin');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
 
 
 let args = argv.option({
@@ -16,52 +18,6 @@ if (args.options.prod === undefined) {
     args.options.prod = false
 }
 
-let loaders = () => {
-    if (args.options.prod) {
-        console.log("loaders prod");
-        return [
-            {
-                test: /\.scss$/, loader: ExtractTextPlugin.extract('style?sourceMap',
-                'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-                'postcss-loader?sourceMap=inline',
-                'sass?sourceMap')
-            },
-            {test: /\.tsx?$/, loader: "ts-loader"},
-            {
-                test: /\.(eot|svg|ttf|otf|woff|woff2)$/,
-                loader: 'file?name=fonts/[name].[ext]'
-            },
-            {
-                test: /\.(jpe?g|png|gif|svg)$/,
-                loader: 'url-loader?limit=10000&name=images/[name].[ext]'
-            },
-        ]
-    }
-    return [
-        {
-            test: /\.scss$/,
-            loaders: [
-                'style?sourceMap',
-                'css?modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
-                'postcss-loader?sourceMap=inline',
-                'resolve-url-loader',
-                'sass?sourceMap'
-            ]
-        },
-        {test: /\.tsx?$/, loader: "ts-loader"},
-        {
-            test: /\.(eot|svg|ttf|otf|woff|woff2)$/,
-            loader: 'file?name=fonts/[name].[ext]'
-        },
-        {
-            test: /\.(jpe?g|png|gif|svg)$/,
-            loader: 'url-loader?limit=10000&name=../images/[name].[ext]'
-        },
-    ]
-};
-
-
-
 let index = () => {
     if (args.options.prod) {
         console.log("index prod");
@@ -72,51 +28,147 @@ let index = () => {
 };
 
 
-let preloaders = () => {
-    let pre = [
-        {
-            test: /\.scss$/,
-            exclude: /node_modules/,
-            loaders: ['typed-css-modules', 'postcss-loader?sourceMap=inline', 'sass']
-        },
-        // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-        {test: /\.js$/, loader: "source-map-loader"}
+let plugins = () => {
+    let basePLUGINS = [
+        new CopyWebpackPlugin([{from: index(), to: 'index.html'}]),
+        new webpack.LoaderOptionsPlugin({
+            options: {
+                sassLoader: {
+                    includePaths: [path.resolve(__dirname, "./src/sass")]
+                },
+                context: '/',
+                postcss: [
+                    require("postcss-cssnext")({browsers: '> 0%',
+                        customProperties:true,
+                        colorFunction:true,
+                        customSelectors:true,
+                    })
+                    // require('autoprefixer')({browsers: '> 0%'})
+                ]
+            }
+        }),
+
+
     ];
     if (args.options.prod) {
-        console.log("preloaders prod");
-        return pre
+        basePLUGINS.push(
+            new ExtractTextPlugin({
+                filename: "styles.css",
+                disable: false,
+                allChunks: true,
+                sourceMapFilename: '[file].map'
+            }),
+            new webpack.optimize.UglifyJsPlugin({
+                // compress: {warnings: true},
+                // output: {comments: true},
+                sourceMap: true
+            })
+            // new CleanWebpackPlugin(['www'], {
+            //     path: path.join(__dirname, "www"),
+            //     verbose: true,
+            //     dry: false
+            // })
+        );
+        return basePLUGINS
     }
-    return pre
+    basePLUGINS.push(new webpack.optimize.OccurenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin());
+    return basePLUGINS
+
+};
+
+let rules = () => {
+    let rules = [
+        {
+            enforce: 'pre',
+            test: /\.js$/,
+            loader: "source-map-loader"
+        },
+
+        {
+            enforce: 'pre',
+            test: /\.css$/,
+            loader: "source-map-loader!postcss-loader?sourceMap"
+        },
+        {test: /\.tsx?$/, loader: "ts-loader"}];
+
+    if (args.options.prod) {
+        console.log("rules prod");
+        rules.push({
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract(
+                    {
+                        notExtractLoader: 'style-loader',
+                        loader: 'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5!postcss-loader?sourceMap!sass-loader?sourceMap'
+                    }
+                )
+            },
+            {
+                test: /\.(eot|svg|ttf|otf|woff|woff2)$/,
+                loader: 'file-loader?name=fonts/[name].[ext]'
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/,
+                loader: 'file-loader?name=images/[name].[ext]'
+            });
+        return rules
+    }
+    rules.push({
+            test: /\.scss$/,
+            loaders: [
+                'style-loader',
+                'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[path]___[name]__[local]___[hash:base64:5',
+                'postcss-loader?sourceMap',
+                'sass-loader?sourceMap'
+            ]
+        },
+        {
+            test: /\.(eot|svg|ttf|otf|woff|woff2)$/,
+            loader: 'url-loader'
+        },
+        {
+            test: /\.(jpe?g|png|gif|svg)$/,
+            loader: 'url-loader'
+        }
+    );
+    return rules
+
+
 };
 
 module.exports = {
     entry: "./src/ts/app.tsx",
     output: {
-        filename: "js/bundle.js",
-        path: __dirname + "/www/"
+        filename: "bundle.js",
+        path: path.join(__dirname, "www")
     },
     // Enable sourcemaps for debugging webpack's output.
-    devtool: "source-map",
+    devtool: "source-maps",
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ["", ".webpack.js", ".web.js", ".ts", ".css", ".otf", ".scss", ".sass", ".tsx", ".js"]
+        extensions: [".webpack.js", ".web.js", ".ts", ".css", ".otf", ".scss", ".sass", ".tsx", ".js"]
     },
-    resolveLoader: {root: path.join(__dirname, "node_modules")},
+    resolveLoader: {modules: [path.join(__dirname, "node_modules")]},
 
     module: {
-        loaders: loaders(),
-        preLoaders: preloaders()
-    },
-    sassLoader: {
-        includePaths: [path.resolve(__dirname, "./src/sass")]
+        rules: rules()
     },
 
-    plugins: [
-        new ExtractTextPlugin("css/styles.css"),
-        new CopyWebpackPlugin([{from: index(), to: 'index.html'},
-        ])
+    plugins: plugins(),
+    devServer: {
+        contentBase: "./www",
+        inline: true,
+        port: 8000,
+        proxy: {
+            '**': 'http://localhost:8080'
+        }
+    },
 
-    ]
+    externals: {
+        "react": "React",
+        "react-dom": "ReactDOM"
+    },
 
 };

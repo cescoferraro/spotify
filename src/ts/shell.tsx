@@ -3,13 +3,14 @@ import * as MUI from "muicss/react";
 import Utils from "./utils";
 import { Login } from "./login";
 import { Dashboard } from "./dashboard";
-import * as mainSASS from "../sass/main.scss";
-import * as shellSASS from "../sass/shell.scss";
 import * as Rx from "rx-dom";
+declare var require: any;
+let styles = require("../sass/shell.scss");
+require("../sass/main.scss");
 
-export interface ShellProps {
 
-}
+export interface ShellProps {}
+
 export class Shell extends React.Component <ShellProps, any> {
 
     constructor(props: ShellProps) {
@@ -24,7 +25,6 @@ export class Shell extends React.Component <ShellProps, any> {
     }
 
 
-
     render() {
         let content;
         let logout;
@@ -36,29 +36,67 @@ export class Shell extends React.Component <ShellProps, any> {
 
             logout = <MUI.Button onClick={() => {
                 window.location.href = window.location.origin
-            }} className={ "mui--appbar-height " + shellSASS.right}>LOG-OUT</MUI.Button>;
+            }} className={styles.verticalAlign +" "+ styles.full}>LOG-OUT</MUI.Button>;
             content = <Dashboard/>
         }
 
-        return <div className={mainSASS.container}>
-            <MUI.Appbar className={shellSASS.pip}>
-                <table width="100%">
-                    <tbody>
-                    <tr className={shellSASS.center}>
-                        <td className={ "mui--appbar-height " + shellSASS.logo}>
-                        </td>
-                        <td className={ "mui--appbar-height " + shellSASS.left}>
-                            API TESTER {this.state.version}
+        return <div >
+            <MUI.Appbar className={styles.color}>
 
-                        </td>
-                        <td className={ "mui--appbar-height " + shellSASS.right}>
-                            {logout}</td>
-                    </tr>
-                    </tbody>
-                </table>
+
+                <MUI.Row >
+
+                    <MUI.Col md="1">
+                        <img className={ "mui--appbar-height " + styles.logo}/>
+
+                    </MUI.Col>
+
+
+                    <MUI.Col className={"mui--appbar-height " + styles.flex} md="8">
+                        <p className={styles.verticalAlign}>API TESTER {this.state.version}</p>
+
+                    </MUI.Col>
+                    <MUI.Col className={"mui--appbar-height " + styles.flex}>
+                        {logout}
+
+                    </MUI.Col>
+                </MUI.Row>
+
+
             </MUI.Appbar>
             {content}
         </div>
     }
 
+}
+
+{/*<table width="100%">*/
+}
+{/*<tbody>*/
+}
+{/*<tr className={shellSASS.center}>*/
+}
+{/*<td className={ "mui--appbar-height " + mainSASS.logo}>*/
+}
+
+{/*API TESTER {this.state.version}*/
+}
+{/*</td>*/
+}
+{/*<td className={ "mui--appbar-height " + shellSASS.left + mainSASS.logo}>*/
+}
+{/*API TESTER {this.state.version}*/
+}
+
+{/*</td>*/
+}
+{/*<td className={ "mui--appbar-height " + shellSASS.right}>*/
+}
+{/*{logout}</td>*/
+}
+{/*</tr>*/
+}
+{/*</tbody>*/
+}
+{/*</table>*/
 }

@@ -15,7 +15,6 @@ interface ControlsProps {
 }
 
 
-
 export default class Controls extends React.Component<ControlsProps, any> {
 
     PlaylistCall(action, user, playlist) {

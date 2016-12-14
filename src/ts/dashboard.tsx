@@ -10,6 +10,8 @@ import Following from "./following";
 import Recommendations from "./recommendations";
 
 
+
+
 export class Dashboard extends React.Component<any,any> {
     constructor(props) {
         super(props);
@@ -30,6 +32,7 @@ export class Dashboard extends React.Component<any,any> {
         this.updateProfileState();
 
     }
+
 
     updateFollowingState() {
         Rx.DOM.get("/following/" + Utils.GetCode("code"))
