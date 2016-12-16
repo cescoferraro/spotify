@@ -9,7 +9,8 @@ let styles = require("../sass/shell.scss");
 require("../sass/main.scss");
 
 
-export interface ShellProps {}
+export interface ShellProps {
+}
 
 export class Shell extends React.Component <ShellProps, any> {
 
@@ -29,6 +30,12 @@ export class Shell extends React.Component <ShellProps, any> {
         let content;
         let logout;
 
+        let cesco = "hello";
+        let test = true;
+        let tester;
+        if (test) {
+            tester = <h2>sdjnfsdf</h2>
+        }
         if (Utils.GetCode("code") == null) {
             content = <Login/>
         } else {
@@ -53,8 +60,15 @@ export class Shell extends React.Component <ShellProps, any> {
 
 
                     <MUI.Col className={"mui--appbar-height " + styles.flex} md="8">
-                        <p className={styles.verticalAlign}>API TESTER {this.state.version}</p>
+                        <p className={styles.verticalAlign}>
+                            API CESCO  {this.state.version}</p>
+                        {tester}
+                        <MUI.Button onClick={()=>{
+                            this.state.version= Math.random();
+                                this.setState(this.state);
 
+
+                        }}/>
                     </MUI.Col>
                     <MUI.Col className={"mui--appbar-height " + styles.flex}>
                         {logout}

@@ -12,6 +12,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"bytes"
+	"flag"
 )
 
 var (
@@ -21,6 +22,9 @@ var (
 )
 
 func main() {
+	var direct bool
+	flag.BoolVar(&direct, "direct", false, "a bool")
+	flag.Parse()
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
@@ -160,7 +164,9 @@ func main() {
 		}
 		render.JSON(w, r, trap)
 	})
-	if isProd() {
+	if isProd() || direct {
+		log.Println("direct or production")
+
 		workDir, _ := os.Getwd()
 		filesDir := filepath.Join(workDir, "www")
 		r.FileServer("/", http.Dir(filesDir))

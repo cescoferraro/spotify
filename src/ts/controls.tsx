@@ -4,7 +4,6 @@ import { Button, Row, Container, Col } from "muicss/react";
 import * as Rx from "rx-dom";
 import Utils from "./utils";
 
-
 interface ControlsProps {
     code: string,
     playlists: Array<{id: string}>,

@@ -70,7 +70,7 @@ job=watch:
     mounts: [source]
     working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command: /usr/bin/reflex -c reflex.conf
+    command: reflex -g reflex.conf -s -- reflex -c reflex.conf
     depends: [production-vars]
     env:
       - "VERSION={env.VERSION}"

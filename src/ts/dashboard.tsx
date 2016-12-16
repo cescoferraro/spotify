@@ -52,7 +52,6 @@ export class Dashboard extends React.Component<any,any> {
                 });
     }
 
-    //
     updateRecommendationsState() {
         let artists = [];
         this.state.following.items.map((artist) => {
@@ -76,9 +75,6 @@ export class Dashboard extends React.Component<any,any> {
 
 
 
-
-
-
     updateProfileState() {
         Rx.DOM.get("/me/" + Utils.GetCode("code"))
             .subscribe(
@@ -89,6 +85,7 @@ export class Dashboard extends React.Component<any,any> {
                 });
 
     }
+
 
 
 

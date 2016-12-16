@@ -18,10 +18,10 @@ export class Login extends React.Component<any,any> {
             <MUI.Button variant="raised" className={style.ButtonStyle} size="large"
                         onClick={this.signup}>
                 <MUI.Row>
-                    <MUI.Col md="5" className={style.flex}>
+                    <MUI.Col xs="5" className={style.flex}>
                         <p className={"mui--pull-right "+style.textStyle}>Log in with </p>
                     </MUI.Col>
-                    <MUI.Col md="7" className={style.logo}>
+                    <MUI.Col xs="7" className={style.logo}>
 
                     </MUI.Col>
                 </MUI.Row>
