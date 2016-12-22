@@ -1,0 +1,73 @@
+
+.container {
+  background-color: red;
+}
+.sideBar {
+  background-color: #6ae368;
+}
+.content {
+  background-color: whitesmoke;
+}
+
+
+@media only screen and (max-width: 480px) {
+
+  html {
+    height: auto !important;
+    overflow: scroll !important;
+  }
+
+  .container {
+    overflow-y: scroll;
+    overflow-y: scroll;
+  }
+
+  .sideBar {
+    /*background-color: midnightblue;*/
+  }
+
+  .content {
+    padding: 10px;
+    overflow-y: hidden;
+  }
+}
+
+@media only screen and (min-width: 480px) {
+  .container {
+    background-color: #6ae368;
+  }
+
+  .sideBar {
+    lost-column: 6/16;
+    height: calc(100vh - 64px);
+    /*max-width: 300px;*/
+  }
+
+  .content {
+    lost-column: 10/16;
+    height: calc(100vh - 64px);
+    padding: 15px;
+    overflow-y: auto;
+
+  }
+}
+
+@media only screen and (min-width: 900px) {
+  .sideBar {
+    lost-column: 4/16;
+  }
+
+  .content {
+    lost-column: 12/16;
+  }
+}
+
+@media only screen and (min-width: 1500px) {
+  .sideBar {
+    lost-column: 3/16;
+  }
+
+  .content {
+    lost-column: 13/16;
+  }
+}

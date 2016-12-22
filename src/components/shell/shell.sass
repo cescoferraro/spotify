@@ -1,0 +1,55 @@
+@font-face
+  font-family: myFirstFont
+  src: url('./spotify.otf')
+
+*
+  font-family: myFirstFont, monospace
+
+html
+  height: 100vh
+  width: 100vw
+  overflow: hidden
+
+body
+  background-color: whitesmoke
+
+$sdjhf: 56px
+
+.logo
+  content: url('./spotify_logo_appbar.png')
+
+.flex
+  display: flex
+
+.BarColor
+  background-color: black
+  position: fixed
+  width: 100%
+  z-index: 22
+
+.full
+  width: 100%
+
+.verticalAlign
+  align-self: center
+
+main
+  display: flex
+  width: 100%
+
+section
+  flex-grow: 1
+
+aside
+  flex-shrink: 0
+  flex-grow: 0
+
+.left
+  flex-basis: $sdjhf
+
+.right
+  flex-basis: 100px
+
+.text
+  margin-left: 2%
+

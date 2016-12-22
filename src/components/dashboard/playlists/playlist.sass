@@ -1,0 +1,50 @@
+$size: 100px
+
+.flex
+  height: $size
+  display: flex
+.aside
+  flex-shrink: 0
+  flex-grow: 0
+
+.left
+  flex-basis: 70px !important
+
+.image
+  width: $size
+
+.aside
+  display: flex
+
+\:root
+  --mainColor: red
+
+.janda
+  color: var(--mainColor)
+
+.center
+  flex-grow: 1
+  display: flex
+
+.align
+  align-self: center
+  margin-left: 3%
+
+
+.buttonSide
+  width: $size
+  height: $size
+
+.button
+  height: 100px
+  background-color: #6ae368
+  margin: 0
+  width: 100%
+  background-size: contain
+
+
+.button:hover
+  background-color: black
+  margin: 0
+  svg
+    fill: #6ae368

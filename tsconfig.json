@@ -6,12 +6,10 @@
     "module": "commonjs",
     "experimentalDecorators": true,
     "target": "es5",
-    "jsx": "react"
+    "jsx": "react",
+    "typeRoots" : ["node_modules@types"]
   },
   "include": [
-    "./ts/**/*"
-  ],
-  "files": [
-    "./src/ts/app.tsx"
+    "./src/**/*"
   ]
 }

@@ -10,5 +10,4 @@ RUN     go get github.com/cespare/reflex && \
 ENV     PS1="# "
 ENV     GOBIN=/go/bin
 ADD package.json package.json
-RUN npm i -g webpack
 ENV     CGO_ENABLED=0
