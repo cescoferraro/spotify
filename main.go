@@ -7,16 +7,17 @@ import (
 	"golang.org/x/oauth2"
 	"time"
 	"sync"
+
 	"net/http"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/middleware"
 	"github.com/pressly/chi/render"
-	"path/filepath"
 	"log"
 	"io/ioutil"
 	"encoding/json"
 	"bytes"
 	"flag"
+	"path/filepath"
 )
 
 type ToK struct {
@@ -176,16 +177,46 @@ func main() {
 		render.JSON(w, r, trap)
 	})
 	if isProd() || direct {
-		log.Println("direct or production")
 
-		workDir, _ := os.Getwd()
-		filesDir := filepath.Join(workDir, "www")
-		r.FileServer("/", http.Dir(filesDir))
+		r.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
+			filename := filepath.Join("www/" + r.URL.String())
+			log.Println(filename)
+			if filename == "www" {
+
+
+
+
+
+
+				log.Println("served file from www/index.html")
+				http.ServeFile(w, r, "www/index.html")
+				return
+			}
+
+			_, err := os.Stat("www/" + r.URL.String())
+			if err == nil {
+				// path/to/whatever does not exist
+				log.Println("served file from www/" + r.URL.String())
+				http.ServeFile(w, r, "www/" + r.URL.String())
+				return
+			}
+
+			log.Println("KJDNF")
+
+
+
+
+			//workDir, _ := os.Getwd()
+			//filesDir := filepath.Join(workDir, "www")
+			//r.FileServer("/", http.Dir(filesDir))
+		})
 	} else {
 
-		r.Get("/", func(w http.ResponseWriter, r *http.Request) {
+		r.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
+			log.Println(r.URL.String())
 			var buffer bytes.Buffer
 			buffer.WriteString("http://localhost:8000")
+			buffer.WriteString(r.URL.String())
 			if r.URL.RawQuery != "" {
 				buffer.WriteString("?" + r.URL.RawQuery)
 			}
@@ -213,13 +244,6 @@ func spotifyAuth() spotify.Authenticator {
 
 func isProd() bool {
 	prod := os.Getenv("KUBERNETES");
-	if prod == "true" {
-		return true
-	}
-	return false
-}
-func isDocker() bool {
-	prod := os.Getenv("DOCKER");
 	if prod == "true" {
 		return true
 	}

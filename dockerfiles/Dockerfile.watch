@@ -8,6 +8,6 @@ RUN     go get github.com/cespare/reflex && \
         cp /go/bin/reflex /usr/bin/ && \
         rm -rf /go/src/* /go/pkg/* /go/bin/*
 ENV     PS1="# "
-ENV     GOBIN=/go/bin
+ENV     GOBIN=/go/binw
 ADD package.json package.json
 ENV     CGO_ENABLED=0

@@ -67,14 +67,41 @@ job=watch:
     net-mode: host
     ports: ["8080:8080","8000:8000"]
     use: dev-image
+    user: "{user.uid}"
     mounts: [source]
     working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command: reflex -g reflex.conf -s -- reflex -c reflex.conf
+    command: reflex -g src/reflex/development.conf -s -- reflex -c src/reflex/development.conf
     depends: [production-vars]
     env:
       - "VERSION={env.VERSION}"
-      - "DOCKER=true"
+
+job=prod:
+    net-mode: host
+    user: "{user.uid}"
+    ports: ["8080:8080","8000:8000"]
+    use: dev-image
+    mounts: [source]
+    working-dir: /go/src/github.com/cescoferraro/spotify
+    interactive: true
+    command: reflex -g src/reflex/production.conf -s -- reflex -c src/reflex/production.conf
+    depends: [production-vars]
+    env:
+      - "VERSION={env.VERSION}"
+
+
+job=universal:
+    net-mode: host
+    user: "{user.uid}"
+    ports: ["8080:8080","8000:8000"]
+    use: dev-image
+    mounts: [source]
+    working-dir: /go/src/github.com/cescoferraro/spotify
+    interactive: true
+    command: ls
+    depends: [production-vars]
+    env:
+      - "VERSION={env.VERSION}"
 
 
 image=deploy-builder:

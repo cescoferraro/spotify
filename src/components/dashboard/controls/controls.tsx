@@ -1,14 +1,11 @@
 import * as React from "react";
-import * as MUI from "muicss/react";
-import { Button, Row, Container, Col } from "muicss/react";
 import * as Rx from "rx-dom";
 import Utils from "../../../shared/utils";
 import * as cx from "classnames";
 declare let require: any;
 let styles = require("./controls.pcss");
-let Image1 = require("-!babel-loader!svg-react-loader!./drake.svg");
 declare let window: any;
-
+import Button from 'material-ui/RaisedButton';
 
 interface ControlsProps {
     code: string;
@@ -34,7 +31,7 @@ export default class Controls extends React.Component<ControlsProps, any> {
     addGuimeTrack2AllPlaylist() {
         this.props.playlists.map(
             (data, index) => {
-                Rx.DOM.get("/tracks/add/" + this.props.profile.id + "/" + this.props.playlists[ index ].id + "/7AD7hNwGOOSRe33QtnyprD/" + this.props.code)
+                Rx.DOM.get("/tracks/add/" + this.props.profile.id + "/" + this.props.playlists[index].id + "/7AD7hNwGOOSRe33QtnyprD/" + this.props.code)
                     .subscribe(this.props.updatePLaylistState);
             }
         );
@@ -53,70 +50,70 @@ export default class Controls extends React.Component<ControlsProps, any> {
         return (
             <div className={cx(styles.container,styles.flex)}>
 
-                <div className={styles.item}><MUI.Button
-                    onClick={this.PlaylistCall.bind(this, "add", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}
-                    className={styles.button}
-                >
-                    FUNK PLAYLIST
-                </MUI.Button></div>
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button
+                        onClick={this.PlaylistCall.bind(this, "add", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}
+                        className={styles.button}          >
+                        FUNK PLAYLIST
+                    </Button></div>
+                <div className={styles.item}>
+                    <Button className={styles.button}
                                 onClick={this.PlaylistCall.bind(this, "remove", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}>
                         HEEH
-                    </MUI.Button>
+                    </Button>
                 </div>
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button className={styles.button}
                                 onClick={this.Indications.bind(this)}>
                         Get New Indications
-                    </MUI.Button>
+                    </Button>
                 </div>
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button className={styles.button}
                                 onClick={this.addGuimeTrack2AllPlaylist.bind(this)}>
                         Add Guimé Song to your Playlists
-                    </MUI.Button>
+                    </Button>
                 </div>
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button className={styles.button}
                                 onClick={this.FollowCall.bind(this, "unfollow", "3TVXtAsR1Inumwj472S9r4")}>
                         Unfollow Drake
-                    </MUI.Button>
+                    </Button>
                 </div>
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button className={styles.button}
                                 onClick={this.FollowCall.bind(this, "unfollow", "3ge4xOaKvWfhRwgx0Rldov")}>
                         Unfollow Guimé
-                    </MUI.Button>
+                    </Button>
                 </div>
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button className={styles.button}
                                 onClick={this.FollowCall.bind(this, "follow", "3TVXtAsR1Inumwj472S9r4")}>
                         Follow Drake
-                    </MUI.Button>
+                    </Button>
                 </div>
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button className={styles.button}
                                 onClick={this.FollowCall.bind(this, "follow", "3ge4xOaKvWfhRwgx0Rldov")}>
                         Follow Guimé
-                    </MUI.Button>
+                    </Button>
                 </div>
 
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button className={styles.button}
                                 onClick={() => {
                                     this.props.updateFollowingState();
                                     this.props.updatePLaylistState();
                                     this.props.updateProfileState();
                                 }}>
                         REFRESH
-                    </MUI.Button>
+                    </Button>
                 </div>
                 <div className={styles.item}>
-                    <MUI.Button className={styles.button}
+                    <Button className={styles.button}
                                 onClick={this.logout}>
                         LOGOUT
-                    </MUI.Button>
+                    </Button>
                 </div>
             </div>
         );

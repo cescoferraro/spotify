@@ -1,38 +1,34 @@
-import * as MUI from "muicss/react";
 import * as React from "react";
-import * as cx from "classnames";
+import Button from "material-ui/RaisedButton";
 declare let require: any;
 declare let window: any;
-let style = require("./login.scss");
-
-export interface LoginProps {
-}
+let style = require("./login.pcss");
+let Image1 = require("-!babel-loader!svg-react-loader!./Spotify_logo_with_text.svg");
 
 
 export class Login extends React.Component<any, any> {
-    signup() {
+    static signIn() {
         window.location.href = "/login";
     };
 
-    onResize() {
-    };
 
     render() {
-        return (<MUI.Container className={style.ContainerStyle}>
-            <MUI.Button variant="raised" className={style.ButtonStyle} size="large"
-                        onClick={this.signup}>
-                <MUI.Row>
-                    <MUI.Col xs="5" className={style.flex}>
-                        <p className={cx("mui--pull-right", style.textStyle)}>
-                            Log In with
-                        </p>
-                    </MUI.Col>
-                    <MUI.Col xs="7" className={style.logo}>
+        return (<div className={style.ContainerStyle}>
+            <Button
+                labelPosition="before"
+                primary={true}
+                icon={<Image1  className={style.ButtonStyle} />}
+                className={style.ButtonStyle}
+                buttonStyle={{height: "150px"}}
+                labelStyle={{fontSize: "30px"}}
+                onClick={Login.signIn}>
 
-                    </MUI.Col>
-                </MUI.Row>
+                {/*<div className={style.logo}>*/}
 
-            </MUI.Button>
-        </MUI.Container>);
+                {/*</div>*/}
+
+
+            </Button>
+        </div>);
     }
 }

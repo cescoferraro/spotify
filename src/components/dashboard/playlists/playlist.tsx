@@ -5,7 +5,7 @@ import * as Rx from "rx-dom";
 import Utils from "../../../shared/utils";
 import * as cx from "classnames";
 declare let require: any;
-let style = require("./playlist.sass");
+let style = require("./playlist.pcss");
 let Image1 = require("-!babel-loader!svg-react-loader!./kiwi.svg");
 
 interface PlaylistProps {

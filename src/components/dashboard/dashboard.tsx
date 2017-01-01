@@ -1,12 +1,13 @@
 import * as React from "react";
 import * as Rx from "rx-dom";
 import Utils from "../../shared/utils";
-import Playlists from "./playlists/playlist.list";
+import PlaylistList from "./playlists/playlist.list";
 import Following from "./following/following";
 import Recommendations from "./recommendations/recommendations";
 import Picture from "./picture/picture";
 import Profile from "./profile";
 import Controls from "./controls/controls";
+
 
 declare let require: any;
 let styles = require("./dashboard.pcss");
@@ -16,11 +17,11 @@ export default class Dashboard extends React.Component<any, any> {
         super(props);
         let placeholder = "https:\/\/goo.gl/UO3J6T";
         this.state = {
-            recommendation: {tracks: [ {name: "", external_urls: {spotify: "sdf"}} ]},
+            recommendation: {tracks: [{name: "", external_urls: {spotify: "sdf"}}]},
             playlists: [],
             following: {items: []},
             profile: {
-                images: [ {url: placeholder} ],
+                images: [{url: placeholder}],
                 id: "initial",
                 email: "guest@guest.com"
             }
@@ -33,6 +34,8 @@ export default class Dashboard extends React.Component<any, any> {
 
     updateFollowingState() {
         Rx.DOM.get("/following/" + Utils.GetCode("code"))
+            .retry(3)
+            .catch(this.catchErrors)
             .subscribe((xhr) => {
                 this.state.following = JSON.parse(xhr.response);
                 this.setState(this.state);
@@ -44,11 +47,17 @@ export default class Dashboard extends React.Component<any, any> {
 
     updatePLaylistState() {
         Rx.DOM.get("/playlist/" + Utils.GetCode("code"))
+            .retry(3)
+            .catch(this.catchErrors)
             .subscribe(
                 (xhr) => {
                     this.state.playlists = JSON.parse(xhr.response);
                     this.setState(this.state);
                 });
+    }
+
+    catchErrors() {
+        console.log("sdkjfnjksdf");
     }
 
     updateRecommendationsState() {
@@ -58,6 +67,8 @@ export default class Dashboard extends React.Component<any, any> {
         });
         if (artists.length !== 0) {
             Rx.DOM.post("/recommendations/" + Utils.GetCode("code"), JSON.stringify(artists))
+                .retry(3)
+                .catch(this.catchErrors)
                 .subscribe(
                     (xhr) => {
                         this.state.recommendation = JSON.parse(xhr.response);
@@ -70,6 +81,8 @@ export default class Dashboard extends React.Component<any, any> {
 
     updateProfileState() {
         Rx.DOM.get("/me/" + Utils.GetCode("code"))
+            .retry(3)
+            .catch(this.catchErrors)
             .subscribe(
                 (xhr) => {
                     this.state.profile = JSON.parse(xhr.response);
@@ -87,21 +100,14 @@ export default class Dashboard extends React.Component<any, any> {
                 foll = <Following following={this.state.following}/>;
             }
 
-            if (this.state.recommendation != null) {
-                recom = <Recommendations recommendation={this.state.recommendation}/>;
-            } else {
-                plays = <h2>No Recommendations for you Today!</h2>;
-            }
 
-        } else {
-            plays = <h2>You are not following anyone!</h2>;
         }
-        // if (this.state.playlists[ 0 ] != null) {
-        //     plays = <Playlists playlists={this.state.playlists}/>;
-        // } else {
-        //     plays = <h2>You do not have any Playlists!</h2>;
-        // }
 
+        if (this.state.recommendation != null) {
+            recom = <Recommendations recommendation={this.state.recommendation}/>;
+        } else {
+            recom = <h2>No Recommendations for you Today!</h2>;
+        }
 
         return (<div className={styles.container}>
             <div className={styles.sideBar}>
@@ -120,8 +126,8 @@ export default class Dashboard extends React.Component<any, any> {
                 <Profile profile={this.state.profile}/>
                 {foll}
                 {recom}
-                { this.state.playlists[ 0 ] != null ?
-                    <Playlists playlists={this.state.playlists}/> :
+                { this.state.playlists[0] != null ?
+                    <PlaylistList playlists={this.state.playlists}/> :
                     <h2>You do not have any Playlists!</h2>}
 
             </div>

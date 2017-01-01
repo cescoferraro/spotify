@@ -1,6 +1,6 @@
-import * as MUI from "muicss/react";
 import * as React from "react";
 
+import Divider from 'material-ui/Divider';
 
 interface RecommendationsProps {
     recommendation: any;
@@ -17,7 +17,7 @@ export default class Recommendations extends React.Component<RecommendationsProp
     render() {
         return (<div>
             <h2>Recommendations:</h2>
-            <MUI.Divider/>
+            <Divider/>
 
             {this.props.recommendation.tracks.map((track, index) => {
                 if (index <= 5) {
