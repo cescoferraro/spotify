@@ -14,42 +14,37 @@ injectTapEventPlugin();
 
 
 app.get("*", (request, response) => {
-    let filePath = "./www" + request.url;
     debug("SERVER")("Request for ", request.url);
-    let extname = String(path.extname(filePath)).toLowerCase();
-    let contentType = "text/html";
-    let mimeTypes = {
-        ".html": "text/html",
-        ".js": "text/javascript",
-        ".css": "text/css",
-        ".json": "application/json",
-        ".png": "image/png",
-        ".jpg": "image/jpg",
-        ".gif": "image/gif",
-        ".wav": "audio/wav",
-        ".mp4": "video/mp4",
-        ".woff": "application/font-woff",
-        ".ttf": "application/font-ttf",
-        ".eot": "application/vnd.ms-fontobject",
-        ".otf": "application/font-otf",
-        ".svg": "application/image/svg+xml"
-    };
-    contentType = mimeTypes[extname] || "application/octect-stream";
+    let filePath = "./www" + request.url;
     fs.readFile(filePath, function (error, content) {
         if (error) {
             debug("SERVER-RENDER")("server-side rendering index.html");
-            const html = extracted(request);
-            response.send(html);
+            response.send(extracted(request));
         }
         else {
             debug("STATIC")("serving ", request.url);
+            let mimeTypes = {
+                ".html": "text/html",
+                ".js": "text/javascript",
+                ".css": "text/css",
+                ".json": "application/json",
+                ".png": "image/png",
+                ".jpg": "image/jpg",
+                ".gif": "image/gif",
+                ".wav": "audio/wav",
+                ".mp4": "video/mp4",
+                ".woff": "application/font-woff",
+                ".ttf": "application/font-ttf",
+                ".eot": "application/vnd.ms-fontobject",
+                ".otf": "application/font-otf",
+                ".svg": "application/image/svg+xml"
+            };
             response.writeHead(200, {
-                "Content-Type": contentType,
+                "Content-Type": mimeTypes[String(path.extname(filePath)).toLowerCase()] || "application/octect-stream",
                 "Cache-Expiration": 3600
             });
             response.end(content, "utf-8");
         }
     });
-}).listen(PORT, () => {
-    debug("SERVER")("listening at http://localhost:" + PORT);
 });
+app.listen(PORT, debug("SERVER").bind(this, "listening at http://localhost:" + PORT));

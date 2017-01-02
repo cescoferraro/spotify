@@ -56,7 +56,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.(tsx?)$/,
-				loaders: ['react-hot-loader/webpack', 'awesome-typescript-loader?silent=true', 'tslint-loader']
+				loaders: ['react-hot-loader/webpack', 'awesome-typescript-loader?silent=true&configFileName=src/tsconfig.json', 'tslint-loader']
 			},
 			{
 				test: /\.(pcss)$/,
