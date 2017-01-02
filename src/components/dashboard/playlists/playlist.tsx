@@ -1,4 +1,3 @@
-import { Button, Row, Container, Col } from "muicss/react";
 import * as React from "react";
 import * as moment from "moment";
 import * as Rx from "rx-dom";
@@ -7,6 +6,7 @@ import * as cx from "classnames";
 declare let require: any;
 let style = require("./playlist.pcss");
 let Image1 = require("-!babel-loader!svg-react-loader!./kiwi.svg");
+import Button from "material-ui/RaisedButton";
 
 interface PlaylistProps {
     info: {
@@ -88,7 +88,7 @@ export default class Playlist extends React.Component<PlaylistProps, any> {
 
                     {this.state.items.map((data, i) => {
                         let space = " - ";
-                        return (<Container key={i}>
+                        return (<div key={i}>
                             <p >
                                 {data.track.artists.map((artist, index) => {
                                     let spacer = "";
@@ -101,7 +101,7 @@ export default class Playlist extends React.Component<PlaylistProps, any> {
                                 {space} {data.track.name} {space} {moment.utc(data.track.duration_ms).format("mm:ss")}
                             </p>
 
-                        </Container>);
+                        </div>);
                     })}
 
                 </div> : null}

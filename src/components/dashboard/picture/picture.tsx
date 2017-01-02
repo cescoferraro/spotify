@@ -1,4 +1,3 @@
-import { Row } from "muicss/react";
 import * as React from "react";
 import * as Dimensions from "react-dimensions";
 declare let require: any;
@@ -14,7 +13,7 @@ export default class Picture extends React.Component<PictureProps, any> {
             height: "300px",
             width: "auto"
         };
-        return (<div className={styles.sideBar}  style={divStyle}>
+        return (<div className={styles.sideBar} style={divStyle}>
             <img className={styles.image} src={this.props.image} alt=""/>
         </div>);
     }
