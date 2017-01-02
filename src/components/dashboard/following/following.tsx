@@ -1,9 +1,9 @@
 import * as React from "react";
-import * as MUI from "muicss/react";
 import * as cx from "classnames";
-
+import Divider from "material-ui/Divider";
 declare let require: any;
 let PlaylistStyle = require("./following.pcss");
+import Paper from 'material-ui/Paper';
 interface FollowingProps {
     following: {
         items: Array<{
@@ -22,12 +22,9 @@ export default class Following extends React.Component<FollowingProps, any> {
     }
 
     render() {
-        let stylee = {
-            height: "70p",
-        };
-        return (<div>
+        return (<Paper zDepth={2}>
             <h2>Following</h2>
-            <MUI.Divider/>
+            <Divider/>
             {this.props.following.items.map(
                 (artist, index) => {
                     return (<div className={cx(PlaylistStyle.flex)} key={index}>
@@ -41,6 +38,6 @@ export default class Following extends React.Component<FollowingProps, any> {
                     </div>);
                 }
             )}
-        </div>);
+        </Paper>);
     }
 }
