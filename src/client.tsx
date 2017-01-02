@@ -1,5 +1,4 @@
 import * as React from "react";
-import * as debug from "debug";
 import routes from "./app/routes";
 import *  as injectTapEventPlugin from "react-tap-event-plugin";
 import {render} from "react-dom";
@@ -8,10 +7,6 @@ import {AppContainer} from "react-hot-loader";
 declare let module: any;
 declare let require: any;
 injectTapEventPlugin();
-
-debug.enable("cesco");
-debug("cesco")("hello");
-console.log("hello");
 
 
 render(<AppContainer>

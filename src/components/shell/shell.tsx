@@ -2,7 +2,10 @@ import * as React from "react";
 import AppBar from "material-ui/AppBar";
 import Message from "../msg/msg";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import {Login} from "../login/login";
 declare let require: any;
+let styles = require("./shell.pcss");
+
 export interface ShellProps {
 }
 
@@ -22,7 +25,7 @@ export default class Shell extends React.Component <ShellProps, any> {
             <MuiThemeProvider >
                 <div>
                     <AppBar title="API CESCO"/>
-                    <Message message="jksdnkjdssdfsdjkf"/>
+                    <Login></Login>
                 </div>
             </MuiThemeProvider>);
     }

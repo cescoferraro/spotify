@@ -8,8 +8,7 @@ module.exports = {
 		app: [
 			'react-hot-loader/patch',
 			'webpack-dev-server/client?http://localhost:8000',
-			// 'webpack/hot/only-dev-server',
-			"./src/index"]
+			"./src/client"]
 	},
 	target: 'web',
 	plugins: [
@@ -21,7 +20,7 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			showErrors: true,
 			chunks: ['app'],
-			template: 'src/index.ejs'
+			template: 'src/index.html'
 		}),
 		new FaviconsWebpackPlugin({
 			logo: './src/icon/icon.png',
@@ -43,14 +42,14 @@ module.exports = {
 			}
 		})],
 	output: {
-		path: path.join(__dirname, "www"),
+		path: path.join(__dirname, "../../www"),
 		filename: "js/[name].bundle.js"
 	},
 
 	devtool: 'cheap-module-eval-source-map',
 	resolveLoader: {
 		modules: [
-			path.join(__dirname, "node_modules")
+			path.join(__dirname, "../../node_modules")
 		]
 	},
 	module: {
@@ -85,23 +84,19 @@ module.exports = {
 		proxy: {
 			'**': {
 				secure: false,
-				bypass: function (req, res, opt) {
-					//your custom code to check for any exceptions
-					//console.log('bypass check', {req: req, res:res, opt: opt});
-					if (req.path.indexOf('/img/') !== -1 || req.path.indexOf('/public/') !== -1) {
+				bypass: function (req) {
+					if (req.path.indexOf('/fonts/') !== -1
+						|| req.path.indexOf('/icons/') !== -1
+						|| req.path.indexOf('/images/') !== -1) {
 						return '/'
 					}
-
-					if (req.headers.accept.indexOf('html') !== -1) {
-						return '/index.html';
-					}
+					return 'http://localhost:8080';
 				}
 			}
 		},
 		stats: {
-			// Config for minimal console.log mess.
-			// assets: false,
-			warnings: true,
+			assets: false,
+			warnings: false,
 			chunks: true,
 			chunkModules: false,
 			chunkOrigins: true

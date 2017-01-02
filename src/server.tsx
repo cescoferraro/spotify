@@ -3,18 +3,19 @@ import * as express from "express";
 import * as React from "react";
 declare let require: any;
 declare let global: any;
-
+import * as debug  from "debug";
+import *  as injectTapEventPlugin from "react-tap-event-plugin";
 let path = require("path");
 let app = express();
 let fs = require("fs");
 let PORT = 3000;
+debug.enable("*");
+injectTapEventPlugin();
+
 
 app.get("*", (request, response) => {
-    console.log("request for ", request.url);
-    global.navigator = {
-        userAgent: request.headers["user-agent"]
-    };
     let filePath = "./www" + request.url;
+    debug("SERVER")("Request for ", request.url);
     let extname = String(path.extname(filePath)).toLowerCase();
     let contentType = "text/html";
     let mimeTypes = {
@@ -35,23 +36,20 @@ app.get("*", (request, response) => {
     };
     contentType = mimeTypes[extname] || "application/octect-stream";
     fs.readFile(filePath, function (error, content) {
-
         if (error) {
-            console.log("server-side rendering");
-            const html = extracted(request.url);
+            debug("SERVER-RENDER")("server-side rendering index.html");
+            const html = extracted(request);
             response.send(html);
-            return;
-
         }
         else {
-            console.log("serving static file");
-            response.writeHead(200, {"Content-Type": contentType});
+            debug("STATIC")("serving ", request.url);
+            response.writeHead(200, {
+                "Content-Type": contentType,
+                "Cache-Expiration": 3600
+            });
             response.end(content, "utf-8");
         }
     });
-});
-
-
-app.listen(PORT, () => {
-    console.log("listening at http://localhost:" + PORT)
+}).listen(PORT, () => {
+    debug("SERVER")("listening at http://localhost:" + PORT);
 });

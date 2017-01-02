@@ -39,6 +39,7 @@ func main() {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("LOGIN")
 		url := SPOTIFYAUTH.AuthURL(state)
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 	})
@@ -183,32 +184,18 @@ func main() {
 			log.Println(filename)
 			if filename == "www" {
 
-
-
-
-
-
 				log.Println("served file from www/index.html")
 				http.ServeFile(w, r, "www/index.html")
 				return
 			}
 
 			_, err := os.Stat("www/" + r.URL.String())
-			if err == nil {
+			if err == nil || filename == "www" {
 				// path/to/whatever does not exist
 				log.Println("served file from www/" + r.URL.String())
 				http.ServeFile(w, r, "www/" + r.URL.String())
 				return
 			}
-
-			log.Println("KJDNF")
-
-
-
-
-			//workDir, _ := os.Getwd()
-			//filesDir := filepath.Join(workDir, "www")
-			//r.FileServer("/", http.Dir(filesDir))
 		})
 	} else {
 

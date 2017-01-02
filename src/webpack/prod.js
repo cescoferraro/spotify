@@ -1,14 +1,25 @@
 let path = require('path');
 let webpack = require('webpack');
+let HtmlWebpackPlugin = require('html-webpack-plugin');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
+let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+let CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
 	entry: {
-		universal: ["./src/universal"]
+		vendor: ['react'],
+		app: ["./src/client"]
 	},
-	target: 'node',
-
 	plugins: [
+		new webpack.DefinePlugin({
+			'process.env': {
+				'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+			}
+		}),
+		new CleanWebpackPlugin(['www'], {
+			root: __dirname,
+			verbose: true
+		}),
 		// new webpack.HotModuleReplacementPlugin()
 		new ExtractTextPlugin("styles.css"),
 		new webpack.LoaderOptionsPlugin({
@@ -16,6 +27,15 @@ module.exports = {
 			debug: false
 		}),
 		new webpack.NoErrorsPlugin(),
+		new FaviconsWebpackPlugin({
+			logo: './src/icon/icon.png',
+			prefix: 'icons/'
+		}),
+		new HtmlWebpackPlugin({
+			showErrors: true,
+			chunks: ['app', 'vendor'],
+			template: 'src/index.html'
+		}),
 		new webpack.LoaderOptionsPlugin({
 			options: {
 				context: '/',
@@ -32,12 +52,12 @@ module.exports = {
 			}
 		})],
 	output: {
-		path: path.join(__dirname, "www"),
-		filename: "[name].bundle.js"
+		path: path.join(__dirname, "../../www"),
+		filename: "js/[name].bundle.js"
 	},
 	resolveLoader: {
 		modules: [
-			path.join(__dirname, "node_modules")
+			path.join(__dirname, "../../node_modules")
 		]
 	},
 	module: {
