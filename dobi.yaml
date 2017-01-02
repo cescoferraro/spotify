@@ -60,6 +60,7 @@ image=production:
     image: cescoferraro/spotify
     tags: ["{env.VERSION}"]
     context: .
+    dockerfile: src/docker/Dockerfile.production
     depends: [build, production-vars]
 
 
