@@ -1,4 +1,4 @@
-import extracted from "./app/server-render";
+import extracted from "./server-render";
 import * as express from "express";
 import * as React from "react";
 declare let require: any;

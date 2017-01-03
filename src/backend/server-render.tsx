@@ -5,7 +5,7 @@ import * as ReactDOMServer from "react-dom/server";
 import UniversalShell from "./universal.shell";
 import createServerRenderContext from "react-router/createServerRenderContext";
 import ServerRouter from "react-router/ServerRouter";
-import routes from "./routes";
+import routes from "../frontend/app/routes";
 
 
 export default function extracted(request) {

@@ -4,7 +4,7 @@ let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
 	entry: {
-		server: ["./src/server"]
+		server: ["./src/backend/server"]
 	},
 	target: 'node',
 

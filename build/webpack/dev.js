@@ -8,23 +8,19 @@ module.exports = {
 		app: [
 			'react-hot-loader/patch',
 			'webpack-dev-server/client?http://localhost:8000',
-			"./src/client"]
+			"./src/frontend/client"]
 	},
 	target: 'web',
 	plugins: [
 		new FaviconsWebpackPlugin({
-			logo: './src/icon/icon.png',
+			logo: './src/frontend/icon/icon.png',
 			prefix: 'icons/'
 		}),
 		new webpack.NoErrorsPlugin(),
 		new HtmlWebpackPlugin({
 			showErrors: true,
 			chunks: ['app'],
-			template: 'src/index.html'
-		}),
-		new FaviconsWebpackPlugin({
-			logo: './src/icon/icon.png',
-			prefix: 'icons/'
+			template: 'src/frontend/index.html'
 		}),
 		new webpack.LoaderOptionsPlugin({
 			options: {

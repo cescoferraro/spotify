@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack-dev-server --config src/webpack/dev.js  --inline --hot",
-    "production": "NODE_ENV=production  webpack --config src/webpack/prod.js"
+    "start": "webpack-dev-server --config build/webpack/dev.js  --inline --hot",
+    "production": "NODE_ENV=production  webpack --config build/webpack/prod.js"
   },
   "repository": {
     "type": "git",

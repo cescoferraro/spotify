@@ -26,7 +26,7 @@ image=dev-image:
     image: cescoferraro/spotify
     tags: ["watch"]
     context: .
-    dockerfile: src/docker/Dockerfile.watch
+    dockerfile: build/docker/Dockerfile.watch
 
 
 job=build:
@@ -72,7 +72,7 @@ job=watch:
     mounts: [source]
     working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command: reflex -g src/reflex/development.conf -s -- reflex -c src/reflex/development.conf
+    command: reflex -g build/reflex/development.conf -s -- reflex -c build/reflex/development.conf
     depends: [production-vars]
     env:
       - "VERSION={env.VERSION}"
@@ -85,7 +85,7 @@ job=prod:
     mounts: [source]
     working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command: reflex -g src/reflex/production.conf -s -- reflex -c src/reflex/production.conf
+    command: reflex -g build/reflex/production.conf -s -- reflex -c build/reflex/production.conf
     depends: [production-vars]
     env:
       - "VERSION={env.VERSION}"
@@ -109,7 +109,7 @@ image=deploy-builder:
     image: cescoferraro/spotify
     tags: ["deploy"]
     context: .
-    dockerfile: src/docker/Dockerfile.deploy
+    dockerfile: build/docker/Dockerfile.deploy
 
 job=deploy:
     use: deploy-builder

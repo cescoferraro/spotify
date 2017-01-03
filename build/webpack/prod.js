@@ -8,7 +8,7 @@ let CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = {
 	entry: {
 		vendor: ['react'],
-		app: ["./src/client"]
+		app: ["./src/frontend/client"]
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -28,13 +28,13 @@ module.exports = {
 		}),
 		new webpack.NoErrorsPlugin(),
 		new FaviconsWebpackPlugin({
-			logo: './src/icon/icon.png',
+			logo: './src/frontend/icon/icon.png',
 			prefix: 'icons/'
 		}),
 		new HtmlWebpackPlugin({
 			showErrors: true,
 			chunks: ['app', 'vendor'],
-			template: 'src/index.html'
+			template: 'src/frontend/index.html'
 		}),
 		new webpack.LoaderOptionsPlugin({
 			options: {
