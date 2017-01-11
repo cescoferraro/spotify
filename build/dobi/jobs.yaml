@@ -1,0 +1,36 @@
+job=frontend:
+    use: dev-image
+    artifact: wwww
+    user: "{user.uid}"
+    mounts: [source]
+    interactive: true
+    command:  ./node_modules/.bin/webpack --config build/webpack/prod.js
+    depends: [vars]
+    env:
+      - "VERSION={env.VERSION}"
+
+job=universal:
+    use: dev-image
+    artifact: wwww
+    user: "{user.uid}"
+    mounts: [source]
+    interactive: true
+    command:  ./node_modules/.bin/webpack -p --config build/webpack/universal.js
+    depends: [vars]
+    env:
+      - "VERSION={env.VERSION}"
+
+job=api:
+    use: dev-image
+    artifact: dist/spotify
+    user: "{user.uid}"
+    mounts: [source]
+    interactive: true
+    command:   bash -c "go build -o dist/spotify -ldflags \"-X main.VERSION=$VERSION\" src/api/*.go"
+    depends: [vars]
+    env:
+      - "VERSION={env.VERSION}"
+
+
+alias=hub:
+    tasks: ["frontend-image:push", "api-image:push"]

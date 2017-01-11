@@ -3,11 +3,14 @@ let webpack = require('webpack');
 let ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = {
-	entry: {
-		server: ["./src/backend/server"]
-	},
 	target: 'node',
-
+	entry: {
+		server: ["./src/universal/server"]
+	},
+	output: {
+		path: path.join(__dirname, "../../www"),
+		filename: "[name].bundle.js"
+	},
 	plugins: [
 		new ExtractTextPlugin("styles.css"),
 		new webpack.LoaderOptionsPlugin({
@@ -30,10 +33,6 @@ module.exports = {
 				]
 			}
 		})],
-	output: {
-		path: path.join(__dirname, "../../www"),
-		filename: "[name].bundle.js"
-	},
 	resolveLoader: {
 		modules: [
 			path.join(__dirname, "../../node_modules")

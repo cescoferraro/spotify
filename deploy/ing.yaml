@@ -1,0 +1,15 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: spotify
+  name: spotify-ing
+spec:
+  rules:
+  - host: spotify.cescoferraro.xyz
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: spotify-svc
+          servicePort: 3000

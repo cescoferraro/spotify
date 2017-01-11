@@ -1,23 +1,22 @@
 package main
 
 import (
-	"github.com/zmb3/spotify"
 	"os"
-	"github.com/pkg/errors"
-	"golang.org/x/oauth2"
 	"time"
 	"sync"
-
-	"net/http"
-	"github.com/pressly/chi"
-	"github.com/pressly/chi/middleware"
-	"github.com/pressly/chi/render"
 	"log"
 	"io/ioutil"
 	"encoding/json"
-	"bytes"
 	"flag"
-	"path/filepath"
+	"bytes"
+	"net/http"
+
+	"golang.org/x/oauth2"
+	"github.com/zmb3/spotify"
+	"github.com/pkg/errors"
+	"github.com/pressly/chi"
+	"github.com/pressly/chi/middleware"
+	"github.com/pressly/chi/render"
 )
 
 type ToK struct {
@@ -38,6 +37,25 @@ func main() {
 	flag.Parse()
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+
+	// CORS
+	r.Use(func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+
+			if origin := r.Header.Get("Origin"); origin != "" {
+				w.Header().Set("Access-Control-Allow-Origin", origin)
+				w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+				w.Header().Set("Access-Control-Allow-Headers",
+					"Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-Requested-With")
+			}
+			// Stop here if its Preflighted OPTIONS request
+			if r.Method == "OPTIONS" {
+				return
+			}
+			h.ServeHTTP(w, r)
+		})
+	})
+
 	r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("LOGIN")
 		url := SPOTIFYAUTH.AuthURL(state)
@@ -47,6 +65,9 @@ func main() {
 		render.JSON(w, r, Tokens.Token)
 	})
 	r.Get("/version", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("VERSION")
+		log.Println(VERSION)
+		log.Println("VERSION")
 		render.JSON(w, r, VERSION)
 	})
 
@@ -177,42 +198,40 @@ func main() {
 		}
 		render.JSON(w, r, trap)
 	})
-	if isProd() || direct {
+	//if isProd() || direct {
+	//
+	//	r.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
+	//		filename := filepath.Join("www/" + r.URL.String())
+	//		log.Println(filename)
+	//		if filename == "www" {
+	//
+	//			log.Println("served file from www/index.html")
+	//			http.ServeFile(w, r, "www/index.html")
+	//			return
+	//		}
+	//
+	//		_, err := os.Stat("www/" + r.URL.String())
+	//		if err == nil || filename == "www" {
+	//			// path/to/whatever does not exist
+	//			log.Println("served file from www/" + r.URL.String())
+	//			http.ServeFile(w, r, "www/" + r.URL.String())
+	//			return
+	//		}
+	//	})
+	//} else {
+	//
+	r.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
+		var buffer bytes.Buffer
+		buffer.WriteString("http://localhost:3000/dashboard")
+		if r.URL.RawQuery != "" {
+			buffer.WriteString("?" + r.URL.RawQuery)
+		}
+		log.Println("redirenting to " + buffer.String())
+		http.Redirect(w, r, buffer.String(), http.StatusTemporaryRedirect)
+	})
+	//}
+	log.Printf("Starting Spotify API Tester version %s ...", VERSION)
 
-		r.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
-			filename := filepath.Join("www/" + r.URL.String())
-			log.Println(filename)
-			if filename == "www" {
-
-				log.Println("served file from www/index.html")
-				http.ServeFile(w, r, "www/index.html")
-				return
-			}
-
-			_, err := os.Stat("www/" + r.URL.String())
-			if err == nil || filename == "www" {
-				// path/to/whatever does not exist
-				log.Println("served file from www/" + r.URL.String())
-				http.ServeFile(w, r, "www/" + r.URL.String())
-				return
-			}
-		})
-	} else {
-
-		r.HandleFunc("/*", func(w http.ResponseWriter, r *http.Request) {
-			log.Println(r.URL.String())
-			var buffer bytes.Buffer
-			buffer.WriteString("http://localhost:8000")
-			buffer.WriteString(r.URL.String())
-			if r.URL.RawQuery != "" {
-				buffer.WriteString("?" + r.URL.RawQuery)
-			}
-			log.Println("redirenting to " + buffer.String())
-			http.Redirect(w, r, buffer.String(), http.StatusTemporaryRedirect)
-		})
-	}
-
-	log.Println("Starting Spotify API Tester ...")
 	log.Fatal(http.ListenAndServe(":8080", r))
 
 }

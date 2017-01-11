@@ -17,6 +17,8 @@ handlers (stdlib-only), developer productivity, and deconstructing a large syste
 parts. The core router `github.com/pressly/chi` is quite small (less than 1000 LOC), but we've also
 included some useful/optional subpackages: `middleware`, `render` and `docgen`. We hope you enjoy it too!
 
+`go get -u github.com/pressly/chi`
+
 
 ## Features
 
@@ -33,6 +35,7 @@ included some useful/optional subpackages: `middleware`, `render` and `docgen`. 
 ## Examples
 
 * [rest](https://github.com/pressly/chi/blob/master/_examples/rest/main.go) - REST APIs made easy, productive and maintainable
+* [logging](https://github.com/pressly/chi/blob/master/_examples/logging/main.go) - Easy structured logging for any backend
 * [limits](https://github.com/pressly/chi/blob/master/_examples/limits/main.go) - Timeouts and Throttling
 * [todos-resource](https://github.com/pressly/chi/blob/master/_examples/todos-resource/main.go) - Struct routers/handlers, an example of another code layout style
 * [versions](https://github.com/pressly/chi/blob/master/_examples/versions/main.go) - Demo of `chi/render` subpkg

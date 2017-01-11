@@ -4,13 +4,17 @@ let HtmlWebpackPlugin = require('html-webpack-plugin');
 let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 module.exports = {
+	target: 'web',
 	entry: {
 		app: [
 			'react-hot-loader/patch',
-			'webpack-dev-server/client?http://localhost:8000',
+			'webpack-dev-server/client?http://localhost:3000',
 			"./src/frontend/client"]
 	},
-	target: 'web',
+	output: {
+		path: path.join(__dirname, "../../www"),
+		filename: "js/[name].bundle.js"
+	},
 	plugins: [
 		new FaviconsWebpackPlugin({
 			logo: './src/frontend/icon/icon.png',
@@ -37,10 +41,6 @@ module.exports = {
 				]
 			}
 		})],
-	output: {
-		path: path.join(__dirname, "../../www"),
-		filename: "js/[name].bundle.js"
-	},
 
 	devtool: 'cheap-module-eval-source-map',
 	resolveLoader: {
@@ -76,13 +76,14 @@ module.exports = {
 	},
 	devServer: {
 		inline: true,
-		port: 8000,
+		port: 3000,
 		proxy: {
 			'**': {
 				secure: false,
 				bypass: function (req) {
 					if (req.path.indexOf('/fonts/') !== -1
 						|| req.path.indexOf('/icons/') !== -1
+						|| req.path.indexOf('/sockjs-node/') !== -1
 						|| req.path.indexOf('/images/') !== -1) {
 						return '/'
 					}

@@ -1,33 +1,33 @@
 import * as React from "react";
 import AppBar from "material-ui/AppBar";
-import Message from "../msg/msg";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import {Login} from "../login/login";
-declare let require: any;
-let styles = require("./shell.pcss");
+import IconButton from "material-ui/IconButton";
+import NavigationClose from "material-ui/svg-icons/navigation/close";
+import Component = React.Component;
+declare const require: any;
 
-export interface ShellProps {
-}
+const LeftIcon = () => <IconButton><NavigationClose /></IconButton>;
+const Alert = (name) => {
+    alert(name)
+};
 
-export default class Shell extends React.Component <ShellProps, any> {
-    constructor(props: ShellProps) {
-        super(props);
-        this.state = {version: "0.0.0"};
-        // Rx.DOM.get("/version")
-        //     .subscribe((xhr) => {
-        //         this.state.version = JSON.parse(xhr.response);
-        //         this.setState(this.state);
-        //     });
-    }
+export default function Shell(Component) {
+    return React.createClass({
+        getInitialState() {
+            return {version: "0.0.0"}
+        },
 
-    render() {
-        return (
-            <MuiThemeProvider >
-                <div>
-                    <AppBar title="API CESCO"/>
-                    <Login></Login>
-                </div>
-            </MuiThemeProvider>);
-    }
 
-}
+        render: function () {
+            return (<MuiThemeProvider>
+                    <div>
+                        <AppBar
+                            showMenuIconButton={false}
+                            title={"API CESCO " + this.state.version}/>
+                        <Component {...this.props}/>
+                    </div>
+                </MuiThemeProvider>
+            );
+        }
+    });
+};

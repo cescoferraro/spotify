@@ -1,12 +1,12 @@
 import * as React from "react";
 import * as Rx from "rx-dom";
-import Utils from "../../shared/utils";
 import PlaylistList from "./playlists/playlist.list";
 import Following from "./following/following";
 import Recommendations from "./recommendations/recommendations";
 import Picture from "./picture/picture";
 import Profile from "./profile";
 import Controls from "./controls/controls";
+import Utils from "../../shared/utils";
 
 
 declare let require: any;
@@ -15,21 +15,21 @@ let styles = require("./dashboard.pcss");
 export default class Dashboard extends React.Component<any, any> {
     constructor(props) {
         super(props);
-        let placeholder = "https:\/\/goo.gl/UO3J6T";
-        this.state = {
-            recommendation: {tracks: [{name: "", external_urls: {spotify: "sdf"}}]},
-            playlists: [],
-            following: {items: []},
-            profile: {
-                images: [{url: placeholder}],
-                id: "initial",
-                email: "guest@guest.com"
-            }
-        };
-        this.updateRecommendationsState();
-        this.updateFollowingState();
-        this.updateProfileState();
-        this.updatePLaylistState();
+        // let placeholder = "https:\/\/goo.gl/UO3J6T";
+        // this.state = {
+        //     recommendation: {tracks: [{name: "", external_urls: {spotify: "sdf"}}]},
+        //     playlists: [],
+        //     following: {items: []},
+        //     profile: {
+        //         images: [{url: placeholder}],
+        //         id: "initial",
+        //         email: "guest@guest.com"
+        //     }
+        // };
+        // this.updateRecommendationsState();
+        // this.updateFollowingState();
+        // this.updateProfileState();
+        // this.updatePLaylistState();
     }
 
     updateFollowingState() {
@@ -93,45 +93,33 @@ export default class Dashboard extends React.Component<any, any> {
 
 
     render() {
-        let plays, recom, foll;
+        return (
+            <div className={styles.container}>
+                <div className={styles.sideBar}>
+                    {/*<Picture image={this.state.profile.images[0].url}/>*/}
+                    {/*<Controls*/}
+                        {/*code={Utils.GetCode("code")}*/}
+                        {/*profile={this.state.profile}*/}
+                        {/*playlists={this.state.playlists}*/}
+                        {/*updateProfileState={this.updateProfileState.bind(this)}*/}
+                        {/*updatePLaylistState={this.updatePLaylistState.bind(this)}*/}
+                        {/*updateFollowingState={this.updateFollowingState.bind(this)}/>*/}
 
-        if (this.state.following.items.length !== 0) {
-            {
-                foll = <Following following={this.state.following}/>;
-            }
+                </div>
+                {/*<div className={styles.content}>*/}
+                    {/*<Profile profile={this.state.profile}/>*/}
+                    {/*{this.state.following.items.length !== 0 ?*/}
+                        {/*<Following following={this.state.following}/>:*/}
+                        {/*<h2>You are not following anyone</h2>}*/}
+                    {/*{this.state.recommendation != null ?*/}
+                        {/*<Recommendations recommendation={this.state.recommendation}/>:*/}
+                        {/*<h2>No Recommendations for you Today!</h2>}*/}
+                    {/*{ this.state.playlists[0] != null ?*/}
+                        {/*<PlaylistList playlists={this.state.playlists}/> :*/}
+                        {/*<h2>You do not have any Playlists!</h2>}*/}
 
+                {/*</div>*/}
 
-        }
-
-        if (this.state.recommendation != null) {
-            recom = <Recommendations recommendation={this.state.recommendation}/>;
-        } else {
-            recom = <h2>No Recommendations for you Today!</h2>;
-        }
-
-        return (<div className={styles.container}>
-            <div className={styles.sideBar}>
-                <Picture image={this.state.profile.images[0].url}/>
-
-                <Controls
-                    code={Utils.GetCode("code")}
-                    profile={this.state.profile}
-                    playlists={this.state.playlists}
-                    updateProfileState={this.updateProfileState.bind(this)}
-                    updatePLaylistState={this.updatePLaylistState.bind(this)}
-                    updateFollowingState={this.updateFollowingState.bind(this)}/>
-
-            </div>
-            <div className={styles.content}>
-                <Profile profile={this.state.profile}/>
-                {foll}
-                {recom}
-                { this.state.playlists[0] != null ?
-                    <PlaylistList playlists={this.state.playlists}/> :
-                    <h2>You do not have any Playlists!</h2>}
-
-            </div>
-
-        </div>);
+            </div>);
     }
 }

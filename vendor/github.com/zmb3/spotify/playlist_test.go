@@ -90,7 +90,7 @@ func TestGetPlaylistOpt(t *testing.T) {
 		t.Error(err)
 	}
 	if p.Collaborative {
-		t.Error("PlaylistCall shouldn't be collaborative")
+		t.Error("Playlist shouldn't be collaborative")
 	}
 	if p.Description != "" {
 		t.Error("No description should be included")
@@ -172,7 +172,7 @@ var newPlaylist = `
 "href": "https://api.spotify.com/v1/users/thelinmichael/playlists/7d2D2S200NyUE5KYs80PwO",
 "id": "7d2D2S200NyUE5KYs80PwO",
 "images": [ ],
-"name": "A New PlaylistCall",
+"name": "A New Playlist",
 "owner": {
 	"external_urls": {
 	"spotify": "http://open.spotify.com/user/thelinmichael"
@@ -200,15 +200,15 @@ var newPlaylist = `
 func TestCreatePlaylist(t *testing.T) {
 	client := testClientString(http.StatusCreated, newPlaylist)
 	addDummyAuth(client)
-	p, err := client.CreatePlaylistForUser("thelinmichael", "A New PlaylistCall", false)
+	p, err := client.CreatePlaylistForUser("thelinmichael", "A New Playlist", false)
 	if err != nil {
 		t.Error(err)
 	}
 	if p.IsPublic {
 		t.Error("Expected private playlist, got public")
 	}
-	if p.Name != "A New PlaylistCall" {
-		t.Errorf("Expected 'A New PlaylistCall', got '%s'\n", p.Name)
+	if p.Name != "A New Playlist" {
+		t.Errorf("Expected 'A New Playlist', got '%s'\n", p.Name)
 	}
 	if p.Tracks.Total != 0 {
 		t.Error("Expected new playlist to be empty")

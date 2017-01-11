@@ -1,0 +1,24 @@
+job=dev:
+    net-mode: host
+    use: dev-image
+    user: "{user.uid}"
+    mounts: [source]
+    working-dir: /go/src/github.com/cescoferraro/spotify
+    interactive: true
+    command: reflex -g build/reflex/development.conf -s -- reflex -c build/reflex/development.conf
+    depends: [vars]
+    env:
+      - "VERSION={env.VERSION}"
+
+job=prod:
+    net-mode: host
+    user: "{user.uid}"
+    use: dev-image
+    mounts: [source]
+    interactive: true
+    command: reflex -g build/reflex/production.conf -s -- reflex -c build/reflex/production.conf
+    depends: [vars]
+    env:
+      - "NODE_ENV=production"
+      - "VERSION={env.VERSION}"
+
