@@ -1,0 +1,4 @@
+FROM node:6
+ADD www/ /srv/spotify/www
+WORKDIR /srv/spotify
+CMD ["node","www/server.bundle.js"]

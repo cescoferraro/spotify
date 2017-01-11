@@ -1,10 +1,14 @@
 meta:
     project: spotify
     default: production
+    include: ['./build/dobi/jobs.yaml',
+              './build/dobi/images.yaml',
+              './build/dobi/deploy.yaml',
+              './build/dobi/watch.yaml']
 
 
-env=production-vars:
-    variables: [VERSION=0.0.25]
+env=vars:
+    variables: [VERSION=0.0.31]
 
 mount=deploy-script:
     bind: src/deploy.sh
@@ -22,102 +26,9 @@ mount=kube-config:
      bind: ~/.kube
      path: /config/.kube
 
-image=dev-image:
-    image: cescoferraro/spotify
-    tags: ["watch"]
-    context: .
-    dockerfile: src/docker/Dockerfile.watch
-
-
-job=build:
-    use: dev-image
-    artifact: dist/spotify
-    user: "{user.uid}"
-    mounts: [source]
-    working-dir: /go/src/github.com/cescoferraro/spotify
-    interactive: true
-    command:   bash -c "go build -o dist/spotify -ldflags \"-X main.VERSION=$VERSION\" *.go"
-    depends: [production-vars]
-    env:
-      - "VERSION={env.VERSION}"
 
 
 
-job=front:
-    use: dev-image
-    artifact: wwww
-    user: "{user.uid}"
-    mounts: [source]
-    working-dir: /go/src/github.com/cescoferraro/spotify
-    interactive: true
-    command:   bash -c "webpack -p"
-    depends: [production-vars]
-    env:
-      - "VERSION={env.VERSION}"
 
 
-image=production:
-    image: cescoferraro/spotify
-    tags: ["{env.VERSION}"]
-    context: .
-    dockerfile: src/docker/Dockerfile.production
-    depends: [build, production-vars]
 
-
-job=watch:
-    net-mode: host
-    ports: ["8080:8080","8000:8000"]
-    use: dev-image
-    user: "{user.uid}"
-    mounts: [source]
-    working-dir: /go/src/github.com/cescoferraro/spotify
-    interactive: true
-    command: reflex -g src/reflex/development.conf -s -- reflex -c src/reflex/development.conf
-    depends: [production-vars]
-    env:
-      - "VERSION={env.VERSION}"
-
-job=prod:
-    net-mode: host
-    user: "{user.uid}"
-    ports: ["8080:8080","8000:8000"]
-    use: dev-image
-    mounts: [source]
-    working-dir: /go/src/github.com/cescoferraro/spotify
-    interactive: true
-    command: reflex -g src/reflex/production.conf -s -- reflex -c src/reflex/production.conf
-    depends: [production-vars]
-    env:
-      - "VERSION={env.VERSION}"
-
-
-job=universal:
-    net-mode: host
-    user: "{user.uid}"
-    ports: ["8080:8080","8000:8000"]
-    use: dev-image
-    mounts: [source]
-    working-dir: /go/src/github.com/cescoferraro/spotify
-    interactive: true
-    command: ls
-    depends: [production-vars]
-    env:
-      - "VERSION={env.VERSION}"
-
-
-image=deploy-builder:
-    image: cescoferraro/spotify
-    tags: ["deploy"]
-    context: .
-    dockerfile: src/docker/Dockerfile.deploy
-
-job=deploy:
-    use: deploy-builder
-    artifact: ./dist/spotify
-    mounts: [deploy-script, kube-config, kube-ssl]
-    user: "{user.uid}"
-    depends: [production-vars,front ,"production:push"]
-    command: /deploy.sh
-    env:
-      - "VERSION={env.VERSION:}"
-    description: "Build the ARM static binary"

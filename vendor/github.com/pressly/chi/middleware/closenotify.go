@@ -1,9 +1,8 @@
+// +build go1.8
+
 package middleware
 
-import (
-	"context"
-	"net/http"
-)
+import "net/http"
 
 // StatusClientClosedRequest represents a 499 Client Closed Request (Nginx) HTTP status.
 // See: https://en.wikipedia.org/wiki/List_of_HTTP_status_codes
@@ -20,21 +19,14 @@ func CloseNotify(next http.Handler) http.Handler {
 		}
 		closeNotifyCh := cn.CloseNotify()
 
-		ctx, cancel := context.WithCancel(r.Context())
-		defer cancel()
-
 		go func() {
 			select {
-			case <-ctx.Done():
-				return
 			case <-closeNotifyCh:
-				cancel()
 				w.WriteHeader(StatusClientClosedRequest)
 				return
 			}
 		}()
 
-		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
 	}
 

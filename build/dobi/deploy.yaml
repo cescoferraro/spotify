@@ -1,0 +1,16 @@
+image=deploy-builder:
+    image: cescoferraro/spotify
+    tags: ["deploy"]
+    context: .
+    dockerfile: build/docker/files/Dockerfile.deploy
+
+job=deploy:
+    use: deploy-builder
+    artifact: ./dist/spotify
+    mounts: [deploy-script, kube-config, kube-ssl]
+    user: "{user.uid}"
+    depends: [vars,frontend,universal,api,"api:push","universal:push"]
+    command: /deploy.sh
+    env:
+      - "VERSION={env.VERSION:}"
+    description: "Build the ARM static binary"
