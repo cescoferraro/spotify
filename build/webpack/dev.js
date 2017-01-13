@@ -16,6 +16,9 @@ module.exports = {
 		filename: "js/[name].bundle.js"
 	},
 	plugins: [
+		new webpack.DefinePlugin({
+			ENVIRONMENT: JSON.stringify("development")
+		}),
 		new FaviconsWebpackPlugin({
 			logo: './src/frontend/icon/icon.png',
 			prefix: 'icons/'

@@ -5,18 +5,21 @@ declare let require: any;
 declare let global: any;
 import * as debug  from "debug";
 import *  as injectTapEventPlugin from "react-tap-event-plugin";
+let compression = require("compression");
 let path = require("path");
 let app = express();
+
+app.use(compression());
 let fs = require("fs");
 let PORT = 3000;
 debug.enable("*");
 injectTapEventPlugin();
 
-
 app.get("/*", (request, response) => {
     debug("SERVER")("Request for ", request.url);
     let filePath = "./www" + request.url;
     fs.readFile(filePath, function (error, content) {
+
         if (error) {
             debug("SERVER-RENDER")("server-side rendering index.html");
             response.send(serverRender(request));
@@ -41,7 +44,7 @@ app.get("/*", (request, response) => {
             };
             response.writeHead(200, {
                 "Content-Type": mimeTypes[String(path.extname(filePath)).toLowerCase()] || "application/octect-stream",
-                "Cache-Expiration": 3600
+                "Cache-Control": "public, max-age=36000000"
             });
             response.end(content, "utf-8");
         }
