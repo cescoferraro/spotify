@@ -269,8 +269,6 @@ func (c *Client) GetPlaylistTracks(userID string, playlistID ID) (*PlaylistTrack
 	return c.GetPlaylistTracksOpt(userID, playlistID, nil, "")
 }
 
-
-
 // GetPlaylistTracksOpt is like GetPlaylistTracks, but it accepts optional parameters
 // for sorting and filtering the results.  This call requrles authorization.
 //

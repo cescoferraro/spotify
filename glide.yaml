@@ -1,0 +1,16 @@
+package: .
+import:
+- package: github.com/goware/cors
+- package: github.com/pkg/errors
+  version: v0.8.0
+- package: github.com/pressly/chi
+  version: v2.0.0
+  subpackages:
+  - middleware
+  - render
+- package: github.com/zmb3/spotify
+- package: golang.org/x/oauth2
+- package: github.com/rs/cors
+  version: v1.0
+- package: github.com/gorilla/handlers
+  version: v1.1

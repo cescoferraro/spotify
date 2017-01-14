@@ -1,0 +1,20 @@
+image=dev-image:
+    image: cescoferraro/spotify
+    tags: ["dev"]
+    dockerfile: build/docker/Dockerfile.development
+
+
+image=frontend-image:
+    image: cescoferraro/spotify
+    tags: ["frontend-{env.VERSION}"]
+    dockerfile: build/docker/Dockerfile.frontend
+    depends: [vars,frontend]
+
+
+image=api-image:
+    image: cescoferraro/spotify
+    tags: ["api-{env.VERSION}"]
+    dockerfile: build/docker/Dockerfile.api
+    depends: [vars, api]
+
+

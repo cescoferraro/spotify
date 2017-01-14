@@ -2,3 +2,4 @@ dist/
 .dobi/
 .idea/
 www/
+/node_modules/
