@@ -1,12 +1,13 @@
-declare const ENVIRONMENT: any;
+const isServer = () => !(typeof window !== 'undefined' && window.document);
 
 let Config = {
-    API_LOCATION: () => {
-        if (ENVIRONMENT === "development") {
+    API_URL: () => {
+        if (isServer()) {
+            return "http://spotify-api.cescoferraro.xyz";
+        }
+        else {
             return "http://localhost:8080";
         }
-
-
     }
 };
 

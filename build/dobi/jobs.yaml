@@ -9,16 +9,6 @@ job=frontend:
     env:
       - "VERSION={env.VERSION}"
 
-job=universal:
-    use: dev-image
-    artifact: wwww
-    user: "{user.uid}"
-    mounts: [source]
-    interactive: true
-    command:  ./node_modules/.bin/webpack -p --config build/webpack/universal.js
-    depends: [vars]
-    env:
-      - "VERSION={env.VERSION}"
 
 job=api:
     use: dev-image

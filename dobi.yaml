@@ -8,7 +8,7 @@ meta:
 
 
 env=vars:
-    variables: [VERSION=0.0.31]
+    variables: [VERSION=0.0.32]
 
 mount=deploy-script:
     bind: src/deploy.sh

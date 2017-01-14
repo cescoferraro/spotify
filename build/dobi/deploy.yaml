@@ -7,9 +7,9 @@ image=deploy-builder:
 job=deploy:
     use: deploy-builder
     artifact: ./dist/spotify
-    mounts: [deploy-script, kube-config, kube-ssl]
+    mounts: [deploy-script, kube-config]
     user: "{user.uid}"
-    depends: [vars,frontend,universal,api,"api:push","universal:push"]
+    depends: [hub]
     command: /deploy.sh
     env:
       - "VERSION={env.VERSION:}"

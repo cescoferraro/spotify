@@ -8,7 +8,7 @@ let Image1 = require("-!babel-loader!svg-react-loader!./Spotify_logo_with_text.s
 
 export class Login extends React.Component<any, any> {
     static signIn() {
-        window.location.href = Config.API_LOCATION() + "/login";
+        window.location.href = Config.API_URL() + "/login";
     };
 
 
