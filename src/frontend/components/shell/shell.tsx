@@ -1,27 +1,31 @@
 import * as React from "react";
-import AppBar from "material-ui/AppBar";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import Bar from "./bar";
 import Component = React.Component;
 declare const require: any;
 declare const document: any;
+require("./shell.pcss");
 
-export default function Shell(Component) {
+export function Shell(Component) {
     return React.createClass({
-        getInitialState() {
-            return {version: "0.0.0"};
-        },
-
-
         render: function () {
-            return (<MuiThemeProvider>
-                    <div>
-                        <AppBar
-                            showMenuIconButton={false}
-                            title={"API CESCO " + this.state.version}/>
-                        <Component {...this.props}/>
-                    </div>
-                </MuiThemeProvider>
+            return (
+                <div>
+                    <Bar/>
+                    <Component {...this.props}/>
+                </div>
             );
         }
     });
 };
+
+export const Waiting = React.createClass({
+    render: function () {
+        return (
+            <div>
+                <Bar/>
+                <br/>
+            </div>
+        );
+    }
+});

@@ -1,26 +1,42 @@
-job=frontend:
+job=frontend-production:
+    description: "Runs Webpack Production"
     use: dev-image
     artifact: wwww
     user: "{user.uid}"
     mounts: [source]
     interactive: true
-    command:  ./node_modules/.bin/webpack --config build/webpack/prod.js
+    command:  npm run production
     depends: [vars]
-    env:
-      - "VERSION={env.VERSION}"
+
+
+job=delete:
+    description: "delete www/ folder"
+    use: dev-image
+    mounts: [source]
+    command:  rm -rf www/
+
+job=frontend-staging:
+    description: "Runs Webpack Production"
+    use: dev-image
+    artifact: wwww
+    user: "{user.uid}"
+    mounts: [source]
+    interactive: true
+    command:  npm run staging
+    depends: [vars]
 
 
 job=api:
+    description: "Builds API Binary"
     use: dev-image
     artifact: dist/spotify
     user: "{user.uid}"
     mounts: [source]
     interactive: true
-    command:   bash -c "go build -o dist/spotify -ldflags \"-X main.VERSION=$VERSION\" src/api/*.go"
+    command: go build -o dist/spotify src/api/main.go
     depends: [vars]
-    env:
-      - "VERSION={env.VERSION}"
 
 
-alias=hub:
-    tasks: ["frontend-image:push", "api-image:push"]
+
+
+

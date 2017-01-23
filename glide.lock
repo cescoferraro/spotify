@@ -9,14 +9,14 @@ imports:
   version: ee54c7b44cab12289237fb8631314790076e728b
 - name: github.com/goware/cors
   version: 6ad15f4e1489e41776ee8b008597eafea9a67fd9
-- name: github.com/pkg/errors
+- name: gitupdate-ca-certificates it tells me the exact same thing:hub.com/pkg/errors
   version: 645ef00459ed84a119197bfb8d8205042c6df63d
 - name: github.com/pressly/chi
   version: 54f435d539226571eab1987ed862b1c0fdfdc892
   subpackages:
   - middleware
   - render
-- name: github.com/rs/cors
+- name: github.com/rs/corsapi-deploy-1020959480-x8ghb
   version: a62a804a8a009876ca59105f7899938a1349f4b3
 - name: github.com/rs/xhandler
   version: ed27b6fd65218132ee50cd95f38474a3d8a2cd12

@@ -1,8 +1,8 @@
-FROM progrium/busybox
-RUN opkg-install ca-certificates
+FROM golang
 MAINTAINER Francesco Ferraro <francescoaferraro@gmail.com>
+WORKDIR /app
 ADD www/ www
 ADD dist/spotify spotify
 ENV PORT 8080
 EXPOSE 8080
-ENTRYPOINT ["/spotify"]
+ENTRYPOINT ["./spotify"]

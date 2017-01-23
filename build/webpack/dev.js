@@ -2,6 +2,7 @@ let path = require('path');
 let webpack = require('webpack');
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+let DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = {
 	target: 'web',
@@ -29,6 +30,8 @@ module.exports = {
 			chunks: ['app'],
 			template: 'src/frontend/index.html'
 		}),
+		new DashboardPlugin(),
+		new webpack.NamedModulesPlugin(),
 		new webpack.LoaderOptionsPlugin({
 			options: {
 				context: '/',

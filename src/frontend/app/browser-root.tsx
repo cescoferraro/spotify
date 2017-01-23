@@ -2,13 +2,15 @@ import * as React from "react";
 import Router from "react-router/BrowserRouter";
 
 
-interface IHelloContentProps {
+
+
+interface RootProps {
     routes: Function;
 }
 
-export default class Root extends React.Component<IHelloContentProps, any> {
+export default class Root extends React.Component<RootProps, any> {
 
-    constructor(props: IHelloContentProps) {
+    constructor(props: RootProps) {
         super(props);
     }
 

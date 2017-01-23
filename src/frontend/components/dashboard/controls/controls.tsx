@@ -5,7 +5,7 @@ import * as cx from "classnames";
 declare let require: any;
 let styles = require("./controls.pcss");
 declare let window: any;
-import Button from 'material-ui/RaisedButton';
+import Button from "material-ui/RaisedButton";
 
 interface ControlsProps {
     code: string;
@@ -48,73 +48,41 @@ export default class Controls extends React.Component<ControlsProps, any> {
 
     render() {
         return (
-            <div className={cx(styles.container,styles.flex)}>
+            <div className={cx(styles.controls)}>
 
-                <div className={styles.item}>
-                    <Button
-                        onClick={this.PlaylistCall.bind(this, "add", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}
-                        className={styles.button}          >
-                        FUNK PLAYLIST
-                    </Button></div>
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={this.PlaylistCall.bind(this, "remove", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}>
-                        HEEH
-                    </Button>
-                </div>
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={this.Indications.bind(this)}>
-                        Get New Indications
-                    </Button>
-                </div>
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={this.addGuimeTrack2AllPlaylist.bind(this)}>
-                        Add Guimé Song to your Playlists
-                    </Button>
-                </div>
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={this.FollowCall.bind(this, "unfollow", "3TVXtAsR1Inumwj472S9r4")}>
-                        Unfollow Drake
-                    </Button>
-                </div>
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={this.FollowCall.bind(this, "unfollow", "3ge4xOaKvWfhRwgx0Rldov")}>
-                        Unfollow Guimé
-                    </Button>
-                </div>
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={this.FollowCall.bind(this, "follow", "3TVXtAsR1Inumwj472S9r4")}>
-                        Follow Drake
-                    </Button>
-                </div>
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={this.FollowCall.bind(this, "follow", "3ge4xOaKvWfhRwgx0Rldov")}>
-                        Follow Guimé
-                    </Button>
-                </div>
-
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={() => {
-                                    this.props.updateFollowingState();
-                                    this.props.updatePLaylistState();
-                                    this.props.updateProfileState();
-                                }}>
-                        REFRESH
-                    </Button>
-                </div>
-                <div className={styles.item}>
-                    <Button className={styles.button}
-                                onClick={this.logout}>
-                        LOGOUT
-                    </Button>
-                </div>
+                <Button
+                    onClick={this.PlaylistCall.bind(this, "add", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}
+                    className={styles.button}>
+                    FUNK PLAYLIST
+                </Button>
+                <Button className={styles.button}
+                        onClick={this.PlaylistCall.bind(this, "remove", "12186321310", "1aOShUzf52UXuPAFSZ4BDC")}>
+                    HEEH
+                </Button>
+                <Button className={styles.button}
+                        onClick={this.Indications.bind(this)}>
+                    Get New Indications
+                </Button>
+                <Button className={styles.button}
+                        onClick={this.addGuimeTrack2AllPlaylist.bind(this)}>
+                    Add Guimé Song to your Playlists
+                </Button>
+                <Button className={styles.button}
+                        onClick={this.FollowCall.bind(this, "unfollow", "3TVXtAsR1Inumwj472S9r4")}>
+                    Unfollow Drake
+                </Button>
+                <Button className={styles.button}
+                        onClick={this.FollowCall.bind(this, "unfollow", "3ge4xOaKvWfhRwgx0Rldov")}>
+                    Unfollow Guimé
+                </Button>
+                <Button className={styles.button}
+                        onClick={this.FollowCall.bind(this, "follow", "3TVXtAsR1Inumwj472S9r4")}>
+                    Follow Drake
+                </Button>
+                <Button className={styles.button}
+                        onClick={this.FollowCall.bind(this, "follow", "3ge4xOaKvWfhRwgx0Rldov")}>
+                    Follow Guimé
+                </Button>
             </div>
         );
     }

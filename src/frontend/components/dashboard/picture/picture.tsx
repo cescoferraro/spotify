@@ -9,11 +9,7 @@ interface PictureProps {
 export default class Picture extends React.Component<PictureProps, any> {
 
     render() {
-        let divStyle = {
-            height: "300px",
-            width: "auto"
-        };
-        return (<div className={styles.sideBar} style={divStyle}>
+        return (<div className={styles.sideBar} >
             <img className={styles.image} src={this.props.image} alt=""/>
         </div>);
     }

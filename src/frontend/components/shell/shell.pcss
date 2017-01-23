@@ -1,67 +1,19 @@
 @font-face {
   font-family: myFirstFont;
-  src: url('./spotify.otf');
+  src: url("./spotify.otf");
 }
 
 * {
-  font-family: myFirstFont, monospace
-}
-
-html {
-  height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  font-family: myFirstFont, monospace;
+  lost-utility: clearfix;
 }
 
 body {
+  margin: 0;
   background-color: whitesmoke
 }
-
-.logo {
-  content: url('./spotify_logo_appbar.png')
+#container {
+  height: 100vh;
+  width: 100vw;
 }
 
-.flex {
-  display: flex
-}
-
-.BarColor {
-  background-color: black!important;
-  position: fixed;
-  width: 100%;
-  z-index: 22
-}
-
-.full {
-  width: 100%
-}
-
-.verticalAlign {
-  align-self: center
-}
-
-main {
-  display: flex;
-  width: 100%;
-}
-
-section {
-  flex-grow: 1
-}
-
-aside {
-  flex-shrink: 0;
-  flex-grow: 0
-}
-
-.left {
-  flex-basis: 56px
-}
-
-.right {
-  flex-basis: 100px
-}
-
-.text {
-  margin-left: 2%
-}

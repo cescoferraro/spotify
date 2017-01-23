@@ -3,7 +3,7 @@ import * as cx from "classnames";
 import Divider from "material-ui/Divider";
 declare let require: any;
 let PlaylistStyle = require("./following.pcss");
-import Paper from 'material-ui/Paper';
+import Paper from "material-ui/Paper";
 interface FollowingProps {
     following: {
         items: Array<{

@@ -1,0 +1,14 @@
+FROM golang:1.7.4
+RUN apt-get update
+RUN apt-get install -y curl build-essential
+RUN curl -sL https://goo.gl/HPtqsX -o node.sh
+RUN bash node.sh
+ENV CGO_ENABLED=0
+ENV GOBIN /go/bin
+ENV PATH $PATH:/go/bin
+ENV PS1 "# "
+RUN go get github.com/cespare/reflex
+RUN apt-get install -y nodejs
+RUN npm i -g concurrently
+
+WORKDIR /go/src/github.com/cescoferraro/spotify

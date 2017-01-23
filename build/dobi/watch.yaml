@@ -3,12 +3,22 @@ job=dev:
     use: dev-image
     user: "{user.uid}"
     mounts: [source]
-    working-dir: /go/src/github.com/cescoferraro/spotify
     interactive: true
-    command: reflex -g build/reflex/development.conf -s -- reflex -c build/reflex/development.conf
+    command: concurrently "go run src/api/main.go" "node start"
     depends: [vars]
     env:
-      - "VERSION={env.VERSION}"
+      - "NODE_ENV=development"
+
+job=stage:
+    net-mode: host
+    user: "{user.uid}"
+    use: dev-image
+    mounts: [source]
+    interactive: true
+    command: concurrently "go run src/api/main.go" "node hot.js"
+    depends: [vars,delete,frontend-staging]
+    env:
+      - "NODE_ENV=development"
 
 job=prod:
     net-mode: host
@@ -16,9 +26,7 @@ job=prod:
     use: dev-image
     mounts: [source]
     interactive: true
-    command: reflex -g build/reflex/production.conf -s -- reflex -c build/reflex/production.conf
-    depends: [vars]
+    command: concurrently "go run src/api/main.go" "node www/express.bundle.js"
+    depends: [vars,delete,frontend-production]
     env:
       - "NODE_ENV=production"
-      - "VERSION={env.VERSION}"
-

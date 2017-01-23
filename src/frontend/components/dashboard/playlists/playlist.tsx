@@ -7,6 +7,7 @@ declare let require: any;
 let style = require("./playlist.pcss");
 let Image1 = require("-!babel-loader!svg-react-loader!./kiwi.svg");
 import Button from "material-ui/RaisedButton";
+import Config from "../../../app/config";
 
 interface PlaylistProps {
     info: {
@@ -24,16 +25,18 @@ export default class Playlist extends React.Component<PlaylistProps, any> {
 
     constructor(props) {
         super(props);
-        this.getTracks();
+        if (!Utils.isServer()) {
+            this.getTracks();
+        }
         this.state = {
             items: [],
-            images: [ {url: "hello"} ]
+            images: [{url: "hello"}]
         };
     }
 
     getTracks() {
         if (this.props.info.name !== "initial") {
-            Rx.DOM.get("/tracks/" + this.props.info.owner.id + "/" + this.props.info.id + "/" + Utils.GetCode("code"))
+            Rx.DOM.get(Config.API_URL() + "/tracks/" + this.props.info.owner.id + "/" + this.props.info.id + "/" + Utils.GetCode("code"))
                 .subscribe(
                     (xhr) => {
                         this.state = JSON.parse(xhr.response);

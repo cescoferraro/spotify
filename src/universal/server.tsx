@@ -1,53 +1,50 @@
-import serverRender from "./server-render";
-import * as express from "express";
-import * as React from "react";
+import {allReducersInitial} from "../frontend/reducers/index";
 declare let require: any;
-declare let global: any;
-import * as debug  from "debug";
 import *  as injectTapEventPlugin from "react-tap-event-plugin";
-let compression = require("compression");
-let path = require("path");
-let app = express();
-
-app.use(compression());
-let fs = require("fs");
-let PORT = 3000;
-debug.enable("*");
+import {createStore} from "redux";
+import * as React from "react";
+import * as ReactDOMServer from "react-dom/server";
+import UniversalShell from "./universal.shell";
+import createServerRenderContext from "react-router/createServerRenderContext";
+import ServerRouter from "react-router/ServerRouter";
+import routes from "../frontend/app/routes";
+import {allReducers} from "../frontend/reducers/index";
+import {Provider} from "react-redux";
 injectTapEventPlugin();
 
-app.get("/*", (request, response) => {
-    debug("SERVER")("Request for ", request.url);
-    let filePath = "./www" + request.url;
-    fs.readFile(filePath, function (error, content) {
+declare let global: any;
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-        if (error) {
-            debug("SERVER-RENDER")("server-side rendering index.html");
-            response.send(serverRender(request));
+
+export default  () => (request, response) => {
+    const context = createServerRenderContext();
+    let markup = ReactDOMServer.renderToString(
+        <MuiThemeProvider muiTheme={getMuiTheme({userAgent: request.headers['user-agent']})}>
+            <Provider store={createStore(allReducers,allReducersInitial)}>
+                <ServerRouter location={request.url} context={context}>
+                    {({location}) => routes()}
+                </ServerRouter>
+            </Provider>
+        </MuiThemeProvider>
+    );
+
+    const result = context.getResult();
+
+    if (result.redirect) {
+        response.redirect(302, `${result.redirect.pathname}${result.redirect.search}`);
+    } else {
+        if (result.missed) {
+            response.status(404);
+        } else {
+            response.status(200);
         }
-        else {
-            debug("STATIC")("serving ", request.url);
-            let mimeTypes = {
-                ".html": "text/html",
-                ".js": "text/javascript",
-                ".css": "text/css",
-                ".json": "application/json",
-                ".png": "image/png",
-                ".jpg": "image/jpg",
-                ".gif": "image/gif",
-                ".wav": "audio/wav",
-                ".mp4": "video/mp4",
-                ".woff": "application/font-woff",
-                ".ttf": "application/font-ttf",
-                ".eot": "application/vnd.ms-fontobject",
-                ".otf": "application/font-otf",
-                ".svg": "application/image/svg+xml"
-            };
-            response.writeHead(200, {
-                "Content-Type": mimeTypes[String(path.extname(filePath)).toLowerCase()] || "application/octect-stream",
-                "Cache-Control": "public, max-age=36000000"
-            });
-            response.end(content, "utf-8");
-        }
-    });
-});
-app.listen(PORT, debug("SERVER").bind(this, "listening at http://localhost:" + PORT));
+        console.log("skdfsdjkf");
+        response.send("<!DOCTYPE html>" +
+            ReactDOMServer.renderToStaticMarkup(
+                <UniversalShell userAgent={request.headers['user-agent']} content={markup}/>
+            ));
+    }
+
+
+};

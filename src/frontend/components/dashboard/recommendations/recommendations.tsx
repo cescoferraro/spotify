@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Divider from 'material-ui/Divider';
+import Divider from "material-ui/Divider";
 
 interface RecommendationsProps {
     recommendation: any;

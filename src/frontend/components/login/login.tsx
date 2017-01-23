@@ -1,29 +1,42 @@
 import * as React from "react";
-import Button from "material-ui/RaisedButton";
-import Config from "../../config";
+import Config from "../../app/config";
+import {connect} from "react-redux";
+import IconButton from "material-ui/IconButton";
 declare let require: any;
 declare let window: any;
-let style = require("./login.pcss");
-let Image1 = require("-!babel-loader!svg-react-loader!./Spotify_logo_with_text.svg");
+let Image1 = require("-!babel-loader!svg-react-loader!./images/Spotify_logo_with_text.svg");
+export default class Login extends React.Component<any, any> {
+    constructor(props) {
+        super(props);
+    }
 
-export class Login extends React.Component<any, any> {
-    static signIn() {
+    signIn() {
         window.location.href = Config.API_URL() + "/login";
+
     };
 
-
     render() {
-        return (<div className={style.ContainerStyle}>
-            <Button
-                labelPosition="before"
-                primary={true}
-                icon={  <Image1 style={{maxWidth:"100%",maxHeight:"100%",}} />}
-                className={style.ButtonStyle}
-                buttonStyle={{height: "150px"}}
-                labelStyle={{fontSize: "30px"}}
-                onClick={Login.signIn}>
+        let buttoniconStyle = {
+            width: 300, height: 300, padding: 0, position: "absolute",
+            margin: "auto",
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 0,
+        };
 
-            </Button>
-        </div>);
+        return (
+            <div style={{marginTop: "64px",  height: "calc(100vh - 64px)"}}>
+
+                <IconButton
+                    iconStyle={{ width: 300,  height: 300}}
+                    style={buttoniconStyle}
+                    href={Config.API_URL() + "/login"}>
+                    <Image1 />
+                </IconButton>
+
+
+            </div>);
     }
 }
+

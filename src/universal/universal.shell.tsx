@@ -1,12 +1,21 @@
 import * as React from "react";
 
-export default class UniversalShell extends React.Component <any, any> {
+interface UniversalShellProp {
+    content: string;
+    userAgent: string;
+}
+export default class UniversalShell extends React.Component <UniversalShellProp, any> {
+
+    constructor(props: UniversalShellProp) {
+        super(props)
+    }
 
     render() {
         return (<html lang="en">
         <head>
             <meta charSet="utf-8"/>
             <meta name="viewport" content="width=device-width, initial-scale=1"/>
+            <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet"/>
             <link rel="apple-touch-icon" sizes="57x57" href="icons/apple-touch-icon-57x57.png"/>
             <link rel="apple-touch-icon" sizes="60x60" href="icons/apple-touch-icon-60x60.png"/>
             <link rel="apple-touch-icon" sizes="72x72" href="icons/apple-touch-icon-72x72.png"/>
@@ -106,14 +115,17 @@ export default class UniversalShell extends React.Component <any, any> {
                 rel="apple-touch-startup-image"
                 media="(device-width: 768px) and (device-height: 1024px) and (orientation: portrait) and (-webkit-device-pixel-ratio: 2)"
                 href="icons/apple-touch-startup-image-1536x2008.png"/>
-            <title>Untitled</title>
+            <title>Spotify POC</title>
+
             <link rel="stylesheet"
                   href="styles.css"/>
         </head>
         <body>
-        { /* insert the content as a string so that it can be rendered separate with its own checksum for proper server-side rendering */ }
-        <div id="container"
-             dangerouslySetInnerHTML={ {__html: this.props.content} }/>
+        <div id="container" dangerouslySetInnerHTML={ {__html: this.props.content} }/>
+        <script dangerouslySetInnerHTML={ {__html: "var USER=\""+this.props.userAgent+"\""} }/>
+        <script
+            src="vendor.js"></script>
+
         <script
             src="js/app.bundle.js"></script>
         </body>

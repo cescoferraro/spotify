@@ -3,28 +3,18 @@ meta:
     default: production
     include: ['./build/dobi/jobs.yaml',
               './build/dobi/images.yaml',
-              './build/dobi/deploy.yaml',
               './build/dobi/watch.yaml']
 
 
 env=vars:
-    variables: [VERSION=0.0.32]
-
-mount=deploy-script:
-    bind: src/deploy.sh
-    path: /deploy.sh
+    variables:
+      - FRONTEND_VERSION=0.1.10
+      - API_VERSION=0.1.24
 
 mount=source:
     bind: .
     path: /go/src/github.com/cescoferraro/spotify
 
-mount=kube-ssl:
-     bind: /home/cescoferraro/code/go/src/bitbucket.org/cescoferraro/cluster
-     path: /home/{env.USER}/code/go/src/bitbucket.org/cescoferraro/cluster
-
-mount=kube-config:
-     bind: ~/.kube
-     path: /config/.kube
 
 
 
