@@ -4,8 +4,6 @@ kind: Deployment
 metadata:
   namespace: spotify
   name: spotify-api-deploy
-  labels:
-    name: spotify-api-deploy
 spec:
   replicas: 1
   template:
@@ -15,7 +13,7 @@ spec:
         name: spotify-api-pods
     spec:
       containers:
-        - image: cescoferraro/spotify:api-0.1.25
+        - image: cescoferraro/spotify:api-0.1.27
           imagePullPolicy: Always
           name: backend
           env:

@@ -4,8 +4,6 @@ kind: Service
 metadata:
   namespace: spotify
   name: spotify-frontend-svc
-  labels:
-    name: spotify-frontend-svc
 spec:
   selector:
     name: spotify-frontend-pods
@@ -20,8 +18,6 @@ kind: Service
 metadata:
   namespace: spotify
   name: spotify-api-svc
-  labels:
-    name: spotify-api-svc
 spec:
   selector:
     name: spotify-api-pods

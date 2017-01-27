@@ -4,8 +4,6 @@ kind: Deployment
 metadata:
   namespace: spotify
   name: spotify-frontend-deploy
-  labels:
-    name: spotify-frontend-deploy
 spec:
   replicas: 1
   template:
@@ -15,7 +13,7 @@ spec:
         name: spotify-frontend-pods
     spec:
       containers:
-        - image: cescoferraro/spotify:frontend-0.1.11
+        - image: cescoferraro/spotify:frontend-0.1.13
           imagePullPolicy: Always
           name: frontend
           env:
