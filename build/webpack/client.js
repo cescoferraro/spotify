@@ -7,7 +7,19 @@ module.exports = {
 	entry: {
 		app: [...require("./loaders").hotLoaders, "./src/client"],
 		libs: [
-			'react', 'react-dom'
+			'react',
+			'react-dom',
+			'lodash',
+			'rx',
+			'css-keyframer',
+			'rx-dom',
+			'redux',
+			'react-redux',
+			'react-router',
+			'redux-actions',
+			'react-md-spinner',
+			'material-ui',
+			'inline-style-prefixer'
 		]
 	},
 	output: {

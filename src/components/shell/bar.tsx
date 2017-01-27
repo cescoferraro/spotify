@@ -1,7 +1,6 @@
 import * as React from "react";
 import AppBar from "material-ui/AppBar";
-import {APP_OBJECT, SET_APP_VERSION, SET_APP_BAR_MENU} from "../../reducers/app";
-import {bindActionCreators} from "redux";
+import {APP_OBJECT} from "../../reducers/app";
 import {connect} from "react-redux";
 declare let NODE_ENV: any;
 declare let require: any;
@@ -21,10 +20,11 @@ export default class Bar extends React.Component<any, any> {
     }
 
     render() {
-        let title = this.props.app.version;
         return <AppBar
-            style={{position:"fixed", width:'100vw'}}
-            title={title}
+
+            style={{position:"fixed",top:'0px', width:'100vw'}}
+            title={"Spotify API"}
+            iconElementLeft={<div></div>}
             iconElementRight={this.props.app.component}
         />;
     }

@@ -10,7 +10,7 @@ type StateProps = {
 }
 
 
-export default class DrawerUndockedExample2 extends React.Component<StateProps, any> {
+export class DrawerUndockedExample2 extends React.Component<StateProps, any> {
 
     render() {
         return (

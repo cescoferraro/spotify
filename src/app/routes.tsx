@@ -1,17 +1,19 @@
 import * as React from "react";
 import Match from "react-router/Match";
-import {Shell, Waiting} from "../components/shell/shell";
+import Miss from "react-router/Miss";
+
 import Utils from "../shared/utils";
+import {Shell, Waiting} from "../components/shell/shell";
+
 declare let System: any;
 declare let require: any;
-
-import Miss from "react-router/Miss";
 declare let NODE_ENV: any;
 
 const AsyncDash = Utils.asyncRoute(() => System.import("../components/dashboard/dashboard.tsx"));
 const AsyncLogin = Utils.asyncRoute(() => System.import("../components/login/login"));
-
-
+const NoMatch = ({location}) => (
+    <div>Nothing matched {location.pathname}.</div>
+);
 const routes = () => {
     if (Utils.isServer()) {
         return (<div>
@@ -28,9 +30,5 @@ const routes = () => {
         </div>);
     }
 };
-
-const NoMatch = ({location}) => (
-    <div>Nothing matched {location.pathname}.</div>
-);
 
 export default routes;

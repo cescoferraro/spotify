@@ -1,4 +1,6 @@
 import * as React from "react";
+declare const navigator: any;
+import MDSpinner from "react-md-spinner";
 
 let Utils = {
     isServer: () => !(typeof window !== "undefined" && window.document),
@@ -53,7 +55,12 @@ let Utils = {
                 if (Component !== null) {
                     return <Component {...this.props} />;
                 }
-                return <div>wait</div>; //with a loading spinner, etc..
+
+                return (
+                    <div style={{marginTop: "63px",  height: "calc(100vh - 64px)"}}>
+                        <MDSpinner style={{height:'50%', width: '50%'}} size={100} userAgent={'all'}/>
+                    </div>
+                ); //with a loading spinner, etc..
             }
         }
     }
