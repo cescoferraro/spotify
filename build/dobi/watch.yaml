@@ -1,22 +1,11 @@
 job=dev:
     net-mode: host
-    use: dev-image
-    user: "{user.uid}"
-    mounts: [source]
-    interactive: true
-    command: concurrently "go run src/api/main.go" "node start"
-    depends: [vars]
-    env:
-      - "NODE_ENV=development"
-
-job=stage:
-    net-mode: host
     user: "{user.uid}"
     use: dev-image
     mounts: [source]
     interactive: true
     command: concurrently "go run src/api/main.go" "node hot.js"
-    depends: [vars,delete,frontend-staging]
+    depends: [vars,delete,frontend-dev]
     env:
       - "NODE_ENV=development"
 
@@ -26,7 +15,7 @@ job=prod:
     use: dev-image
     mounts: [source]
     interactive: true
-    command: concurrently "go run src/api/main.go" "node www/express.bundle.js"
+    command: concurrently "go run src/api/main.go" "node www/server.bundle.js"
     depends: [vars,delete,frontend-production]
     env:
       - "NODE_ENV=production"

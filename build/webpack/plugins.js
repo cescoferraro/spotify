@@ -4,12 +4,10 @@ let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let StatsWebpackPlugin = require('stats-webpack-plugin');
 let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const env = process.env.NODE_ENV || 'development';
-console.log("==================");
-console.log("NODE_ENV at WEBPACK");
-console.log(env);
+
 let common = [
 		new webpack.NamedModulesPlugin(),
-		new webpack.NoErrorsPlugin(),
+		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.optimize.CommonsChunkPlugin(
 			{
 				name: 'vendor',
@@ -34,7 +32,13 @@ let common = [
 					require("postcss-cssnext")({
 						browsers: '> 0%', customProperties: true,
 						colorFunction: true, customSelectors: true,
-					})]
+					})],
+				tslint: {
+					emitErrors: false,
+					failOnHint: false,
+					resourcePath: 'src',
+					configFile: 'src/tsconfig.json'
+				}
 			},
 		})
 	]
@@ -42,12 +46,8 @@ let common = [
 
 let client = [
 	...common,
-	// new CleanWebpackPlugin(['www'], {
-	// 	root: path.join(__dirname, "../../"),
-	// 	verbose: true
-	// }),
 	new FaviconsWebpackPlugin({
-		logo: './src/frontend/icon/icon.png',
+		logo: './src/icon/icon.png',
 		prefix: 'icons/'
 	})
 ];

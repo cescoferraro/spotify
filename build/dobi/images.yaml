@@ -8,14 +8,14 @@ image=frontend-image:
     image: cescoferraro/spotify
     tags: ["frontend-{env.FRONTEND_VERSION}"]
     dockerfile: build/docker/Dockerfile.frontend
-    depends: [vars,frontend-production]
+    depends: [frontend-production]
     description: "Build the frontend-image"
 
 image=api-image:
     image: cescoferraro/spotify
     tags: ["api-{env.API_VERSION}"]
     dockerfile: build/docker/Dockerfile.api
-    depends: [vars, api]
+    depends: [api]
     description: "Build the api-image"
 
 alias=hub:

@@ -15,7 +15,7 @@ spec:
         name: spotify-api-pods
     spec:
       containers:
-        - image: cescoferraro/spotify:api-0.1.24
+        - image: cescoferraro/spotify:api-0.1.25
           imagePullPolicy: Always
           name: backend
           env:

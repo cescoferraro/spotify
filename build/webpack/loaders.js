@@ -40,5 +40,16 @@ if (process.env.NODE_ENV !== "production") {
 	hotLoaders = ["react-hot-loader/patch", 'webpack-hot-middleware/client'];
 }
 
+let stats = {
+	chunks: false,
+	context: "../../src/"
+};
 
-module.exports = {hotLoaders: hotLoaders, loaders: loaders, resolve: resolve, resolveLoader: resolveLoader};
+
+module.exports = {
+	stats: stats,
+	hotLoaders: hotLoaders,
+	loaders: loaders,
+	resolve: resolve,
+	resolveLoader: resolveLoader
+};

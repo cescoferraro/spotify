@@ -15,14 +15,14 @@ job=delete:
     mounts: [source]
     command:  rm -rf www/
 
-job=frontend-staging:
+job=frontend-dev:
     description: "Runs Webpack Production"
     use: dev-image
     artifact: wwww
     user: "{user.uid}"
     mounts: [source]
     interactive: true
-    command:  npm run staging
+    command:  npm run dev
     depends: [vars]
 
 

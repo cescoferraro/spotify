@@ -1,4 +1,4 @@
-FROM  mhart/alpine-node:6
+FROM  mhart/alpine-node:base-6
 WORKDIR /srv/spotify
 ADD www/ /srv/spotify/www
-CMD ["node","www/express.bundle.js"]
+CMD ["node","www/server.bundle.js"]
