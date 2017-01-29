@@ -1,15 +1,16 @@
 import * as React from "react";
 import Bar from "./bar";
 import MDSpinner from "react-md-spinner";
+import withStyles from "isomorphic-style-loader/lib/withStyles";
 import Component = React.Component;
 declare const require: any;
 declare const navigator: any;
 
 declare const document: any;
-require("./shell.pcss");
+let ss = require("./shell.pcss");
 
 export function Shell(Component) {
-    return React.createClass({
+    return withStyles(ss)(React.createClass({
         render: function () {
             return (
                 <div>
@@ -18,18 +19,18 @@ export function Shell(Component) {
                 </div>
             );
         }
-    });
+    }));
 }
 
-export const Waiting = React.createClass({
+export const Waiting = withStyles(ss)(React.createClass({
     render: function () {
         return (
             <div>
                 <Bar/>
-                <div style={{marginTop: "63px",  height: "calc(100vh - 64px)"}}>
-                    <MDSpinner style={{height:'50%', width: '50%'}} size={100} userAgent={'all'}/>
+                <div >
+                    <MDSpinner size={100} userAgent={'all'}/>
                 </div>
             </div>
         );
     }
-});
+}));

@@ -3,7 +3,9 @@ import * as React from "react";
 interface UniversalShellProp {
     content: string;
     userAgent: string;
+    css: Array<string>;
 }
+
 export default class UniversalShell extends React.Component <UniversalShellProp, any> {
 
     constructor(props: UniversalShellProp) {
@@ -116,8 +118,8 @@ export default class UniversalShell extends React.Component <UniversalShellProp,
                 href="icons/apple-touch-startup-image-1536x2008.png"/>
             <title>Spotify POC</title>
 
-            <link rel="stylesheet"
-                  href="styles.css"/>
+            <style type="text/css" dangerouslySetInnerHTML={ {__html: [...this.props.css].join('')} }></style>
+
         </head>
         <body>
         <div id="container" dangerouslySetInnerHTML={ {__html: this.props.content} }/>

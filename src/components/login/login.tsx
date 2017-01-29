@@ -1,12 +1,16 @@
 import * as React from "react";
-import Config from "../../app/config";
 import {connect} from "react-redux";
 import IconButton from "material-ui/IconButton";
 import Utils from "../../shared/utils";
 declare let require: any;
 declare let window: any;
 let Image1 = require("-!babel-loader!svg-react-loader!./images/Spotify_logo_with_text.svg");
-export default class Login extends React.Component<any, any> {
+
+import withStyles from "isomorphic-style-loader/lib/withStyles";
+let ss = require('./login.pcss');
+
+
+class Login extends React.Component<any, any> {
     constructor(props) {
         super(props);
     }
@@ -27,7 +31,7 @@ export default class Login extends React.Component<any, any> {
         };
 
         return (
-            <div style={{marginTop: "63px",  height: "calc(100vh - 64px)"}}>
+            <div >
 
                 <IconButton
                     iconStyle={{ width: 300,  height: 300}}
@@ -41,3 +45,4 @@ export default class Login extends React.Component<any, any> {
     }
 }
 
+export default withStyles(ss)(Login);

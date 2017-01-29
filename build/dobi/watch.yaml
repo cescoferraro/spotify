@@ -4,7 +4,7 @@ job=dev:
     use: dev-image
     mounts: [source]
     interactive: true
-    command: concurrently "go run src/api/main.go" "node hot.js"
+    command: concurrently "reflex -r '\.go' -s -- go run src/api/main.go" "node hot.js"
     depends: [vars,delete,frontend-dev]
     env:
       - "NODE_ENV=development"
@@ -15,7 +15,7 @@ job=prod:
     use: dev-image
     mounts: [source]
     interactive: true
-    command: concurrently "go run src/api/main.go" "node www/server.bundle.js"
+    command: concurrently "reflex -r '\.go' -s -- go run src/api/main.go" "node www/server.bundle.js"
     depends: [vars,delete,frontend-production]
     env:
       - "NODE_ENV=production"

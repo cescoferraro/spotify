@@ -10,6 +10,8 @@ import routes from "./app/routes";
 import {Provider} from "react-redux";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
+import WithStylesContext from "./shared/stylesComponent";
+import {StyleRoot} from "radium";
 declare let require: any;
 injectTapEventPlugin();
 
@@ -28,18 +30,24 @@ export default  () => (request, response) => {
         } else {
             response.status(200);
         }
+        let css = []; // CSS for all rendered React components
         let markup = ReactDOMServer.renderToString(
-            <MuiThemeProvider muiTheme={getMuiTheme({userAgent: request.headers['user-agent']})}>
-                <Provider store={createStore(allReducers,allReducersInitial)}>
-                    <ServerRouter location={request.url} context={context}>
-                        {({location}) => routes()}
-                    </ServerRouter>
-                </Provider>
-            </MuiThemeProvider>
+            <WithStylesContext onInsertCss={styles => css.push(styles._getCss())}>
+                <MuiThemeProvider muiTheme={getMuiTheme({userAgent: request.headers['user-agent']})}>
+                    <Provider store={createStore(allReducers,allReducersInitial)}>
+                        <ServerRouter location={request.url} context={context}>
+                            {({location}) => routes()}
+                        </ServerRouter>
+                    </Provider>
+                </MuiThemeProvider>
+            </WithStylesContext>
         );
+
+        console.log(css);
+        console.log(css.length);
         response.send("<!DOCTYPE html>" +
             ReactDOMServer.renderToStaticMarkup(
-                <UniversalShell userAgent={request.headers['user-agent']} content={markup}/>
+                <UniversalShell css={css} userAgent={request.headers['user-agent']} content={markup}/>
             ));
     }
 };

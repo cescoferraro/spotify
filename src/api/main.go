@@ -60,9 +60,6 @@ func main() {
 		render.JSON(w, r, Tokens.Token)
 	})
 	r.Get("/version", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("VERSION")
-		log.Println(VERSION)
-		log.Println("VERSION")
 		render.JSON(w, r, VERSION)
 	})
 
@@ -108,7 +105,6 @@ func main() {
 			User            *spotify.PrivateUser;
 		}
 		resp := sdf{Following:following, Recommendations:recommendations, Playlist:playlists, User:user }
-		log.Println(resp)
 		render.JSON(w, r, resp)
 	})
 

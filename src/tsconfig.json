@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "lib": [
+      "es2016",
+      "dom"
+    ],
     "target": "es5",
     "jsx": "react",
     "sourceMap": true,

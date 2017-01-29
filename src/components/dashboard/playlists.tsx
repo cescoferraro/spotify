@@ -1,7 +1,6 @@
 import * as React from "react";
 import {Observable} from "rx-dom";
 import {Grid, Cell} from "radium-grid";
-import {StyleRoot} from "radium";
 import {connect} from "react-redux";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
 import {Playlist} from "../../reducers/dashboard";

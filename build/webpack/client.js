@@ -3,9 +3,9 @@ const env = process.env.NODE_ENV || 'development';
 module.exports = {
 	target: 'web',
 	name: 'client',
-	stats: require("./loaders").stats,
+	stats: require("./extras").stats,
 	entry: {
-		app: [...require("./loaders").hotLoaders, "./src/client"],
+		app: [...require("./extras").hotLoaders, "./src/client"],
 		libs: [
 			'react',
 			'react-dom',
@@ -29,9 +29,9 @@ module.exports = {
 
 	devtool: env === "production" ? "cheap-module-source-map" : "cheap-module-eval-source-map",
 	plugins: require("./plugins").client,
-	resolveLoader: require("./loaders").resolveLoader,
-	module: require("./loaders").loaders,
-	resolve: require("./loaders").resolve,
+	resolveLoader: require("./extras").resolveLoader,
+	module: require("./client-loaders").loaders,
+	resolve: require("./extras").resolve,
 };
 
 

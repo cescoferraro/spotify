@@ -2,8 +2,10 @@ import * as React from "react";
 declare const navigator: any;
 import MDSpinner from "react-md-spinner";
 
+let isServer = () => !(typeof window !== "undefined" && window.document);
+
 let Utils = {
-    isServer: () => !(typeof window !== "undefined" && window.document),
+    isServer: isServer,
     GetCode: (nam) => {
         let name;
         if (!Utils.isServer()) {
@@ -25,6 +27,7 @@ let Utils = {
         return class AsyncComponent extends React.Component<any, any> {
             static Component = null;
             mounted = false;
+            counter = 1;
 
             state = {
                 Component: AsyncComponent.Component
@@ -50,17 +53,17 @@ let Utils = {
             }
 
             render() {
+                let spinner = <MDSpinner userAgent={"all"}/>;
+                if (isServer()) {
+                    return spinner;
+                }
                 const {Component} = this.state;
 
                 if (Component !== null) {
+                    console.log("returning actual component ");
                     return <Component {...this.props} />;
                 }
-
-                return (
-                    <div style={{marginTop: "63px",  height: "calc(100vh - 64px)"}}>
-                        <MDSpinner style={{height:'50%', width: '50%'}} size={100} userAgent={'all'}/>
-                    </div>
-                ); //with a loading spinner, etc..
+                return spinner; //with a loading spinner, etc..
             }
         }
     }

@@ -2,7 +2,6 @@ import * as React from "react";
 import {Observable} from "rx-dom";
 import Utils from "../../shared/utils";
 import {Grid, Cell} from "radium-grid";
-import {StyleRoot} from "radium";
 import {connect} from "react-redux";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
 import {Track, Artist} from "../../reducers/dashboard";
@@ -38,4 +37,4 @@ export const RecommendationsComponent = ({recommendations}) => {
             })}
         </div>
     )
-}
+};

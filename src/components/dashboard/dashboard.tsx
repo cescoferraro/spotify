@@ -2,8 +2,6 @@ import * as React from "react";
 import * as Rx from "rx-dom";
 import {Observable} from "rx-dom";
 import Utils from "../../shared/utils";
-import {Grid, Cell} from "radium-grid";
-import {StyleRoot} from "radium";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import IconButton from "material-ui/IconButton";
@@ -11,20 +9,24 @@ import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
 import {SET_APP_VERSION, APP_OBJECT, SET_APP_BAR_MENU, TOOGLE_SIDE_BAR} from "../../reducers/app";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
 import {
-    DASH_OBJECT,
     SET_DASHBOARD_FOLLOWING,
     SET_DASHBOARD_PROFILE,
     SET_DASHBOARD_PLAYLIST,
+    Recommendations,
+    DASH_OBJECT,
     Playlist,
     Following,
     Profile,
-    SET_DASHBOARD_RECOMMENDATIONS,
-    Recommendations
+    SET_DASHBOARD_RECOMMENDATIONS
 } from "../../reducers/dashboard";
 import {FollowingComponent} from "./following";
 import {PlaylistsComponent} from "./playlists";
+
+
 import {RecommendationsComponent} from "./recommendations";
 import {DrawerUndockedExample2} from "./drawer";
+import withStyles from "isomorphic-style-loader/lib/withStyles";
+let ss = require('./dashboard.pcss');
 declare let require: any;
 
 interface StateProps {
@@ -47,7 +49,6 @@ const mapStateToProps = (state) => ({
     app: state.app,
     dashboard: state.dashboard
 });
-
 const mapDispatchToPmapStaterops = (dispatch) => {
     return bindActionCreators(
         {
@@ -63,7 +64,7 @@ const mapDispatchToPmapStaterops = (dispatch) => {
 
 
 @connect<StateProps,DispatchProps,any>(mapStateToProps, mapDispatchToPmapStaterops)
-export default class Dashboard extends React.Component<StateProps & DispatchProps, any> {
+class Dashboard extends React.Component<StateProps & DispatchProps, any> {
     constructor(props) {
         super(props);
         if (!Utils.isServer()) {
@@ -75,10 +76,7 @@ export default class Dashboard extends React.Component<StateProps & DispatchProp
     componentWillMount() {
         this.props.SET_APP_BAR_MENU(
             <IconButton >
-                <MoreVertIcon
-                    onClick={this.props.TOOGLE_SIDE_BAR}
-
-                />
+                <MoreVertIcon onClick={this.props.TOOGLE_SIDE_BAR}/>
             </IconButton>);
     }
 
@@ -117,36 +115,38 @@ export default class Dashboard extends React.Component<StateProps & DispatchProp
 
 
     render() {
-        return (
-            <StyleRoot>
-                <DrawerUndockedExample2
-                    app={this.props.app}
-                    TOOGLE_SIDE_BAR={this.props.TOOGLE_SIDE_BAR}
-                />
-                <div >
-                    <div style={{height:"64px"}}></div>
-                    <Grid>
-                        <Cell width="1">
+        return (<div >
+            <DrawerUndockedExample2
+                app={this.props.app}
+                TOOGLE_SIDE_BAR={this.props.TOOGLE_SIDE_BAR}
+            />
+            <div >
+                <div className={ss.bar}></div>
+                <div>
+                    <div width="1">
 
 
-                            <div style={{ maxWidth: "95%",  width: "95vw",   margin: "2.5vw auto " }}>
-                                <Card >
-                                    <CardHeader
-                                        title={this.props.dashboard.profile.id}
-                                        subtitle={this.props.dashboard.profile.email}
-                                        avatar={this.props.dashboard.profile.images[0].url}
-                                        width="1"/>
-                                    <CardText>
-                                        <FollowingComponent following={this.props.dashboard.following}/>
-                                        <PlaylistsComponent playlists={this.props.dashboard.playlist}/>
-                                        <RecommendationsComponent
-                                            recommendations={this.props.dashboard.recommendations}/>
-                                    </CardText>
-                                </Card>
-                            </div>
-                        </Cell>
-                    </Grid>
+                        <div className={ss.dashboard}>
+                            <Card >
+                                <CardHeader
+                                    title={this.props.dashboard.profile.id}
+                                    subtitle={this.props.dashboard.profile.email}
+                                    avatar={this.props.dashboard.profile.images[0].url}
+                                    width="1"/>
+                                <CardText>
+                                    <FollowingComponent following={this.props.dashboard.following}/>
+                                    <PlaylistsComponent playlists={this.props.dashboard.playlist}/>
+                                    <RecommendationsComponent
+                                        recommendations={this.props.dashboard.recommendations}/>
+                                </CardText>
+                            </Card>
+                        </div>
+                    </div>
                 </div>
-            </StyleRoot>);
+            </div>
+        </div>);
     }
 }
+
+export default withStyles(ss)(Dashboard);
+
