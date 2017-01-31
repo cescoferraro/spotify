@@ -33,9 +33,10 @@ job=api:
     user: "{user.uid}"
     mounts: [source]
     interactive: true
-    command: go build -o dist/spotify src/api/main.go
+    command: ./build/scripts/buildGO.sh
     depends: [vars]
-
+    env:
+      - "VERSION={env.API_VERSION}"
 
 
 

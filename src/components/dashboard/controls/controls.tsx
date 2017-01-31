@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Rx from "rx-dom";
+import * as Rx from "rx-lite-dom";
 import Utils from "../../../shared/utils";
 import * as cx from "classnames";
 declare let require: any;

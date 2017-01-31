@@ -1,6 +1,6 @@
-declare const module, require, window, USER: any;
+declare const NODE_ENV, module, require, window, USER: any;
 import * as React from "react";
-import routes from "./app/routes";
+import routes from "./routes";
 import {AppContainer} from "react-hot-loader";
 import * as injectTapEventPlugin from "react-tap-event-plugin";
 import {render} from "react-dom";
@@ -12,7 +12,7 @@ import {allReducers, allReducersInitial} from "./reducers/index";
 import Router from "react-router/BrowserRouter";
 import WithStylesContext from "./shared/stylesComponent";
 import {StyleRoot} from "radium";
-
+import {withAsyncComponents} from "react-async-component";
 injectTapEventPlugin();
 const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 const store = createStore(allReducers, allReducersInitial, reduxDevTools);
@@ -34,11 +34,20 @@ const app = NextApp => {
     )
 };
 
-render(app(routes), rootEl);
+withAsyncComponents(app(routes))
+    .then((result) => {
+        const {
+            appWithAsyncComponents
+        } = result;
+        render(appWithAsyncComponents, rootEl);
 
-if (module.hot) {
-    module.hot.accept("./app/routes", () => {
-        const NextApp = require("./app/routes.tsx").default;
+
+    });
+
+
+if (NODE_ENV === 'development' && module.hot) {
+    module.hot.accept("./routes", () => {
+        const NextApp = require("./routes.tsx").default;
         render(app(NextApp), rootEl);
     });
 }

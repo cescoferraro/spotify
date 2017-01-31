@@ -5,7 +5,7 @@ job=dev:
     mounts: [source]
     interactive: true
     command: concurrently "reflex -r '\.go' -s -- go run src/api/main.go" "node hot.js"
-    depends: [vars,delete,frontend-dev]
+    depends: [vars,delete]
     env:
       - "NODE_ENV=development"
 

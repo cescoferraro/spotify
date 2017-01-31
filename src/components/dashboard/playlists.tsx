@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Observable} from "rx-dom";
+import {Observable} from "rx-lite-dom";
 import {Grid, Cell} from "radium-grid";
 import {connect} from "react-redux";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";

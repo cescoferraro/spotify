@@ -1,10 +1,14 @@
 import * as React from "react";
 
+
 interface UniversalShellProp {
     content: string;
+    state: string;
     userAgent: string;
+    STATE_IDENTIFIER: string;
     css: Array<string>;
 }
+
 
 export default class UniversalShell extends React.Component <UniversalShellProp, any> {
 
@@ -124,6 +128,18 @@ export default class UniversalShell extends React.Component <UniversalShellProp,
         <body>
         <div id="container" dangerouslySetInnerHTML={ {__html: this.props.content} }/>
         <script dangerouslySetInnerHTML={ {__html: "var USER=\""+this.props.userAgent+"\""} }/>
+
+        <script type="text/javascript"
+
+                dangerouslySetInnerHTML={
+                {__html:
+                    "window.__REACT_ASYNC_COMPONENTS_STATE__ = "+ this.props.state+";"+
+                "var HEY = "+ this.props.state+";"
+                }
+            }
+
+
+        />
         <script
             src="vendor.js"></script>
 

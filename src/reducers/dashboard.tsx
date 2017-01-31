@@ -8,6 +8,7 @@ type Image = {
 }
 
 export  type Profile = {
+    display_name?: string;
     email?: string;
     id?: string;
     images?: Array<Image>;

@@ -4,8 +4,10 @@ let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let StatsWebpackPlugin = require('stats-webpack-plugin');
 let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const env = process.env.NODE_ENV || 'development';
+let Visualizer = require('webpack-visualizer-plugin');
 
 let server = [
+	new Visualizer(),
 	new webpack.NamedModulesPlugin(),
 	new webpack.NoEmitOnErrorsPlugin(),
 	new webpack.optimize.CommonsChunkPlugin(
@@ -52,6 +54,9 @@ let client = [
 	new ExtractTextPlugin("styles.css")
 ];
 
+
+
+// HOT-MODULE-REPLACEMENT
 if (process.env.NODE_ENV !== "production") {
 	client.push(new webpack.HotModuleReplacementPlugin())
 }

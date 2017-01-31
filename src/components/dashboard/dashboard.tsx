@@ -1,6 +1,6 @@
 import * as React from "react";
-import * as Rx from "rx-dom";
-import {Observable} from "rx-dom";
+import * as Rx from "rx-lite-dom";
+import {Observable} from "rx-lite-dom";
 import Utils from "../../shared/utils";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
@@ -21,11 +21,12 @@ import {
 } from "../../reducers/dashboard";
 import {FollowingComponent} from "./following";
 import {PlaylistsComponent} from "./playlists";
-
-
 import {RecommendationsComponent} from "./recommendations";
-import {DrawerUndockedExample2} from "./drawer";
+import {DrawerComponent} from "./drawer";
 import withStyles from "isomorphic-style-loader/lib/withStyles";
+
+
+
 let ss = require('./dashboard.pcss');
 declare let require: any;
 
@@ -66,6 +67,7 @@ const mapDispatchToPmapStaterops = (dispatch) => {
 @connect<StateProps,DispatchProps,any>(mapStateToProps, mapDispatchToPmapStaterops)
 class Dashboard extends React.Component<StateProps & DispatchProps, any> {
     constructor(props) {
+        console.log(Rx);
         super(props);
         if (!Utils.isServer()) {
             this.appversion();
@@ -115,36 +117,29 @@ class Dashboard extends React.Component<StateProps & DispatchProps, any> {
 
 
     render() {
-        return (<div >
-            <DrawerUndockedExample2
-                app={this.props.app}
-                TOOGLE_SIDE_BAR={this.props.TOOGLE_SIDE_BAR}
-            />
-            <div >
-                <div className={ss.bar}></div>
-                <div>
-                    <div width="1">
+        return (
 
-
-                        <div className={ss.dashboard}>
-                            <Card >
-                                <CardHeader
-                                    title={this.props.dashboard.profile.id}
-                                    subtitle={this.props.dashboard.profile.email}
-                                    avatar={this.props.dashboard.profile.images[0].url}
-                                    width="1"/>
-                                <CardText>
-                                    <FollowingComponent following={this.props.dashboard.following}/>
-                                    <PlaylistsComponent playlists={this.props.dashboard.playlist}/>
-                                    <RecommendationsComponent
-                                        recommendations={this.props.dashboard.recommendations}/>
-                                </CardText>
-                            </Card>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>);
+            <div>
+                <DrawerComponent
+                    app={this.props.app}
+                    dashboard={this.props.dashboard}
+                    update={this.updateProfileState.bind(this)}
+                    TOOGLE_SIDE_BAR={this.props.TOOGLE_SIDE_BAR}
+                />
+                <Card width="1" className={ss.dashboard}>
+                    <CardHeader
+                        title={this.props.dashboard.profile.display_name}
+                        subtitle={this.props.dashboard.profile.email}
+                        avatar={this.props.dashboard.profile.images[0].url}
+                        width="1"/>
+                    <CardText>
+                        <PlaylistsComponent playlists={this.props.dashboard.playlist}/>
+                        <FollowingComponent following={this.props.dashboard.following}/>
+                        <RecommendationsComponent
+                            recommendations={this.props.dashboard.recommendations}/>
+                    </CardText>
+                </Card>
+            </div>);
     }
 }
 

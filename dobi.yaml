@@ -8,8 +8,8 @@ meta:
 
 env=vars:
     variables:
-      - FRONTEND_VERSION=0.1.13
-      - API_VERSION=0.1.27
+      - FRONTEND_VERSION=0.2.0
+      - API_VERSION=0.2.0
 
 mount=source:
     bind: .
