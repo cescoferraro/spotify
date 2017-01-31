@@ -57,7 +57,7 @@ func NewMux() *Mux {
 // Mux interoperable with the standard library. It uses a sync.Pool to get and
 // reuse routing contexts for each request.
 func (mx *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	// Ensure the mux has some routes defined on the mux
+	// Ensure the mux has some SpotifyAPP defined on the mux
 	if mx.handler == nil {
 		panic("chi: attempting to route to a mux with no handlers.")
 	}
@@ -88,7 +88,7 @@ func (mx *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // the next http.Handler.
 func (mx *Mux) Use(middlewares ...func(http.Handler) http.Handler) {
 	if mx.handler != nil {
-		panic("chi: all middlewares must be defined before routes on a mux")
+		panic("chi: all middlewares must be defined before SpotifyAPP on a mux")
 	}
 	mx.middlewares = append(mx.middlewares, middlewares...)
 }
@@ -232,7 +232,7 @@ func (mx *Mux) Route(pattern string, fn func(r Router)) Router {
 //
 // Note that Mount() simply sets a wildcard along the `pattern` that will continue
 // routing at the `handler`, which in most cases is another chi.Router. As a result,
-// if you define two Mount() routes on the exact same pattern the mount will panic.
+// if you define two Mount() SpotifyAPP on the exact same pattern the mount will panic.
 func (mx *Mux) Mount(pattern string, handler http.Handler) {
 	// Provide runtime safety for ensuring a pattern isn't mounted on an existing
 	// routing pattern.
@@ -350,7 +350,7 @@ func (mx *Mux) handle(method methodTyp, pattern string, handler http.Handler) *n
 	return mx.tree.InsertRoute(method, pattern, h)
 }
 
-// routeHTTP routes a http.Request through the Mux routing tree to serve
+// routeHTTP SpotifyAPP a http.Request through the Mux routing tree to serve
 // the matching handler for a particular http method.
 func (mx *Mux) routeHTTP(w http.ResponseWriter, r *http.Request) {
 	// Grab the route context object

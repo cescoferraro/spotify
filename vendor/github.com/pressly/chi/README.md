@@ -101,7 +101,7 @@ func main() {
     w.Write([]byte("hi"))
   })
 
-  // RESTy routes for "articles" resource
+  SpotifyAPP
   r.Route("/articles", func(r chi.Router) {
     r.With(paginate).Get("/", listArticles)  // GET /articles
     r.Post("/", createArticle)               // POST /articles
@@ -144,7 +144,7 @@ func getArticle(w http.ResponseWriter, r *http.Request) {
   w.Write([]byte(fmt.Sprintf("title:%s", article.Title)))
 }
 
-// A completely separate router for administrator routes
+SpotifyAPP
 func adminRouter() http.Handler {
   r := chi.NewRouter()
   r.Use(AdminOnly)
@@ -197,7 +197,7 @@ type Router interface {
 	// Mount attaches another http.Handler along ./pattern/*
 	Mount(pattern string, h http.Handler)
 
-	// Handle and HandleFunc adds routes for `pattern` that matches
+	SpotifyAPP
 	// all HTTP methods.
 	Handle(pattern string, h http.Handler)
 	HandleFunc(pattern string, h http.HandlerFunc)

@@ -33,13 +33,13 @@ be associated with the request that invoked the Call method.
 
 The state of a function invocation that has not yet successfully
 executed is preserved by combining the file name in which it is declared
-with the string key that was passed to the Func function. Updating an app
+with the string key that was passed to the Func function. Updating an renderApp
 with pending function invocations is safe as long as the relevant
 functions have the (filename, key) combination preserved.
 
 The delay package uses the Task Queue API to create tasks that call the
 reserved application path "/_ah/queue/go/delay".
-This path must not be marked as "login: required" in app.yaml;
+This path must not be marked as "login: required" in renderApp.yaml;
 it must be marked as "login: admin" or have no access restriction.
 */
 package delay // import "google.golang.org/appengine/delay"

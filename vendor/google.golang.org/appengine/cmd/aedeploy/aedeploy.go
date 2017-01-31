@@ -37,7 +37,7 @@ var (
 
 func usage() {
 	fmt.Fprintf(os.Stderr, "Usage of %s:\n", os.Args[0])
-	fmt.Fprintf(os.Stderr, "\t%s gcloud --verbosity debug app deploy --version myversion ./app.yaml\tDeploy app to production\n", os.Args[0])
+	fmt.Fprintf(os.Stderr, "\t%s gcloud --verbosity debug renderApp deploy --version myversion ./renderApp.yaml\tDeploy renderApp to production\n", os.Args[0])
 }
 
 var verbose bool
@@ -287,7 +287,7 @@ func appFiles(ctxt *build.Context) ([]string, error) {
 		return nil, err
 	}
 	if !pkg.IsCommand() {
-		return nil, fmt.Errorf(`the root of your app needs to be package "main" (currently %q). Please see https://cloud.google.com/appengine/docs/flexible/go/ for more details on structuring your app.`, pkg.Name)
+		return nil, fmt.Errorf(`the root of your renderApp needs to be package "main" (currently %q). Please see https://cloud.google.com/appengine/docs/flexible/go/ for more details on structuring your renderApp.`, pkg.Name)
 	}
 	var appFiles []string
 	for _, f := range pkg.GoFiles {

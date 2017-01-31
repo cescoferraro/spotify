@@ -16,7 +16,7 @@ type Doc struct {
 
 type DocRouter struct {
 	Middlewares []DocMiddleware `json:"middlewares"`
-	Routes      DocRoutes       `json:"routes"`
+	Routes      DocRoutes       `json:"SpotifyAPP"`
 }
 
 type DocMiddleware struct {

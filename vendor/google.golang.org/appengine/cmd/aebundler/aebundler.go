@@ -10,7 +10,7 @@
 // A sample Dockerfile to be used with this bundler could look like this:
 //     FROM gcr.io/google_appengine/go-compat
 //     ADD . /app
-//     RUN GOPATH=/app/_gopath go build -tags appenginevm -o /app/_ah/exe
+//     RUN GOPATH=/renderApp/_gopath go build -tags appenginevm -o /renderApp/_ah/exe
 package main
 
 import (

@@ -1,6 +1,6 @@
 declare const NODE_ENV, module, require, window, USER: any;
 import * as React from "react";
-import routes from "./routes";
+import {SpotifyApp} from "./app";
 import {AppContainer} from "react-hot-loader";
 import * as injectTapEventPlugin from "react-tap-event-plugin";
 import {render} from "react-dom";
@@ -20,34 +20,28 @@ const theme = getMuiTheme({}, {userAgent: navigator.userAgent});
 const BrowserRouter = ({router}) => (<Router>{router}</Router>);
 const rootEl = document.getElementById("container");
 
-const app = NextApp => {
-    return (
-        <AppContainer>
-            <WithStylesContext onInsertCss={styles => styles._insertCss()}>
-                <MuiThemeProvider muiTheme={theme}>
-                    <Provider store={store}>
-                        <BrowserRouter router={NextApp}/>
-                    </Provider>
-                </MuiThemeProvider>
-            </WithStylesContext>
-        </AppContainer>
-    )
+const renderApp = NextApp => {
+    let app = <AppContainer>
+        <WithStylesContext onInsertCss={styles => styles._insertCss()}>
+            <MuiThemeProvider muiTheme={theme}>
+                <Provider store={store}>
+                    <BrowserRouter router={NextApp}/>
+                </Provider>
+            </MuiThemeProvider>
+        </WithStylesContext>
+    </AppContainer>;
+    withAsyncComponents(app).then(({appWithAsyncComponents}) =>
+        render(appWithAsyncComponents, rootEl),
+    );
 };
 
-withAsyncComponents(app(routes))
-    .then((result) => {
-        const {
-            appWithAsyncComponents
-        } = result;
-        render(appWithAsyncComponents, rootEl);
 
-
-    });
+renderApp(SpotifyApp);
 
 
 if (NODE_ENV === 'development' && module.hot) {
-    module.hot.accept("./routes", () => {
-        const NextApp = require("./routes.tsx").default;
-        render(app(NextApp), rootEl);
+    module.hot.accept("./app.tsx", () => {
+        const NextApp = require("./app.tsx").default;
+        renderApp(NextApp);
     });
 }

@@ -675,7 +675,7 @@ func (m *PropertyValue_UserValue) GetFederatedProvider() string {
 }
 
 type PropertyValue_ReferenceValue struct {
-	App              *string                                     `protobuf:"bytes,13,req,name=app" json:"app,omitempty"`
+	App              *string                                     `protobuf:"bytes,13,req,name=renderApp" json:"renderApp,omitempty"`
 	NameSpace        *string                                     `protobuf:"bytes,20,opt,name=name_space" json:"name_space,omitempty"`
 	Pathelement      []*PropertyValue_ReferenceValue_PathElement `protobuf:"group,14,rep,name=PathElement" json:"pathelement,omitempty"`
 	XXX_unrecognized []byte                                      `json:"-"`
@@ -865,7 +865,7 @@ func (m *Path_Element) GetName() string {
 }
 
 type Reference struct {
-	App              *string `protobuf:"bytes,13,req,name=app" json:"app,omitempty"`
+	App              *string `protobuf:"bytes,13,req,name=renderApp" json:"renderApp,omitempty"`
 	NameSpace        *string `protobuf:"bytes,20,opt,name=name_space" json:"name_space,omitempty"`
 	Path             *Path   `protobuf:"bytes,14,req,name=path" json:"path,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
@@ -1267,7 +1267,7 @@ func (m *InternalHeader) GetQos() string {
 type Transaction struct {
 	Header           *InternalHeader `protobuf:"bytes,4,opt,name=header" json:"header,omitempty"`
 	Handle           *uint64         `protobuf:"fixed64,1,req,name=handle" json:"handle,omitempty"`
-	App              *string         `protobuf:"bytes,2,req,name=app" json:"app,omitempty"`
+	App              *string         `protobuf:"bytes,2,req,name=renderApp" json:"renderApp,omitempty"`
 	MarkChanges      *bool           `protobuf:"varint,3,opt,name=mark_changes,def=0" json:"mark_changes,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }
@@ -1308,7 +1308,7 @@ func (m *Transaction) GetMarkChanges() bool {
 
 type Query struct {
 	Header              *InternalHeader   `protobuf:"bytes,39,opt,name=header" json:"header,omitempty"`
-	App                 *string           `protobuf:"bytes,1,req,name=app" json:"app,omitempty"`
+	App                 *string           `protobuf:"bytes,1,req,name=renderApp" json:"renderApp,omitempty"`
 	NameSpace           *string           `protobuf:"bytes,29,opt,name=name_space" json:"name_space,omitempty"`
 	Kind                *string           `protobuf:"bytes,3,opt,name=kind" json:"kind,omitempty"`
 	Ancestor            *Reference        `protobuf:"bytes,17,opt,name=ancestor" json:"ancestor,omitempty"`
@@ -1892,7 +1892,7 @@ func (m *CompiledCursor_Position_IndexValue) GetValue() *PropertyValue {
 
 type Cursor struct {
 	Cursor           *uint64 `protobuf:"fixed64,1,req,name=cursor" json:"cursor,omitempty"`
-	App              *string `protobuf:"bytes,2,opt,name=app" json:"app,omitempty"`
+	App              *string `protobuf:"bytes,2,opt,name=renderApp" json:"renderApp,omitempty"`
 	XXX_unrecognized []byte  `json:"-"`
 }
 
@@ -2694,7 +2694,7 @@ func (*AddActionsResponse) ProtoMessage()    {}
 
 type BeginTransactionRequest struct {
 	Header           *InternalHeader `protobuf:"bytes,3,opt,name=header" json:"header,omitempty"`
-	App              *string         `protobuf:"bytes,1,req,name=app" json:"app,omitempty"`
+	App              *string         `protobuf:"bytes,1,req,name=renderApp" json:"renderApp,omitempty"`
 	AllowMultipleEg  *bool           `protobuf:"varint,2,opt,name=allow_multiple_eg,def=0" json:"allow_multiple_eg,omitempty"`
 	XXX_unrecognized []byte          `json:"-"`
 }

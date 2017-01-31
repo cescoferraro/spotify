@@ -15,7 +15,7 @@ import (
 //    r := chi.NewRouter()
 //    // ..middlewares
 //    r.Mount("/debug", profiler.Router())
-//    // ..routes
+//    // ..SpotifyAPP
 //    return r
 //  }
 func Profiler() http.Handler {
