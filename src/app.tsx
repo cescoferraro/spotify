@@ -26,7 +26,7 @@ const NoMatch = ({location}) => (
     <div>Nothing matched {location.pathname}.</div>
 );
 
-export let SpotifyApp = () => {
+export default () => {
     return (
         <div>
             <Match exactly pattern="/" component={Shell(AsyncProduct)}/>
