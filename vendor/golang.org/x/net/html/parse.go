@@ -886,7 +886,7 @@ func inBodyIM(p *parser) bool {
 				return true
 			}
 			action := ""
-			prompt := "This is a searchable index. Enter search keywords: "
+			prompt := "This is a searchable index. Enter followLabelTopN keywords: "
 			attr := []Attribute{{Key: "name", Val: "isindex"}}
 			for _, t := range p.tok.Attr {
 				switch t.Key {

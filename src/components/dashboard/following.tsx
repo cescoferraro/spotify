@@ -4,14 +4,12 @@ import {Grid, Cell} from "radium-grid";
 import {StyleRoot} from "radium";
 import {connect} from "react-redux";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
-
 import withStyles from "isomorphic-style-loader/lib/withStyles";
-let ss = require('./playlist.pcss');
-
-
+let ss = require('./following.pcss');
+const style = {margin: 5};
 export const FollowingComponent = withStyles(ss)(({following}) => {
     if (following !== null && following.items.length > 0) {
-        return (<div className={ss.plays}>
+        return (<div >
             <h3>Following:</h3>
             {following.items.map((artist) => {
                 return (<CardHeader

@@ -105,7 +105,7 @@ func main() {
   r.Route("/articles", func(r chi.Router) {
     r.With(paginate).Get("/", listArticles)  // GET /articles
     r.Post("/", createArticle)               // POST /articles
-    r.Get("/search", searchArticles)         // GET /articles/search
+    r.Get(followLabelTopN, searchArticles)         followLabelTopN
 
     r.Route("/:articleID", func(r chi.Router) {
       r.Use(ArticleCtx)

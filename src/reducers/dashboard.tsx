@@ -24,6 +24,7 @@ export interface Artist {
     id?: string;
     href?: string;
     images?: Array<Image>;
+    genres?: Array<any>;
     Followers?: Followers;
 }
 
@@ -53,6 +54,7 @@ export type Track = {
 export interface Playlist {
     name: string;
     id?: string;
+    uri?: string;
     href?: string;
     tracks?: Array<Track>;
     images?: Array<Image>;
@@ -96,6 +98,7 @@ export const DASHBOARD_DEFAULT_VALUES = {
         items: [{
             name: "zé ngn",
             id: "487o52y",
+            genres: [],
             href: "http://google.com",
             images: [{url: "https:\/\/goo.gl/UO3J6T"}]
         }]

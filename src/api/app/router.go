@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"log"
 
-	"github.com/zmb3/spotify"
 	"github.com/pressly/chi/middleware"
 	"bytes"
 )
@@ -41,6 +40,7 @@ func Router(version string) (chi.Router) {
 		url := SPOTIFYAUTH.AuthURL(State)
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 	})
+
 	r.Get("/status", func(w http.ResponseWriter, r *http.Request) {
 		render.JSON(w, r, Tokens.Token)
 	})
@@ -48,53 +48,36 @@ func Router(version string) (chi.Router) {
 		render.JSON(w, r, version)
 	})
 
+	r.Get("/top5/:label/:code", func(w http.ResponseWriter, r *http.Request) {
+		code := chi.URLParam(r, "code")
+		label := chi.URLParam(r, "label")
+		err := FollowLabel(code, label)
+		if err != nil {
+			render.JSON(w, r, false)
+			return
+		}
+		render.JSON(w, r, true)
+	})
+
+	r.Get("/logout/:code", func(w http.ResponseWriter, r *http.Request) {
+		code := chi.URLParam(r, "code")
+		Tokens.Lock()
+		defer Tokens.Unlock()
+		if Tokens.Token[code] != nil {
+			delete(Tokens.Token, code)
+			render.JSON(w, r, true)
+		}
+		render.JSON(w, r, false)
+
+	})
+
 	r.Get("/me/:code", func(w http.ResponseWriter, r *http.Request) {
 		code := chi.URLParam(r, "code")
-		log.Printf("Code is %s\n", code)
-		user, err := GetProfile(code)
+		resp, err := Me(code)
 		if err != nil {
-			log.Println(err.Error())
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-
-		following, err := Getfollowing(code)
-		if err != nil {
-			log.Println("getfollowing ERROR")
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		var artistID []string
-		for _, artist := range following.Artists {
-			artistID = append(artistID, artist.ID.String())
-		}
-
-		playlists, err := GetPLaylists(code)
-		if err != nil {
-			log.Println("getPLaylists  ERROR")
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		var recommendations *spotify.Recommendations
-		if len(artistID) > 0 {
-			recommendations, err = GetRecommendations(artistID, code)
-			if err != nil {
-				log.Println("getRecommendations  ERROR")
-				log.Println(err.Error())
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-				return
-			}
-		}
-		type sdf struct {
-			Following       *spotify.FullArtistCursorPage;
-			Playlist        []spotify.SimplePlaylist;
-			Recommendations *spotify.Recommendations;
-			User            *spotify.PrivateUser;
-		}
-		resp := sdf{Following:following, Recommendations:recommendations, Playlist:playlists, User:user }
 		render.JSON(w, r, resp)
 	})
 
@@ -111,11 +94,8 @@ func Router(version string) (chi.Router) {
 	})
 
 	r.Get("/follow/:id/:code", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("=====follow=====")
 		code := chi.URLParam(r, "code")
 		id := chi.URLParam(r, "id")
-		log.Println("=====id=====")
-		log.Println(id)
 		err := FollowArtists(code, id)
 		if err != nil {
 			log.Println(err.Error())
@@ -126,11 +106,8 @@ func Router(version string) (chi.Router) {
 	})
 
 	r.Get("/unfollow/:id/:code", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("=====unfollow=====")
 		code := chi.URLParam(r, "code")
 		id := chi.URLParam(r, "id")
-		log.Println("=====id=====")
-		log.Println(id)
 		err := UnfollowArtists(code, id)
 		if err != nil {
 			log.Println(err.Error())
@@ -157,3 +134,4 @@ func Router(version string) (chi.Router) {
 	})
 	return r
 }
+

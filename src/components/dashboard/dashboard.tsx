@@ -25,8 +25,6 @@ import {RecommendationsComponent} from "./recommendations";
 import {DrawerComponent} from "./drawer";
 import withStyles from "isomorphic-style-loader/lib/withStyles";
 
-
-
 let ss = require('./dashboard.pcss');
 declare let require: any;
 
@@ -67,19 +65,31 @@ const mapDispatchToPmapStaterops = (dispatch) => {
 @connect<StateProps,DispatchProps,any>(mapStateToProps, mapDispatchToPmapStaterops)
 class Dashboard extends React.Component<StateProps & DispatchProps, any> {
     constructor(props) {
-        console.log(Rx);
         super(props);
         if (!Utils.isServer()) {
             this.appversion();
             this.updateProfileState();
         }
+        this.state = {
+            open: true,
+        };
     }
 
+
+    handleTouchTap = () => {
+        console.log("handleTouchTap")
+    };
+
+    handleRequestClose = () => {
+        this.setState({
+            open: false,
+        });
+    };
+
     componentWillMount() {
-        this.props.SET_APP_BAR_MENU(
-            <IconButton >
-                <MoreVertIcon onClick={this.props.TOOGLE_SIDE_BAR}/>
-            </IconButton>);
+        this.props.SET_APP_BAR_MENU(<IconButton >
+            <MoreVertIcon onClick={this.props.TOOGLE_SIDE_BAR}/>
+        </IconButton>);
     }
 
     catchErrors(err, ss) {
@@ -105,6 +115,7 @@ class Dashboard extends React.Component<StateProps & DispatchProps, any> {
                     this.props.SET_DASHBOARD_RECOMMENDATIONS(me.Recommendations);
                 });
     }
+
 
     appversion() {
         Rx.DOM.get(Utils.API_URL() + "/version")

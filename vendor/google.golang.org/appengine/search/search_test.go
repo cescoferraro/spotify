@@ -313,9 +313,9 @@ func TestSaveWithoutMetaUsesDefaultedRank(t *testing.T) {
 func TestLoadSaveWithStruct(t *testing.T) {
 	type gopher struct {
 		Name string
-		Info string  `search:"about"`
-		Legs float64 `search:",facet"`
-		Fuzz Atom    `search:"Fur,facet"`
+		Info string  `followLabelTopN:"about"`
+		Legs float64 `followLabelTopN:",facet"`
+		Fuzz Atom    `followLabelTopN:"Fur,facet"`
 	}
 
 	doc := gopher{"Gopher", "Likes slide rules.", 4, Atom("furry")}
@@ -486,7 +486,7 @@ func TestLimit(t *testing.T) {
 	if err != nil {
 		t.Fatalf("err from Open: %v", err)
 	}
-	c := aetesting.FakeSingleContext(t, "search", "Search", func(req *pb.SearchRequest, res *pb.SearchResponse) error {
+	c := aetesting.FakeSingleContext(t, "followLabelTopN", "Search", func(req *pb.SearchRequest, res *pb.SearchResponse) error {
 		limit := 20 // Default per page.
 		if req.Params.Limit != nil {
 			limit = int(*req.Params.Limit)
@@ -534,7 +534,7 @@ func TestPut(t *testing.T) {
 		t.Fatalf("err from Open: %v", err)
 	}
 
-	c := aetesting.FakeSingleContext(t, "search", "IndexDocument", func(in *pb.IndexDocumentRequest, out *pb.IndexDocumentResponse) error {
+	c := aetesting.FakeSingleContext(t, "followLabelTopN", "IndexDocument", func(in *pb.IndexDocumentRequest, out *pb.IndexDocumentResponse) error {
 		expectedIn := &pb.IndexDocumentRequest{
 			Params: &pb.IndexDocumentParams{
 				Document: []*pb.Document{
@@ -577,7 +577,7 @@ func TestPutAutoOrderID(t *testing.T) {
 		t.Fatalf("err from Open: %v", err)
 	}
 
-	c := aetesting.FakeSingleContext(t, "search", "IndexDocument", func(in *pb.IndexDocumentRequest, out *pb.IndexDocumentResponse) error {
+	c := aetesting.FakeSingleContext(t, "followLabelTopN", "IndexDocument", func(in *pb.IndexDocumentRequest, out *pb.IndexDocumentResponse) error {
 		if len(in.Params.GetDocument()) < 1 {
 			return fmt.Errorf("expected at least one Document, got %v", in)
 		}
@@ -607,7 +607,7 @@ func TestPutBadStatus(t *testing.T) {
 		t.Fatalf("err from Open: %v", err)
 	}
 
-	c := aetesting.FakeSingleContext(t, "search", "IndexDocument", func(_ *pb.IndexDocumentRequest, out *pb.IndexDocumentResponse) error {
+	c := aetesting.FakeSingleContext(t, "followLabelTopN", "IndexDocument", func(_ *pb.IndexDocumentRequest, out *pb.IndexDocumentResponse) error {
 		*out = pb.IndexDocumentResponse{
 			Status: []*pb.RequestStatus{
 				{
@@ -619,7 +619,7 @@ func TestPutBadStatus(t *testing.T) {
 		return nil
 	})
 
-	wantErr := "search: INVALID_REQUEST: insufficient gophers"
+	wantErr := "followLabelTopN: INVALID_REQUEST: insufficient gophers"
 	if _, err := index.Put(c, "", &searchFields); err == nil || err.Error() != wantErr {
 		t.Fatalf("Put: got %v error, want %q", err, wantErr)
 	}
@@ -673,7 +673,7 @@ func TestSortOptions(t *testing.T) {
 					{Expr: "dog", Default: true},
 				},
 			},
-			wantErr: `search: invalid Default type bool for expression "dog"`,
+			wantErr: `followLabelTopN: invalid Default type bool for expression "dog"`,
 		},
 		{
 			desc:       "RescoringMatchScorer",
@@ -683,7 +683,7 @@ func TestSortOptions(t *testing.T) {
 	}
 
 	for _, tt := range testCases {
-		c := aetesting.FakeSingleContext(t, "search", "Search", func(req *pb.SearchRequest, _ *pb.SearchResponse) error {
+		c := aetesting.FakeSingleContext(t, "followLabelTopN", "Search", func(req *pb.SearchRequest, _ *pb.SearchResponse) error {
 			params := req.Params
 			if !reflect.DeepEqual(params.SortSpec, tt.wantSort) {
 				t.Errorf("%s: params.SortSpec=%v; want %v", tt.desc, params.SortSpec, tt.wantSort)
@@ -749,7 +749,7 @@ func TestFieldSpec(t *testing.T) {
 	}
 
 	for _, tt := range testCases {
-		c := aetesting.FakeSingleContext(t, "search", "Search", func(req *pb.SearchRequest, _ *pb.SearchResponse) error {
+		c := aetesting.FakeSingleContext(t, "followLabelTopN", "Search", func(req *pb.SearchRequest, _ *pb.SearchResponse) error {
 			params := req.Params
 			if !reflect.DeepEqual(params.FieldSpec, tt.want) {
 				t.Errorf("%s: params.FieldSpec=%v; want %v", tt.desc, params.FieldSpec, tt.want)
@@ -901,7 +901,7 @@ func TestBasicSearchOpts(t *testing.T) {
 	}
 
 	for _, tt := range testCases {
-		c := aetesting.FakeSingleContext(t, "search", "Search", func(req *pb.SearchRequest, _ *pb.SearchResponse) error {
+		c := aetesting.FakeSingleContext(t, "followLabelTopN", "Search", func(req *pb.SearchRequest, _ *pb.SearchResponse) error {
 			if tt.want == nil {
 				t.Errorf("%s: expected call to fail", tt.desc)
 				return nil
@@ -970,33 +970,33 @@ func TestFacetRefinements(t *testing.T) {
 			refine: []Facet{
 				{Name: "age", Value: Range{Start: negInf, End: posInf}},
 			},
-			wantErr: `search: refinement for facet "age": either Start or End must be finite`,
+			wantErr: `followLabelTopN: refinement for facet "age": either Start or End must be finite`,
 		},
 		{
 			desc: "Bad End value in range",
 			refine: []Facet{
 				{Name: "age", Value: LessThan(2147483648)},
 			},
-			wantErr: `search: refinement for facet "age": invalid value for End`,
+			wantErr: `followLabelTopN: refinement for facet "age": invalid value for End`,
 		},
 		{
 			desc: "Bad Start value in range",
 			refine: []Facet{
 				{Name: "age", Value: AtLeast(-2147483649)},
 			},
-			wantErr: `search: refinement for facet "age": invalid value for Start`,
+			wantErr: `followLabelTopN: refinement for facet "age": invalid value for Start`,
 		},
 		{
 			desc: "Unknown value type",
 			refine: []Facet{
 				{Name: "age", Value: "you can't use strings!"},
 			},
-			wantErr: `search: unsupported refinement for facet "age" of type string`,
+			wantErr: `followLabelTopN: unsupported refinement for facet "age" of type string`,
 		},
 	}
 
 	for _, tt := range testCases {
-		c := aetesting.FakeSingleContext(t, "search", "Search", func(req *pb.SearchRequest, _ *pb.SearchResponse) error {
+		c := aetesting.FakeSingleContext(t, "followLabelTopN", "Search", func(req *pb.SearchRequest, _ *pb.SearchResponse) error {
 			if got := req.Params.FacetRefinement; !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("%s: params.FacetRefinement=%v; want %v", tt.desc, got, tt.want)
 			}
@@ -1016,7 +1016,7 @@ func TestFacetRefinements(t *testing.T) {
 
 func TestNamespaceResetting(t *testing.T) {
 	namec := make(chan *string, 1)
-	c0 := aetesting.FakeSingleContext(t, "search", "IndexDocument", func(req *pb.IndexDocumentRequest, res *pb.IndexDocumentResponse) error {
+	c0 := aetesting.FakeSingleContext(t, "followLabelTopN", "IndexDocument", func(req *pb.IndexDocumentRequest, res *pb.IndexDocumentResponse) error {
 		namec <- req.Params.IndexSpec.Namespace
 		return fmt.Errorf("RPC error")
 	})

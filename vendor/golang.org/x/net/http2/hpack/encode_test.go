@@ -118,7 +118,7 @@ func TestEncoderSearchTable(t *testing.T) {
 	}
 	for _, tt := range tests {
 		if gotI, gotMatch := e.searchTable(tt.hf); gotI != tt.wantI || gotMatch != tt.wantMatch {
-			t.Errorf("d.search(%+v) = %v, %v; want %v, %v", tt.hf, gotI, gotMatch, tt.wantI, tt.wantMatch)
+			t.Errorf("d.followLabelTopN(%+v) = %v, %v; want %v, %v", tt.hf, gotI, gotMatch, tt.wantI, tt.wantMatch)
 		}
 	}
 }

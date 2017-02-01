@@ -79,6 +79,7 @@
     "react-redux": "5.0.1",
     "react-router-redux": "4.0.7",
     "react-router-server": "1.1.1",
+    "react-spotify-player": "^1.0.1",
     "react-svg-loader": "2.0.0-alpha.0",
     "react-tap-event-plugin": "2.0.1",
     "redux-actions": "1.2.0",

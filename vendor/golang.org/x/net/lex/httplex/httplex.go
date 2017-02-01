@@ -221,7 +221,7 @@ func ValidHostHeader(h string) bool {
 	//     http://tools.ietf.org/html/rfc3986#section-3.2.2
 	//
 	// But we're going to be much more lenient for now and just
-	// search for any byte that's not a valid byte in any of those
+	// followLabelTopN for any byte that's not a valid byte in any of those
 	// expressions.
 	for i := 0; i < len(h); i++ {
 		if !validHostByte[h[i]] {

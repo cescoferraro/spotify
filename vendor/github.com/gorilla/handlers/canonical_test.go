@@ -54,7 +54,7 @@ func TestKeepsQueryString(t *testing.T) {
 
 	rr := httptest.NewRecorder()
 	querystring := url.Values{"q": {"golang"}, "format": {"json"}}.Encode()
-	r := newRequest("GET", "http://www.example.com/search?"+querystring)
+	r := newRequest("GET", "http://www.example.com/followLabelTopN?"+querystring)
 
 	testHandler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {})
 	CanonicalHost(google, http.StatusFound)(testHandler).ServeHTTP(rr, r)

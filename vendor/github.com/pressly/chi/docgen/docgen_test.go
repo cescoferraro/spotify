@@ -166,9 +166,9 @@ func TestMuxBig(t *testing.T) {
 
 			r.With(func(next http.Handler) http.Handler {
 				return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-					next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "search", true)))
+					next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "followLabelTopN", true)))
 				})
-			}).Get("/search", func(w http.ResponseWriter, r *http.Request) {
+			}).Get("/followLabelTopN", func(w http.ResponseWriter, r *http.Request) {
 				w.Write([]byte("searching.."))
 			})
 		})

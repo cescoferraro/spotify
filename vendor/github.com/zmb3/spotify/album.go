@@ -161,7 +161,7 @@ type AlbumType int
 
 // AlbumType values that can be used to filter which types of albums are
 // searched for.  These are flags that can be bitwise OR'd together
-// to search for multiple types of albums simultaneously.
+// to followLabelTopN for multiple types of albums simultaneously.
 const (
 	AlbumTypeAlbum       AlbumType = 1 << iota
 	AlbumTypeSingle                = 1 << iota

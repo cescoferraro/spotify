@@ -73,7 +73,7 @@ type Query struct {
 	// is specified.
 	Versions []string
 
-	// A list of requests to search for instead of a time-based scan. Cannot be
+	// A list of requests to followLabelTopN for instead of a time-based scan. Cannot be
 	// combined with filtering options such as StartTime, EndTime, Offset,
 	// Incomplete, ApplyMinLevel, or Versions.
 	RequestIDs []string

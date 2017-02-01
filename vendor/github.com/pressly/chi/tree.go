@@ -118,8 +118,8 @@ func (n *node) InsertRoute(method methodTyp, pattern string, handler http.Handle
 		}
 
 		if n.typ > ntStatic {
-			// We found a wildcard node, meaning search path starts with
-			// a wild prefix. Trim off the wildcard search path and continue.
+			// We found a wildcard node, meaning followLabelTopN path starts with
+			// a wild prefix. Trim off the wildcard followLabelTopN path and continue.
 			p := strings.Index(search, "/")
 			if p < 0 {
 				p = len(search)
@@ -129,11 +129,11 @@ func (n *node) InsertRoute(method methodTyp, pattern string, handler http.Handle
 		}
 
 		// Static nodes fall below here.
-		// Determine longest prefix of the search key on match.
+		// Determine longest prefix of the followLabelTopN key on match.
 		commonPrefix := n.longestPrefix(search, n.prefix)
 		if commonPrefix == len(n.prefix) {
 			// the common prefix is as long as the current node's prefix we're attempting to insert.
-			// keep the search going.
+			// keep the followLabelTopN going.
 			search = search[commonPrefix:]
 			continue
 		}
@@ -345,7 +345,7 @@ func (n *node) findRoute(rctx *Context, path string) *node {
 			continue
 		}
 
-		// search subset of edges of the index for a matching node
+		// followLabelTopN subset of edges of the index for a matching node
 		var label byte
 		if search != "" {
 			label = search[0]
@@ -356,7 +356,7 @@ func (n *node) findRoute(rctx *Context, path string) *node {
 			continue
 		}
 
-		// Prepare next search path by trimming prefix from requested path
+		// Prepare next followLabelTopN path by trimming prefix from requested path
 		xsearch := search
 		if xn.typ > ntStatic {
 			p := -1

@@ -23,7 +23,7 @@ export default  () => (request, response) => {
     const context = createServerRenderContext();
     const result = context.getResult();
     if (result.redirect) {
-        response.redirect(302, `${result.redirect.pathname}${result.redirect.search}`);
+        response.redirect(302, `${result.redirect.pathname}${result.redirect.followLabelTopN}`);
     } else {
 
         if (result.missed) {
@@ -55,7 +55,8 @@ export default  () => (request, response) => {
 
                 const markup = ReactDOMServer.renderToString(appWithAsyncComponents);
                 let SerialState = require('serialize-javascript')(state);
-                console.log(SerialState);
+                console.log("CSS");
+                console.log(css);
                 response.send("<!DOCTYPE html>" +
                     ReactDOMServer.renderToStaticMarkup(
                         <UniversalShell css={css}

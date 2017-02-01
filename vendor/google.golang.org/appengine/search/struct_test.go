@@ -40,15 +40,15 @@ func TestLoadingStruct(t *testing.T) {
 			}},
 			want: &struct {
 				Name string
-				Info string  `search:"about"`
-				Legs float64 `search:",facet"`
-				Fuzz Atom    `search:"Fur,facet"`
+				Info string  `followLabelTopN:"about"`
+				Legs float64 `followLabelTopN:",facet"`
+				Fuzz Atom    `followLabelTopN:"Fur,facet"`
 			}{"Gopher", "Likes slide rules.", 4, Atom("furry")},
 		},
 		{
 			desc: "Bad field from tag",
 			want: &struct {
-				AlphaBeta string `search:"αβ"`
+				AlphaBeta string `followLabelTopN:"αβ"`
 			}{},
 			wantErr: true,
 		},
@@ -75,7 +75,7 @@ func TestLoadingStruct(t *testing.T) {
 				{Name: "Missing", Value: Atom("no")},
 			}},
 			want: &struct {
-				Set Atom `search:",facet"`
+				Set Atom `followLabelTopN:",facet"`
 			}{Atom("yes")},
 			wantErr: true,
 		},
@@ -86,7 +86,7 @@ func TestLoadingStruct(t *testing.T) {
 				{Name: "unset", Value: Atom("no")},
 			}},
 			want: &struct {
-				Set Atom `search:",facet"`
+				Set Atom `followLabelTopN:",facet"`
 			}{Atom("yes")},
 			wantErr: true,
 		},
@@ -98,7 +98,7 @@ func TestLoadingStruct(t *testing.T) {
 			},
 			want: &struct {
 				Set     string
-				Ignored string `search:"-"`
+				Ignored string `followLabelTopN:"-"`
 			}{Set: "yes"},
 			wantErr: true,
 		},
@@ -109,8 +109,8 @@ func TestLoadingStruct(t *testing.T) {
 				{Name: "Ignored", Value: Atom("no")},
 			}},
 			want: &struct {
-				Set     Atom `search:",facet"`
-				Ignored Atom `search:"-,facet"`
+				Set     Atom `followLabelTopN:",facet"`
+				Ignored Atom `followLabelTopN:"-,facet"`
 			}{Set: Atom("yes")},
 			wantErr: true,
 		},
@@ -152,9 +152,9 @@ func TestSavingStruct(t *testing.T) {
 			desc: "Struct with tags",
 			doc: &struct {
 				Name string
-				Info string  `search:"about"`
-				Legs float64 `search:",facet"`
-				Fuzz Atom    `search:"Fur,facet"`
+				Info string  `followLabelTopN:"about"`
+				Legs float64 `followLabelTopN:",facet"`
+				Fuzz Atom    `followLabelTopN:"Fur,facet"`
 			}{"Gopher", "Likes slide rules.", 4, Atom("furry")},
 			wantFields: []Field{
 				{Name: "Name", Value: "Gopher"},
@@ -170,8 +170,8 @@ func TestSavingStruct(t *testing.T) {
 			doc: &struct {
 				Name string
 				info string
-				Legs float64 `search:",facet"`
-				fuzz Atom    `search:",facet"`
+				Legs float64 `followLabelTopN:",facet"`
+				fuzz Atom    `followLabelTopN:",facet"`
 			}{"Gopher", "Likes slide rules.", 4, Atom("furry")},
 			wantFields: []Field{
 				{Name: "Name", Value: "Gopher"},
@@ -184,9 +184,9 @@ func TestSavingStruct(t *testing.T) {
 			desc: "Ignore fields marked -",
 			doc: &struct {
 				Name string
-				Info string  `search:"-"`
-				Legs float64 `search:",facet"`
-				Fuzz Atom    `search:"-,facet"`
+				Info string  `followLabelTopN:"-"`
+				Legs float64 `followLabelTopN:",facet"`
+				Fuzz Atom    `followLabelTopN:"-,facet"`
 			}{"Gopher", "Likes slide rules.", 4, Atom("furry")},
 			wantFields: []Field{
 				{Name: "Name", Value: "Gopher"},

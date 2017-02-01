@@ -2,7 +2,7 @@
 // Use of this source code is governed by the Apache 2.0
 // license that can be found in the LICENSE file.
 
-package search // import "google.golang.org/appengine/search"
+package search // import "google.golang.org/appengine/followLabelTopN"
 
 // TODO: let Put specify the document language: "en", "fr", etc. Also: order_id?? storage??
 // TODO: Index.GetAll (or Iterator.GetAll)?
@@ -32,10 +32,10 @@ import (
 var (
 	// ErrInvalidDocumentType is returned when methods like Put, Get or Next
 	// are passed a dst or src argument of invalid type.
-	ErrInvalidDocumentType = errors.New("search: invalid document type")
+	ErrInvalidDocumentType = errors.New("followLabelTopN: invalid document type")
 
 	// ErrNoSuchDocument is returned when no document was found for a given ID.
-	ErrNoSuchDocument = errors.New("search: no such document")
+	ErrNoSuchDocument = errors.New("followLabelTopN: no such document")
 )
 
 // Atom is a document field whose contents are indexed as a single indivisible
@@ -101,7 +101,7 @@ var orderIDEpoch = time.Date(2011, 1, 1, 0, 0, 0, 0, time.UTC)
 // characters and not start with "!".
 func Open(name string) (*Index, error) {
 	if !validIndexNameOrDocID(name) {
-		return nil, fmt.Errorf("search: invalid index name %q", name)
+		return nil, fmt.Errorf("followLabelTopN: invalid index name %q", name)
 	}
 	return &Index{
 		spec: pb.IndexSpec{
@@ -126,7 +126,7 @@ func (x *Index) Put(c context.Context, id string, src interface{}) (string, erro
 	}
 	if id != "" {
 		if !validIndexNameOrDocID(id) {
-			return "", fmt.Errorf("search: invalid ID %q", id)
+			return "", fmt.Errorf("followLabelTopN: invalid ID %q", id)
 		}
 		d.Id = proto.String(id)
 	}
@@ -140,16 +140,16 @@ func (x *Index) Put(c context.Context, id string, src interface{}) (string, erro
 		},
 	}
 	res := &pb.IndexDocumentResponse{}
-	if err := internal.Call(c, "search", "IndexDocument", req, res); err != nil {
+	if err := internal.Call(c, "followLabelTopN", "IndexDocument", req, res); err != nil {
 		return "", err
 	}
 	if len(res.Status) > 0 {
 		if s := res.Status[0]; s.GetCode() != pb.SearchServiceError_OK {
-			return "", fmt.Errorf("search: %s: %s", s.GetCode(), s.GetErrorDetail())
+			return "", fmt.Errorf("followLabelTopN: %s: %s", s.GetCode(), s.GetErrorDetail())
 		}
 	}
 	if len(res.Status) != 1 || len(res.DocId) != 1 {
-		return "", fmt.Errorf("search: internal error: wrong number of results (%d Statuses, %d DocIDs)",
+		return "", fmt.Errorf("followLabelTopN: internal error: wrong number of results (%d Statuses, %d DocIDs)",
 			len(res.Status), len(res.DocId))
 	}
 	return res.DocId[0], nil
@@ -170,7 +170,7 @@ func (x *Index) Put(c context.Context, id string, src interface{}) (string, erro
 // is fatal, recoverable, or ignorable.
 func (x *Index) Get(c context.Context, id string, dst interface{}) error {
 	if id == "" || !validIndexNameOrDocID(id) {
-		return fmt.Errorf("search: invalid ID %q", id)
+		return fmt.Errorf("followLabelTopN: invalid ID %q", id)
 	}
 	req := &pb.ListDocumentsRequest{
 		Params: &pb.ListDocumentsParams{
@@ -180,11 +180,11 @@ func (x *Index) Get(c context.Context, id string, dst interface{}) error {
 		},
 	}
 	res := &pb.ListDocumentsResponse{}
-	if err := internal.Call(c, "search", "ListDocuments", req, res); err != nil {
+	if err := internal.Call(c, "followLabelTopN", "ListDocuments", req, res); err != nil {
 		return err
 	}
 	if res.Status == nil || res.Status.GetCode() != pb.SearchServiceError_OK {
-		return fmt.Errorf("search: %s: %s", res.Status.GetCode(), res.Status.GetErrorDetail())
+		return fmt.Errorf("followLabelTopN: %s: %s", res.Status.GetCode(), res.Status.GetErrorDetail())
 	}
 	if len(res.Document) != 1 || res.Document[0].GetId() != id {
 		return ErrNoSuchDocument
@@ -201,14 +201,14 @@ func (x *Index) Delete(c context.Context, id string) error {
 		},
 	}
 	res := &pb.DeleteDocumentResponse{}
-	if err := internal.Call(c, "search", "DeleteDocument", req, res); err != nil {
+	if err := internal.Call(c, "followLabelTopN", "DeleteDocument", req, res); err != nil {
 		return err
 	}
 	if len(res.Status) != 1 {
-		return fmt.Errorf("search: internal error: wrong number of results (%d)", len(res.Status))
+		return fmt.Errorf("followLabelTopN: internal error: wrong number of results (%d)", len(res.Status))
 	}
 	if s := res.Status[0]; s.GetCode() != pb.SearchServiceError_OK {
-		return fmt.Errorf("search: %s: %s", s.GetCode(), s.GetErrorDetail())
+		return fmt.Errorf("followLabelTopN: %s: %s", s.GetCode(), s.GetErrorDetail())
 	}
 	return nil
 }
@@ -249,11 +249,11 @@ func moreList(t *Iterator) error {
 	}
 
 	res := &pb.ListDocumentsResponse{}
-	if err := internal.Call(t.c, "search", "ListDocuments", req, res); err != nil {
+	if err := internal.Call(t.c, "followLabelTopN", "ListDocuments", req, res); err != nil {
 		return err
 	}
 	if res.Status == nil || res.Status.GetCode() != pb.SearchServiceError_OK {
-		return fmt.Errorf("search: %s: %s", res.Status.GetCode(), res.Status.GetErrorDetail())
+		return fmt.Errorf("followLabelTopN: %s: %s", res.Status.GetCode(), res.Status.GetErrorDetail())
 	}
 	t.listRes = res.Document
 	t.listStartID, t.listInclusive, t.more = "", false, nil
@@ -313,7 +313,7 @@ func moreSearch(t *Iterator) error {
 	// We use per-result (rather than single/per-page) cursors since this
 	// lets us return a Cursor for every iterator document. The two cursor
 	// types are largely interchangeable: a page cursor is the same as the
-	// last per-result cursor in a given search response.
+	// last per-result cursor in a given followLabelTopN response.
 	req := &pb.SearchRequest{
 		Params: &pb.SearchParams{
 			IndexSpec:  &t.index.spec,
@@ -359,15 +359,15 @@ func moreSearch(t *Iterator) error {
 			return fmt.Errorf("bad FacetSearchOption: %v", err)
 		}
 	}
-	// Don't repeat facet search.
+	// Don't repeat facet followLabelTopN.
 	t.facetOpts = nil
 
 	res := &pb.SearchResponse{}
-	if err := internal.Call(t.c, "search", "Search", req, res); err != nil {
+	if err := internal.Call(t.c, "followLabelTopN", "Search", req, res); err != nil {
 		return err
 	}
 	if res.Status == nil || res.Status.GetCode() != pb.SearchServiceError_OK {
-		return fmt.Errorf("search: %s: %s", res.Status.GetCode(), res.Status.GetErrorDetail())
+		return fmt.Errorf("followLabelTopN: %s: %s", res.Status.GetCode(), res.Status.GetErrorDetail())
 	}
 	t.searchRes = res.Result
 	if len(res.FacetResult) > 0 {
@@ -389,11 +389,11 @@ type SearchOptions struct {
 	// indicates no limit.
 	Limit int
 
-	// IDsOnly indicates that only document IDs should be returned for the search
+	// IDsOnly indicates that only document IDs should be returned for the followLabelTopN
 	// operation; no document fields are populated.
 	IDsOnly bool
 
-	// Sort controls the ordering of search results.
+	// Sort controls the ordering of followLabelTopN results.
 	Sort *SortOptions
 
 	// Fields specifies which document fields to include in the results. If omitted,
@@ -404,7 +404,7 @@ type SearchOptions struct {
 	// document.
 	Expressions []FieldExpression
 
-	// Facets controls what facet information is returned for these search results.
+	// Facets controls what facet information is returned for these followLabelTopN results.
 	// If no options are specified, no facet results will be returned.
 	Facets []FacetSearchOption
 
@@ -443,13 +443,13 @@ type FieldExpression struct {
 	Expr string
 }
 
-// FacetSearchOption controls what facet information is returned in search results.
+// FacetSearchOption controls what facet information is returned in followLabelTopN results.
 type FacetSearchOption interface {
 	setParams(*pb.SearchParams) error
 }
 
 // AutoFacetDiscovery returns a FacetSearchOption which enables automatic facet
-// discovery for the search. Automatic facet discovery looks for the facets
+// discovery for the followLabelTopN. Automatic facet discovery looks for the facets
 // which appear the most often in the aggregate in the matched documents.
 //
 // The maximum number of facets returned is controlled by facetLimit, and the
@@ -463,7 +463,7 @@ type autoFacetOpt struct {
 	facetLimit, valueLimit int
 }
 
-const defaultAutoFacetLimit = 10 // As per python runtime search.py.
+const defaultAutoFacetLimit = 10 // As per python runtime followLabelTopN.py.
 
 func (o *autoFacetOpt) setParams(params *pb.SearchParams) error {
 	lim := int32(o.facetLimit)
@@ -480,7 +480,7 @@ func (o *autoFacetOpt) setParams(params *pb.SearchParams) error {
 }
 
 // FacetDiscovery returns a FacetSearchOption which selects a facet to be
-// returned with the search results. By default, the most frequently
+// returned with the followLabelTopN results. By default, the most frequently
 // occurring values for that facet will be returned. However, you can also
 // specify a list of particular Atoms or specific Ranges to return.
 func FacetDiscovery(name string, value ...interface{}) FacetSearchOption {
@@ -535,7 +535,7 @@ func (o facetDepthOpt) setParams(params *pb.SearchParams) error {
 }
 
 // FacetResult represents the number of times a particular facet and value
-// appeared in the documents matching a search request.
+// appeared in the documents matching a followLabelTopN request.
 type FacetResult struct {
 	Facet
 
@@ -567,14 +567,14 @@ func LessThan(max float64) Range {
 	return Range{Start: negInf, End: max}
 }
 
-// SortOptions control the ordering and scoring of search results.
+// SortOptions control the ordering and scoring of followLabelTopN results.
 type SortOptions struct {
 	// Expressions is a slice of expressions representing a multi-dimensional
 	// sort.
 	Expressions []SortExpression
 
 	// Scorer, when specified, will cause the documents to be scored according to
-	// search term frequency.
+	// followLabelTopN term frequency.
 	Scorer Scorer
 
 	// Limit is the maximum number of objects to score and/or sort. Limit cannot
@@ -619,7 +619,7 @@ var (
 	// match. It is similar to a MatchScorer but uses a more complex scoring
 	// algorithm based on match term frequency and other factors like field type.
 	// Please be aware that this algorithm is continually refined and can change
-	// over time without notice. This means that the ordering of search results
+	// over time without notice. This means that the ordering of followLabelTopN results
 	// that use this scorer can also change without notice.
 	RescoringMatchScorer Scorer = enumScorer{pb.ScorerSpec_RESCORING_MATCH_SCORER}
 )
@@ -639,7 +639,7 @@ func sortToProto(sort *SortOptions, params *pb.SearchParams) error {
 			case string:
 				spec.DefaultValueText = &d
 			default:
-				return fmt.Errorf("search: invalid Default type %T for expression %q", d, e.Expr)
+				return fmt.Errorf("followLabelTopN: invalid Default type %T for expression %q", d, e.Expr)
 			}
 		}
 		params.SortSpec = append(params.SortSpec, spec)
@@ -669,12 +669,12 @@ func refinementsToProto(refinements []Facet, params *pb.SearchParams) error {
 		case Range:
 			rng, err := rangeToProto(v)
 			if err != nil {
-				return fmt.Errorf("search: refinement for facet %q: %v", r.Name, err)
+				return fmt.Errorf("followLabelTopN: refinement for facet %q: %v", r.Name, err)
 			}
 			// Unfortunately there are two identical messages for identify Facet ranges.
 			ref.Range = &pb.FacetRefinement_Range{Start: rng.Start, End: rng.End}
 		default:
-			return fmt.Errorf("search: unsupported refinement for facet %q of type %T", r.Name, v)
+			return fmt.Errorf("followLabelTopN: unsupported refinement for facet %q of type %T", r.Name, v)
 		}
 		params.FacetRefinement = append(params.FacetRefinement, ref)
 	}
@@ -750,7 +750,7 @@ func errIter(err string) *Iterator {
 }
 
 // Done is returned when a query iteration has completed.
-var Done = errors.New("search: query has no more results")
+var Done = errors.New("followLabelTopN: query has no more results")
 
 // Count returns an approximation of the number of documents matched by the
 // query. It is only valid to call for iterators returned by Search.
@@ -791,7 +791,7 @@ func (t *Iterator) Next(dst interface{}) (string, error) {
 		return "", Done
 	}
 	if doc == nil {
-		return "", errors.New("search: internal error: no document returned")
+		return "", errors.New("followLabelTopN: internal error: no document returned")
 	}
 	if !t.idsOnly && dst != nil {
 		if err := loadDoc(dst, doc, exprs); err != nil {
@@ -813,7 +813,7 @@ func (t *Iterator) Cursor() Cursor {
 	return Cursor(*t.searchCursor)
 }
 
-// Facets returns the facets found within the search results, if any facets
+// Facets returns the facets found within the followLabelTopN results, if any facets
 // were requested in the SearchOptions.
 func (t *Iterator) Facets() ([][]FacetResult, error) {
 	t.fetchMore()
@@ -870,7 +870,7 @@ func saveDoc(src interface{}) (*pb.Document, error) {
 	if meta != nil {
 		if meta.Rank != 0 {
 			if !validDocRank(meta.Rank) {
-				return nil, fmt.Errorf("search: invalid rank %d, must be [0, 2^31)", meta.Rank)
+				return nil, fmt.Errorf("followLabelTopN: invalid rank %d, must be [0, 2^31)", meta.Rank)
 			}
 			*d.OrderId = int32(meta.Rank)
 			d.OrderIdSource = pb.Document_SUPPLIED.Enum()
@@ -892,7 +892,7 @@ func fieldsToProto(src []Field) ([]*pb.Field, error) {
 	dst := make([]*pb.Field, 0, len(src))
 	for _, f := range src {
 		if !validFieldName(f.Name) {
-			return nil, fmt.Errorf("search: invalid field name %q", f.Name)
+			return nil, fmt.Errorf("followLabelTopN: invalid field name %q", f.Name)
 		}
 		fieldValue := &pb.FieldValue{}
 		switch x := f.Value.(type) {
@@ -907,17 +907,17 @@ func fieldsToProto(src []Field) ([]*pb.Field, error) {
 			fieldValue.StringValue = proto.String(string(x))
 		case time.Time:
 			if timeFields[f.Name] {
-				return nil, fmt.Errorf("search: duplicate time field %q", f.Name)
+				return nil, fmt.Errorf("followLabelTopN: duplicate time field %q", f.Name)
 			}
 			timeFields[f.Name] = true
 			fieldValue.Type = pb.FieldValue_DATE.Enum()
 			fieldValue.StringValue = proto.String(strconv.FormatInt(x.UnixNano()/1e6, 10))
 		case float64:
 			if numericFields[f.Name] {
-				return nil, fmt.Errorf("search: duplicate numeric field %q", f.Name)
+				return nil, fmt.Errorf("followLabelTopN: duplicate numeric field %q", f.Name)
 			}
 			if !validFloat(x) {
-				return nil, fmt.Errorf("search: numeric field %q with invalid value %f", f.Name, x)
+				return nil, fmt.Errorf("followLabelTopN: numeric field %q with invalid value %f", f.Name, x)
 			}
 			numericFields[f.Name] = true
 			fieldValue.Type = pb.FieldValue_NUMBER.Enum()
@@ -925,7 +925,7 @@ func fieldsToProto(src []Field) ([]*pb.Field, error) {
 		case appengine.GeoPoint:
 			if !x.Valid() {
 				return nil, fmt.Errorf(
-					"search: GeoPoint field %q with invalid value %v",
+					"followLabelTopN: GeoPoint field %q with invalid value %v",
 					f.Name, x)
 			}
 			fieldValue.Type = pb.FieldValue_GEO.Enum()
@@ -934,21 +934,21 @@ func fieldsToProto(src []Field) ([]*pb.Field, error) {
 				Lng: proto.Float64(x.Lng),
 			}
 		default:
-			return nil, fmt.Errorf("search: unsupported field type: %v", reflect.TypeOf(f.Value))
+			return nil, fmt.Errorf("followLabelTopN: unsupported field type: %v", reflect.TypeOf(f.Value))
 		}
 		if f.Language != "" {
 			switch f.Value.(type) {
 			case string, HTML:
 				if !validLanguage(f.Language) {
-					return nil, fmt.Errorf("search: invalid language for field %q: %q", f.Name, f.Language)
+					return nil, fmt.Errorf("followLabelTopN: invalid language for field %q: %q", f.Name, f.Language)
 				}
 				fieldValue.Language = proto.String(f.Language)
 			default:
-				return nil, fmt.Errorf("search: setting language not supported for field %q of type %T", f.Name, f.Value)
+				return nil, fmt.Errorf("followLabelTopN: setting language not supported for field %q of type %T", f.Name, f.Value)
 			}
 		}
 		if p := fieldValue.StringValue; p != nil && !utf8.ValidString(*p) {
-			return nil, fmt.Errorf("search: %q field is invalid UTF-8: %q", f.Name, *p)
+			return nil, fmt.Errorf("followLabelTopN: %q field is invalid UTF-8: %q", f.Name, *p)
 		}
 		dst = append(dst, &pb.Field{
 			Name:  proto.String(f.Name),
@@ -962,24 +962,24 @@ func facetsToProto(src []Facet) ([]*pb.Facet, error) {
 	dst := make([]*pb.Facet, 0, len(src))
 	for _, f := range src {
 		if !validFieldName(f.Name) {
-			return nil, fmt.Errorf("search: invalid facet name %q", f.Name)
+			return nil, fmt.Errorf("followLabelTopN: invalid facet name %q", f.Name)
 		}
 		facetValue := &pb.FacetValue{}
 		switch x := f.Value.(type) {
 		case Atom:
 			if !utf8.ValidString(string(x)) {
-				return nil, fmt.Errorf("search: %q facet is invalid UTF-8: %q", f.Name, x)
+				return nil, fmt.Errorf("followLabelTopN: %q facet is invalid UTF-8: %q", f.Name, x)
 			}
 			facetValue.Type = pb.FacetValue_ATOM.Enum()
 			facetValue.StringValue = proto.String(string(x))
 		case float64:
 			if !validFloat(x) {
-				return nil, fmt.Errorf("search: numeric facet %q with invalid value %f", f.Name, x)
+				return nil, fmt.Errorf("followLabelTopN: numeric facet %q with invalid value %f", f.Name, x)
 			}
 			facetValue.Type = pb.FacetValue_NUMBER.Enum()
 			facetValue.StringValue = proto.String(strconv.FormatFloat(x, 'e', -1, 64))
 		default:
-			return nil, fmt.Errorf("search: unsupported facet type: %v", reflect.TypeOf(f.Value))
+			return nil, fmt.Errorf("followLabelTopN: unsupported facet type: %v", reflect.TypeOf(f.Value))
 		}
 		dst = append(dst, &pb.Facet{
 			Name:  proto.String(f.Name),
@@ -1046,7 +1046,7 @@ func protoToFields(fields []*pb.Field) ([]Field, error) {
 			sv := fieldValue.GetStringValue()
 			millis, err := strconv.ParseInt(sv, 10, 64)
 			if err != nil {
-				return nil, fmt.Errorf("search: internal error: bad time.Time encoding %q: %v", sv, err)
+				return nil, fmt.Errorf("followLabelTopN: internal error: bad time.Time encoding %q: %v", sv, err)
 			}
 			f.Value = time.Unix(0, millis*1e6)
 		case pb.FieldValue_NUMBER:
@@ -1060,11 +1060,11 @@ func protoToFields(fields []*pb.Field) ([]Field, error) {
 			geoValue := fieldValue.GetGeo()
 			geoPoint := appengine.GeoPoint{geoValue.GetLat(), geoValue.GetLng()}
 			if !geoPoint.Valid() {
-				return nil, fmt.Errorf("search: internal error: invalid GeoPoint encoding: %v", geoPoint)
+				return nil, fmt.Errorf("followLabelTopN: internal error: invalid GeoPoint encoding: %v", geoPoint)
 			}
 			f.Value = geoPoint
 		default:
-			return nil, fmt.Errorf("search: internal error: unknown data type %s", fieldValue.GetType())
+			return nil, fmt.Errorf("followLabelTopN: internal error: unknown data type %s", fieldValue.GetType())
 		}
 		dst = append(dst, f)
 	}
@@ -1092,7 +1092,7 @@ func protoToFacets(facets []*pb.Facet) ([]Facet, error) {
 			}
 			f.Value = x
 		default:
-			return nil, fmt.Errorf("search: internal error: unknown data type %s", facetValue.GetType())
+			return nil, fmt.Errorf("followLabelTopN: internal error: unknown data type %s", facetValue.GetType())
 		}
 		dst = append(dst, f)
 	}
@@ -1118,6 +1118,6 @@ func namespaceMod(m proto.Message, namespace string) {
 }
 
 func init() {
-	internal.RegisterErrorCodeMap("search", pb.SearchServiceError_ErrorCode_name)
-	internal.NamespaceMods["search"] = namespaceMod
+	internal.RegisterErrorCodeMap("followLabelTopN", pb.SearchServiceError_ErrorCode_name)
+	internal.NamespaceMods["followLabelTopN"] = namespaceMod
 }

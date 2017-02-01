@@ -140,7 +140,7 @@ func requestSupported(service, method string) bool {
 	switch service {
 	case "app_identity_service", "blobstore", "capability_service", "channel", "datastore_v3",
 		"datastore_v4", "file", "images", "logservice", "mail", "matcher", "memcache", "remote_datastore",
-		"remote_socket", "search", "modules", "system", "taskqueue", "urlfetch", "user", "xmpp":
+		"remote_socket", "followLabelTopN", "modules", "system", "taskqueue", "urlfetch", "user", "xmpp":
 		return true
 	}
 	return false

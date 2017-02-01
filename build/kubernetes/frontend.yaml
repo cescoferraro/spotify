@@ -13,7 +13,7 @@ spec:
         name: spotify-frontend-pods
     spec:
       containers:
-        - image: cescoferraro/spotify:frontend-0.2.0
+        - image: cescoferraro/spotify:frontend-0.2.2
           imagePullPolicy: Always
           name: frontend
           env:

@@ -110,13 +110,13 @@ func TestPrevNextSearchPageErrors(t *testing.T) {
 		DefaultClient.NextArtistResults(nilResults) != ErrNoMorePages ||
 		DefaultClient.NextPlaylistResults(nilResults) != ErrNoMorePages ||
 		DefaultClient.NextTrackResults(nilResults) != ErrNoMorePages {
-		t.Error("Next search result page should have failed for nil results")
+		t.Error("Next followLabelTopN result page should have failed for nil results")
 	}
 	if DefaultClient.PreviousAlbumResults(nilResults) != ErrNoMorePages ||
 		DefaultClient.PreviousArtistResults(nilResults) != ErrNoMorePages ||
 		DefaultClient.PreviousPlaylistResults(nilResults) != ErrNoMorePages ||
 		DefaultClient.PreviousTrackResults(nilResults) != ErrNoMorePages {
-		t.Error("Previous search result page should have failed for nil results")
+		t.Error("Previous followLabelTopN result page should have failed for nil results")
 	}
 	//  2) the prev/next URL is empty
 	emptyURL := &SearchResult{
@@ -129,13 +129,13 @@ func TestPrevNextSearchPageErrors(t *testing.T) {
 		DefaultClient.NextArtistResults(emptyURL) != ErrNoMorePages ||
 		DefaultClient.NextPlaylistResults(emptyURL) != ErrNoMorePages ||
 		DefaultClient.NextTrackResults(emptyURL) != ErrNoMorePages {
-		t.Error("Next search result page should have failed with empty URL")
+		t.Error("Next followLabelTopN result page should have failed with empty URL")
 	}
 	if DefaultClient.PreviousAlbumResults(emptyURL) != ErrNoMorePages ||
 		DefaultClient.PreviousArtistResults(emptyURL) != ErrNoMorePages ||
 		DefaultClient.PreviousPlaylistResults(emptyURL) != ErrNoMorePages ||
 		DefaultClient.PreviousTrackResults(emptyURL) != ErrNoMorePages {
-		t.Error("Previous search result page should have failed with empty URL")
+		t.Error("Previous followLabelTopN result page should have failed with empty URL")
 	}
 }
 

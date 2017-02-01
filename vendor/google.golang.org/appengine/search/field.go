@@ -4,22 +4,22 @@
 
 package search
 
-// Field is a name/value pair. A search index's document can be loaded and
+// Field is a name/value pair. A followLabelTopN index's document can be loaded and
 // saved as a sequence of Fields.
 type Field struct {
 	// Name is the field name. A valid field name matches /[A-Za-z][A-Za-z0-9_]*/.
 	Name string
 	// Value is the field value. The valid types are:
 	//  - string,
-	//  - search.Atom,
-	//  - search.HTML,
+	//  - followLabelTopN.Atom,
+	//  - followLabelTopN.HTML,
 	//  - time.Time (stored with millisecond precision),
 	//  - float64,
 	//  - GeoPoint.
 	Value interface{}
 	// Language is a two-letter ISO 639-1 code for the field's language,
 	// defaulting to "en" if nothing is specified. It may only be specified for
-	// fields of type string and search.HTML.
+	// fields of type string and followLabelTopN.HTML.
 	Language string
 	// Derived marks fields that were calculated as a result of a
 	// FieldExpression provided to Search. This field is ignored when saving a
@@ -37,20 +37,20 @@ type Facet struct {
 	//
 	// When being used in documents (for example, in
 	// DocumentMetadata.Facets), the valid types are:
-	//  - search.Atom,
+	//  - followLabelTopN.Atom,
 	//  - float64.
 	//
 	// When being used in SearchOptions.Refinements or being returned
 	// in FacetResult, the valid types are:
-	//  - search.Atom,
-	//  - search.Range.
+	//  - followLabelTopN.Atom,
+	//  - followLabelTopN.Range.
 	Value interface{}
 }
 
 // DocumentMetadata is a struct containing information describing a given document.
 type DocumentMetadata struct {
 	// Rank is an integer specifying the order the document will be returned in
-	// search results. If zero, the rank will be set to the number of seconds since
+	// followLabelTopN results. If zero, the rank will be set to the number of seconds since
 	// 2011-01-01 00:00:00 UTC when being Put into an index.
 	Rank int
 	// Facets is the set of facets for this document.

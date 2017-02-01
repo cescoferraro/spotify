@@ -59,8 +59,6 @@ const app = handleActions({
         };
     },
     [TOOGLE_SIDE_BAR_ACTION_NAME]: function (state: APP_OBJECT, action): APP_OBJECT {
-        console.log(state);
-        console.log(state);
         return {
             component: state.component,
             version: state.version,
