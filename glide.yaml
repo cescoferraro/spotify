@@ -14,3 +14,5 @@ import:
   version: v1.0
 - package: github.com/gorilla/handlers
   version: v1.1
+- package: github.com/gorilla/websocket
+  version: v1.1.0

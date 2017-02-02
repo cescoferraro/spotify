@@ -49,10 +49,6 @@ func Getfollowing(code string) (*spotify.FullArtistCursorPage, error) {
 		errors.Wrap(err, "client.CurrentUser")
 		return artists, err
 	}
-	//for i, artist := range artists.Artists{
-	//	log.Println(artist.SimpleArtist.)
-	//}
-
 	return artists, nil
 }
 

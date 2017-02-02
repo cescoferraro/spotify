@@ -1,12 +1,14 @@
-hash: 1506fb1d60a4542950095e3957abb30cdf6be498b27e56f590afbb46bbc80c64
-updated: 2017-01-10T16:42:44.461069327-02:00
+hash: 0fd72308ca341bd960445a9cd4828f3118bf5b62fe672ebb492447847db495de
+updated: 2017-02-02T15:07:54.84884366-02:00
 imports:
 - name: github.com/golang/protobuf
-  vPlaylistsersion: 8ee79997227bf9b34611aee7946ae64735e6fd93
+  version: 8ee79997227bf9b34611aee7946ae64735e6fd93
   subpackages:
   - proto
 - name: github.com/gorilla/handlers
   version: ee54c7b44cab12289237fb8631314790076e728b
+- name: github.com/gorilla/websocket
+  version: 3ab3a8b8831546bd18fd182c20687ca853b2bb13
 - name: github.com/goware/cors
   version: 6ad15f4e1489e41776ee8b008597eafea9a67fd9
 - name: github.com/pkg/errors
@@ -18,8 +20,6 @@ imports:
   - render
 - name: github.com/rs/cors
   version: a62a804a8a009876ca59105f7899938a1349f4b3
-- name: github.com/rs/xhandler
-  version: ed27b6fd65218132ee50cd95f38474a3d8a2cd12
 - name: github.com/zmb3/spotify
   version: 494113b1563532546e1750ab5a682c031fa32885
 - name: golang.org/x/net
