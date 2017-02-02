@@ -4,27 +4,13 @@ const path = require('path');
 
 
 module.exports = {
+
 	entry: {
-		vendor: [
-			'react',
-			'react-dom',
-			'lodash',
-			'rx',
-			'css-keyframer',
-			'rx-lite',
-			'rx-lite-dom',
-			'redux',
-			'react-redux',
-			'react-router',
-			'redux-actions',
-			'react-md-spinner',
-			'material-ui',
-			'inline-style-prefixer'
-		]
+		vendor: require("./libs")
 	},
 
 	output: {
-		filename: '[name].dll.js',
+		filename: '[name].js',
 		path: path.join(__dirname, "../../www"),
 		library: '[name]',
 		libraryTarget: "var"

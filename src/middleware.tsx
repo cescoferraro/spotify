@@ -4,7 +4,7 @@ import {createStore} from "redux";
 import * as React from "react";
 import SpotifyApp from "./app";
 import * as ReactDOMServer from "react-dom/server";
-import UniversalShell from "./components/universal/universal.shell";
+import {HTML} from "./components/universal/html";
 import createServerRenderContext from "react-router/createServerRenderContext";
 import ServerRouter from "react-router/ServerRouter";
 import {Provider} from "react-redux";
@@ -23,7 +23,8 @@ export default  () => (request, response) => {
     const context = createServerRenderContext();
     const result = context.getResult();
     if (result.redirect) {
-        response.redirect(302, `${result.redirect.pathname}${result.redirect.followLabelTopN}`);
+        let url = `${result.redirect.pathname}${result.redirect.followLabelTopN}`;
+        response.redirect(302, url);
     } else {
 
         if (result.missed) {
@@ -32,13 +33,13 @@ export default  () => (request, response) => {
             response.status(200);
         }
         let css = []; // CSS for all rendered React components
-
+        let userAgent = request.headers['user-agent'];
         let App =
             <WithStylesContext onInsertCss={styles => css.push(styles._getCss())}>
-                <MuiThemeProvider muiTheme={getMuiTheme({userAgent: request.headers['user-agent']})}>
+                <MuiThemeProvider muiTheme={getMuiTheme({userAgent: userAgent})}>
                     <Provider store={createStore(allReducers,allReducersInitial)}>
                         <ServerRouter location={request.url} context={context}>
-                            {({location}) => SpotifyApp()}
+                            {({location}) => SpotifyApp(userAgent)}
                         </ServerRouter>
                     </Provider>
                 </MuiThemeProvider>
@@ -47,26 +48,15 @@ export default  () => (request, response) => {
 
         withAsyncComponents(App)
             .then((result) => {
-                const {
-                    appWithAsyncComponents,
-                    state,
-                    STATE_IDENTIFIER
-                } = result;
-
-                const markup = ReactDOMServer.renderToString(appWithAsyncComponents);
-                let SerialState = require('serialize-javascript')(state);
-                console.log("CSS");
-                console.log(css);
                 response.send("<!DOCTYPE html>" +
                     ReactDOMServer.renderToStaticMarkup(
-                        <UniversalShell css={css}
-                                        state={SerialState}
-                                        STATE_IDENTIFIER={STATE_IDENTIFIER}
-                                        userAgent={request.headers['user-agent']}
-                                        content={markup}/>
+                        <HTML userAgent={userAgent} css={css} result={result}/>
                     ));
             });
 
 
     }
 };
+
+
+

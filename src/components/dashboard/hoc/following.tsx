@@ -5,8 +5,10 @@ import {StyleRoot} from "radium";
 import {connect} from "react-redux";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
 import withStyles from "isomorphic-style-loader/lib/withStyles";
-let ss = require('./following.pcss');
+let ss = require('../css/following.pcss');
 const style = {margin: 5};
+
+
 export const FollowingComponent = withStyles(ss)(({following}) => {
     if (following !== null && following.items.length > 0) {
         return (<div >

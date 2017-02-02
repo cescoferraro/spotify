@@ -3,103 +3,39 @@ import * as Rx from "rx-lite-dom";
 import {Observable} from "rx-lite-dom";
 import Utils from "../../shared/utils";
 import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
 import IconButton from "material-ui/IconButton";
 import MoreVertIcon from "material-ui/svg-icons/navigation/more-vert";
-import {SET_APP_VERSION, APP_OBJECT, SET_APP_BAR_MENU, TOOGLE_SIDE_BAR} from "../../reducers/app";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
-import {
-    SET_DASHBOARD_FOLLOWING,
-    SET_DASHBOARD_PROFILE,
-    SET_DASHBOARD_PLAYLIST,
-    Recommendations,
-    DASH_OBJECT,
-    Playlist,
-    Following,
-    Profile,
-    SET_DASHBOARD_RECOMMENDATIONS
-} from "../../reducers/dashboard";
-import {FollowingComponent} from "./following";
-import {PlaylistsComponent} from "./playlists";
-import {RecommendationsComponent} from "./recommendations";
-import {DrawerComponent} from "./drawer";
+import {FollowingComponent} from "./hoc/following";
+import {PlaylistsComponent} from "./hoc/playlists";
+import {RecommendationsComponent} from "./hoc/recommendations";
 import withStyles from "isomorphic-style-loader/lib/withStyles";
-
-let ss = require('./dashboard.pcss');
+import {mapStateToProps, mapDispatchToPmapStaterops} from "./redux";
+import {DrawerComponent} from "./hoc/drawer";
+let ss = require('./css/dashboard.pcss');
 declare let require: any;
 
-interface StateProps {
-    app: APP_OBJECT,
-    dashboard: DASH_OBJECT
-}
 
-interface DispatchProps {
-    SET_APP_VERSION(version: string);
-    SET_DASHBOARD_FOLLOWING(following: Following)
-    SET_DASHBOARD_PROFILE(profile: Profile)
-    SET_DASHBOARD_RECOMMENDATIONS(recommendation: Recommendations)
-    SET_DASHBOARD_PLAYLIST(profile: Playlist)
-    SET_APP_BAR_MENU(component: JSX.Element)
-    TOOGLE_SIDE_BAR()
-}
-
-
-const mapStateToProps = (state) => ({
-    app: state.app,
-    dashboard: state.dashboard
-});
-const mapDispatchToPmapStaterops = (dispatch) => {
-    return bindActionCreators(
-        {
-            SET_APP_VERSION: SET_APP_VERSION,
-            SET_DASHBOARD_PROFILE: SET_DASHBOARD_PROFILE,
-            SET_DASHBOARD_FOLLOWING: SET_DASHBOARD_FOLLOWING,
-            SET_DASHBOARD_RECOMMENDATIONS: SET_DASHBOARD_RECOMMENDATIONS,
-            SET_DASHBOARD_PLAYLIST: SET_DASHBOARD_PLAYLIST,
-            SET_APP_BAR_MENU: SET_APP_BAR_MENU,
-            TOOGLE_SIDE_BAR: TOOGLE_SIDE_BAR
-        }, dispatch);
-};
-
-
-@connect<StateProps,DispatchProps,any>(mapStateToProps, mapDispatchToPmapStaterops)
-class Dashboard extends React.Component<StateProps & DispatchProps, any> {
+@connect<any,any,any>(mapStateToProps, mapDispatchToPmapStaterops)
+class Dashboard extends React.Component<any, any> {
     constructor(props) {
         super(props);
         if (!Utils.isServer()) {
-            this.appversion();
             this.updateProfileState();
         }
-        this.state = {
-            open: true,
-        };
     }
 
 
-    handleTouchTap = () => {
-        console.log("handleTouchTap")
-    };
-
-    handleRequestClose = () => {
-        this.setState({
-            open: false,
-        });
-    };
-
     componentWillMount() {
-        this.props.SET_APP_BAR_MENU(<IconButton >
-            <MoreVertIcon onClick={this.props.TOOGLE_SIDE_BAR}/>
-        </IconButton>);
+        let menuIcon =
+            <IconButton onClick={this.props.TOOGLE_SIDE_BAR}>
+                <MoreVertIcon />
+            </IconButton>;
+        this.props.SET_APP_BAR_MENU(menuIcon);
     }
 
     catchErrors(err, ss) {
-        console.log("ERROR");
-        console.log("err");
-        console.log(err);
-        console.log("ss");
-        console.log(ss);
         return Observable.empty();
-
     }
 
 
@@ -117,19 +53,8 @@ class Dashboard extends React.Component<StateProps & DispatchProps, any> {
     }
 
 
-    appversion() {
-        Rx.DOM.get(Utils.API_URL() + "/version")
-            .catch(this.catchErrors)
-            .subscribe(
-                (xhr) => {
-                    this.props.SET_APP_VERSION(JSON.parse(xhr.response))
-                });
-    }
-
-
     render() {
         return (
-
             <div>
                 <DrawerComponent
                     app={this.props.app}

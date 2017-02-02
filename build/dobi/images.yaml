@@ -8,7 +8,7 @@ image=frontend-image:
     image: cescoferraro/spotify
     tags: ["frontend-{env.FRONTEND_VERSION}"]
     dockerfile: build/docker/Dockerfile.frontend
-    depends: [frontend-production]
+    depends: [frontend]
     description: "Build the frontend-image"
 
 image=api-image:
