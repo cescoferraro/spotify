@@ -20,6 +20,7 @@ declare let global: any;
 
 
 export default  () => (request, response) => {
+    console.log(response.locals.webpackStats.toJson());
     const context = createServerRenderContext();
     const result = context.getResult();
     if (result.redirect) {

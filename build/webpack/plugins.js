@@ -4,6 +4,7 @@ let StatsWebpackPlugin = require('stats-webpack-plugin');
 let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const env = process.env.NODE_ENV || 'development';
 let Visualizer = require('webpack-visualizer-plugin');
+let SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 
 let server = [
 	new Visualizer(),
@@ -39,6 +40,18 @@ let client = [
 		logo: './src/icon/icon.png',
 		prefix: 'icons/'
 	}),
+	new SWPrecacheWebpackPlugin(
+		{
+			cacheId: 'spotify',
+			filename: 'sw.js',
+			maximumFileSizeToCacheInBytes: 4194304,
+			minify: true,
+			runtimeCaching: [{
+				handler: 'cacheFirst',
+				urlPattern: /[.]mp3$/,
+			}],
+		}
+	),
 	new StatsWebpackPlugin('stats.json', {
 		chunkModules: true,
 		exclude: [/node_modules/]
