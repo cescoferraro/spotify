@@ -1,5 +1,5 @@
 let path = require('path');
-
+const env = process.env.NODE_ENV || 'development';
 const resolveLoader = {
 	modules: [
 		path.join(__dirname, "../../node_modules")
@@ -7,9 +7,8 @@ const resolveLoader = {
 };
 
 const resolve = {
-	extensions: ['.js', '.tsx', '.json','pcss']
+	extensions: ['.js', '.tsx', '.json', 'pcss']
 };
-
 
 
 let hotLoaders = [];
@@ -22,10 +21,12 @@ let stats = {
 	context: "../../src/"
 };
 
+let devtools = env === "production" ? "cheap-module-source-map" : "cheap-module-eval-source-map"
 
 module.exports = {
 	stats: stats,
 	hotLoaders: hotLoaders,
 	resolve: resolve,
-	resolveLoader: resolveLoader
+	resolveLoader: resolveLoader,
+	devtools: devtools
 };

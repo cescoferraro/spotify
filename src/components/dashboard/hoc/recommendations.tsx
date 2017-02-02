@@ -3,7 +3,7 @@ import {Observable} from "rx-lite-dom";
 import {Grid, Cell} from "radium-grid";
 import {connect} from "react-redux";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
-import {Track, Artist} from "../../reducers/dashboard";
+import {Track, Artist} from "../../../reducers/dashboard";
 
 
 export const RecommendationsComponent = ({recommendations}) => {

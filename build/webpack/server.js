@@ -11,7 +11,7 @@ module.exports = {
 		filename: "[name].bundle.js",
 		libraryTarget: 'commonjs2'
 	},
-	devtool: env === "production" ? "cheap-module-source-map" : "cheap-module-eval-source-map",
+	devtool: require("./extras").devtools,
 	stats: require("./extras").stats,
 	plugins: require("./plugins").server,
 	resolveLoader: require("./extras").resolveLoader,

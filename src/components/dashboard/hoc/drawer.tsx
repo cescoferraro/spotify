@@ -2,14 +2,11 @@ import * as React from "react";
 import {Component} from "react";
 import Drawer from "material-ui/Drawer";
 import MenuItem from "material-ui/MenuItem";
-import {APP_OBJECT} from "../../reducers/app";
+import {APP_OBJECT} from "../../../reducers/app";
 import {connect} from "react-redux";
-import {DASH_OBJECT} from "../../reducers/dashboard";
-import Utils from "../../shared/utils";
+import {DASH_OBJECT} from "../../../reducers/dashboard";
+import Utils from "../../../shared/utils";
 import * as Rx from "rx-lite-dom";
-import Link from "react-router/Link";
-
-import Snackbar from 'material-ui/Snackbar';
 type DrawerProps = {
     app: APP_OBJECT,
     update: Function,

@@ -1,13 +1,11 @@
 declare const require: any;
 let compression = require('compression');
-
-const app = require("express")();
-
+let express = require('express');
+let morgan = require('morgan');
+const app = express();
+app.disable('x-powered-by');
 app.use(compression());
-app.use(require("express").static("www"));
-
-
-app.use(require("morgan")("combined"));
-
+app.use(express.static("www"));
+app.use(morgan("combined"));
 app.use(require("./middleware").default());
 app.listen(3000);

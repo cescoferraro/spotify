@@ -3,7 +3,7 @@ import {Observable} from "rx-lite-dom";
 import {Grid, Cell} from "radium-grid";
 import {connect} from "react-redux";
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from "material-ui/Card";
-import {Playlist} from "../../reducers/dashboard";
+import {Playlist} from "../../../reducers/dashboard";
 const size = {
     width: '100%',
     height: 300,
