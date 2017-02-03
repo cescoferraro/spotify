@@ -1,14 +1,22 @@
-const app = require("express")();
-const vendor = require('webpack')(require('./build/webpack/vendor.js'));
-vendor.run(function (err, stats) {
+const webpack = require("webpack"),
+	vendorConfig = require('./build/webpack/vendor.js')(),
+	vendorCompiler = webpack(vendorConfig);
+
+vendorCompiler.run(function (err, stats) {
 		console.log("DLL READY");
-		const compiler = require('webpack')(require('./build/webpack/dev.js'));
-		app.use(require('webpack-dev-middleware')(compiler));
-		app.use(require('webpack-hot-middleware')(compiler.compilers.find(compiler => compiler.name === 'client')));
-		app.use(require('webpack-hot-server-middleware')(compiler, {chunkName: 'server'}));
-		app.use(require("morgan")('combined'));
+		const app = require("express")(),
+			morgan = require("morgan"),
+			webpackDevMiddleware = require("webpack-dev-middleware"),
+			webpackHotMiddleware = require('webpack-hot-middleware'),
+			webpackHotServerMiddleware = require('webpack-hot-server-middleware'),
+			devConfig = require('./build/webpack/dev.js')(),
+			compiler = webpack(devConfig);
+
+		app.use(webpackDevMiddleware(compiler));
+		app.use(webpackHotMiddleware(compiler.compilers.find(compiler => compiler.name === 'client')));
+		app.use(webpackHotServerMiddleware(compiler, {chunkName: 'server'}));
+		app.use(morgan('combined'));
 		app.listen(3000, "0.0.0.0");
 
 	}
 );
-

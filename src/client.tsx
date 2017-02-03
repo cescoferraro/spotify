@@ -1,4 +1,4 @@
-declare const NODE_ENV, module, require, window: any;
+declare const NODE_ENV, module, require, navigator, window: any;
 import * as React from "react";
 import SpotifyApp from "./app";
 import {AppContainer} from "react-hot-loader";
@@ -20,6 +20,11 @@ const rootEl = document.getElementById("container");
 
 
 injectTapEventPlugin();
+
+
+if (NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+}
 
 
 const renderApp = NextApp => {

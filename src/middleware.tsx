@@ -17,7 +17,7 @@ declare let require: any;
 injectTapEventPlugin();
 
 declare let global: any;
-
+console.log("middleware");
 
 export default  () => (request, response) => {
     const context = createServerRenderContext();

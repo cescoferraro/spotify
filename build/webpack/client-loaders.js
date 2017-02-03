@@ -2,8 +2,11 @@ const loaders = {
 	rules: [
 		{
 			test: /\.(tsx?)$/,
-			loaders: ['react-hot-loader/webpack', 'ts-loader?silent=true&configFileName=src/tsconfig.json', 'tslint-loader']
-		}, {
+			loaders: ['react-hot-loader/webpack',
+				'ts-loader?silent=true&configFileName=src/tsconfig.json',
+				'tslint-loader']
+		},
+		{
 			test: /\.(pcss)$/,
 			loader: [
 				'isomorphic-style-loader',

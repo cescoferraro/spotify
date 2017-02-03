@@ -1,28 +1,34 @@
-const env = process.env.NODE_ENV || 'development';
+module.exports = (env = {prod: false}) => {
+	let extras = require("./extras");
+	extras.set_node_env("client",env);
+
+	let base = {
+		target: 'web',
+		name: 'client',
+		stats: extras.stats,
+		entry: {
+			app: [...extras.hotLoaders(env), "./src/client"]
+		},
+		output: {
+			path: require('path').join(__dirname, "../../www"),
+			filename: "js/[name].bundle.js"
+		},
+
+		devtool: extras.devtools(env),
+		plugins: require("./plugins").client,
+		resolveLoader: require("./extras").resolveLoader,
+		module: require("./client-loaders").loaders,
+		resolve: extras.resolve,
+	};
+
+	if (env.prod) {
+		base.entry.libs = require('./libs');
+	}
+
+	return base
 
 
-let config = {
-	target: 'web',
-	name: 'client',
-	stats: require("./extras").stats,
-	entry: {
-		app: [...require("./extras").hotLoaders, "./src/client"]
-	},
-	output: {
-		path: require('path').join(__dirname, "../../www"),
-		filename: "js/[name].bundle.js"
-	},
-
-	devtool: require("./extras").devtools,
-	plugins: require("./plugins").client,
-	resolveLoader: require("./extras").resolveLoader,
-	module: require("./client-loaders").loaders,
-	resolve: require("./extras").resolve,
 };
 
-if (env === "production") {
-	config.entry.libs = require('./libs');
-}
 
-module.exports = config;
 
