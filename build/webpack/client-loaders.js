@@ -7,7 +7,8 @@ const loaders = {
 			test: /\.(pcss)$/,
 			loader: [
 				'isomorphic-style-loader',
-				'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:3]!postcss-loader?sourceMap'
+				'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]_[local]_[hash:base64:3]!postcss-loader?sourceMap',
+				'postcss-loader?sourceMap'
 			]
 
 		},

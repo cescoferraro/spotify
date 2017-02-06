@@ -1,4 +1,4 @@
-declare const NODE_ENV, module, require, window, USER: any;
+declare const NODE_ENV, module, require, window: any;
 import * as React from "react";
 import SpotifyApp from "./app";
 import {AppContainer} from "react-hot-loader";
@@ -13,19 +13,23 @@ import Router from "react-router/BrowserRouter";
 import WithStylesContext from "./shared/stylesComponent";
 import {StyleRoot} from "radium";
 import {withAsyncComponents} from "react-async-component";
-injectTapEventPlugin();
 const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 const store = createStore(allReducers, allReducersInitial, reduxDevTools);
 const theme = getMuiTheme({}, {userAgent: navigator.userAgent});
 const rootEl = document.getElementById("container");
-const BrowserRouter = ({router}) => (<Router>{router}</Router>);
+
+
+injectTapEventPlugin();
+
 
 const renderApp = NextApp => {
     let app = <AppContainer>
         <WithStylesContext onInsertCss={styles => styles._insertCss()}>
             <MuiThemeProvider muiTheme={theme}>
                 <Provider store={store}>
-                    <BrowserRouter router={NextApp}/>
+                    <Router>
+                        {NextApp}
+                    </Router>
                 </Provider>
             </MuiThemeProvider>
         </WithStylesContext>
@@ -36,12 +40,12 @@ const renderApp = NextApp => {
 };
 
 
-renderApp(SpotifyApp);
+renderApp(SpotifyApp(navigator.userAgent));
 
 
 if (module.hot) {
     module.hot.accept("./app.tsx", () => {
         const NextApp = require("./app.tsx").default;
-        renderApp(NextApp);
+        renderApp(NextApp(navigator.userAgent));
     });
 }

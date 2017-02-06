@@ -5,8 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo 333 && exit 1",
-    "dev": "NODE_ENV=development  webpack --config build/webpack/config.js",
-    "production": "NODE_ENV=production  webpack -p --optimize-minimize --config build/webpack/config.js"
+    "production": "NODE_ENV=production  webpack -p --config build/webpack/prod.js"
   },
   "repository": {
     "type": "git",
@@ -21,10 +20,12 @@
   "dependencies": {
     "react": "15.4.1",
     "react-dom": "15.4.1",
+    "react-helmet": "^4.0.0",
     "react-redux": "5.0.2",
     "react-router": "4.0.0-alpha.6",
     "redux": "3.6.0",
-    "rx-lite-dom": "7.0.3"
+    "rx-lite-dom": "7.0.3",
+    "serviceworker-webpack-plugin": "^0.1.8"
   },
   "devDependencies": {
     "@types/classnames": "0.0.32",
@@ -75,7 +76,7 @@
     "react-dimensions": "2.0.0-alpha1",
     "react-flexbox-grid": "0.10.2",
     "react-hot-loader": "3.0.0-beta.6",
-    "react-md-spinner": "0.1.0",
+    "react-md-spinner": "^0.2.0",
     "react-redux": "5.0.1",
     "react-router-redux": "4.0.7",
     "react-router-server": "1.1.1",

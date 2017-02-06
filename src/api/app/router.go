@@ -5,7 +5,7 @@ import (
 	"github.com/pressly/chi/render"
 	"net/http"
 	"log"
-
+	"github.com/gorilla/websocket"
 	"github.com/pressly/chi/middleware"
 	"bytes"
 )
@@ -14,6 +14,7 @@ func Router(version string) (chi.Router) {
 	if version == "" {
 		version = "NOT SET"
 	}
+
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 
@@ -40,7 +41,6 @@ func Router(version string) (chi.Router) {
 		url := SPOTIFYAUTH.AuthURL(State)
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 	})
-
 	r.Get("/status", func(w http.ResponseWriter, r *http.Request) {
 		render.JSON(w, r, Tokens.Token)
 	})
@@ -117,6 +117,29 @@ func Router(version string) (chi.Router) {
 		render.JSON(w, r, "SUCESS")
 	})
 
+	r.Get("/ws", func(w http.ResponseWriter, r *http.Request) {
+		upgrader := websocket.Upgrader{}
+		c, err := upgrader.Upgrade(w, r, nil)
+		if err != nil {
+			log.Print("upgrade:", err)
+			return
+		}
+
+		defer c.Close()
+		for {
+			mt, message, err := c.ReadMessage()
+			if err != nil {
+				log.Println("read:", err)
+				break
+			}
+			log.Printf("recv: %s", message)
+			err = c.WriteMessage(mt, message)
+			if err != nil {
+				log.Println("write:", err)
+				break
+			}
+		}
+	})
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("*")
 		var buffer bytes.Buffer
@@ -134,4 +157,7 @@ func Router(version string) (chi.Router) {
 	})
 	return r
 }
+
+
+
 

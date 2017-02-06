@@ -1,6 +1,5 @@
 let path = require('path');
 let webpack = require('webpack');
-let ExtractTextPlugin = require("extract-text-webpack-plugin");
 let StatsWebpackPlugin = require('stats-webpack-plugin');
 let FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const env = process.env.NODE_ENV || 'development';
@@ -10,13 +9,6 @@ let server = [
 	new Visualizer(),
 	new webpack.NamedModulesPlugin(),
 	new webpack.NoEmitOnErrorsPlugin(),
-	new webpack.optimize.CommonsChunkPlugin(
-		{
-			name: 'vendor',
-			chunks: ['app', 'libs'],
-			filename: 'vendor.js'
-		}),
-
 	new webpack.DefinePlugin({
 		'NODE_ENV': JSON.stringify(env)
 	}),
@@ -51,14 +43,25 @@ let client = [
 		chunkModules: true,
 		exclude: [/node_modules/]
 	}),
-	new ExtractTextPlugin("styles.css")
 ];
-
 
 
 // HOT-MODULE-REPLACEMENT
 if (process.env.NODE_ENV !== "production") {
-	client.push(new webpack.HotModuleReplacementPlugin())
+	client.push(new webpack.HotModuleReplacementPlugin());
+	client.push(
+		new webpack.DllReferencePlugin({
+			context: '.',
+			manifest: require('../../www/vendor.json')
+		}));
+
+} else {
+	client.push(new webpack.optimize.CommonsChunkPlugin(
+		{
+			name: 'vendor',
+			chunks: ['app', 'libs'],
+			filename: 'vendor.js'
+		}));
 }
 
 

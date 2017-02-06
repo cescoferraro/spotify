@@ -5,16 +5,16 @@ import (
 	"github.com/zmb3/spotify"
 )
 
-type sdf struct {
+type MeResponse struct {
 	Following       *spotify.FullArtistCursorPage;
 	Playlist        []spotify.SimplePlaylist;
 	Recommendations *spotify.Recommendations;
 	User            *spotify.PrivateUser;
 }
 
-func Me(code string) (sdf, error) {
+func Me(code string) (MeResponse, error) {
 
-	var response sdf
+	var response MeResponse
 	user, err := GetProfile(code)
 	if err != nil {
 		log.Println(err.Error())
@@ -56,7 +56,7 @@ func Me(code string) (sdf, error) {
 			return response, err
 		}
 	}
-	response = sdf{Following:following, Recommendations:recommendations, Playlist:playlists, User:user }
+	response = MeResponse{Following:following, Recommendations:recommendations, Playlist:playlists, User:user }
 	return response, nil
 
 }
