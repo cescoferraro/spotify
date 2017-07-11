@@ -27,7 +27,7 @@ let server = [
 				emitErrors: false,
 				failOnHint: false,
 				resourcePath: 'src',
-				configFile: 'src/tsconfig.json'
+				configFile: 'tsconfig.json'
 			}
 		},
 	})

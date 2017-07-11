@@ -1,21 +1,22 @@
 declare const NODE_ENV, module, require, window: any;
 import * as React from "react";
 import SpotifyApp from "./app";
-import {AppContainer} from "react-hot-loader";
+import { AppContainer } from "react-hot-loader";
 import * as injectTapEventPlugin from "react-tap-event-plugin";
-import {render} from "react-dom";
-import {createStore} from "redux";
-import {Provider} from "react-redux";
+import { render } from "react-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
 import getMuiTheme from "material-ui/styles/getMuiTheme";
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
-import {allReducers, allReducersInitial} from "./reducers/index";
+import { allReducers, allReducersInitial } from "./reducers/index";
 import Router from "react-router/BrowserRouter";
 import WithStylesContext from "./shared/stylesComponent";
-import {StyleRoot} from "radium";
-import {withAsyncComponents} from "react-async-component";
+import { StyleRoot } from "radium";
+import { withAsyncComponents } from "react-async-component";
+import { SpotifyTheme } from "./shared/theme"
 const reduxDevTools = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
 const store = createStore(allReducers, allReducersInitial, reduxDevTools);
-const theme = getMuiTheme({}, {userAgent: navigator.userAgent});
+const theme = getMuiTheme(SpotifyTheme, { userAgent: navigator.userAgent });
 const rootEl = document.getElementById("container");
 
 

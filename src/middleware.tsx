@@ -13,6 +13,8 @@ import getMuiTheme from "material-ui/styles/getMuiTheme";
 import WithStylesContext from "./shared/stylesComponent";
 import {StyleRoot} from "radium";
 import {withAsyncComponents} from "react-async-component";
+import { SpotifyTheme} from "./shared/theme"
+
 declare let require: any;
 injectTapEventPlugin();
 
@@ -36,7 +38,7 @@ export default  () => (request, response) => {
         let userAgent = request.headers['user-agent'];
         let App =
             <WithStylesContext onInsertCss={styles => css.push(styles._getCss())}>
-                <MuiThemeProvider muiTheme={getMuiTheme({userAgent: userAgent})}>
+                <MuiThemeProvider muiTheme={getMuiTheme(SpotifyTheme, {userAgent: userAgent})}>
                     <Provider store={createStore(allReducers,allReducersInitial)}>
                         <ServerRouter location={request.url} context={context}>
                             {({location}) => SpotifyApp(userAgent)}
@@ -57,6 +59,3 @@ export default  () => (request, response) => {
 
     }
 };
-
-
-

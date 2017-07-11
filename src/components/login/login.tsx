@@ -13,7 +13,7 @@ let Login = prop => {
     };
     return (
         <div className={ss.login}>
-            <SpotifyLogo onClick={signIn}/>
+            <SpotifyLogo onClick={signIn} />
         </div>
     );
 };

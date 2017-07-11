@@ -11,10 +11,10 @@ let ss = require("./shell.pcss");
 
 export function Shell(Component) {
     return withStyles(ss)(React.createClass({
-        render: function () {
-            return  <div>
-                <Bar/>
-                <Component {...this.props}/>
+        render: function() {
+            return <div>
+                <Bar css={ss} />
+                <Component {...this.props} />
             </div>
 
         }
@@ -24,7 +24,7 @@ export function Shell(Component) {
 
 let shellin = withStyles(ss)(({Component}) => {
     return <div>
-        <Bar/>
-        <Component {...this.props}/>
+        <Bar />
+        <Component {...this.props} />
     </div>
 });
