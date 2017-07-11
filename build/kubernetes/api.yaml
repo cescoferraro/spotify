@@ -13,7 +13,7 @@ spec:
         name: spotify-api-pods
     spec:
       containers:
-        - image: cescoferraro/spotify:api-0.2.3
+        - image: cescoferraro/spotify:api-0.2.6
           imagePullPolicy: Always
           name: backend
           env:
@@ -23,4 +23,3 @@ spec:
             value: "445f705eea2d4d0e8bbd97b796fb7957"
           - name: SPOTIFY_ID
             value: "412fb5cbfec2464cb71b567efd0236ea"
-

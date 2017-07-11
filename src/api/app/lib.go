@@ -1,24 +1,27 @@
 package app
 
 import (
-	"time"
-	"golang.org/x/oauth2"
-	"github.com/zmb3/spotify"
-	"github.com/pkg/errors"
 	"sync"
+	"time"
+
+	"github.com/pkg/errors"
+	"github.com/zmb3/spotify"
+	"golang.org/x/oauth2"
 )
 
+// AuthHub TODO: NEEDS COMMENT INFO
 type AuthHub struct {
 	sync.Mutex
 	Token map[string]*oauth2.Token
 }
 
 var (
-	Tokens = AuthHub{Token:make(map[string]*oauth2.Token)}
+	Tokens                            = AuthHub{Token: make(map[string]*oauth2.Token)}
 	SPOTIFYAUTH spotify.Authenticator = spotifyAuth()
-	State = "abc123"
+	State                             = "abc123"
 )
 
+// GetPLaylists TODO: NEEDS COMMENT INFO
 func GetPLaylists(code string) ([]spotify.SimplePlaylist, error) {
 	var playlists = new(spotify.SimplePlaylistPage)
 	token, err := RetrieveToken(code)
@@ -35,6 +38,7 @@ func GetPLaylists(code string) ([]spotify.SimplePlaylist, error) {
 	return playlists.Playlists, nil
 }
 
+// Getfollowing TODO: NEEDS COMMENT INFO
 func Getfollowing(code string) (*spotify.FullArtistCursorPage, error) {
 	var artists *spotify.FullArtistCursorPage
 	var err error
@@ -52,6 +56,7 @@ func Getfollowing(code string) (*spotify.FullArtistCursorPage, error) {
 	return artists, nil
 }
 
+// GetRecommendations TODO: NEEDS COMMENT INFO
 func GetRecommendations(artists []string, code string) (*spotify.Recommendations, error) {
 	recommendations := new(spotify.Recommendations)
 	var err error
@@ -67,7 +72,7 @@ func GetRecommendations(artists []string, code string) (*spotify.Recommendations
 
 	}
 	seed := spotify.Seeds{
-		Artists:artistSeed,
+		Artists: artistSeed,
 	}
 
 	recommendations, err = client.GetRecommendations(seed, new(spotify.TrackAttributes), new(spotify.Options))
@@ -81,7 +86,7 @@ func GetRecommendations(artists []string, code string) (*spotify.Recommendations
 func spotifyAuth() spotify.Authenticator {
 	var redirectURI string
 	if IsProd() {
-		redirectURI = "http://api.spotify.cescoferraro.xyz"
+		redirectURI = "https://spotifyapi.cescoferraro.xyz"
 	} else {
 		redirectURI = "http://localhost:8080"
 	}
@@ -90,6 +95,7 @@ func spotifyAuth() spotify.Authenticator {
 	return auth
 }
 
+// RetrieveToken TODO: NEEDS COMMENT INFO
 func RetrieveToken(code string) (*oauth2.Token, error) {
 	Tokens.Lock()
 	defer Tokens.Unlock()
@@ -110,6 +116,7 @@ func RetrieveToken(code string) (*oauth2.Token, error) {
 	return Tokens.Token[code], err
 }
 
+// GetProfile TODO: NEEDS COMMENT INFO
 func GetProfile(code string) (*spotify.PrivateUser, error) {
 	var user *spotify.PrivateUser
 	var err error
@@ -122,6 +129,7 @@ func GetProfile(code string) (*spotify.PrivateUser, error) {
 	return client.CurrentUser()
 }
 
+// FollowArtists TODO: NEEDS COMMENT INFO
 func FollowArtists(code string, ids ...string) error {
 	var err error
 	token, err := RetrieveToken(code)
@@ -141,6 +149,8 @@ func FollowArtists(code string, ids ...string) error {
 	}
 	return nil
 }
+
+// UnfollowArtists TODO: NEEDS COMMENT INFO
 func UnfollowArtists(code string, ids ...string) error {
 	var err error
 	token, err := RetrieveToken(code)
@@ -160,4 +170,3 @@ func UnfollowArtists(code string, ids ...string) error {
 	}
 	return nil
 }
-

@@ -8,7 +8,5 @@ vendor.run(function (err, stats) {
 		app.use(require('webpack-hot-server-middleware')(compiler, {chunkName: 'server'}));
 		app.use(require("morgan")('combined'));
 		app.listen(3000, "0.0.0.0");
-
 	}
 );
-

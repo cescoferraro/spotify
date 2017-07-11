@@ -8,17 +8,9 @@ meta:
 
 env=vars:
     variables:
-      - FRONTEND_VERSION=0.2.2
-      - API_VERSION=0.2.2
+      - FRONTEND_VERSION=0.2.6
+      - API_VERSION=0.2.6
 
 mount=source:
     bind: .
     path: /go/src/github.com/cescoferraro/spotify
-
-
-
-
-
-
-
-
