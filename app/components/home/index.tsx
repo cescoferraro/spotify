@@ -1,16 +1,8 @@
 import * as React from "react"
 import * as CSS from "./css/home.css"
 import { isServer } from "../../../store/logger"
+import { API_URL } from "../../../shared/api"
 
-const API_URL = () => {
-    if (!isServer()) {
-        if (document.location.hostname === "spotify.cescoferraro.xyz") {
-            return "https://apotifyapi.cescoferraro.xyz"
-        }
-    }
-    return "http://localhost:8080"
-
-}
 
 export const HomeComponent = (props) => {
     return (

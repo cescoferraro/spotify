@@ -1,6 +1,7 @@
 package app
 
 import (
+	"log"
 	"sync"
 	"time"
 
@@ -15,6 +16,7 @@ type AuthHub struct {
 	Token map[string]*oauth2.Token
 }
 
+// Tokens TODO: NEEDS COMMENT INFO
 var (
 	Tokens                            = AuthHub{Token: make(map[string]*oauth2.Token)}
 	SPOTIFYAUTH spotify.Authenticator = spotifyAuth()
@@ -97,6 +99,7 @@ func spotifyAuth() spotify.Authenticator {
 
 // RetrieveToken TODO: NEEDS COMMENT INFO
 func RetrieveToken(code string) (*oauth2.Token, error) {
+	log.Println(code)
 	Tokens.Lock()
 	defer Tokens.Unlock()
 	if Tokens.Token[code] != nil {
@@ -122,8 +125,7 @@ func GetProfile(code string) (*spotify.PrivateUser, error) {
 	var err error
 	token, err := RetrieveToken(code)
 	if err != nil {
-		errors.Wrap(err, "retrieveToken")
-		return user, err
+		return user, errors.Wrap(err, "retrieveToken")
 	}
 	client := SPOTIFYAUTH.NewClient(token)
 	return client.CurrentUser()
@@ -134,8 +136,7 @@ func FollowArtists(code string, ids ...string) error {
 	var err error
 	token, err := RetrieveToken(code)
 	if err != nil {
-		errors.Wrap(err, "retrieveToken")
-		return err
+		return errors.Wrap(err, "retrieveToken")
 	}
 	client := SPOTIFYAUTH.NewClient(token)
 	var spotID []spotify.ID
@@ -144,8 +145,7 @@ func FollowArtists(code string, ids ...string) error {
 	}
 	err = client.FollowArtist(spotID...)
 	if err != nil {
-		errors.Wrap(err, "Follow")
-		return err
+		return errors.Wrap(err, "Follow")
 	}
 	return nil
 }
@@ -155,8 +155,7 @@ func UnfollowArtists(code string, ids ...string) error {
 	var err error
 	token, err := RetrieveToken(code)
 	if err != nil {
-		errors.Wrap(err, "retrieveToken")
-		return err
+		return errors.Wrap(err, "retrieveToken")
 	}
 	client := SPOTIFYAUTH.NewClient(token)
 	var spotID []spotify.ID
@@ -165,8 +164,7 @@ func UnfollowArtists(code string, ids ...string) error {
 	}
 	err = client.UnfollowArtist(spotID...)
 	if err != nil {
-		errors.Wrap(err, "Follow")
-		return err
+		return errors.Wrap(err, "Follow")
 	}
 	return nil
 }

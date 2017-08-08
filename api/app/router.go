@@ -5,12 +5,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/gorilla/websocket"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/middleware"
 	"github.com/pressly/chi/render"
 )
 
+// Router TODO: NEEDS COMMENT INFO
 func Router(version string) chi.Router {
 	if version == "" {
 		version = "NOT SET"
@@ -43,21 +43,18 @@ func Router(version string) chi.Router {
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 	})
 	r.Get("/status", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("cnjkfas")
 		render.JSON(w, r, Tokens.Token)
 	})
-	r.Get("/version", func(w http.ResponseWriter, r *http.Request) {
-		render.JSON(w, r, version)
-	})
-
-	r.Get("/top5/:label/:code", func(w http.ResponseWriter, r *http.Request) {
-		code := chi.URLParam(r, "code")
-		label := chi.URLParam(r, "label")
-		err := FollowLabel(code, label)
+	r.Post("/me", func(w http.ResponseWriter, r *http.Request) {
+		buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
+		_, _ = buf.ReadFrom(r.Body)
+		body := buf.Bytes()
+		user, err := GetProfile(string(body))
 		if err != nil {
-			render.JSON(w, r, false)
-			return
+			log.Println(err.Error())
 		}
-		render.JSON(w, r, true)
+		render.JSON(w, r, user)
 	})
 
 	r.Get("/logout/:code", func(w http.ResponseWriter, r *http.Request) {
@@ -71,76 +68,6 @@ func Router(version string) chi.Router {
 		render.JSON(w, r, false)
 
 	})
-
-	r.Get("/me/:code", func(w http.ResponseWriter, r *http.Request) {
-		code := chi.URLParam(r, "code")
-		resp, err := Me(code)
-		if err != nil {
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		render.JSON(w, r, resp)
-	})
-
-	r.Get("/following/:code", func(w http.ResponseWriter, r *http.Request) {
-		code := chi.URLParam(r, "code")
-
-		playlists, err := Getfollowing(code)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		render.JSON(w, r, playlists)
-	})
-
-	r.Get("/follow/:id/:code", func(w http.ResponseWriter, r *http.Request) {
-		code := chi.URLParam(r, "code")
-		id := chi.URLParam(r, "id")
-		err := FollowArtists(code, id)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		render.JSON(w, r, "SUCESS")
-	})
-
-	r.Get("/unfollow/:id/:code", func(w http.ResponseWriter, r *http.Request) {
-		code := chi.URLParam(r, "code")
-		id := chi.URLParam(r, "id")
-		err := UnfollowArtists(code, id)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-		render.JSON(w, r, "SUCESS")
-	})
-
-	r.Get("/ws", func(w http.ResponseWriter, r *http.Request) {
-		upgrader := websocket.Upgrader{}
-		c, err := upgrader.Upgrade(w, r, nil)
-		if err != nil {
-			log.Print("upgrade:", err)
-			return
-		}
-
-		defer c.Close()
-		for {
-			mt, message, err := c.ReadMessage()
-			if err != nil {
-				log.Println("read:", err)
-				break
-			}
-			log.Printf("recv: %s", message)
-			err = c.WriteMessage(mt, message)
-			if err != nil {
-				log.Println("write:", err)
-				break
-			}
-		}
-	})
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("*")
 		var buffer bytes.Buffer
@@ -149,11 +76,12 @@ func Router(version string) chi.Router {
 		} else {
 			buffer.WriteString("http://localhost:5000/auth/")
 		}
+		code := r.URL.Query().Get("code")
 		if r.URL.RawQuery != "" {
-			// RetrieveToken(r.URL.Query().Get("code"))
-
-			buffer.WriteString(r.URL.Query().Get("code"))
+			go RetrieveToken(code)
+			buffer.WriteString(code)
 		}
+		log.Println(r.URL.Query().Get("code"))
 		log.Println("redirenting to " + buffer.String())
 		http.Redirect(w, r, buffer.String(), http.StatusTemporaryRedirect)
 	})
