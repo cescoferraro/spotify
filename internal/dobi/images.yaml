@@ -1,0 +1,23 @@
+image=dev-image:
+    image: cescoferraro/spotify
+    tags: ["dev"]
+    dockerfile: build/docker/Dockerfile.dev
+    description: "Build the dev-image"
+
+image=frontend-image:
+    image: cescoferraro/spotify
+    tags: ["frontend-{env.FRONTEND_VERSION}"]
+    dockerfile: build/docker/Dockerfile.frontend
+    depends: [frontend]
+    description: "Build the frontend-image"
+
+image=api-image:
+    image: cescoferraro/spotify
+    tags: ["api-{env.API_VERSION}"]
+    dockerfile: build/docker/Dockerfile.api
+    depends: [api]
+    description: "Build the api-image"
+
+alias=hub:
+    description: Push Production Images to Docker Hub
+    tasks: ["frontend-image:push", "api-image:push"]
