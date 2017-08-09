@@ -46,6 +46,16 @@ func Router(version string) chi.Router {
 		log.Println("cnjkfas")
 		render.JSON(w, r, Tokens.Token)
 	})
+	r.Post("/top5", func(w http.ResponseWriter, r *http.Request) {
+		buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
+		_, _ = buf.ReadFrom(r.Body)
+		body := buf.Bytes()
+		user, err := Getfollowing(string(body))
+		if err != nil {
+			log.Println(err.Error())
+		}
+		render.JSON(w, r, user)
+	})
 	r.Post("/me", func(w http.ResponseWriter, r *http.Request) {
 		buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
 		_, _ = buf.ReadFrom(r.Body)

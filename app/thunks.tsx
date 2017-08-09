@@ -20,12 +20,10 @@ export const dashboardThunk = (dispatch, getState) => {
             dispatch(redirect({
                 type: 'DASHBOARD',
                 payload: {
+                    token: code,
                     user: user.response
                 }
             }))
-        })
-        .subscribe((success) => {
-            console.log("done")
-        })
+        }).subscribe((success) => { console.log("done") })
 
 }

@@ -10,3 +10,4 @@ export const itemText: string
 export const value: string
 export const key: string
 export const button: string
+export const feature: string

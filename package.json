@@ -21,10 +21,10 @@
     "docker/build": "docker build -f internal/docker/Dockerfile -t cescoferraro/spotify:latest .",
     "docker/run": "docker run -p 4000:4000 -v dist/:/srv/spotify cescoferraro/spotify:latest",
     "docker/push": "docker push cescoferraro/spotify:latest",
-    "push": "yarn run clean && yarn run prod && yarn run docker/build && yarn run docker/push",
-
-
-
+    "web/push": "yarn run clean && yarn run prod && yarn run docker/build && yarn run docker/push",
+    "push": "yarn web/push && yarn api/push && yarn refresh",
+   
+ 
     "api/build":"VERSION=$npm_package_version ./internal/scripts/buildGO.sh",
     "docker/api/build": "docker build -f internal/docker/Dockerfile.api -t cescoferraro/spotify:api .",
     "docker/api/run": "docker run -p 8080:8080 -v dist/:/srv/spotify cescoferraro/spotify:latest",
@@ -32,7 +32,11 @@
 
     "docker/preview": "yarn run clean && yarn build && yarn docker/run",
     "api/push": "yarn run clean && yarn run api/build && yarn run docker/api/build && yarn run docker/api/push",
-    "api/run":"VERSION=$npm_package_version reflex -r '\\.go' -s -- ./internal/scripts/runGO.sh"
+    "api/run":"VERSION=$npm_package_version reflex -r '\\.go' -s -- ./internal/scripts/runGO.sh",
+
+
+
+    "refresh": "kubectl -n spotify delete --all pods && kubectl -n nginx-ingress delete --all pods"
   },
   "author": "Francesco Antonello Ferraro",
   "license": "ISC",

@@ -21,6 +21,7 @@ const boilLogo = (props) => {
 export const SPOTIFYAppBar = (props) => {
     console.log("came back")
     return (
+
         <AppBar
             showMenuIconButton={false}
             onTitleTouchTap={goBack(props)}

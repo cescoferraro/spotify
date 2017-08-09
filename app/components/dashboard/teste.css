@@ -1,0 +1,18 @@
+@import "../../../shared/css/var/var.css";
+
+.test{
+    background-color: orange;
+    height: 100%;
+    overflow:auto;
+    padding-left:10vw;
+    padding-right:10vw;
+}
+
+.flex{
+    display:flex;
+    align-items: center;
+}
+.feature {
+    background-color: red;
+    width: calc(100% + 24px)
+}

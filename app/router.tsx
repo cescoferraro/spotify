@@ -8,19 +8,18 @@ import { AsyncDashboard } from "./components/dashboard"
 import { HomeComponent } from "./components/home"
 import { APP_ACTIONS } from "../store/actions";
 
-
 const AppRouterClass = (props) => {
     switch (props.location.type) {
         case "HOME":
             return (
-                <Shell id="HOME" {...props}>
+                <Shell id="Home" {...props}>
                     <HomeComponent  {...props} />
                 </Shell>
             )
         case "DASHBOARD":
         case "AUTH":
             return (
-                <Shell id="USER" {...props}>
+                <Shell id="Dashboard" {...props}>
                     <AsyncDashboard {...props} />
                 </Shell>
             )
