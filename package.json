@@ -10,29 +10,29 @@
     "hot": "node hot.js",
     "dev": "concurrently 'yarn hot' 'yarn api/run'",
     "start": "yarn run clear && yarn run dll && yarn run ",
-    "client": "webpack --config webpack.client.js --env.production",
-    "server": "webpack --config webpack.server.js --env.production",
     "prod": "webpack --config webpack.config.js --env.production",
     "preview": "yarn run clear && yarn run prod && cd dist/ && node server.js",
+   
     "analyzer": "webpack --config webpack.client.js --env.production --env.analyzer",
     "test": "jest --coverage",
     "lint": "tslint --type-check --project tsconfig.json",
+    
+
     "docker/build": "docker build -f internal/docker/Dockerfile -t cescoferraro/spotify:latest .",
     "docker/run": "docker run -p 4000:4000 -v dist/:/srv/spotify cescoferraro/spotify:latest",
     "docker/push": "docker push cescoferraro/spotify:latest",
+    "push": "yarn run clean && yarn run prod && yarn run docker/build && yarn run docker/push",
 
 
 
+    "api/build":"VERSION=$npm_package_version ./internal/scripts/buildGO.sh",
     "docker/api/build": "docker build -f internal/docker/Dockerfile.api -t cescoferraro/spotify:api .",
     "docker/api/run": "docker run -p 8080:8080 -v dist/:/srv/spotify cescoferraro/spotify:latest",
     "docker/api/push": "docker push cescoferraro/spotify:api",
 
     "docker/preview": "yarn run clean && yarn build && yarn docker/run",
-    "push": "yarn run clean && yarn run prod && yarn run docker/build && yarn run docker/push",
     "api/push": "yarn run clean && yarn run api/build && yarn run docker/api/build && yarn run docker/api/push",
-    "rrun":"echo $npm_config_versions",
-    "api/run":"VERSION=$npm_package_version reflex -r '\\.go' -s -- ./internal/scripts/runGO.sh",
-    "api/build":"VERSION=$npm_package_version ./internal/scripts/buildGO.sh"
+    "api/run":"VERSION=$npm_package_version reflex -r '\\.go' -s -- ./internal/scripts/runGO.sh"
   },
   "author": "Francesco Antonello Ferraro",
   "license": "ISC",

@@ -3,12 +3,18 @@ import { API_URL } from "../../../shared/api"
 import RaisedButton from 'material-ui/RaisedButton'
 const SPOTIFYIcon = require("../../../shared/images/spotify.svg")
 import * as CSS from "./css/home.css"
-
 import * as cs from "classnames"
+
+const login = () => {
+    window.location.href = API_URL() + "/login"
+}
+
+const Icon = ({ css }) => (
+    <SPOTIFYIcon className={CSS.buttonIcon} />
+)
+
 export const HomeComponent = (props) => {
-    const login = () => {
-        window.location.href = API_URL() + "/login"
-    }
+    console.log("sdflksdfd")
     return (
         <div className={cs(CSS.container)} >
             <div className={CSS.flex} >
@@ -19,11 +25,7 @@ export const HomeComponent = (props) => {
                     onClick={login}
                     backgroundColor="black"
                     className={CSS.button}
-                    icon={
-                        <SPOTIFYIcon
-                            className={CSS.buttonIcon}
-                        />
-                    }
+                    icon={<Icon css={CSS} />}
                     style={{ margin: 12 }}
                 />
             </div>

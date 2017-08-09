@@ -4,7 +4,7 @@ import * as CSS from "../css/shell.css"
 const SPOTIFYLogo = require("../../../../shared/images/spotify.svg")
 
 const goBack = (props) => () => {
-    props.GO_HOME_ACTION("HOME")
+    props.ROUTER_ACTION("HOME")
     props.DRAWER_ACTION(false)
 }
 
@@ -17,7 +17,9 @@ const boilLogo = (props) => {
         /> :
         null
 }
+
 export const SPOTIFYAppBar = (props) => {
+    console.log("came back")
     return (
         <AppBar
             showMenuIconButton={false}
