@@ -1,8 +1,8 @@
 @import "../../../shared/css/var/var.css";
 
 .test{
-    background-color: orange;
-    height: 100%;
+    height: calc( 100vh - 64px );
+    background-color: whitesmoke;
     overflow:auto;
     padding-left:10vw;
     padding-right:10vw;
@@ -13,6 +13,6 @@
     align-items: center;
 }
 .feature {
-    background-color: red;
-    width: calc(100% + 24px)
+    background-color: whitesmoke;
+    width: calc(100% )
 }

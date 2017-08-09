@@ -23,8 +23,8 @@ export const BoilTheme = {
     palette: {
         primary1Color: "#303F9F",
         primary2Color: "#3F51B5",
-        primary3Color: "#C5CAE9",
-        accent1Color: "#C5CAE9",
+        primary3Color: "red",
+        accent1Color: "red",
         accent2Color: "#C5CAE9",
         accent3Color: "#C5CAE9",
         textColor: "#212121",

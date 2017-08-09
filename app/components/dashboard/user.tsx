@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as CSS from "./teste.css"
 import { Top5 } from "./top5"
+import { Random } from "./random";
+import { NEXTComponent } from "./next";
 
 export const SPOTIFYProfile = ({ token, payload, css }) => {
     console.log(payload)
@@ -12,9 +14,10 @@ export const SPOTIFYProfile = ({ token, payload, css }) => {
             </h2>
             <h2>{payload.user.email}</h2>
             <Top5 token={token} />
-            {/* <h2 style={{ overflowWrap: "break-word" }} > */}
-            {/* {token} */}
-            {/* </h2> */}
+            <br />
+            <Random token={token} />
+            <br />
+            <NEXTComponent token={token} />
         </div>
     )
 }

@@ -6,6 +6,10 @@ import { runServiceWorker } from "./sw"
 injectTapEventPlugin()
 require("offline-js")
 
+Renderer(AppRouter)
+runServiceWorker()
+
+
 if (module.hot) {
     module.hot.accept(
         [
@@ -16,10 +20,7 @@ if (module.hot) {
         () => {
             unmountComponentAtNode(tag)
             const NextEatApp = require("../app/router.tsx").AppRouter
-            const NewRenderer = require("./renderer.tsx").Renderer
-            NewRenderer(NextEatApp)
+            Renderer(NextEatApp)
         })
 }
 
-Renderer(AppRouter)
-runServiceWorker()

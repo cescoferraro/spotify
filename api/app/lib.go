@@ -23,6 +23,32 @@ var (
 	State                             = "abc123"
 )
 
+// Next TODO: NEEDS COMMENT INFO
+func Previous(code string) (error) {
+	token, err := RetrieveToken(code)
+	if err != nil {
+		return errors.Wrap(err, "retrieveToken")
+	}
+	client := SPOTIFYAUTH.NewClient(token)
+	err = client.Previous()
+	if err != nil {
+		return errors.Wrap(err, "next error")
+	}
+	return nil
+}
+// Next TODO: NEEDS COMMENT INFO
+func Next(code string) (error) {
+	token, err := RetrieveToken(code)
+	if err != nil {
+		return errors.Wrap(err, "retrieveToken")
+	}
+	client := SPOTIFYAUTH.NewClient(token)
+	err = client.Next()
+	if err != nil {
+		return errors.Wrap(err, "next error")
+	}
+	return nil
+}
 // GetPLaylists TODO: NEEDS COMMENT INFO
 func GetPLaylists(code string) ([]spotify.SimplePlaylist, error) {
 	var playlists = new(spotify.SimplePlaylistPage)
@@ -87,7 +113,7 @@ func spotifyAuth() spotify.Authenticator {
 	} else {
 		redirectURI = "http://localhost:8080"
 	}
-	auth := spotify.NewAuthenticator(redirectURI, spotify.ScopePlaylistModifyPrivate, spotify.ScopePlaylistModifyPublic, spotify.ScopeUserReadPrivate, spotify.ScopeUserFollowModify, spotify.ScopeUserReadEmail, spotify.ScopeUserFollowRead)
+	auth := spotify.NewAuthenticator(redirectURI, spotify.ScopePlaylistModifyPrivate, spotify.ScopePlaylistModifyPublic, spotify.ScopeUserReadPrivate, spotify.ScopeUserFollowModify, spotify.ScopeUserReadEmail, spotify.ScopeUserFollowRead, spotify.ScopeUserModifyPlaybackState )
 	auth.SetAuthInfo("445f705eea2d4d0e8bbd97b796fb7957", "412fb5cbfec2464cb71b567efd0236ea")
 	return auth
 }

@@ -20,6 +20,7 @@ const AppRouterClass = (props) => {
         case "AUTH":
             return (
                 <Shell id="Dashboard" {...props}>
+                    <h2>asdjkfbnasdf</h2>
                     <AsyncDashboard {...props} />
                 </Shell>
             )

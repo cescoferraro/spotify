@@ -21,7 +21,6 @@ export class DashboardComponent extends React.Component<any, any> {
                 {
                     payload.user ?
                         (<SPOTIFYProfile
-
                             token={this.props.location.payload.token}
                             css={CSS} payload={payload} />) :
                         <div className={CSS.test} >

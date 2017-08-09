@@ -21,7 +21,10 @@ export const Renderer = (Component) => {
     offlineCheck(store)
     if ((window as any).__PRODUCTION__) {
         storage.createLoader(engine)(store)
-            .then((newState) => { store.dispatch(newState.location) })
+            .then((newState) => {
+                console.log("sending your ass to " + newState.location)
+                store.dispatch(newState.location)
+            })
             .catch(() => console.log("Failed to load previous state"))
     }
     const boilMUI = getMuiTheme(BoilTheme, { userAgent: navigator.userAgent })

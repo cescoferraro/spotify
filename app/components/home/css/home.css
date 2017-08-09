@@ -1,6 +1,9 @@
 .container {
+    height: calc( 100vh - 64px );
+    background-color: whitesmoke;
     overflow:auto;
     margin-left:10px;
+
     margin-right:10px;
 }
 
@@ -8,6 +11,7 @@ table {
     border-collapse: separate;
     border-spacing: 20px 20px;
 }
+
 .buttonIcon {
     width: 20px
 }

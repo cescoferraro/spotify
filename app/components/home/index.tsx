@@ -16,18 +16,21 @@ const Icon = ({ css }) => (
 export const HomeComponent = (props) => {
     console.log("sdflksdfd")
     return (
-        <div className={cs(CSS.container)} >
-            <div className={CSS.flex} >
-                <h2>Check Your Spotify Profile </h2>
-            </div>
-            <div className={CSS.flex} >
-                <RaisedButton
-                    onClick={login}
-                    backgroundColor="black"
-                    className={CSS.button}
-                    icon={<Icon css={CSS} />}
-                    style={{ margin: 12 }}
-                />
+
+        <div className={cs(CSS.flex, CSS.container)} >
+            <div>
+                <div className={CSS.flex} >
+                    <h2>Check Your Spotify Profile </h2>
+                </div>
+                <div className={CSS.flex} >
+                    <RaisedButton
+                        onClick={login}
+                        backgroundColor="black"
+                        className={CSS.button}
+                        icon={<Icon css={CSS} />}
+                        style={{ margin: 12 }}
+                    />
+                </div>
             </div>
         </div>
     )

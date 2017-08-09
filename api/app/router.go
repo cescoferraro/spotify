@@ -46,6 +46,41 @@ func Router(version string) chi.Router {
 		log.Println("cnjkfas")
 		render.JSON(w, r, Tokens.Token)
 	})
+	r.Post("/playlists", func(w http.ResponseWriter, r *http.Request) {
+		buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
+		_, _ = buf.ReadFrom(r.Body)
+		body := buf.Bytes()
+		user, err := GetPLaylists(string(body))
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		render.JSON(w, r, user)
+	})
+	r.Post("/previous", func(w http.ResponseWriter, r *http.Request) {
+		body, err := GetBODY(r)
+		if err !=nil {
+			log.Println(err.Error())
+			return
+		}
+		err = Previous(body)
+		if err != nil {
+			log.Println(err.Error())
+		}
+		render.JSON(w, r, "next")
+	})
+	r.Post("/next", func(w http.ResponseWriter, r *http.Request) {
+		body, err := GetBODY(r)
+		if err !=nil {
+			log.Println(err.Error())
+			return
+		}
+		err = Next(body)
+		if err != nil {
+			log.Println(err.Error())
+		}
+		render.JSON(w, r, "next")
+	})
 	r.Post("/top5", func(w http.ResponseWriter, r *http.Request) {
 		buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
 		_, _ = buf.ReadFrom(r.Body)
@@ -96,4 +131,12 @@ func Router(version string) chi.Router {
 		http.Redirect(w, r, buffer.String(), http.StatusTemporaryRedirect)
 	})
 	return r
+}
+func GetBODY(r *http.Request) (string,error){
+	buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
+	_, err := buf.ReadFrom(r.Body)
+	if err != nil {
+		return "", err
+	}
+	return string(buf.Bytes()), nil
 }
