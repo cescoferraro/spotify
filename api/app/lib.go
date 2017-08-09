@@ -28,14 +28,12 @@ func GetPLaylists(code string) ([]spotify.SimplePlaylist, error) {
 	var playlists = new(spotify.SimplePlaylistPage)
 	token, err := RetrieveToken(code)
 	if err != nil {
-		errors.Wrap(err, "retrieveToken")
-		return playlists.Playlists, err
+		return playlists.Playlists, errors.Wrap(err, "retrieveToken")
 	}
 	client := SPOTIFYAUTH.NewClient(token)
 	playlists, err = client.CurrentUsersPlaylists()
 	if err != nil {
-		errors.Wrap(err, "client.CurrentUser")
-		return playlists.Playlists, err
+		return playlists.Playlists, errors.Wrap(err, "client.CurrentUser")
 	}
 	return playlists.Playlists, nil
 }
@@ -46,14 +44,12 @@ func Getfollowing(code string) (*spotify.FullArtistCursorPage, error) {
 	var err error
 	token, err := RetrieveToken(code)
 	if err != nil {
-		errors.Wrap(err, "retrieveToken")
-		return artists, err
+		return artists, errors.Wrap(err, "retrieveToken")
 	}
 	client := SPOTIFYAUTH.NewClient(token)
 	artists, err = client.CurrentUsersFollowedArtists()
 	if err != nil {
-		errors.Wrap(err, "client.CurrentUser")
-		return artists, err
+		return artists, errors.Wrap(err, "client.CurrentUser")
 	}
 	return artists, nil
 }
@@ -64,8 +60,7 @@ func GetRecommendations(artists []string, code string) (*spotify.Recommendations
 	var err error
 	token, err := RetrieveToken(code)
 	if err != nil {
-		errors.Wrap(err, "retrieveToken")
-		return recommendations, err
+		return recommendations, errors.Wrap(err, "retrieveToken")
 	}
 	client := SPOTIFYAUTH.NewClient(token)
 	artistSeed := []spotify.ID{}
@@ -79,8 +74,8 @@ func GetRecommendations(artists []string, code string) (*spotify.Recommendations
 
 	recommendations, err = client.GetRecommendations(seed, new(spotify.TrackAttributes), new(spotify.Options))
 	if err != nil {
-		errors.Wrap(err, "GetRecommendations")
-		return recommendations, err
+
+		return recommendations, errors.Wrap(err, "GetRecommendations")
 	}
 	return recommendations, nil
 }
@@ -123,10 +118,12 @@ func RetrieveToken(code string) (*oauth2.Token, error) {
 func GetProfile(code string) (*spotify.PrivateUser, error) {
 	var user *spotify.PrivateUser
 	var err error
+	log.Println("before retrieving code")
 	token, err := RetrieveToken(code)
 	if err != nil {
 		return user, errors.Wrap(err, "retrieveToken")
 	}
+	log.Println("after retrieving code")
 	client := SPOTIFYAUTH.NewClient(token)
 	return client.CurrentUser()
 }

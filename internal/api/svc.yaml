@@ -3,12 +3,12 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: spotify
-  name: spotify-svc
+  name: spotify-api-svc
 spec:
   selector:
-    name: spotify-pods
+    name: spotify-api-pods
   ports:
   - name: web
-    port: 5000
-    targetPort: 5000
+    port: 8080
+    targetPort: 8080
     protocol: TCP

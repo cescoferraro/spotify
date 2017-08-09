@@ -2,18 +2,18 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  namespace: boil
-  name: boil-ing
+  namespace: spotify
+  name: spotify-ing
 spec:
   tls:		
   - hosts:		
-    - boil.cescoferraro.xyz		
-    secretName: wild-tls 
+    - spotify.cescoferraro.xyz		
+    secretName: wildcard-tls 
   rules:
-  - host: boil.cescoferraro.xyz
+  - host: spotify.cescoferraro.xyz
     http:
       paths:
       - path: /
         backend:
-          serviceName: boil-svc
+          serviceName: spotify-svc
           servicePort: 5000

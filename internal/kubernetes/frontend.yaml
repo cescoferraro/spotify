@@ -2,18 +2,18 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  namespace: boil
-  name: boil-deploy
+  namespace: spotify
+  name: spotify-deploy
 spec:
   replicas: 1
   template:
     metadata:
-      namespace: boil
+      namespace: spotify
       labels:
-        name: boil-pods
+        name: spotify-pods
     spec:
       containers:
-        - image: cescoferraro/boil:latest
+        - image: cescoferraro/spotify:latest
           imagePullPolicy: Always
           name: frontend
           env:

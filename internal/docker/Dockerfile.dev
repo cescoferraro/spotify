@@ -4,4 +4,4 @@ RUN npm i -g tslint
 RUN npm i -g webpack 
 
 # GOPATH
-WORKDIR /srv/boil
+WORKDIR /srv/spotify

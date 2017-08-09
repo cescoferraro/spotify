@@ -3,21 +3,23 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   namespace: spotify
-  name: spotify-frontend-deploy
+  name: spotify-api-deploy
 spec:
   replicas: 1
   template:
     metadata:
       namespace: spotify
       labels:
-        name: spotify-frontend-pods
+        name: spotify-api-pods
     spec:
       containers:
-        - image: cescoferraro/spotify:frontend-0.2.7
+        - image: cescoferraro/spotify
           imagePullPolicy: Always
-          name: frontend
+          name: backend
           env:
           - name: KUBERNETES
             value: "true"
-          - name: NODE_ENV
-            value: "production"
+          - name: SPOTIFY_ID
+            value: "445f705eea2d4d0e8bbd97b796fb7957"
+          - name: SPOTIFY_ID
+            value: "412fb5cbfec2464cb71b567efd0236ea"

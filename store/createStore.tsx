@@ -4,14 +4,17 @@ import { composeWithDevTools } from "redux-devtools-extension"
 import { createEpicMiddleware } from "redux-observable"
 import { RootEpic } from "./epics"
 import { allReducers } from "./reducers"
-import { logger } from "./logger"
 import { routesMap } from "../app/route.map"
 import * as storage from "redux-storage"
 import createEngine from "redux-storage-engine-localstorage"
 import debounce from "redux-storage-decorator-debounce"
 export let engine = createEngine("my-save-key")
+import { createLogger } from "redux-logger"
 engine = debounce(engine, 3000)
 const ReplacebleEpicMiddleware = createEpicMiddleware(RootEpic)
+
+export const isServer = () => !(typeof window !== "undefined" && window.document)
+
 
 export const configureStore = (history: any = {}) => {
     const { reducer, middleware, enhancer } = connectRoutes(history, routesMap)
@@ -21,7 +24,12 @@ export const configureStore = (history: any = {}) => {
     const middlewares = composeWithDevTools(
         applyMiddleware(middleware,
             middlewareXXX,
-            logger,
+            createLogger({
+                collapsed: (getState, action, logEntry) => !logEntry.error,
+                predicate: (getState, action) => {
+                    return !isServer()
+                }
+            }),
             ReplacebleEpicMiddleware
         )
     )

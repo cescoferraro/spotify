@@ -6,3 +6,4 @@ node_modules/
 .wercker/
 coverage/
 vendor/
+/dist_api/spotify

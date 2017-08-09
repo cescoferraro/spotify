@@ -6,7 +6,9 @@ const devTools = env =>
   env.production ? 'source-map' : 'cheap-module-eval-source-map';
 
 const publicPath = env =>
-  env.production ? 'https://boil.cescoferraro.xyz/' : 'http://localhost:5000/';
+  env.production
+    ? 'https://spotify.cescoferraro.xyz/'
+    : 'http://localhost:5000/';
 
 const hotLoader = (entry, env) => {
   if (!env.production) {

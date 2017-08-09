@@ -1,6 +1,5 @@
 import * as React from "react"
 import { NoMatchContainer } from "./404"
-import { profileStartup } from "../../../store/reducers"
 import { MUIProvider } from "../../../shared/components/MUIProvider"
 
 describe("<NoMatchContainer />", () => {
