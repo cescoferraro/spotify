@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as CSS from "./teste.css"
 import { compose } from "recompose"
-import { SPOTIFYProfile } from "./user"
+import { SPOTIFYProfile } from "./profile"
 
 
 export class DashboardComponent extends React.Component<any, any> {
@@ -14,18 +14,14 @@ export class DashboardComponent extends React.Component<any, any> {
                     payload.code ?
                         <div className={CSS.test} >
                             <h2>authenticating</h2>
-                        </div> : null
-                }
-            </div>
-            <div>
-                {
-                    payload.user ?
-                        (<SPOTIFYProfile
-                            token={this.props.location.payload.token}
-                            css={CSS} payload={payload} />) :
-                        <div className={CSS.test} >
-                            <h2>no dashboard</h2>
-                        </div>
+                        </div> :
+                        payload.user ?
+                            (<SPOTIFYProfile
+                                token={this.props.location.payload.token}
+                                css={CSS} payload={payload} />) :
+                            <div className={CSS.test} >
+                                <h2>no dashboard</h2>
+                            </div>
                 }
             </div>
         </div>

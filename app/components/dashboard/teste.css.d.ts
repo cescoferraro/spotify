@@ -11,3 +11,6 @@ export const value: string
 export const key: string
 export const button: string
 export const feature: string
+export const select: string
+export const selectButton: string
+export const grey: string

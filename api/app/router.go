@@ -20,6 +20,37 @@ func Router(version string) chi.Router {
 	r.Use(middleware.Logger)
 	r.Use(Cors)
 
+	r.Post("/play", func(w http.ResponseWriter, r *http.Request) {
+		token, err := GetBODY(r)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		err = Play(token)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+
+		log.Println(token)
+		render.JSON(w, r, true)
+	})
+	r.Post("/repeat/{state}", func(w http.ResponseWriter, r *http.Request) {
+		state:= chi.URLParam(r, "state")
+		token, err := GetBODY(r)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		err = Repeat(state, token)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+
+		log.Println(token)
+		render.JSON(w, r, state)
+	})
 	r.Post("/play/{id}", func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 		log.Println(id)
@@ -28,7 +59,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		err = Play(id, token)
+		err = PlayOpts(id, token)
 		if err != nil {
 			log.Println(err.Error())
 			return
@@ -95,7 +126,7 @@ func Router(version string) chi.Router {
 		}
 		render.JSON(w, r, "next")
 	})
-	r.Post("/top5", func(w http.ResponseWriter, r *http.Request) {
+	r.Post("/following", func(w http.ResponseWriter, r *http.Request) {
 		body, err := GetBODY(r)
 		if err != nil {
 			log.Println(err.Error())

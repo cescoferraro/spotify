@@ -5,8 +5,12 @@ import "rxjs/add/observable/dom/ajax"
 import RaisedButton from 'material-ui/RaisedButton'
 import { API_URL } from "../../../shared/api/index";
 import * as CSS from "./teste.css"
-
-export class Top5 extends React.Component<any, any>{
+import Avatar from 'material-ui/Avatar';
+import { List, ListItem } from 'material-ui/List';
+import Subheader from 'material-ui/Subheader';
+import Divider from 'material-ui/Divider';
+import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
+export class Following extends React.Component<any, any>{
     constructor(props) {
         super(props);
         this.state = {
@@ -14,9 +18,10 @@ export class Top5 extends React.Component<any, any>{
             followers: []
         };
     }
+
     getTOP5() {
         Observable.ajax({
-            url: API_URL() + "/top5",
+            url: API_URL() + "/following",
             body: this.props.token,
             method: "POST",
             responseType: 'json',
@@ -43,13 +48,19 @@ export class Top5 extends React.Component<any, any>{
                     this.setState({ hidden: !this.state.hidden })
                 }}
             />
-            {this.state.hidden ? null : <div>
-                {this.state.followers.map((follower) => {
-                    return <div key={Math.random()} className={CSS.flex}>
-                        <h4><a href={follower.href}>{follower.name}</a></h4>
-                    </div>
-                })}
-            </div>}
+            {this.state.hidden ? null : (
+                <List>
+                    {this.state.followers.map((artist) => {
+                        console.log(artist)
+                        return <ListItem
+                            key={Math.random()}
+                            primaryText={artist.name}
+                            leftAvatar={<Avatar src={artist.images[0].url} />}
+                            rightIcon={<CommunicationChatBubble />}
+                        />
+                    })}
+                </List>
+            )}
         </div>
 
     }

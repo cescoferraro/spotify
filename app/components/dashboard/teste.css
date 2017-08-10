@@ -11,8 +11,18 @@
 .flex{
     display:flex;
     align-items: center;
+    justify-content: center;
 }
 .feature {
     background-color: whitesmoke;
     width: calc(100% )
+}
+.select {
+    width: 80% !important;
+}
+.grey{
+    fill: grey !important; 
+}
+.selectButton {
+    width: 20% !important;
 }

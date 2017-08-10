@@ -6,48 +6,46 @@ import "rxjs/add/observable/dom/ajax"
 import { API_URL } from "../../../shared/api/index"
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import { controlAPI } from "./control";
+import { controlAPI } from "./player";
+import TextField from 'material-ui/TextField';
+import * as CSS from "./teste.css"
 
 export class Timer extends React.Component<any, any>{
 
     constructor(props) {
         super(props)
-        this.state = { hidden: true, on: false, interval: null }
+        this.state = { interval: 6, on: false, setInterval: null }
     }
     render() {
         return (
-            <div>
-                {
-                    this.state.hidden ?
-                        null : <RaisedButton
-                            fullWidth={true}
-                            secondary={true}
-                            label={(this.state.on ? "Stop" : "Start") + " Interval"}
-                            onClick={() => {
-                                if (!this.state.on) {
-                                    const sub = setInterval(() => {
-                                        console.log("tick")
-                                        controlAPI(this.props.token, "next")
-                                    }, 5000)
-                                    this.setState({ interval: sub })
-                                } else {
-                                    clearInterval(this.state.interval)
-                                    this.setState({ interval: null })
-                                }
-                                this.setState({ on: !this.state.on })
-                            }}
-                        />
-                }
-
-                {this.state.on ? this.state.interval.__idleStart : 33}
+            <div className={CSS.flex} >
+                <TextField
+                    className={CSS.select}
+                    floatingLabelText="Interval between skips [seconds]"
+                    floatingLabelFixed={true}
+                    value={this.state.interval}
+                    type="number"
+                    onChange={(event, newValue) => {
+                        this.setState({ interval: newValue })
+                    }}
+                    hintText="Number of seconds betwenn skips."
+                />
                 <RaisedButton
-                    fullWidth={true}
-                    secondary={true}
-                    label={(this.state.hidden ? "Show" : "Hide") + " Time"}
+                    className={CSS.selectButton}
+                    backgroundColor={this.state.on ? "red" : "green"}
+                    label={(this.state.on ? "Stop" : "Start") + " Interval"}
                     onClick={() => {
-                        console.log("start")
-                        console.log(this.state.hidden)
-                        this.setState({ hidden: !this.state.hidden })
+                        if (!this.state.on) {
+                            const sub = setInterval(() => {
+                                console.log("tick")
+                                controlAPI(this.props.token, "next")
+                            }, this.state.interval * 1000)
+                            this.setState({ setInterval: sub })
+                        } else {
+                            clearInterval(this.state.setInterval)
+                            this.setState({ setInterval: null })
+                        }
+                        this.setState({ on: !this.state.on })
                     }}
                 />
             </div>
