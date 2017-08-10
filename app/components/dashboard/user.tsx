@@ -1,8 +1,10 @@
-import * as React from "react";
+import * as React from "react"
 import * as CSS from "./teste.css"
 import { Top5 } from "./top5"
-import { Random } from "./random";
-import { NEXTComponent } from "./next";
+import { Random } from "./random"
+import { NEXTComponent } from "./control"
+import { Plays } from "./player"
+import { Timer } from "./timer"
 
 export const SPOTIFYProfile = ({ token, payload, css }) => {
     console.log(payload)
@@ -18,6 +20,10 @@ export const SPOTIFYProfile = ({ token, payload, css }) => {
             <Random token={token} />
             <br />
             <NEXTComponent token={token} />
+
+            <br />
+            <Plays token={token} />
+            <Timer token={token} />
         </div>
     )
 }

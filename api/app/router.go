@@ -2,6 +2,7 @@ package app
 
 import (
 	"bytes"
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -15,51 +16,64 @@ func Router(version string) chi.Router {
 	if version == "" {
 		version = "NOT SET"
 	}
-
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
+	r.Use(Cors)
 
-	r.Use(func(h http.Handler) http.Handler {
-		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	r.Post("/play/{id}", func(w http.ResponseWriter, r *http.Request) {
+		id := chi.URLParam(r, "id")
+		log.Println(id)
+		token, err := GetBODY(r)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		err = Play(id, token)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
 
-			if origin := r.Header.Get("Origin"); origin != "" {
-				w.Header().Set("Access-Control-Allow-Origin", origin)
-				w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
-				w.Header().Set("Access-Control-Allow-Headers",
-					"Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, X-Requested-With")
-			}
-			// Stop here if its Preflighted OPTIONS request
-			if r.Method == "OPTIONS" {
-				w.WriteHeader(200)
-				return
-			}
-			h.ServeHTTP(w, r)
-		})
+		log.Println(token)
+		render.JSON(w, r, id)
 	})
-
 	r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("LOGIN")
 		url := SPOTIFYAUTH.AuthURL(State)
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 	})
 	r.Get("/status", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("cnjkfas")
 		render.JSON(w, r, Tokens.Token)
 	})
+
 	r.Post("/playlists", func(w http.ResponseWriter, r *http.Request) {
-		buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
-		_, _ = buf.ReadFrom(r.Body)
-		body := buf.Bytes()
-		user, err := GetPLaylists(string(body))
+		body, err := GetBODY(r)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		user, err := GetPLaylists(body)
 		if err != nil {
 			log.Println(err.Error())
 			return
 		}
 		render.JSON(w, r, user)
 	})
+	r.Post("/pause", func(w http.ResponseWriter, r *http.Request) {
+		body, err := GetBODY(r)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		err = Pause(body)
+		if err != nil {
+			log.Println(err.Error())
+		}
+		render.JSON(w, r, "next")
+	})
 	r.Post("/previous", func(w http.ResponseWriter, r *http.Request) {
 		body, err := GetBODY(r)
-		if err !=nil {
+		if err != nil {
 			log.Println(err.Error())
 			return
 		}
@@ -71,7 +85,7 @@ func Router(version string) chi.Router {
 	})
 	r.Post("/next", func(w http.ResponseWriter, r *http.Request) {
 		body, err := GetBODY(r)
-		if err !=nil {
+		if err != nil {
 			log.Println(err.Error())
 			return
 		}
@@ -82,28 +96,37 @@ func Router(version string) chi.Router {
 		render.JSON(w, r, "next")
 	})
 	r.Post("/top5", func(w http.ResponseWriter, r *http.Request) {
-		buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
-		_, _ = buf.ReadFrom(r.Body)
-		body := buf.Bytes()
-		user, err := Getfollowing(string(body))
+		body, err := GetBODY(r)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		user, err := Getfollowing(body)
 		if err != nil {
 			log.Println(err.Error())
 		}
 		render.JSON(w, r, user)
 	})
 	r.Post("/me", func(w http.ResponseWriter, r *http.Request) {
-		buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
-		_, _ = buf.ReadFrom(r.Body)
-		body := buf.Bytes()
-		user, err := GetProfile(string(body))
+
+		body, err := GetBODY(r)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
+		user, err := GetProfile(body)
 		if err != nil {
 			log.Println(err.Error())
 		}
 		render.JSON(w, r, user)
 	})
 
-	r.Get("/logout/:code", func(w http.ResponseWriter, r *http.Request) {
-		code := chi.URLParam(r, "code")
+	r.Get("/logout", func(w http.ResponseWriter, r *http.Request) {
+		code, err := GetBODY(r)
+		if err != nil {
+			log.Println(err.Error())
+			return
+		}
 		Tokens.Lock()
 		defer Tokens.Unlock()
 		if Tokens.Token[code] != nil {
@@ -132,7 +155,28 @@ func Router(version string) chi.Router {
 	})
 	return r
 }
-func GetBODY(r *http.Request) (string,error){
+
+// TestStruct TODO: NEEDS COMMENT INFO
+type TestStruct struct {
+	ID    string `json:"id"`
+	Token string `json:"token"`
+}
+
+// GetBODY TODO: NEEDS COMMENT INFO
+func GetBODYPLAY(r *http.Request) (*TestStruct, error) {
+	var t = TestStruct{}
+	err := json.NewDecoder(r.Body).Decode(&t)
+	if err != nil {
+		log.Println("error")
+		return &t, err
+	}
+	log.Println("error")
+	log.Println(t.ID)
+	return &t, nil
+}
+
+// GetBODY TODO: NEEDS COMMENT INFO
+func GetBODY(r *http.Request) (string, error) {
 	buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
 	_, err := buf.ReadFrom(r.Body)
 	if err != nil {
