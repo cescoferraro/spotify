@@ -15,42 +15,43 @@ export class Repeat extends React.Component<any, any>{
         super(props)
         this.state = { current: 0, modes: ["off", "context", "track"] }
     }
+
+    toggleRepeat() {
+        const { current, modes } = this.state
+        let next = current === (modes.length - 1) ? 0 : current + 1
+        console.log(modes[next])
+
+        Observable.ajax({
+            url: API_URL() + "/repeat/" + modes[next],
+            body: this.props.token,
+            method: "POST",
+            responseType: 'json',
+            crossDomain: true
+        }).map((user) => {
+            this.setState(
+                { current: next, playlists: user.response }
+            )
+        }).catch((err: any, caught: any) => {
+            console.log(err)
+            return Observable.empty()
+        }).subscribe((success) => {
+            console.log(success)
+        })
+    }
     render() {
         const { current, modes } = this.state
+        console.log(this.props)
         return (
-            <div>
-                <IconButton
-                    iconStyle={{ width: 60, height: 60, }}
-                    style={{ width: 120, height: 120, padding: 30 }}
-                    onClick={() => {
-                        let next = current === (modes.length - 1) ? 0 : current + 1
-                        console.log(modes[next])
+            <IconButton
+                iconStyle={this.props.iconStyle}
+                style={this.props.style}
+                onClick={this.toggleRepeat.bind(this)}
+            >
 
-                        Observable.ajax({
-                            url: API_URL() + "/repeat/" + modes[next],
-                            body: this.props.token,
-                            method: "POST",
-                            responseType: 'json',
-                            crossDomain: true
-                        })
-                            .map((user) => {
-                                console.log(user.status)
-                                this.setState({ playlists: user.response })
-                            }).catch((err: any, caught: any) => {
-                                console.log(err)
-                                return Observable.empty()
-                            }).subscribe((success) => {
-                                console.log(success)
-                                this.setState({ current: next })
-                            })
-                    }}
-                >
-
-                    {current === 0 ? <RepeatIcon className={CSS.grey} /> :
-                        current === 1 ? <RepeatIcon /> :
-                            current === 2 ? <RepeatOne /> : null}
-                </IconButton>
-            </div>
+                {current === 0 ? <RepeatIcon className={CSS.grey} /> :
+                    current === 1 ? <RepeatIcon /> :
+                        current === 2 ? <RepeatOne /> : null}
+            </IconButton>
         )
 
     }

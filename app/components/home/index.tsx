@@ -14,9 +14,7 @@ const Icon = ({ css }) => (
 )
 
 export const HomeComponent = (props) => {
-    console.log("sdflksdfd")
     return (
-
         <div className={cs(CSS.flex, CSS.container)} >
             <div>
                 <div className={CSS.flex} >

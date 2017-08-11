@@ -10,19 +10,19 @@ export class DashboardComponent extends React.Component<any, any> {
         const { payload } = this.props.location
         return <div>
             <div>
-                {
-                    payload.code ?
-                        <div className={CSS.test} >
-                            <h2>authenticating</h2>
-                        </div> :
-                        payload.user ?
-                            (<SPOTIFYProfile
-                                token={this.props.location.payload.token}
-                                css={CSS} payload={payload} />) :
-                            <div className={CSS.test} >
-                                <h2>no dashboard</h2>
-                            </div>
-                }
+                {payload.code ?
+                    (<div className={CSS.container} >
+                        <h2>authenticating</h2>
+                    </div>) : payload.user ?
+                        (<SPOTIFYProfile
+                            dispatch={this.props.dispatch}
+                            token={this.props.location.payload.token}
+                            css={CSS}
+                            payload={payload}
+                        />) :
+                        (<div className={CSS.container} >
+                            <h2>no dashboard</h2>
+                        </div>)}
             </div>
         </div>
 
