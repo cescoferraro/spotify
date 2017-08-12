@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as CSS from "./css/shell.css"
+import * as CSS from "./shell.css"
 import { SPOTIFYAppBar } from "./bar"
 import { SPOTIFYToastr } from "./toastr"
 import { SPOTIFYDrawer } from "./drawer"
@@ -12,6 +12,7 @@ export const Shell = (props) => {
             <SPOTIFYAppBar {...props} />
             <div className={CSS.container}>
                 {props.children}
+
             </div>
             <SPOTIFYToastr {...props} />
             <SPOTIFYDrawer {...props} />

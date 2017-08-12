@@ -12,7 +12,11 @@ html {
 
 .container{
     height: calc( 100vh - 64px );
-    overflow: auto;
+    background-color: whitesmoke;
+    overflow:auto;
+    padding-left:10vw;
+    padding-right:10vw;
+
 }
 
 .button {

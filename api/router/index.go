@@ -1,24 +1,24 @@
-package app
-
+package router
 import (
 	"bytes"
 	"encoding/json"
 	"log"
-	"net/http"
-
+"net/http"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/middleware"
 	"github.com/pressly/chi/render"
+	"github.com/cescoferraro/spotify/api/app"
+
 )
 
 // Router TODO: NEEDS COMMENT INFO
-func Router(version string) chi.Router {
+func Nginx(version string) chi.Router {
 	if version == "" {
 		version = "NOT SET"
 	}
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
-	r.Use(Cors)
+	r.Use(app.Cors)
 
 	r.Post("/play", func(w http.ResponseWriter, r *http.Request) {
 		token, err := GetBODY(r)
@@ -26,7 +26,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		err = Play(token)
+		err = app.Play(token)
 		if err != nil {
 			log.Println(err.Error())
 			return
@@ -42,7 +42,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		err = Repeat(state, token)
+		err = app.Repeat(state, token)
 		if err != nil {
 			log.Println(err.Error())
 			return
@@ -59,7 +59,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		err = PlayOpts(id, token)
+		err = app.PlayOpts(id, token)
 		if err != nil {
 			log.Println(err.Error())
 			return
@@ -70,11 +70,11 @@ func Router(version string) chi.Router {
 	})
 	r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("LOGIN")
-		url := SPOTIFYAUTH.AuthURL(State)
+		url := app.SPOTIFYAUTH.AuthURL(app.State)
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 	})
 	r.Get("/status", func(w http.ResponseWriter, r *http.Request) {
-		render.JSON(w, r, Tokens.Token)
+		render.JSON(w, r, app.Tokens.Token)
 	})
 
 	r.Post("/playlists", func(w http.ResponseWriter, r *http.Request) {
@@ -83,7 +83,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		user, err := GetPLaylists(body)
+		user, err := app.GetPLaylists(body)
 		if err != nil {
 			log.Println(err.Error())
 			return
@@ -96,7 +96,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		err = Pause(body)
+		err = app.Pause(body)
 		if err != nil {
 			log.Println(err.Error())
 		}
@@ -108,7 +108,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		err = Previous(body)
+		err = app.Previous(body)
 		if err != nil {
 			log.Println(err.Error())
 		}
@@ -120,7 +120,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		err = Next(body)
+		err = app.Next(body)
 		if err != nil {
 			log.Println(err.Error())
 		}
@@ -132,7 +132,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		user, err := Getfollowing(body)
+		user, err := app.Getfollowing(body)
 		if err != nil {
 			log.Println(err.Error())
 		}
@@ -145,7 +145,7 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		user, err := GetProfile(body)
+		user, err := app.GetProfile(body)
 		if err != nil {
 			log.Println(err.Error())
 		}
@@ -158,10 +158,10 @@ func Router(version string) chi.Router {
 			log.Println(err.Error())
 			return
 		}
-		Tokens.Lock()
-		defer Tokens.Unlock()
-		if Tokens.Token[code] != nil {
-			delete(Tokens.Token, code)
+		app.Tokens.Lock()
+		defer app.Tokens.Unlock()
+		if app.Tokens.Token[code] != nil {
+			delete(app.Tokens.Token, code)
 			render.JSON(w, r, true)
 		}
 		render.JSON(w, r, false)
@@ -170,14 +170,14 @@ func Router(version string) chi.Router {
 	r.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		log.Println("*")
 		var buffer bytes.Buffer
-		if IsProd() {
+		if app.IsProd() {
 			buffer.WriteString("http://spotify.cescoferraro.xyz/auth/")
 		} else {
 			buffer.WriteString("http://localhost:5000/auth/")
 		}
 		code := r.URL.Query().Get("code")
 		if r.URL.RawQuery != "" {
-			go RetrieveToken(code)
+			go app.RetrieveToken(code)
 			buffer.WriteString(code)
 		}
 		log.Println(r.URL.Query().Get("code"))

@@ -1,7 +1,7 @@
 import * as React from "react"
 import AppBar from "material-ui/AppBar"
-import * as CSS from "../css/shell.css"
-const SPOTIFYLogo = require("../../../../shared/images/spotify.svg")
+import * as CSS from "./shell.css"
+const SPOTIFYLogo = require("../../../shared/images/spotify.svg")
 
 const goBack = (props) => () => {
     props.ROUTER_ACTION("HOME")

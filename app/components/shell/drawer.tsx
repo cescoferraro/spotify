@@ -3,13 +3,13 @@ import ReduxToastr from "react-redux-toastr"
 import Subheader from "material-ui/Subheader"
 import * as cs from "classnames"
 import AppBar from "material-ui/AppBar"
-import * as CSS from "../css/shell.css"
+import * as CSS from "./shell.css"
 import Drawer from "material-ui/Drawer"
 import MenuItem from "material-ui/MenuItem"
-const Cancel = require("../../../../shared/images/cancel.svg")
-const Boy = require("../../../../shared/images/boy.svg")
-const Girl = require("../../../../shared/images/girl.svg")
-const BoilLogo = require("../../../../shared/images/spotify.svg")
+const Cancel = require("../../../shared/images/cancel.svg")
+const Boy = require("../../../shared/images/boy.svg")
+const Girl = require("../../../shared/images/girl.svg")
+const BoilLogo = require("../../../shared/images/spotify.svg")
 
 const goBack = (props) => () => {
     props.ROUTER_ACTION("HOME")
