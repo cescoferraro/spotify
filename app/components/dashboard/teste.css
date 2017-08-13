@@ -1,13 +1,16 @@
 @import "../../../shared/css/var/var.css";
 
-.test{
+.container{
     height: calc( 100vh - 64px );
     background-color: whitesmoke;
     overflow:auto;
-    padding-left:10vw;
-    padding-right:10vw;
+    padding-left: 5vw;
+    padding-right:5vw;
 }
-
+.pad{
+    padding-left: 5vw;
+    padding-right:5vw;
+}
 .flex{
     display:flex;
     align-items: center;

@@ -1,10 +1,5 @@
 import * as React from "react";
-import RaisedButton from 'material-ui/RaisedButton'
-import { Observable } from "rxjs/Observable"
-import "rxjs/add/operator/map"
-import "rxjs/add/observable/dom/ajax"
 import { API_URL } from "../../../shared/api/index"
-import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import ActionHome from 'material-ui/svg-icons/action/home'
@@ -19,93 +14,59 @@ import * as CSS from "./teste.css"
 import { Repeat } from "./repeat";
 import { Timer } from "./timer";
 import { Plays } from "./changer";
+import { connect } from "react-redux"
+import { compose } from "recompose"
+import Subheader from "material-ui/Subheader"
 
-
-const styles = {
-    largeIcon: {
-        width: 60,
-        height: 60,
-    },
-    large: {
-        width: 120,
-        height: 120,
-        padding: 30,
-    },
-};
-export const controlAPI = (token, control) => {
-    Observable.ajax({
-        url: API_URL() + "/" + control,
-        body: token,
-        method: "POST",
-        responseType: 'json',
-        crossDomain: true
-    })
-        .map((user) => {
-            console.log(user.response)
-        }).subscribe((success) => {
-            console.log("done")
-        })
-}
-
-
-
-export const Player = ({ token }) => {
+export const Player = compose(
+    connect()
+)(({ dispatch, token }) => {
+    const IconProps = IconPropCreator(dispatch, token)
     return (
-        <div >
-            <Plays token={token} />
-            <Timer token={token} />
-            <div className={CSS.flex} >
-                <IconButton
-                    iconStyle={styles.largeIcon}
-                    style={styles.large}
-                    onClick={() => {
-                        controlAPI(token, "previous")
-                    }}
-                >
-                    <SkipPrevious />
-                </IconButton>
-                <IconButton
-                    iconStyle={styles.largeIcon}
-                    style={styles.large}
-
-                    onClick={() => {
-                        controlAPI(token, "pause")
-                    }}
-                >
-                    <Stop />
-                </IconButton>
-                <IconButton
-                    iconStyle={styles.largeIcon}
-                    style={styles.large}
-
-                    onClick={() => {
-                        controlAPI(token, "pause")
-                    }}
-                >
-                    <Pause />
-                </IconButton>
-                <IconButton
-                    iconStyle={styles.largeIcon}
-                    style={styles.large}
-                    onClick={() => {
-                        controlAPI(token, "play")
-                    }}
-                >
-                    <PlayIcon />
-                </IconButton>
-                <IconButton
-                    iconStyle={styles.largeIcon}
-                    style={styles.large}
-
-                    onClick={() => {
-                        controlAPI(token, "next")
-                    }}
-                >
-                    <SkipNext />
-                </IconButton>
-                <Repeat token={token} />
+        <div>
+            <Subheader> Player Controls </Subheader>
+            <div className={CSS.pad}>
+                <div className={CSS.flex} >
+                    <IconButton {...IconProps("PREVIOUS") } >
+                        <SkipPrevious />
+                    </IconButton>
+                    <IconButton {...IconProps("PAUSE") } >
+                        <Stop />
+                    </IconButton>
+                    <IconButton {...IconProps("PAUSE") } >
+                        <Pause />
+                    </IconButton>
+                    <IconButton {...IconProps("PLAY") } >
+                        <PlayIcon />
+                    </IconButton>
+                    <IconButton {...IconProps("NEXT") } >
+                        <SkipNext />
+                    </IconButton>
+                    <Repeat
+                        {...IconProps("NEXT") }
+                        token={token}
+                    />
+                </div>
             </div>
         </div>
     )
 
-}
+})
+
+const IconPropCreator = (dispatch, token) =>
+    (type) => {
+        return {
+            iconStyle: {
+                width: "60px",
+                height: "60px"
+            },
+            style: {
+                width: "10vw",
+                height: "10vw",
+                padding: "10px"
+            },
+            onClick: () => {
+                dispatch({ type, payload: { token } })
+            }
+        }
+    }

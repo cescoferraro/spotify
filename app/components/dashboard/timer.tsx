@@ -6,11 +6,12 @@ import "rxjs/add/observable/dom/ajax"
 import { API_URL } from "../../../shared/api/index"
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import { controlAPI } from "./player";
 import TextField from 'material-ui/TextField';
 import * as CSS from "./teste.css"
+import { connect } from "react-redux"
+import { compose } from "recompose"
 
-export class Timer extends React.Component<any, any>{
+class TimerComponent extends React.Component<any, any>{
 
     constructor(props) {
         super(props)
@@ -33,12 +34,17 @@ export class Timer extends React.Component<any, any>{
                 <RaisedButton
                     className={CSS.selectButton}
                     backgroundColor={this.state.on ? "red" : "green"}
-                    label={(this.state.on ? "Stop" : "Start") + " Interval"}
+                    label={this.state.on ? "Stop" : "Start"}
                     onClick={() => {
                         if (!this.state.on) {
                             const sub = setInterval(() => {
                                 console.log("tick")
-                                controlAPI(this.props.token, "next")
+                                this.props.dispatch(
+                                    {
+                                        type: "NEXT",
+                                        payload: { token: this.props.token }
+                                    }
+                                )
                             }, this.state.interval * 1000)
                             this.setState({ setInterval: sub })
                         } else {
@@ -53,3 +59,4 @@ export class Timer extends React.Component<any, any>{
 
     }
 }
+export const Timer = compose(connect())(TimerComponent)

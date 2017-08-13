@@ -5,6 +5,8 @@ import { Following } from "./following"
 import { MyPlaylists } from "./playlist"
 import { Player } from "./player"
 import { INFO } from "./info"
+import { Plays } from "./changer";
+import { Timer } from "./timer";
 
 export class DashboardComponent extends React.Component<any, any> {
     public render() {
@@ -25,6 +27,8 @@ export class DashboardComponent extends React.Component<any, any> {
                                     <Following token={token} />
                                     <MyPlaylists token={token} />
                                     <Player token={token} />
+                                    <Plays token={token} />
+                                    <Timer token={token} />
                                 </div>
                             ) :
                             <div >

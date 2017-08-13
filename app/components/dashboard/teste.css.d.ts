@@ -1,4 +1,5 @@
-export const test: string
+export const container: string
+export const pad: string
 export const flag: string
 export const flex: string
 export const title: string
