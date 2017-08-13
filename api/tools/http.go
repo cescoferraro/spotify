@@ -1,22 +1,9 @@
-package app
+package tools
 
-import ( 
+import (
+	"bytes"
 	"net/http"
-	"os"
 )
-
-var VERSION string
-
-
-// IsProd TODO: NEEDS COMMENT INFO
-func IsProd() bool {
-	prod := os.Getenv("KUBERNETES")
-	if prod == "true" {
-		return true
-	}
-	return false
-}
-
 
 // Cors TODO: NEEDS COMMENT INFO
 func Cors(h http.Handler) http.Handler {
@@ -36,4 +23,14 @@ func Cors(h http.Handler) http.Handler {
 		h.ServeHTTP(w, r)
 	})
 
+}
+
+// GetBODY TODO: NEEDS COMMENT INFO
+func GetBODY(r *http.Request) (string, error) {
+	buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
+	_, err := buf.ReadFrom(r.Body)
+	if err != nil {
+		return "", err
+	}
+	return string(buf.Bytes()), nil
 }
