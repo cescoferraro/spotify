@@ -34,6 +34,6 @@ const AppRouterClass = (props) => {
 }
 
 export const AppRouter = compose(
-    connect(({ location, drawer }) =>
-        ({ location, drawer }), APP_ACTIONS)
+    connect(({ location, drawer, token }) =>
+        ({ location, drawer, token }), APP_ACTIONS)
 )(AppRouterClass)

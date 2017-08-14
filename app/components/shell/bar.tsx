@@ -13,7 +13,7 @@ const boilLogo = (props) => {
         props.location.payload.user ?
         <SPOTIFYLogo
             onClick={() => {
-                props.dispatch({ type: "LOGOUT" })
+                props.dispatch({ type: "LOGOUT", payload: { token: props.token } })
             }}
             className={CSS.button}
         /> :

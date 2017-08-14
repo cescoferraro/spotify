@@ -1,20 +1,30 @@
-.pad{
-    padding-left: 5vw;
-    padding-right:5vw;
-}
-.flex{
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-.grey{
-    fill: grey !important; 
-}
-.button{
-    width: 15vw !important;
-    height: 15vw !important;
-    svg{
-	width: 10vw !important;
-	height: 10vw !important;
+.main{
+    align-content:center;
+    h2{color:white;}
+    > div {
+	padding-left: 5vw;
+	padding-right:5vw;
+	> div{
+	    display:flex;
+	    align-items: center;
+	    justify-content: center;
+	    button{
+		width: 15vw !important;
+		height: 15vw !important;
+		.grey{
+		    fill: grey !important; 
+		}
+		svg{
+		    width: 10vw !important;
+		    height: 10vw !important;
+		}
+	    }
+	}
+	.now{
+	    p {
+		text-align: center;
+		color: white;
+	    }
+	}
     }
 }

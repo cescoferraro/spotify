@@ -24,3 +24,12 @@ export const player = (state = { now: Now }, action: any = {}) => {
             return state
     }
 }
+
+export const token = (state = "", action: any = {}) => {
+    switch (action.type) {
+        case "SET_TOKEN":
+            return action.payload
+        default:
+            return state
+    }
+}

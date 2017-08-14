@@ -15,16 +15,18 @@ import { connect } from "react-redux"
 import { compose } from "recompose"
 import Subheader from "material-ui/Subheader"
 import { Repeat } from "./repeat";
+import { NOW } from "./now";
 
 export const Player = compose(
     connect()
 )(({ dispatch, token }) => {
     const IconProps = IconPropCreator(dispatch, token)
     return (
-        <div>
+        <div className={CSS.main}>
             <Subheader> Player Controls </Subheader>
-            <div className={CSS.pad}>
-                <div className={CSS.flex} >
+            <div >
+                <NOW />
+                <div >
                     <IconButton {...IconProps("PREVIOUS") } >
                         <SkipPrevious />
                     </IconButton>

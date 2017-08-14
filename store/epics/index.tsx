@@ -41,7 +41,7 @@ export const nowEpic = (action$, store) => (
 
 export const logoutEpic = (action$, store) => {
     return action$.ofType("LOGOUT")
-        .mergeMap(funcMap({ path: "logout" }))
+        .mergeMap(funcMap({ path: "logout", toastr: false }))
         .mapTo({ type: "HOME" })
 }
 

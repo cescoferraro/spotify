@@ -18,6 +18,7 @@ export const dashboardThunk = (dispatch, getState) => {
     }).take(1)
         .map((user) => {
             console.log(user.response)
+            dispatch({ type: "SET_TOKEN", payload: code })
             dispatch(redirect({
                 type: 'DASHBOARD',
                 payload: {

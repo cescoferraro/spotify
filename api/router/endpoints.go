@@ -21,7 +21,7 @@ func Endpoints(version string) chi.Router {
 	r.Post("/next", nextEndPoint)
 	r.Post("/following", followingEndPoint)
 	r.Post("/me", meEndPoint)
-	r.Get("/logout", logoutEndPoint)
+	r.Post("/logout", logoutEndPoint)
 	r.Post("/now", nowPlayingEndPoint)
 	r.Get("/version", versionEndPoint(version))
 	r.HandleFunc("/", rootEndPoint)

@@ -24,7 +24,7 @@ export class DashboardComponent extends React.Component<any, any> {
                             (
                                 <div >
                                     <INFO payload={payload} />
-                                    <Player token={token} />
+                                    <Player {...this.props} />
                                     <br />
                                     <div>
                                         <Subheader> Tools </Subheader>
