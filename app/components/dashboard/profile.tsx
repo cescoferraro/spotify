@@ -2,21 +2,11 @@ import * as React from "react"
 import * as CSS from "./main.css"
 import { Following } from "./following"
 import { MyPlaylists } from "./playlist"
-import { Player } from "./player"
+import { Player } from "../player/player"
 import { Plays } from "./changer";
 import { Timer } from "./timer";
-
 import Subheader from "material-ui/Subheader"
-
-export const Info = ({ payload }) => {
-    return <div>
-        <h2 style={{ marginTop: "0px" }}>
-            <a href={payload.user.external_urls.spotify} >
-                {payload.user.display_name}</a>
-        </h2>
-        <h2>{payload.user.email}</h2>
-    </div>
-}
+import { INFO } from "./info";
 
 export const SPOTIFYProfile = ({ dispatch, token, payload, css }) => {
     console.log(payload)
@@ -26,7 +16,7 @@ export const SPOTIFYProfile = ({ dispatch, token, payload, css }) => {
                 <div>
                     <Subheader> User Information </Subheader>
                     <div className={css.pad} >
-                        <Info payload={payload} />
+                        <INFO payload={payload} />
                     </div>
                 </div>
                 <Player token={token} dispatch={dispatch} />

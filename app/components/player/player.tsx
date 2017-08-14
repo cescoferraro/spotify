@@ -11,12 +11,10 @@ import Pause from 'material-ui/svg-icons/av/pause'
 import Loop from 'material-ui/svg-icons/av/fiber-manual-record'
 import RepeatOne from 'material-ui/svg-icons/av/repeat-one'
 import * as CSS from "./main.css"
-import { Repeat } from "./repeat";
-import { Timer } from "./timer";
-import { Plays } from "./changer";
 import { connect } from "react-redux"
 import { compose } from "recompose"
 import Subheader from "material-ui/Subheader"
+import { Repeat } from "./repeat";
 
 export const Player = compose(
     connect()
@@ -43,6 +41,7 @@ export const Player = compose(
                         <SkipNext />
                     </IconButton>
                     <Repeat
+                        className={CSS.button}
                         {...IconProps("NEXT") }
                         token={token}
                     />
@@ -56,15 +55,7 @@ export const Player = compose(
 const IconPropCreator = (dispatch, token) =>
     (type) => {
         return {
-            iconStyle: {
-                width: "60px",
-                height: "60px"
-            },
-            style: {
-                width: "10vw",
-                height: "10vw",
-                padding: "10px"
-            },
+            className: CSS.button,
             onClick: () => {
                 dispatch({ type, payload: { token } })
             }

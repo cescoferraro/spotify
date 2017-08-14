@@ -11,6 +11,7 @@ const postCSS = {
   options: {
     plugins: loader => [
       require('postcss-import')({ root: loader.resourcePath }),
+      require('postcss-nested'),
       require('postcss-cssnext')({
         browsers: '> 0%',
         colorFunction: true,

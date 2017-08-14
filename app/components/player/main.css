@@ -1,0 +1,20 @@
+.pad{
+    padding-left: 5vw;
+    padding-right:5vw;
+}
+.flex{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+.grey{
+    fill: grey !important; 
+}
+.button{
+    width: 15vw !important;
+    height: 15vw !important;
+    svg{
+	width: 10vw !important;
+	height: 10vw !important;
+    }
+}

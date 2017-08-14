@@ -43,8 +43,7 @@ export class Repeat extends React.Component<any, any>{
         console.log(this.props)
         return (
             <IconButton
-                iconStyle={this.props.iconStyle}
-                style={this.props.style}
+                className={this.props.className}
                 onClick={this.toggleRepeat.bind(this)}
             >
 

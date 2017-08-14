@@ -4,7 +4,7 @@ import * as CSS from "./main.css"
 import { compose } from "recompose"
 import { Following } from "./following"
 import { MyPlaylists } from "./playlist"
-import { Player } from "./player"
+import { Player } from "../player/player"
 import { INFO } from "./info"
 import { Plays } from "./changer";
 import { Timer } from "./timer";

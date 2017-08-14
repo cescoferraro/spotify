@@ -11,6 +11,8 @@ const login = () => {
     window.location.href = API_URL() + "/login"
 }
 
+
+
 export const HomeComponent = (props) => {
     return (
         <div className={cs(CSS.flex, CSS.container)} >
@@ -24,7 +26,7 @@ export const HomeComponent = (props) => {
                         className={CSS.button}
                         onClick={login}
                     >
-                        <SPOTIFYIcon className={CSS.buttonIcon} />
+                        <SPOTIFYIcon />
                     </IconButton>
                 </div>
             </div>

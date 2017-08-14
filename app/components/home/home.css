@@ -3,10 +3,7 @@
     background-color: black;
     overflow:auto;
     margin-left:10px;
-
     margin-right:10px;
-
-
 }
 
 .flex {
@@ -16,13 +13,13 @@
 }
 
 .button {
-    height: 30vw !important;
-    width: 30vw !important;
-}
-
-.buttonIcon {
-    height: 25vw;
-    width: 25vw;
+    height: 10vw !important;
+    width: 10vw !important;
+    width: 10vw !important;
+    svg {
+	height: 5vw;
+	width: 5vw;
+    }
 }
 
 
