@@ -23,7 +23,5 @@ func playSongEndPoint(w http.ResponseWriter, r *http.Request) {
 		log.Println(err.Error())
 		return
 	}
-
-	log.Println(token)
 	render.JSON(w, r, id)
 }

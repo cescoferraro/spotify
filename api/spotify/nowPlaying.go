@@ -7,11 +7,11 @@ import (
 
 func NowPlaying(code string) (*spotify.CurrentlyPlaying, error) {
 	var CurrentlyPlaying *spotify.CurrentlyPlaying
-	token, err := GETToken(code)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return CurrentlyPlaying, errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH.NewClient(token)
+	client := SPOTIFYAUTH().NewClient(token)
 
 	CurrentlyPlaying, err = client.PlayerCurrentlyPlaying()
 	if err != nil {

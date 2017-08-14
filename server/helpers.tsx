@@ -29,7 +29,7 @@ export const OneSignalCDN = ({ production }) => {
 export const OneSignalInit = ({ production }) => {
     const text = ` var OneSignal = window.OneSignal || []; ` +
         `OneSignal.push(["init", {` +
-        `appId: "396fb320-f5e2-4ed2-af88-efbee83b2564", ` +
+        `appId: "fd9ebb5e-9bf7-46d0-8623-c96721f095c8", ` +
         `autoRegister: true, notifyButton: {enable: true}}]); `
     return production ?
         (

@@ -9,11 +9,11 @@ import (
 func Getfollowing(code string) (*spotify.FullArtistCursorPage, error) {
 	var artists *spotify.FullArtistCursorPage
 	var err error
-	token, err := GETToken(code)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return artists, errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH.NewClient(token)
+	client := SPOTIFYAUTH().NewClient(token)
 	artists, err = client.CurrentUsersFollowedArtists()
 	if err != nil {
 		return artists, errors.Wrap(err, "client.CurrentUser")

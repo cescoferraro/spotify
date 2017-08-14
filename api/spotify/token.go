@@ -1,7 +1,6 @@
 package spotify
 
 import (
-	"log"
 	"sync"
 	"time"
 
@@ -18,12 +17,9 @@ type AuthHub struct {
 
 // TokenHUB TODO: NEEDS COMMENT INFO
 var (
-	TokenHUB                          = AuthHub{Tokens: make(map[string]*oauth2.Token)}
-	SPOTIFYAUTH spotify.Authenticator = spotifyAuth()
-	State                             = "abc123"
-	ClientID                          = "445f705eea2d4d0e8bbd97b796fb7957"
-	secretKey                         = "412fb5cbfec2464cb71b567efd0236ea"
-	Scopes                            = []string{
+	TokenHUB = AuthHub{Tokens: make(map[string]*oauth2.Token)}
+	State    = "abc123"
+	Scopes   = []string{
 		spotify.ScopePlaylistModifyPrivate,
 		spotify.ScopePlaylistModifyPublic,
 		spotify.ScopeUserReadPrivate,
@@ -35,26 +31,27 @@ var (
 	}
 )
 
-func spotifyAuth() spotify.Authenticator {
+func SPOTIFYAUTH() spotify.Authenticator {
 	redirectURI := "https://spotifyapi.cescoferraro.xyz"
 	if !tools.IsProd() {
 		redirectURI = "http://localhost:8080"
 	}
+	ClientID := "445f705eea2d4d0e8bbd97b796fb7957"
+	secretKey := "412fb5cbfec2464cb71b567efd0236ea"
 	auth := spotify.NewAuthenticator(redirectURI, Scopes...)
 	auth.SetAuthInfo(ClientID, secretKey)
 	return auth
 }
 
-// GETToken TODO: NEEDS COMMENT INFO
-func GETToken(code string) (*oauth2.Token, error) {
+// ProcessToken TODO: NEEDS COMMENT INFO
+func ProcessToken(code string) (*oauth2.Token, error) {
 	TokenHUB.Lock()
 	defer TokenHUB.Unlock()
-	log.Println(code)
 	if TokenHUB.Tokens[code] != nil {
 		return TokenHUB.Tokens[code], nil
 	}
 	var err error
-	TokenHUB.Tokens[code], err = SPOTIFYAUTH.Exchange(code)
+	TokenHUB.Tokens[code], err = SPOTIFYAUTH().Exchange(code)
 	if err != nil {
 		delete(TokenHUB.Tokens, code)
 		return nil, err

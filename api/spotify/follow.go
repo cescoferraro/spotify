@@ -8,11 +8,11 @@ import (
 // FollowArtists TODO: NEEDS COMMENT INFO
 func FollowArtists(code string, ids ...string) error {
 	var err error
-	token, err := GETToken(code)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH.NewClient(token)
+	client := SPOTIFYAUTH().NewClient(token)
 	var spotID []spotify.ID
 	for _, artist := range ids {
 		spotID = append(spotID, spotify.ID(artist))
@@ -27,11 +27,11 @@ func FollowArtists(code string, ids ...string) error {
 // UnfollowArtists TODO: NEEDS COMMENT INFO
 func UnfollowArtists(code string, ids ...string) error {
 	var err error
-	token, err := GETToken(code)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH.NewClient(token)
+	client := SPOTIFYAUTH().NewClient(token)
 	var spotID []spotify.ID
 	for _, artist := range ids {
 		spotID = append(spotID, spotify.ID(artist))

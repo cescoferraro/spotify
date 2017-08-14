@@ -6,11 +6,11 @@ import (
 
 // Play TODO: NEEDS COMMENT INFO
 func Play(code string) error {
-	token, err := GETToken(code)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH.NewClient(token)
+	client := SPOTIFYAUTH().NewClient(token)
 	err = client.Play()
 	if err != nil {
 		return errors.Wrap(err, "play error")

@@ -20,6 +20,10 @@ const funcMap = ({ path, toastr = true }) => (action) => (
     }).map((ajax) => {
         if (toastr) { toastrFactory.success(path.toUpperCase()) }
         return ajax
+    }).catch((err, caught) => {
+        console.log("errorr999")
+        console.log(err)
+        return Observable.empty()
     })
 )
 

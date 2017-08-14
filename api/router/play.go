@@ -11,16 +11,15 @@ import (
 
 func playEndPoint(w http.ResponseWriter, r *http.Request) {
 	token, err := tools.GetBODY(r)
+	log.Println("hey")
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(401), 401)
 		return
 	}
 	err = spotify.Play(token)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(401), 401)
 		return
 	}
-
-	log.Println(token)
 	render.JSON(w, r, true)
 }
