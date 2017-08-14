@@ -7,7 +7,7 @@ import { API_URL } from "../../../shared/api/index"
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import TextField from 'material-ui/TextField';
-import * as CSS from "./teste.css"
+import * as CSS from "./main.css"
 import { connect } from "react-redux"
 import { compose } from "recompose"
 

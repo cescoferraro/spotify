@@ -27,10 +27,10 @@ export const BoilTheme = {
         accent1Color: "red",
         accent2Color: "#C5CAE9",
         accent3Color: "#C5CAE9",
-        textColor: "#ffffff",
+        textColor: "#F5f5f5",
         secondaryTextColor: " #757575",
         /* alternateTextColor: darkBlack,*/
-        /* canvasColor: white,*/
+        canvasColor: "#000000",
         borderColor: "#BDBDBD",
         disabledColor: "#BDBDBD"
         /* pickerHeaderColor: cyan500,*/

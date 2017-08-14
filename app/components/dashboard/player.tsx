@@ -10,7 +10,7 @@ import Stop from 'material-ui/svg-icons/av/stop'
 import Pause from 'material-ui/svg-icons/av/pause'
 import Loop from 'material-ui/svg-icons/av/fiber-manual-record'
 import RepeatOne from 'material-ui/svg-icons/av/repeat-one'
-import * as CSS from "./teste.css"
+import * as CSS from "./main.css"
 import { Repeat } from "./repeat";
 import { Timer } from "./timer";
 import { Plays } from "./changer";

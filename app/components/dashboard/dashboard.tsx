@@ -1,5 +1,6 @@
+import Subheader from "material-ui/Subheader"
 import * as React from "react"
-import * as CSS from "./teste.css"
+import * as CSS from "./main.css"
 import { compose } from "recompose"
 import { Following } from "./following"
 import { MyPlaylists } from "./playlist"
@@ -24,11 +25,19 @@ export class DashboardComponent extends React.Component<any, any> {
                             (
                                 <div >
                                     <INFO payload={payload} />
-                                    <Following token={token} />
-                                    <MyPlaylists token={token} />
                                     <Player token={token} />
-                                    <Plays token={token} />
-                                    <Timer token={token} />
+                                    <br />
+                                    <div>
+                                        <Subheader> Tools </Subheader>
+                                        <Plays token={token} />
+                                        <Timer token={token} />
+                                    </div>
+                                    <br />
+                                    <div>
+                                        <Subheader> Extra information </Subheader>
+                                        <Following token={token} />
+                                        <MyPlaylists token={token} />
+                                    </div>
                                 </div>
                             ) :
                             <div >

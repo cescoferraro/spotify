@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as CSS from "./teste.css"
+import * as CSS from "./main.css"
 import { Following } from "./following"
 import { MyPlaylists } from "./playlist"
 import { Player } from "./player"

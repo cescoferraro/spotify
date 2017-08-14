@@ -1,6 +1,6 @@
 .container {
     height: calc( 100vh - 64px );
-    background-color: whitesmoke;
+    background-color: black;
     overflow:auto;
     margin-left:10px;
 
@@ -9,19 +9,23 @@
 
 }
 
-table {
-    border-collapse: separate;
-    border-spacing: 20px 20px;
-}
-
-.buttonIcon {
-    width: 20px
-}
-.button {
-    width: 70vw
-}
 .flex {
     display:flex;
     align-items: center;
     justify-content:center;
+}
+
+.button {
+    height: 30vw !important;
+    width: 30vw !important;
+}
+
+.buttonIcon {
+    height: 25vw;
+    width: 25vw;
+}
+
+
+.whitey {
+    color: white;
 }

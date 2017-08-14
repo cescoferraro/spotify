@@ -1,7 +1,7 @@
 import * as React from "react";
 import RepeatIcon from 'material-ui/svg-icons/av/repeat'
 import RepeatOne from 'material-ui/svg-icons/av/repeat-one'
-import * as CSS from "./teste.css"
+import * as CSS from "./main.css"
 import IconButton from 'material-ui/IconButton'
 import { Observable } from "rxjs/Observable"
 import 'rxjs/add/observable/empty';

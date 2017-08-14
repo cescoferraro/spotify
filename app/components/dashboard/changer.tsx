@@ -6,7 +6,7 @@ import "rxjs/add/observable/dom/ajax"
 import { API_URL } from "../../../shared/api/index"
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import * as CSS from "./teste.css"
+import * as CSS from "./main.css"
 
 const playID = (ID, token) => {
     Observable.ajax({
@@ -48,6 +48,7 @@ export class Plays extends React.Component<any, any>{
                         URIS.map((name) => (
                             <MenuItem
                                 key={name.key}
+                                className={CSS.menu}
                                 insetChildren={true}
                                 value={name.value}
                                 primaryText={name.name}

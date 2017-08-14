@@ -9,7 +9,7 @@ export const AsyncDashboard = universal(
     universalImport({
         load: () => Promise.all([
             System.import(/* webpackChunkName: 'dashboard' */ "./dashboard"),
-            importCss("dashboard")]).then(promises => promises[0]),
+            importCss("main")]).then(promises => promises[0]),
         chunkName: () => "dashboard",
         resolve: () => require.resolveWeak('./dashboard'),
     })

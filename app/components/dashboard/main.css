@@ -17,7 +17,7 @@
     justify-content: center;
 }
 .feature {
-    background-color: whitesmoke;
+    background-color: black;
     width: calc(100% )
 }
 .select {
@@ -28,4 +28,8 @@
 }
 .selectButton {
     width: 20% !important;
+}
+a {color:white;}
+.menu{
+    background-color: black;
 }

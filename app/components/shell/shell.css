@@ -3,7 +3,7 @@
 html {
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
-    background-color: red;
+    background-color: black;
 }
 
 .base{
@@ -12,7 +12,7 @@ html {
 
 .container{
     height: calc( 100vh - 64px );
-    background-color: whitesmoke;
+    background-color: black;
     overflow:auto;
     padding-left:10vw;
     padding-right:10vw;

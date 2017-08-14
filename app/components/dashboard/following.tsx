@@ -4,7 +4,7 @@ import "rxjs/add/operator/map"
 import "rxjs/add/observable/dom/ajax"
 import RaisedButton from 'material-ui/RaisedButton'
 import { API_URL } from "../../../shared/api/index";
-import * as CSS from "./teste.css"
+import * as CSS from "./main.css"
 import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
