@@ -21,13 +21,13 @@ export const BoilTheme = {
     fontFamily: "Roboto, sans-serif",
     borderRadius: 2,
     palette: {
-        primary1Color: "#303F9F",
+        primary1Color: "#6ae368",
         primary2Color: "#3F51B5",
         primary3Color: "red",
         accent1Color: "red",
         accent2Color: "#C5CAE9",
         accent3Color: "#C5CAE9",
-        textColor: "#212121",
+        textColor: "#ffffff",
         secondaryTextColor: " #757575",
         /* alternateTextColor: darkBlack,*/
         /* canvasColor: white,*/

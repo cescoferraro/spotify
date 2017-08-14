@@ -10,7 +10,7 @@ import createEngine from "redux-storage-engine-localstorage"
 import debounce from "redux-storage-decorator-debounce"
 export let engine = createEngine("my-save-key")
 import { createLogger } from "redux-logger"
-engine = debounce(engine, 3000)
+engine = debounce(engine, 8000)
 const ReplacebleEpicMiddleware = createEpicMiddleware(RootEpic)
 
 export const isServer = () => !(typeof window !== "undefined" && window.document)

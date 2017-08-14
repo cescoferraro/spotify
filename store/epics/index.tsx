@@ -1,4 +1,6 @@
 import { Observable } from "rxjs/Observable"
+import "rxjs/add/observable/merge"
+import "rxjs/add/observable/of"
 import "rxjs/add/operator/map"
 import "rxjs/add/operator/delay"
 import "rxjs/add/operator/mapTo"
@@ -6,48 +8,53 @@ import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { API_URL } from "../../shared/api/index";
 import { actions as toastrActions } from 'react-redux-toastr'
-import { toastr } from 'react-redux-toastr'
+import { toastr as toastrFactory } from 'react-redux-toastr'
 
-export const pingEpic = (action$) =>
-    action$.filter((action) => action.type === "PING")
-        .map((hey) => (hey))
-        .mapTo({ type: "USER", payload: 78878 })
-
-export const loginEpic = (action$) =>
-    action$.filter((action) => action.type === "LOGIN")
-        .map((hey) => (hey))
-        .mapTo({ type: "DASHBOARD" })
-
-const funcMap = (action$, path) => (action) => {
-    console.log(action)
-    console.log(action$)
-    return Observable.ajax({
+const funcMap = ({ path, toastr = true }) => (action) => (
+    Observable.ajax({
         url: API_URL() + "/" + path,
         body: action.payload.token,
         method: "POST",
         responseType: 'json',
         crossDomain: true
     }).map((ajax) => {
-        toastr.success(path.toUpperCase(),
-            "You have just applied " + path.toUpperCase() + " to you Spotify Client")
-    }).mapTo({ type: "DONE" })
-}
+        if (toastr) { toastrFactory.success(path.toUpperCase()) }
+        return ajax
+    })
+)
+
+export const nowEpic = (action$, store) => (
+    action$
+        .ofType("NOW")
+        .mergeMap(funcMap({ path: "now", toastr: false }))
+        .mergeMap((now) => {
+            return (Observable.merge(
+                Observable.of({ type: "SET_NOW", payload: now.response }),
+                Observable.of({ type: "DONE_NOW" })
+            ))
+        })
+)
 
 export const stopEpic = (action$, store) => {
     return action$.ofType("PAUSE")
-        .mergeMap(funcMap(action$, "pause"))
+        .mergeMap(funcMap({ path: "pause" }))
+        .mapTo({ type: "DONE" })
 }
 
 export const nextEpic = (action$, store) => {
     return action$.ofType("NEXT")
-        .mergeMap(funcMap(action$, "next"))
+        .mergeMap(funcMap({ path: "next" }))
+        .mapTo({ type: "DONE" })
 }
 
 export const previousEpic = (action$, store) => {
     return action$.ofType("PREVIOUS")
-        .mergeMap(funcMap(action$, "previous"))
+        .mergeMap(funcMap({ path: "previous" }))
+        .mapTo({ type: "DONE" })
 }
+
 export const playEpic = (action$, store) => {
     return action$.ofType("PLAY")
-        .mergeMap(funcMap(action$, "play"))
+        .mergeMap(funcMap({ path: "play" }))
+        .mapTo({ type: "DONE" })
 } 

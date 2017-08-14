@@ -1,6 +1,7 @@
 package spotify
 
 import (
+	"log"
 	"sync"
 	"time"
 
@@ -48,6 +49,7 @@ func spotifyAuth() spotify.Authenticator {
 func GETToken(code string) (*oauth2.Token, error) {
 	TokenHUB.Lock()
 	defer TokenHUB.Unlock()
+	log.Println(code)
 	if TokenHUB.Tokens[code] != nil {
 		return TokenHUB.Tokens[code], nil
 	}
