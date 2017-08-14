@@ -14,6 +14,7 @@ const login = () => {
 
 
 export const HomeComponent = (props) => {
+    console.log(props)
     return (
         <div className={cs(CSS.flex, CSS.container)} >
             <div>

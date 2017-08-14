@@ -32,7 +32,7 @@ export const Renderer = (Component) => {
         <ReduxProvider store={store}>
             <MuiThemeProvider muiTheme={boilMUI} >
                 <AppContainer>
-                    <Component />
+                    <Component userAgent={navigator.userAgent} />
                 </AppContainer>
             </MuiThemeProvider>
         </ReduxProvider>, tag)

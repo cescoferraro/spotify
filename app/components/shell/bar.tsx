@@ -12,7 +12,9 @@ const boilLogo = (props) => {
     return props.location.type === "DASHBOARD" &&
         props.location.payload.user ?
         <SPOTIFYLogo
-            onClick={props.DRAWER_TOGGLE_ACTION}
+            onClick={() => {
+                props.dispatch({ type: "LOGOUT" })
+            }}
             className={CSS.button}
         /> :
         null
@@ -20,6 +22,7 @@ const boilLogo = (props) => {
 
 export const SPOTIFYAppBar = (props) => {
     console.log("came back")
+    console.log(props)
     return (
         <AppBar
             showMenuIconButton={false}

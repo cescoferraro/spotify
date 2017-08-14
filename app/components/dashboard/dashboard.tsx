@@ -8,6 +8,7 @@ import { Player } from "../player/player"
 import { INFO } from "./info"
 import { Plays } from "./changer";
 import { Timer } from "./timer";
+import { LOADING } from "../loading/index";
 
 export class DashboardComponent extends React.Component<any, any> {
     public render() {
@@ -18,9 +19,7 @@ export class DashboardComponent extends React.Component<any, any> {
             <div>
                 {
                     payload.code ?
-                        <div >
-                            <h2>authenticating</h2>
-                        </div> :
+                        <LOADING userAgent={this.props.userAgent} /> :
                         payload.user ?
                             (
                                 <div >

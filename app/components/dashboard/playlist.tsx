@@ -44,6 +44,7 @@ export class MyPlaylists extends React.Component<any, any>{
                 fullWidth={true}
                 label={label + " Playlists"}
                 secondary={true}
+                className={CSS.selectButton}
                 onClick={() => {
                     console.log(this.state.hidden)
                     this.getTOP5()

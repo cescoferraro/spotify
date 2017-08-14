@@ -33,7 +33,7 @@ class TimerComponent extends React.Component<any, any>{
                 />
                 <RaisedButton
                     className={CSS.selectButton}
-                    backgroundColor={this.state.on ? "red" : "green"}
+                    backgroundColor={this.state.on ? "#Ff0000" : "#6ae368"}
                     label={this.state.on ? "Stop" : "Start"}
                     onClick={() => {
                         if (!this.state.on) {

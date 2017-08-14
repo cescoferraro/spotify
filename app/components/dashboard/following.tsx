@@ -41,6 +41,7 @@ export class Following extends React.Component<any, any>{
             <RaisedButton
                 backgroundColor="black"
                 fullWidth={true}
+                className={CSS.selectButton}
                 secondary={true}
                 label="TOP5 ARTISTS"
                 onClick={() => {

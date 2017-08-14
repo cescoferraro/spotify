@@ -27,9 +27,12 @@
     fill: grey !important; 
 }
 .selectButton {
+    span {
+	color: black !important;
+    }
     width: 20% !important;
 }
-a {color:red;}
+a {color: whitesmoke;}
 .menu{
     background-color: black;
 }

@@ -1,7 +1,7 @@
 import { combineEpics } from "redux-observable"
 import {
     playEpic, stopEpic,
-    previousEpic, nextEpic, nowEpic
+    previousEpic, nextEpic, nowEpic, logoutEpic
 } from "./epics/index";
 
 export const RootEpic = combineEpics(
@@ -9,5 +9,6 @@ export const RootEpic = combineEpics(
     stopEpic,
     previousEpic,
     nowEpic,
+    logoutEpic,
     nextEpic
 )

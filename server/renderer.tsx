@@ -7,10 +7,11 @@ import { Provider as ReduxProvider } from "react-redux"
 import { BoilTheme } from "../shared/theme"
 
 export const Renderer = (req, store) => {
+    const userAgent = req.headers["user-agent"]
     const app = (
-        <MuiThemeProvider muiTheme={getMuiTheme(BoilTheme, { userAgent: req.headers["user-agent"] })}>
+        <MuiThemeProvider muiTheme={getMuiTheme(BoilTheme, { userAgent })}>
             <ReduxProvider store={store}>
-                <AppRouter />
+                <AppRouter userAgent={userAgent} />
             </ReduxProvider>
         </MuiThemeProvider >
     )
