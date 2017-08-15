@@ -24,18 +24,16 @@ class NOWClass extends React.Component<any, any> {
         this.fetch = this.fetch.bind(this)
     }
     fetch() {
-
         this.props.dispatch({ type: "NOW", payload: { token: this.props.token } })
     }
     componentWillMount() {
         this.fetch()
     }
     render() {
-        console.log(this.props)
         const { now } = this.props.player
         const { Item } = now
         return (<div className={CSS.now}>
-            <div>
+            <div onClick={this.fetch}>
                 {now.is_playing ?
                     <SongTitle now={now} /> : <p>Not Playing</p>}
             </div>

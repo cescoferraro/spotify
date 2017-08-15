@@ -14,12 +14,12 @@ func repeatEndPoint(w http.ResponseWriter, r *http.Request) {
 	state := chi.URLParam(r, "state")
 	token, err := tools.GetBODY(r)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(401), 401)
 		return
 	}
 	err = spotify.Repeat(state, token)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(401), 401)
 		return
 	}
 

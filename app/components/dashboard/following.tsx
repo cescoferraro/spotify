@@ -36,7 +36,6 @@ export class Following extends React.Component<any, any>{
 
     }
     render() {
-        console.log(this)
         return <div className={CSS.feature} >
             <RaisedButton
                 backgroundColor="black"

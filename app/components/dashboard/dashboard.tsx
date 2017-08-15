@@ -12,7 +12,6 @@ import { LOADING } from "../loading/index";
 
 export class DashboardComponent extends React.Component<any, any> {
     public render() {
-        console.log(this.props)
         const { payload } = this.props.location
         const { token } = this.props.location.payload
         return <div>
@@ -37,7 +36,11 @@ export class DashboardComponent extends React.Component<any, any> {
                                         <Following token={token} />
                                         <MyPlaylists token={token} />
                                     </div>
+                                    <br />
+                                    <br />
+                                    <br />
                                 </div>
+
                             ) :
                             <div >
                                 <h2>no dashboard</h2>

@@ -17,7 +17,6 @@ export const dashboardThunk = (dispatch, getState) => {
         crossDomain: true
     }).take(1)
         .map((user) => {
-            console.log(user.response)
             dispatch({ type: "SET_TOKEN", payload: code })
             dispatch(redirect({
                 type: 'DASHBOARD',
@@ -28,4 +27,10 @@ export const dashboardThunk = (dispatch, getState) => {
             }))
         }).subscribe((success) => { console.log("done") })
 
+}
+
+
+export const homeThunk = (dispatch, getState) => {
+    dispatch({ type: "SET_TOKEN", payload: "" })
+    dispatch({ type: "SET_NOW", payload: {} })
 }

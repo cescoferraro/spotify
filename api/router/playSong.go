@@ -15,12 +15,12 @@ func playSongEndPoint(w http.ResponseWriter, r *http.Request) {
 	log.Println(id)
 	token, err := tools.GetBODY(r)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(400), 400)
 		return
 	}
 	err = spotify.PlayOpts(id, token)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(400), 400)
 		return
 	}
 	render.JSON(w, r, id)

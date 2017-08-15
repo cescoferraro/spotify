@@ -1,7 +1,6 @@
 package router
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/cescoferraro/spotify/api/spotify"
@@ -12,7 +11,7 @@ import (
 func logoutEndPoint(w http.ResponseWriter, r *http.Request) {
 	code, err := tools.GetBODY(r)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(400), 400)
 		return
 	}
 	spotify.TokenHUB.Lock()

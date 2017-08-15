@@ -19,13 +19,13 @@ import { NOW } from "./now";
 
 export const Player = compose(
     connect()
-)(({ dispatch, token }) => {
+)(({ dispatch, token, player }) => {
     const IconProps = IconPropCreator(dispatch, token)
     return (
         <div className={CSS.main}>
             <Subheader> Player Controls </Subheader>
             <div >
-                <NOW />
+                <NOW player={player} />
                 <div >
                     <IconButton {...IconProps("PREVIOUS") } >
                         <SkipPrevious />
@@ -45,6 +45,7 @@ export const Player = compose(
                     <Repeat
                         className={CSS.button}
                         {...IconProps("NEXT") }
+                        player={player}
                         token={token}
                     />
                 </div>
@@ -57,7 +58,6 @@ export const Player = compose(
 const IconPropCreator = (dispatch, token) =>
     (type) => {
         return {
-            className: CSS.button,
             onClick: () => {
                 dispatch({ type, payload: { token } })
             }

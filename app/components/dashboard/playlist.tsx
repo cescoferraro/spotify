@@ -29,7 +29,6 @@ export class MyPlaylists extends React.Component<any, any>{
             crossDomain: true
         })
             .map((user) => {
-                console.log(user.response)
                 this.setState({ playlists: user.response })
             }).subscribe((success) => {
                 console.log("done")
@@ -37,7 +36,6 @@ export class MyPlaylists extends React.Component<any, any>{
 
     }
     render() {
-        console.log(this)
         const label = this.state.hidden ? "Show" : "Hide"
         return <div className={CSS.feature} >
             <RaisedButton

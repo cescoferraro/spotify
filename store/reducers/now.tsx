@@ -70,5 +70,7 @@ export const Now = {
             isrc: 'BR4LW1300006'
         },
         popularity: 40
-    }
+    },
+    repeat_state: "off"
+
 }

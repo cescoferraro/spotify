@@ -1,7 +1,6 @@
 package router
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/cescoferraro/spotify/api/spotify"
@@ -12,12 +11,13 @@ import (
 func meEndPoint(w http.ResponseWriter, r *http.Request) {
 	body, err := tools.GetBODY(r)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(400), 400)
 		return
 	}
 	user, err := spotify.GetProfile(body)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, http.StatusText(400), 400)
+		return
 	}
 	render.JSON(w, r, user)
 }

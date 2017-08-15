@@ -1,14 +1,15 @@
-import { dashboardThunk } from "./thunks"
+import { dashboardThunk, homeThunk } from "./thunks"
 
 export const routesMap = {
     HOME: {
-        path: "/"
+        path: "/",
+        thunk: homeThunk
     },
     DASHBOARD: {
         path: "/dashboard"
     },
     AUTH: {
-        path: "/auth/:code",
+        path: "/auth/:code/:state",
         thunk: dashboardThunk
     }
 }

@@ -10,7 +10,7 @@ import { API_URL } from "../../shared/api/index";
 import { actions as toastrActions } from 'react-redux-toastr'
 import { toastr as toastrFactory } from 'react-redux-toastr'
 
-const funcMap = ({ path, toastr = true }) => (action) => (
+const playerMap = ({ path, toastr = true }) => (action) => (
     Observable.ajax({
         url: API_URL() + "/" + path,
         body: action.payload.token,
@@ -21,17 +21,16 @@ const funcMap = ({ path, toastr = true }) => (action) => (
         if (toastr) { toastrFactory.success(path.toUpperCase()) }
         return ajax
     }).catch((err, caught) => {
-        console.log("errorr999")
-        console.log(err)
-        return Observable.empty()
+        return Observable.of({ type: "HOME" })
     })
 )
 
 export const nowEpic = (action$, store) => (
     action$
         .ofType("NOW")
-        .mergeMap(funcMap({ path: "now", toastr: false }))
+        .mergeMap(playerMap({ path: "now", toastr: false }))
         .mergeMap((now) => {
+            console.log(now)
             return (Observable.merge(
                 Observable.of({ type: "SET_NOW", payload: now.response }),
                 Observable.of({ type: "DONE_NOW" })
@@ -41,31 +40,62 @@ export const nowEpic = (action$, store) => (
 
 export const logoutEpic = (action$, store) => {
     return action$.ofType("LOGOUT")
-        .mergeMap(funcMap({ path: "logout", toastr: false }))
-        .mapTo({ type: "HOME" })
+        .mergeMap(playerMap({ path: "logout", toastr: false }))
+        .mergeMap((logout) => {
+
+            return Observable.merge(
+                Observable.of({ type: "HOME" })
+            )
+        })
 }
 
+export const repeatEpic = (action$, store) => {
+    return action$.ofType("REPEAT")
+        .mergeMap(reapeatAjax())
+        .mergeMap((logout) => {
+            return Observable.merge(
+                Observable.of({ type: "NOW", payload: { token: store.getState().token } })
+            )
+        })
+}
+
+const reapeatAjax = () => (action) => {
+    let next = action.payload.current === (action.payload.states.length - 1) ?
+        0 : action.payload.current + 1
+    console.log(action.payload.states[next])
+    console.log(action.payload.token)
+    return Observable.ajax({
+        url: API_URL() + "/repeat/" + action.payload.states[next],
+        body: action.payload.token,
+        method: "POST",
+        responseType: 'json',
+        crossDomain: true
+    }).catch((err: any, caught: any) => {
+        console.log(err)
+        return Observable.empty()
+    }).delay(3333)
+}
 
 export const stopEpic = (action$, store) => {
     return action$.ofType("PAUSE")
-        .mergeMap(funcMap({ path: "pause" }))
+        .mergeMap(playerMap({ path: "pause" }))
         .mapTo({ type: "DONE" })
 }
 
 export const nextEpic = (action$, store) => {
     return action$.ofType("NEXT")
-        .mergeMap(funcMap({ path: "next" }))
+        .mergeMap(playerMap({ path: "next" }))
         .mapTo({ type: "DONE" })
 }
 
 export const previousEpic = (action$, store) => {
     return action$.ofType("PREVIOUS")
-        .mergeMap(funcMap({ path: "previous" }))
+        .mergeMap(playerMap({ path: "previous" }))
         .mapTo({ type: "DONE" })
 }
 
 export const playEpic = (action$, store) => {
     return action$.ofType("PLAY")
-        .mergeMap(funcMap({ path: "play" }))
+        .mergeMap(playerMap({ path: "play" }))
         .mapTo({ type: "DONE" })
 } 

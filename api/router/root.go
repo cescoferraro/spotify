@@ -18,11 +18,15 @@ func rootEndPoint(w http.ResponseWriter, r *http.Request) {
 		buffer.WriteString("http://localhost:5000/auth/")
 	}
 	code := r.URL.Query().Get("code")
+	state := r.URL.Query().Get("state")
 	if r.URL.RawQuery != "" {
 		go spotify.ProcessToken(code)
 		buffer.WriteString(code)
+		buffer.WriteString("/")
+		buffer.WriteString(state)
 	}
 	log.Println(r.URL.Query().Get("code"))
+	log.Println(r.URL.Query().Get("state"))
 	log.Println("redirenting to " + buffer.String())
 	http.Redirect(w, r, buffer.String(), http.StatusTemporaryRedirect)
 }

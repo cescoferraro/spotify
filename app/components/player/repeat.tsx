@@ -8,51 +8,37 @@ import 'rxjs/add/observable/empty';
 import "rxjs/add/operator/map"
 import "rxjs/add/operator/catch"
 import { API_URL } from "../../../shared/api/index";
+import { compose } from "recompose"
+import { connect } from "react-redux"
 
-export class Repeat extends React.Component<any, any>{
+export class RepeatClass extends React.Component<any, any>{
+    states = ["off", "context", "track"]
+    current = 0
 
-    constructor(props) {
-        super(props)
-        this.state = { current: 0, modes: ["off", "context", "track"] }
-    }
-
-    toggleRepeat() {
-        const { current, modes } = this.state
-        let next = current === (modes.length - 1) ? 0 : current + 1
-        console.log(modes[next])
-
-        Observable.ajax({
-            url: API_URL() + "/repeat/" + modes[next],
-            body: this.props.token,
-            method: "POST",
-            responseType: 'json',
-            crossDomain: true
-        }).map((user) => {
-            this.setState(
-                { current: next, playlists: user.response }
-            )
-        }).catch((err: any, caught: any) => {
-            console.log(err)
-            return Observable.empty()
-        }).subscribe((success) => {
-            console.log(success)
-        })
-    }
     render() {
-        const { current, modes } = this.state
-        console.log(this.props)
+        this.current = this.states.findIndex(
+            (state) => (this.props.player.now.repeat_state === state))
         return (
             <IconButton
                 className={this.props.className}
-                onClick={this.toggleRepeat.bind(this)}
+                onClick={() => {
+                    this.props.dispatch({
+                        type: "REPEAT",
+                        payload: {
+                            current: this.current,
+                            states: this.states,
+                            token: this.props.token
+                        }
+                    })
+                }}
             >
-
-                {current === 0 ? <RepeatIcon className={CSS.grey} /> :
-                    current === 1 ? <RepeatIcon /> :
-                        current === 2 ? <RepeatOne /> : null}
+                {this.current === 0 ? <RepeatIcon className={CSS.grey} /> :
+                    this.current === 1 ? <RepeatIcon /> :
+                        this.current === 2 ? <RepeatOne /> : null}
             </IconButton>
         )
 
     }
 
 }
+export const Repeat = compose(connect())(RepeatClass)

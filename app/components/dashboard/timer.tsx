@@ -38,7 +38,6 @@ class TimerComponent extends React.Component<any, any>{
                     onClick={() => {
                         if (!this.state.on) {
                             const sub = setInterval(() => {
-                                console.log("tick")
                                 this.props.dispatch(
                                     {
                                         type: "NEXT",
