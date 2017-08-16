@@ -10,14 +10,33 @@ import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import Divider from 'material-ui/Divider';
 import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bubble';
+import { compose } from "recompose";
+import { connect } from "react-redux";
 
-export class MyPlaylists extends React.Component<any, any>{
+class MyPlaylistsClass extends React.Component<any, any>{
     constructor(props) {
         super(props);
         this.state = {
             hidden: true,
             playlists: []
         };
+        this.play = this.play.bind(this)
+    }
+    play(id) {
+        console.log("random")
+        Observable.ajax({
+            url: API_URL() + "/playlists",
+            body: this.props.token,
+            method: "POST",
+            responseType: 'json',
+            crossDomain: true
+        })
+            .map((user) => {
+                this.setState({ playlists: user.response })
+            }).subscribe((success) => {
+                console.log("done")
+            })
+
     }
     getTOP5() {
         console.log("random")
@@ -54,12 +73,18 @@ export class MyPlaylists extends React.Component<any, any>{
 
                     <Subheader>Recent chats</Subheader>
                     {this.state.playlists.map((follower) => {
+                        console.log(follower)
                         return (
                             <ListItem
                                 key={Math.random()}
                                 primaryText={follower.name}
                                 leftAvatar={<Avatar src={follower.images[0].url} />}
-                                rightIcon={<CommunicationChatBubble />}
+                                rightIcon={<CommunicationChatBubble
+                                    onClick={() => {
+                                        this.props.dispatch({ type: "PLAY_SONG", payload: { token: this.props.token, song: follower.uri } })
+
+                                    }}
+                                />}
                             />
                         )
                     })}
@@ -70,3 +95,4 @@ export class MyPlaylists extends React.Component<any, any>{
     }
 
 }
+export const MyPlaylists = compose(connect())(MyPlaylistsClass)

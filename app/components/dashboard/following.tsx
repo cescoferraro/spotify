@@ -13,10 +13,28 @@ import CommunicationChatBubble from 'material-ui/svg-icons/communication/chat-bu
 export class Following extends React.Component<any, any>{
     constructor(props) {
         super(props);
+        this.unfollow = this.unfollow.bind(this)
         this.state = {
             hidden: true,
             followers: []
         };
+    }
+
+    unfollow(id) {
+        Observable.ajax({
+            url: API_URL() + "/unfollow/" + id,
+            body: this.props.token,
+            method: "POST",
+            responseType: 'json',
+            crossDomain: true
+        })
+            .map((user) => {
+                const followers = this.state.followers.filter((artist) => (artist.id !== id))
+                this.setState({ followers })
+            }).take(1).subscribe((success) => {
+                console.log("done")
+            })
+
     }
 
     getTOP5() {
@@ -30,7 +48,7 @@ export class Following extends React.Component<any, any>{
             .map((user) => {
                 console.log(user.response)
                 this.setState({ followers: user.response.items })
-            }).subscribe((success) => {
+            }).take(1).subscribe((success) => {
                 console.log("done")
             })
 
@@ -57,6 +75,9 @@ export class Following extends React.Component<any, any>{
                             primaryText={artist.name}
                             leftAvatar={<Avatar src={artist.images[0].url} />}
                             rightIcon={<CommunicationChatBubble />}
+                            onClick={() => {
+                                this.unfollow(artist.id)
+                            }}
                         />
                     })}
                 </List>

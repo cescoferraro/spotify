@@ -6,9 +6,10 @@ import { Following } from "./following"
 import { MyPlaylists } from "./playlist"
 import { Player } from "../player/player"
 import { INFO } from "./info"
-import { Plays } from "./changer";
-import { Timer } from "./timer";
-import { LOADING } from "../loading/index";
+import { Plays } from "./changer"
+import { Timer } from "./timer"
+import { LOADING } from "../loading/index"
+import { LISTCharger } from "./listCharger"
 
 export class DashboardComponent extends React.Component<any, any> {
     public render() {
@@ -24,9 +25,9 @@ export class DashboardComponent extends React.Component<any, any> {
                                 <div >
                                     <INFO payload={payload} />
                                     <Player {...this.props} />
-                                    <br />
                                     <div>
                                         <Subheader> Tools </Subheader>
+                                        <LISTCharger token={token} />
                                         <Plays token={token} />
                                         <Timer token={token} />
                                     </div>

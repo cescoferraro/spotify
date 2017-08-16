@@ -7,13 +7,13 @@ import { connect } from "react-redux"
 import { compose } from "recompose"
 import { URIS } from "../../../shared/playlists";
 
-class PlaysClass extends React.Component<any, any> {
+class listChargerClass extends React.Component<any, any> {
     constructor(props) {
         super(props)
         this.handleChange = this.handleChange.bind(this)
         this.playSong = this.playSong.bind(this)
         this.state = {
-            value: this.props.URIS[0].value
+            value: [this.props.URIS[0].value]
         }
     }
     public render() {
@@ -29,6 +29,7 @@ class PlaysClass extends React.Component<any, any> {
             <div className={CSS.flex}>
                 <SelectField
                     hintText="Select a name"
+                    multiple={true}
                     className={CSS.select}
                     value={this.state.value}
                     onChange={this.handleChange}
@@ -47,7 +48,7 @@ class PlaysClass extends React.Component<any, any> {
     }
 
     private playSong() {
-        this.props.dispatch({ type: "PLAY_SONG", payload: { token: this.props.token, song: this.state.value } })
+        this.props.dispatch({ type: "PLAY_PLAYLIST", payload: { token: this.props.token, playlist: this.state.value } })
     }
 
     private handleChange(event, index, value) {
@@ -55,8 +56,8 @@ class PlaysClass extends React.Component<any, any> {
     }
 }
 
-export const Plays = compose(connect(() => {
+export const LISTCharger = compose(connect(() => {
     return {
         URIS: URIS
     }
-}))(PlaysClass)
+}))(listChargerClass)

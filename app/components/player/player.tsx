@@ -16,6 +16,7 @@ import { compose } from "recompose"
 import Subheader from "material-ui/Subheader"
 import { Repeat } from "./repeat";
 import { NOW } from "./now";
+import { Volume } from "./volume";
 
 export const Player = compose(
     connect()
@@ -49,6 +50,11 @@ export const Player = compose(
                         token={token}
                     />
                 </div>
+                <Volume
+                    dispatch={dispatch}
+                    player={player}
+                    token={token}
+                />
             </div>
         </div>
     )
