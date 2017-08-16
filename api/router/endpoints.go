@@ -16,7 +16,10 @@ func Endpoints(version string) chi.Router {
 	r.Post("/unfollow/{id}", unfollowEndPoint)
 	r.Post("/play/playlist", playPlaylistEndPoint)
 	r.Post("/volume/{percent}", volumeEndPoint)
-	r.Get("/login", loginEndPoint)
+	r.Get("/login", loginEndPoint("dashboard"))
+	r.Get("/login/{id}/{move}", artistloginEndPoint("anitta"))
+	r.Post("/love/{id}", anittaEndPoint(true))
+	r.Post("/hate/{id}", anittaEndPoint(false))
 	r.Get("/status", statusEndPoint)
 	r.Post("/playlists", playlistEndPoint)
 	r.Post("/pause", pauseEndPoint)
@@ -27,6 +30,6 @@ func Endpoints(version string) chi.Router {
 	r.Post("/logout", logoutEndPoint)
 	r.Post("/now", nowPlayingEndPoint)
 	r.Get("/version", versionEndPoint(version))
-	r.HandleFunc("/", rootEndPoint)
+	r.HandleFunc("/auth", rootEndPoint)
 	return r
 }

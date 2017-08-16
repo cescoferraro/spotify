@@ -9,7 +9,7 @@ const goBack = (props) => () => {
 }
 
 const boilLogo = (props) => {
-    return props.location.type === "DASHBOARD" &&
+    return props.location.type === "DASHBOARD" || props.location.type === "ANITTA" &&
         props.location.payload.user ?
         <SPOTIFYLogo
             onClick={() => {

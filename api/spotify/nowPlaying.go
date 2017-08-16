@@ -12,7 +12,7 @@ func NowPlaying(code string) (*spotify.CurrentlyPlaying, error) {
 	if err != nil {
 		return CurrentlyPlaying, errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 
 	CurrentlyPlaying, err = client.PlayerCurrentlyPlaying()
 	if err != nil {
@@ -28,7 +28,7 @@ func PlayerState(code string) (*spotify.PlayerState, error) {
 	if err != nil {
 		return CurrentlyPlaying, errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 
 	CurrentlyPlaying, err = client.PlayerState()
 	if err != nil {

@@ -6,25 +6,57 @@ import "rxjs/add/observable/dom/ajax"
 import { isServer } from "../store/createStore"
 import { API_URL } from "../shared/api/index";
 
-
-export const dashboardThunk = (dispatch, getState) => {
-    const { code } = getState().location.payload
+const AT = (state) => {
+    return state.indexOf("@") > -1 ? true : false
+}
+export const anittaThunk = (dispatch, getState) => {
+    const { token, state }: { state: string, token: string } = getState().location.payload
+    console.info(token)
+    const two = state.split("@")
+    console.info(two)
+    console.info(two[0])
+    console.info(two[1])
     Observable.ajax({
-        url: API_URL() + "/me",
-        body: code,
+        url: API_URL() + "/" + two[1] + "/" + two[0],
+        body: token,
         method: "POST",
         responseType: 'json',
         crossDomain: true
     }).take(1)
         .map((user) => {
-            dispatch({ type: "SET_TOKEN", payload: code })
-            dispatch(redirect({
-                type: 'DASHBOARD',
+            console.log("logout")
+
+        }).subscribe((success) => { console.log("done") })
+
+}
+
+
+export const authThunk = (dispatch, getState) => {
+    const { token, state }:
+        { state: string, token: string } = getState().location.payload
+    console.info(token)
+    console.info(state)
+    Observable.ajax({
+        url: API_URL() + "/me",
+        body: token,
+        method: "POST",
+        responseType: 'json',
+        crossDomain: true
+    }).take(1)
+        .map((user) => {
+            dispatch({ type: "SET_TOKEN", payload: token })
+            return user
+        })
+        .map((user) => {
+            dispatch(({
+                type: AT(state) ? "ARTIST" : state.toUpperCase(),
                 payload: {
-                    token: code,
+                    token,
+                    state,
                     user: user.response
                 }
             }))
+
         }).subscribe((success) => { console.log("done") })
 
 }

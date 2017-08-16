@@ -10,7 +10,7 @@ func Previous(code string) error {
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	err = client.Previous()
 	if err != nil {
 		errors.Wrap(err, "next error")

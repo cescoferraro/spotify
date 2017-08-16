@@ -14,7 +14,7 @@ func PlayOpts(id string, code string) error {
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	err = client.PlayOpt(&spotify.PlayOptions{
 		URIs: []spotify.URI{spotify.URI(id)},
 	})
@@ -39,7 +39,7 @@ func PLAYPlaylist(songs []string, code string) error {
 		URIs = append(URIs, spotify.URI(value))
 	}
 
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	err = client.PlayOpt(&spotify.PlayOptions{
 		URIs: URIs,
 	})

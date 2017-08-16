@@ -23,6 +23,12 @@ const AppRouterClass = (props) => {
                     <AsyncDashboard {...props} />
                 </Shell>
             )
+        case "ARTIST":
+            return (
+                <Shell id="Dashboard" {...props}>
+                    <h2>prepara</h2>
+                </Shell>
+            )
         default:
             return (
                 <Shell id="404" {...props}>

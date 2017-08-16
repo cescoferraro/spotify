@@ -10,7 +10,7 @@ func Volume(percent int, code string) error {
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	err = client.Volume(percent)
 	if err != nil {
 		return errors.Wrap(err, "next error")

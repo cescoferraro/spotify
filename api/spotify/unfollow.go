@@ -11,7 +11,7 @@ func Unfollow(id string, code string) error {
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	err = client.UnfollowArtist(spotify.ID(id))
 	if err != nil {
 		return errors.Wrap(err, "play error")

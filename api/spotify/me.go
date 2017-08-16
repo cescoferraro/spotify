@@ -17,6 +17,6 @@ func GetProfile(code string) (*spotify.PrivateUser, error) {
 		return user, errors.Wrap(err, "retrieveToken")
 	}
 	log.Println("after retrieving code")
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	return client.CurrentUser()
 }

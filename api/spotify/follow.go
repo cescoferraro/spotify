@@ -12,7 +12,7 @@ func FollowArtists(code string, ids ...string) error {
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	var spotID []spotify.ID
 	for _, artist := range ids {
 		spotID = append(spotID, spotify.ID(artist))
@@ -31,7 +31,7 @@ func UnfollowArtists(code string, ids ...string) error {
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	var spotID []spotify.ID
 	for _, artist := range ids {
 		spotID = append(spotID, spotify.ID(artist))

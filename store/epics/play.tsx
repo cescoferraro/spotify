@@ -11,13 +11,6 @@ import { toastr as toastrFactory } from 'react-redux-toastr'
 import { playPlaylistMap, playSongMap } from "./observables";
 import { genericObservable } from "./observables";
 
-export const playPlaylistEpic = (action$, store) => {
-    return action$.ofType("PLAY_PLAYLIST")
-        .mergeMap(playPlaylistMap())
-        .mapTo({ type: "DONE" })
-}
-
-
 export const playSongEpic = (action$, store) => {
     return action$.ofType("PLAY_SONG")
         .mergeMap(playSongMap())

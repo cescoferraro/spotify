@@ -1,4 +1,4 @@
-import { dashboardThunk, homeThunk } from "./thunks"
+import { authThunk, homeThunk, anittaThunk } from "./thunks"
 
 export const routesMap = {
     HOME: {
@@ -8,8 +8,13 @@ export const routesMap = {
     DASHBOARD: {
         path: "/dashboard"
     },
+    ARTIST: {
+        path: "/artist",
+        thunk: anittaThunk
+
+    },
     AUTH: {
-        path: "/auth/:code/:state",
-        thunk: dashboardThunk
+        path: "/auth/:token/:state",
+        thunk: authThunk
     }
 }

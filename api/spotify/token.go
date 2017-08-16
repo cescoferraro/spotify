@@ -18,7 +18,8 @@ type AuthHub struct {
 // TokenHUB TODO: NEEDS COMMENT INFO
 var (
 	TokenHUB = AuthHub{Tokens: make(map[string]*oauth2.Token)}
-	State    = "abc123"
+	State    = "dashboard"
+	Auth     = SPOTIFYAUTH()
 	Scopes   = []string{
 		spotify.ScopePlaylistModifyPrivate,
 		spotify.ScopePlaylistModifyPublic,
@@ -28,13 +29,14 @@ var (
 		spotify.ScopeUserFollowRead,
 		spotify.ScopeUserModifyPlaybackState,
 		spotify.ScopeUserReadPlaybackState,
+		spotify.ScopeUserLibraryModify,
 	}
 )
 
 func SPOTIFYAUTH() spotify.Authenticator {
-	redirectURI := "https://spotifyapi.cescoferraro.xyz"
+	redirectURI := "https://spotifyapi.cescoferraro.xyz/auth"
 	if !tools.IsProd() {
-		redirectURI = "http://localhost:8080"
+		redirectURI = "http://localhost:8080/auth"
 	}
 	ClientID := "445f705eea2d4d0e8bbd97b796fb7957"
 	secretKey := "412fb5cbfec2464cb71b567efd0236ea"
@@ -51,7 +53,7 @@ func ProcessToken(code string) (*oauth2.Token, error) {
 		return TokenHUB.Tokens[code], nil
 	}
 	var err error
-	TokenHUB.Tokens[code], err = SPOTIFYAUTH().Exchange(code)
+	TokenHUB.Tokens[code], err = Auth.Exchange(code)
 	if err != nil {
 		delete(TokenHUB.Tokens, code)
 		return nil, err

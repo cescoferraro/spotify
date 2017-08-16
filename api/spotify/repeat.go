@@ -12,7 +12,7 @@ func Repeat(state string, code string) error {
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	log.Println(" 7777")
 	err = client.Repeat(state)
 	if err != nil {

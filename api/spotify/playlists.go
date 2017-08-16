@@ -12,7 +12,7 @@ func GetPLaylists(code string) ([]spotify.SimplePlaylist, error) {
 	if err != nil {
 		return playlists.Playlists, errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	playlists, err = client.CurrentUsersPlaylists()
 	if err != nil {
 		return playlists.Playlists, errors.Wrap(err, "client.CurrentUser")

@@ -13,7 +13,7 @@ func GetRecommendations(artists []string, code string) (*spotify.Recommendations
 	if err != nil {
 		return recommendations, errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	artistSeed := []spotify.ID{}
 	for _, artist := range artists {
 		artistSeed = append(artistSeed, spotify.ID(artist))

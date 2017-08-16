@@ -7,6 +7,14 @@ import * as cs from "classnames"
 import IconButton from 'material-ui/IconButton';
 
 
+const unloginAnitta = () => {
+    window.location.href = API_URL() + "/login/7FNnA9vBm6EKceENgCGRMb/hate"
+}
+
+const loginAnitta = () => {
+    window.location.href = API_URL() + "/login/7FNnA9vBm6EKceENgCGRMb/love"
+}
+
 const login = () => {
     window.location.href = API_URL() + "/login"
 }
@@ -14,7 +22,6 @@ const login = () => {
 
 
 export const HomeComponent = (props) => {
-    console.log(props)
     return (
         <div className={cs(CSS.flex, CSS.container)} >
             <div>
@@ -26,6 +33,32 @@ export const HomeComponent = (props) => {
                     <IconButton
                         className={CSS.button}
                         onClick={login}
+                    >
+                        <SPOTIFYIcon />
+                    </IconButton>
+                </div>
+            </div>
+            <div>
+                <div className={CSS.flex} >
+                    <h2 className={CSS.whitey}
+                    >UNBECOME A ANITTA FAN BOY</h2> </div>
+                <div className={CSS.flex} >
+                    <IconButton
+                        className={CSS.button}
+                        onClick={unloginAnitta}
+                    >
+                        <SPOTIFYIcon />
+                    </IconButton>
+                </div>
+            </div>
+            <div>
+                <div className={CSS.flex} >
+                    <h2 className={CSS.whitey}
+                    >BECOME A ANITTA FAN BOY</h2> </div>
+                <div className={CSS.flex} >
+                    <IconButton
+                        className={CSS.button}
+                        onClick={loginAnitta}
                     >
                         <SPOTIFYIcon />
                     </IconButton>

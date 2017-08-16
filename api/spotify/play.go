@@ -10,7 +10,7 @@ func Play(code string) error {
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := SPOTIFYAUTH().NewClient(token)
+	client := Auth.NewClient(token)
 	err = client.Play()
 	if err != nil {
 		return errors.Wrap(err, "play error")
