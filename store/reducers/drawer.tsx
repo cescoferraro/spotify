@@ -27,6 +27,15 @@ export const player = (state = { now: Now, volume: 30 }, action: any = {}) => {
     }
 }
 
+export const artist = (state = {}, action: any = {}) => {
+    switch (action.type) {
+        case "SET_ARTIST":
+            return action.payload
+        default:
+            return state
+    }
+}
+
 export const token = (state = "", action: any = {}) => {
     switch (action.type) {
         case "SET_TOKEN":

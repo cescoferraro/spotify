@@ -11,22 +11,20 @@ const AT = (state) => {
 }
 export const anittaThunk = (dispatch, getState) => {
     const { token, state }: { state: string, token: string } = getState().location.payload
-    console.info(token)
-    const two = state.split("@")
-    console.info(two)
-    console.info(two[0])
-    console.info(two[1])
-    Observable.ajax({
-        url: API_URL() + "/" + two[1] + "/" + two[0],
-        body: token,
-        method: "POST",
-        responseType: 'json',
-        crossDomain: true
-    }).take(1)
-        .map((user) => {
-            console.log("logout")
-
-        }).subscribe((success) => { console.log("done") })
+    if (state) {
+        const two = state.split("@")
+        Observable.ajax({
+            url: API_URL() + "/" + two[1] + "/" + two[0],
+            body: token,
+            method: "POST",
+            responseType: 'json',
+            crossDomain: true
+        }).take(1)
+            .map((user) => {
+                console.log("logout")
+                dispatch({ type: "SET_ARTIST", payload: { ...user.response, move: two[1] } })
+            }).subscribe((success) => { console.log("done") })
+    }
 
 }
 

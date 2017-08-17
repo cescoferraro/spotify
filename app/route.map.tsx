@@ -11,7 +11,6 @@ export const routesMap = {
     ARTIST: {
         path: "/artist",
         thunk: anittaThunk
-
     },
     AUTH: {
         path: "/auth/:token/:state",

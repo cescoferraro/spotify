@@ -1,9 +1,10 @@
 $margin: 20px;
-$buttonH: 150px;
-$buttonW: 50%;
+$marginB: 5px;
+$buttonW: calc( 50%  - ( 1 * $marginB ) );
 $util: calc( 100vh - 64px );
 $mainButton: calc( ( $util * 0.2 ) );
-$hateH: calc( ( $util * 0.8 ) );
+$hateH: calc( ( ( $util * 0.8 ) - ( 10 * $marginB )  - ( 2 * $margin )) );
+$buttonH: calc( ( ( $util * ( 0.8 / 4) ) - ( 10 * $marginB )  - ( 2 * $margin )) );
 $innerButtonH: calc( $buttonH - ( 2 * 5px ) ) ;
 
 .container {
@@ -17,27 +18,37 @@ $innerButtonH: calc( $buttonH - ( 2 * 5px ) ) ;
 	    height: 100% !important; 
 	    button {
 		height: 100% !important; 
+		display: flex !important;
+		justify-content: center;
 	    }
 	}
     }
     .hate {
-	padding: $margin;
+	margin: $margin;
 	flex-flow: row wrap;
 	overflow: auto;
 	display: flex;
 	justify-content: space-between;   
+	align-items: center;
 	flex-direction: column;
 	max-height: $hateH;
-	div {
-	    align-self: flex-end;
+	height: $hateH;
+	.button{
 	    flex: 1;
-	    width: calc( $buttonW );
-	    padding: 5px;
-	    height: $buttonH;
-	    button {
-		height: $innerButtonH !important;
+	    width: $buttonW !important;
+	    min-width: $buttonW !important;
+	    max-width: $buttonW !important;
+	    padding: $marginB;
+	    display: flex !important;
+	    justify-content: center;
+	    height: calc( calc( 100% / 4 )  )!important;
+	    min-height: calc( calc( 100% / 4 )  )!important;
+	    max-height: calc( calc( 100% / 4 )  )!important;
+	    button{
+		height: calc( 100% )!important;
 	    }
-	} }
+	}
+    }
 }
 
 

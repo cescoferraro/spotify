@@ -19,16 +19,12 @@ func anittaEndPoint(move bool) func(w http.ResponseWriter, r *http.Request) {
 		}
 
 		id := chi.URLParam(r, "id")
-		if move {
-			err = spotify.Anitta(id, code)
-		} else {
-			err = spotify.UnAnitta(id, code)
-		}
+		profile, err := spotify.Anitta(move, id, code)
 		if err != nil {
 			log.Println(err.Error())
 			http.Error(w, http.StatusText(400), 400)
 			return
 		}
-		render.JSON(w, r, code)
+		render.JSON(w, r, profile)
 	}
 }

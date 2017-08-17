@@ -5,6 +5,7 @@ import { NoMatchContainer } from "./components/404/404"
 import { Shell } from "./components/shell/index"
 import { MyHelmet } from "../shared/helmet/index"
 import { AsyncDashboard } from "./components/dashboard"
+import { Artist } from "./components/artist/artist"
 import { HomeComponent } from "./components/home"
 import { APP_ACTIONS } from "../store/actions";
 
@@ -26,7 +27,7 @@ const AppRouterClass = (props) => {
         case "ARTIST":
             return (
                 <Shell id="Dashboard" {...props}>
-                    <h2>prepara</h2>
+                    <Artist {...props} />
                 </Shell>
             )
         default:
@@ -40,6 +41,6 @@ const AppRouterClass = (props) => {
 }
 
 export const AppRouter = compose(
-    connect(({ location, drawer, token, player }) =>
-        ({ location, drawer, token, player }), APP_ACTIONS)
+    connect(({ location, drawer, token, player, artist }) =>
+        ({ location, drawer, token, player, artist }), APP_ACTIONS)
 )(AppRouterClass)

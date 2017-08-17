@@ -8,29 +8,32 @@ import (
 )
 
 // Anitta TODO: NEEDS COMMENT INFO
-func Anitta(id string, token string) error {
+func Anitta(move bool, id string, token string) (*spotify.FullArtist, error) {
+	var Artist *spotify.FullArtist
 	client, err := Authss(token)
 	if err != nil {
-		return errors.Wrap(err, "retrieveToken")
+		return Artist, errors.Wrap(err, "retrieveToken")
 	}
-	IDS, err := ArtistTrack(client, "7FNnA9vBm6EKceENgCGRMb")
+	IDS, err := ArtistTrack(client, id)
 	if err != nil {
-		return errors.Wrap(err, "retrieveToken")
+		return Artist, errors.Wrap(err, "retrieveToken")
 	}
-	return client.AddTracksToLibrary(IDS...)
-}
-
-// UnAnitta TODO: NEEDS COMMENT INFO
-func UnAnitta(id string, token string) error {
-	client, err := Authss(token)
+	if move {
+		client.AddTracksToLibrary(IDS...)
+		if err != nil {
+			return Artist, errors.Wrap(err, "retrieveToken")
+		}
+	} else {
+		client.RemoveTracksFromLibrary(IDS...)
+		if err != nil {
+			return Artist, errors.Wrap(err, "retrieveToken")
+		}
+	}
+	Artist, err = client.GetArtist(spotify.ID(id))
 	if err != nil {
-		return errors.Wrap(err, "retrieveToken")
+		return Artist, errors.Wrap(err, "retrieveToken")
 	}
-	IDS, err := ArtistTrack(client, "7FNnA9vBm6EKceENgCGRMb")
-	if err != nil {
-		return errors.Wrap(err, "retrieveToken")
-	}
-	return client.RemoveTracksFromLibrary(IDS...)
+	return Artist, nil
 }
 
 // Authss TODO: NEEDS COMMENT INFO
