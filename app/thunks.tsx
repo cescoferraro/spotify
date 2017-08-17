@@ -10,7 +10,7 @@ const AT = (state) => {
     return state.indexOf("@") > -1 ? true : false
 }
 export const anittaThunk = (dispatch, getState) => {
-    const { token, state }: { state: string, token: string } = getState().location.payload
+    const { token, state, user }: { user: string, state: string, token: string } = getState().location.payload
     if (state) {
         const two = state.split("@")
         Observable.ajax({
@@ -20,9 +20,9 @@ export const anittaThunk = (dispatch, getState) => {
             responseType: 'json',
             crossDomain: true
         }).take(1)
-            .map((user) => {
+            .map((http) => {
                 console.log("logout")
-                dispatch({ type: "SET_ARTIST", payload: { ...user.response, move: two[1] } })
+                dispatch({ type: "SET_ARTIST", payload: { ...http.response, move: two[1], user } })
             }).subscribe((success) => { console.log("done") })
     }
 

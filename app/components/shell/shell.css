@@ -20,8 +20,9 @@ html {
 }
 
 .button {
-    height: 48px;
-    width: 48px;
+    height: 48px !important;
+    width: 48px !important;
+    fill: black !important;
 }
 .flex{
     display: flex;

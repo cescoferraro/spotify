@@ -43,9 +43,7 @@ export class DashboardComponent extends React.Component<any, any> {
                                 </div>
 
                             ) :
-                            <div >
-                                <h2>no dashboard</h2>
-                            </div>
+                            <LOADING userAgent={this.props.userAgent} />
                 }
             </div>
         </div>

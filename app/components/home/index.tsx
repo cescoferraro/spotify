@@ -5,9 +5,9 @@ const SPOTIFYIcon = require("../../../shared/images/spotify.svg")
 import * as CSS from "./home.css"
 import * as cs from "classnames"
 import IconButton from 'material-ui/IconButton';
-import DashboardIcon from "material-ui/svg-icons/action/dashboard"
-import AddIcon from "material-ui/svg-icons/content/add"
 import RemoveIcon from "material-ui/svg-icons/content/remove"
+import AddIcon from "material-ui/svg-icons/content/add"
+import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 
 const fanBoyGen = (id, move) => () => {
     window.location.href = API_URL() + "/login/" + id + "/" + move
@@ -60,25 +60,25 @@ export const HomeComponent = (props) => {
                     onClick={fanBoyGen("7FNnA9vBm6EKceENgCGRMb", "hate")}
                     className={CSS.button}
                     secondary={true}
-                    icon={<DashboardIcon />}
+                    icon={<RemoveIcon />}
                     label="Anitta" />
                 <RaisedButton
                     onClick={fanBoyGen("1HwM5zlC5qNWhJtM00yXzG", "hate")}
                     className={CSS.button}
                     secondary={true}
-                    icon={<DashboardIcon />}
+                    icon={<RemoveIcon />}
                     label="DMX" />
                 <RaisedButton
                     onClick={fanBoyGen("3ge4xOaKvWfhRwgx0Rldov", "hate")}
                     className={CSS.button}
                     secondary={true}
-                    icon={<DashboardIcon />}
+                    icon={<RemoveIcon />}
                     label="Guimé" />
                 <RaisedButton
                     onClick={fanBoyGen("3nFkdlSjzX9mRTtwJOzDYB", "hate")}
                     className={CSS.button}
                     secondary={true}
-                    icon={<DashboardIcon />}
+                    icon={<RemoveIcon />}
                     label="Jay-Z" />
             </div>
         </div >

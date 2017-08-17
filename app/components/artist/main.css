@@ -1,0 +1,39 @@
+@import "../../../shared/css/var/var.css";
+
+.container{
+    height: calc( 100vh - 64px - 40px );
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.layer{
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    img{
+	border-radius: 50%;
+    }
+}  
+
+.layer1{
+    height: calc( 40vh - 20px);
+    img {
+	max-width: 40vw;
+	max-height: 40vh;
+    }
+}
+.layer2{
+    display:flex;
+    height: 20vh;
+
+}
+.layer3{
+    height: calc( 40vh - 20px);
+    img {
+	max-width: 40vw;
+	max-height: 40vh;
+    }
+}
