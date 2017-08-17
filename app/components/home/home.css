@@ -1,27 +1,44 @@
+$margin: 20px;
+$buttonH: 150px;
+$buttonW: 50%;
+$util: calc( 100vh - 64px );
+$mainButton: calc( ( $util * 0.2 ) );
+$hateH: calc( ( $util * 0.8 ) );
+$innerButtonH: calc( $buttonH - ( 2 * 5px ) ) ;
+
 .container {
-    height: calc( 100vh - 64px );
+    height: ;
     background-color: black;
-    overflow:auto;
-    margin-left:10px;
-    margin-right:10px;
-}
-
-.flex {
-    display:flex;
-    align-items: center;
-    justify-content:center;
-}
-
-.button {
-    height: 30vw !important;
-    width: 30vw !important;
-    svg {
-	height: 25vw;
-	width: 25vw;
+    height: $util;
+    .dashboard {
+	padding: $margin;
+	height: $mainButton;
+	div {
+	    height: 100% !important; 
+	    button {
+		height: 100% !important; 
+	    }
+	}
     }
+    .hate {
+	padding: $margin;
+	flex-flow: row wrap;
+	overflow: auto;
+	display: flex;
+	justify-content: space-between;   
+	flex-direction: column;
+	max-height: $hateH;
+	div {
+	    align-self: flex-end;
+	    flex: 1;
+	    width: calc( $buttonW );
+	    padding: 5px;
+	    height: $buttonH;
+	    button {
+		height: $innerButtonH !important;
+	    }
+	} }
 }
 
 
-.whitey {
-    color: white;
-}
+

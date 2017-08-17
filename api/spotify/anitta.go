@@ -7,7 +7,7 @@ import (
 	"github.com/zmb3/spotify"
 )
 
-// FollowArtists TODO: NEEDS COMMENT INFO
+// Anitta TODO: NEEDS COMMENT INFO
 func Anitta(id string, token string) error {
 	client, err := Authss(token)
 	if err != nil {
@@ -20,7 +20,7 @@ func Anitta(id string, token string) error {
 	return client.AddTracksToLibrary(IDS...)
 }
 
-// FollowArtists TODO: NEEDS COMMENT INFO
+// UnAnitta TODO: NEEDS COMMENT INFO
 func UnAnitta(id string, token string) error {
 	client, err := Authss(token)
 	if err != nil {
@@ -33,6 +33,7 @@ func UnAnitta(id string, token string) error {
 	return client.RemoveTracksFromLibrary(IDS...)
 }
 
+// Authss TODO: NEEDS COMMENT INFO
 func Authss(token string) (spotify.Client, error) {
 	var OAUTH spotify.Client
 	OauthToken, err := ProcessToken(token)
@@ -42,6 +43,7 @@ func Authss(token string) (spotify.Client, error) {
 	return Auth.NewClient(OauthToken), nil
 }
 
+// ArtistTrack TODO: NEEDS COMMENT INFO
 func ArtistTrack(client spotify.Client, uri string) ([]spotify.ID, error) {
 	var IDS []spotify.ID
 	albumObject, err := client.GetArtistAlbums(spotify.ID(uri))
