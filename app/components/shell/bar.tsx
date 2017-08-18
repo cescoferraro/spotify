@@ -27,6 +27,7 @@ export const SPOTIFYAppBar = (props) => {
         <AppBar
             showMenuIconButton={true}
             onTitleTouchTap={goBack(props)}
+            title="Spotify "
             iconElementRight={boilLogo(props)}
             iconElementLeft={<SPOTIFYLogo className={CSS.button} />}
             titleStyle={{ color: "black" }}

@@ -17,69 +17,60 @@ const login = () => {
     window.location.href = API_URL() + "/login"
 }
 
+const PlusIcon = () => {
+    return <AddIcon className={CSS.hateButton} />
+}
+
 export const HomeComponent = (props) => {
+    console.log(props)
     return (
         <div className={cs(CSS.container)} >
             <div className={CSS.dashboard}>
                 <RaisedButton
                     onClick={login}
                     icon={<DashboardIcon />}
+                    labelStyle={{ fontSize: "100%" }}
                     secondary={true}
                     fullWidth={true}
-                    label="Spotify Profile " />
+                    label="Spotify Dashboard" />
+            </div>
+            <div className={CSS.dashboard}>
+                <RaisedButton
+                    onClick={() => {
+                        props.LABEL_TOP_ARTISTS_ACTION("sony")
+                    }}
+                    icon={<DashboardIcon />}
+                    labelStyle={{ fontSize: "100%" }}
+                    secondary={true}
+                    fullWidth={true}
+                    label="LABEL TOP ARTISTS" />
             </div>
             <div className={CSS.hate}>
                 <RaisedButton
                     onClick={fanBoyGen("7FNnA9vBm6EKceENgCGRMb", "love")}
-                    labelStyle={{ height: "10vh" }}
+                    labelStyle={{ fontSize: "100%" }}
                     className={CSS.button}
                     secondary={true}
-                    icon={<AddIcon />}
-                    label="Anitta" />
-                <RaisedButton
-                    onClick={fanBoyGen("1HwM5zlC5qNWhJtM00yXzG", "love")}
-                    className={CSS.button}
-                    secondary={true}
-                    icon={<AddIcon />}
-                    label="DMX" />
+                    label="💓 Anitta" />
                 <RaisedButton
                     onClick={fanBoyGen("3ge4xOaKvWfhRwgx0Rldov", "love")}
                     className={CSS.button}
-                    icon={<AddIcon />}
+                    labelStyle={{ fontSize: "100%" }}
                     secondary={true}
-                    label="Guimé" />
-                <RaisedButton
-                    onClick={fanBoyGen("3nFkdlSjzX9mRTtwJOzDYB", "love")}
-                    className={CSS.button}
-                    secondary={true}
-                    icon={<AddIcon />}
-                    label="Jay-Z" />
-
+                    label="💓 Guimé" />
 
                 <RaisedButton
                     onClick={fanBoyGen("7FNnA9vBm6EKceENgCGRMb", "hate")}
                     className={CSS.button}
+                    labelStyle={{ fontSize: "100%" }}
                     secondary={true}
-                    icon={<RemoveIcon />}
-                    label="Anitta" />
-                <RaisedButton
-                    onClick={fanBoyGen("1HwM5zlC5qNWhJtM00yXzG", "hate")}
-                    className={CSS.button}
-                    secondary={true}
-                    icon={<RemoveIcon />}
-                    label="DMX" />
+                    label="🎯 Anitta" />
                 <RaisedButton
                     onClick={fanBoyGen("3ge4xOaKvWfhRwgx0Rldov", "hate")}
+                    labelStyle={{ fontSize: "100%" }}
                     className={CSS.button}
                     secondary={true}
-                    icon={<RemoveIcon />}
-                    label="Guimé" />
-                <RaisedButton
-                    onClick={fanBoyGen("3nFkdlSjzX9mRTtwJOzDYB", "hate")}
-                    className={CSS.button}
-                    secondary={true}
-                    icon={<RemoveIcon />}
-                    label="Jay-Z" />
+                    label="🎯 Guimé" />
             </div>
         </div >
     )

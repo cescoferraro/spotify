@@ -16,3 +16,11 @@ export const DRAWER_TOGGLE_ACTION = () => {
 export const ROUTER_ACTION = (type) => {
     return { type: type }
 }
+
+export const LABEL_TOP_ARTISTS = "LABEL_TOP_ARTISTS"
+export function LABEL_TOP_ARTISTS_ACTION(state) {
+    return {
+        type: LABEL_TOP_ARTISTS,
+        payload: state
+    }
+}

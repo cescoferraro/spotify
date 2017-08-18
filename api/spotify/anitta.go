@@ -19,12 +19,12 @@ func Anitta(move bool, id string, token string) (*spotify.FullArtist, error) {
 		return Artist, errors.Wrap(err, "retrieveToken")
 	}
 	if move {
-		client.AddTracksToLibrary(IDS...)
+		err = client.AddTracksToLibrary(IDS...)
 		if err != nil {
 			return Artist, errors.Wrap(err, "retrieveToken")
 		}
 	} else {
-		client.RemoveTracksFromLibrary(IDS...)
+		err = client.RemoveTracksFromLibrary(IDS...)
 		if err != nil {
 			return Artist, errors.Wrap(err, "retrieveToken")
 		}

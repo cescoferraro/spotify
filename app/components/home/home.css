@@ -3,7 +3,7 @@ $marginB: 5px;
 $buttonW: calc( 50%  - ( 1 * $marginB ) );
 $util: calc( 100vh - 64px );
 $mainButton: calc( ( $util * 0.2 ) );
-$hateH: calc( ( ( $util * 0.8 ) - ( 10 * $marginB )  - ( 2 * $margin )) );
+$hateH: calc( ( ( $util * 0.4 ) - ( 10 * $marginB )  - ( 2 * $margin )) );
 $buttonH: calc( ( ( $util * ( 0.8 / 4) ) - ( 10 * $marginB )  - ( 2 * $margin )) );
 $innerButtonH: calc( $buttonH - ( 2 * 5px ) ) ;
 
@@ -41,15 +41,20 @@ $innerButtonH: calc( $buttonH - ( 2 * 5px ) ) ;
 	    padding: $marginB;
 	    display: flex !important;
 	    justify-content: center;
-	    height: calc( calc( 100% / 4 )  )!important;
-	    min-height: calc( calc( 100% / 4 )  )!important;
-	    max-height: calc( calc( 100% / 4 )  )!important;
+	    height: calc( calc( 100% / 2 )  )!important;
+	    min-height: calc( calc( 100% / 2 )  )!important;
+	    max-height: calc( calc( 100% / 2 )  )!important;
 	    button{
 		height: calc( 100% )!important;
+		span{
+
+		}
 	    }
 	}
     }
 }
 
 
-
+.hateButton{
+    transform: scale(2.0) !important;
+}

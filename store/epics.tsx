@@ -8,6 +8,7 @@ import { repeatEpic } from "./epics/repeat";
 import { volumeEpic } from "./epics/index";
 import { nextEpic } from "./epics/next";
 import { playPlaylistEpic } from "./epics/playlist";
+import { labelTopEpic } from "./epics/labelTop";
 
 export const RootEpic = combineEpics(
     playEpic,
@@ -19,5 +20,6 @@ export const RootEpic = combineEpics(
     repeatEpic,
     volumeEpic,
     playPlaylistEpic,
+    labelTopEpic,
     nextEpic
 )

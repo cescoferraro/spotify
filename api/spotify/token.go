@@ -1,6 +1,7 @@
 package spotify
 
 import (
+	"log"
 	"sync"
 	"time"
 
@@ -47,17 +48,21 @@ func SPOTIFYAUTH() spotify.Authenticator {
 
 // ProcessToken TODO: NEEDS COMMENT INFO
 func ProcessToken(code string) (*oauth2.Token, error) {
+	log.Println("before LOck")
 	TokenHUB.Lock()
 	defer TokenHUB.Unlock()
+	log.Println("cheking existence")
 	if TokenHUB.Tokens[code] != nil {
 		return TokenHUB.Tokens[code], nil
 	}
 	var err error
+	log.Println("exchanging")
 	TokenHUB.Tokens[code], err = Auth.Exchange(code)
 	if err != nil {
 		delete(TokenHUB.Tokens, code)
 		return nil, err
 	}
+	log.Println("gouroutine delete")
 	go deleteToken(code, TokenHUB.Tokens)
 	return TokenHUB.Tokens[code], err
 }

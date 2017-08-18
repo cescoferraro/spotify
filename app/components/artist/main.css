@@ -33,7 +33,7 @@
 .layer3{
     height: calc( 40vh - 20px);
     img {
-	max-width: 40vw;
-	max-height: 40vh;
+	max-width: 35vw;
+	max-height: 35vh;
     }
 }
