@@ -1,4 +1,6 @@
-import { authThunk, homeThunk, anittaThunk } from "./thunks"
+import { homeThunk } from "./thunks"
+import { authThunk } from "./thunks/auth"
+import { artistThunk } from "./thunks/artist";
 
 export const routesMap = {
     HOME: {
@@ -10,7 +12,7 @@ export const routesMap = {
     },
     ARTIST: {
         path: "/artist",
-        thunk: anittaThunk
+        thunk: artistThunk
     },
     AUTH: {
         path: "/auth/:token/:state",

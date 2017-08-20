@@ -22,7 +22,6 @@ const PlusIcon = () => {
 }
 
 export const HomeComponent = (props) => {
-    console.log(props)
     return (
         <div className={cs(CSS.container)} >
             <div className={CSS.dashboard}>

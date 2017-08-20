@@ -46,7 +46,6 @@ export class Following extends React.Component<any, any>{
             crossDomain: true
         })
             .map((user) => {
-                console.log(user.response)
                 this.setState({ followers: user.response.items })
             }).take(1).subscribe((success) => {
                 console.log("done")

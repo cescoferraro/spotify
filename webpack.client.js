@@ -12,6 +12,7 @@ module.exports = env => {
         env
       )
     },
+    // TODO: Check if I really need this
     externals: {
       vertx: 'vertx'
     },
