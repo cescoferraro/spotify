@@ -1,0 +1,29 @@
+version: '3'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "443:443"
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./ssl:/etc/nginx/certs:rw
+      - /tmp:/cescoferraro
+  frontend:
+    build: 
+      context: ./dist
+    ports:
+     - "5000:5000"
+    environment:
+      - VIRTUAL_HOST="spotify.cescoferraro.xyz"
+      - CERT_NAME="shared"
+  api:
+    build: 
+      context: ./api
+      dockerfile: ./Dockerfile.api
+    ports:
+     - "8080:8080"
+    environment:
+      - VIRTUAL_HOST="spotifyapi.cescoferraro.xyz"
+      - CERT_NAME="shared"
+      - KUBERNETES="true"
