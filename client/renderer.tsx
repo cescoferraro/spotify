@@ -22,8 +22,8 @@ export const Renderer = (Component) => {
     if ((window as any).__PRODUCTION__) {
         storage.createLoader(engine)(store)
             .then((newState) => {
-                console.log("sending your ass to " + newState.location)
-                store.dispatch(newState.location)
+                /* console.log("sending your ass to " + newState.location)*/
+                /* store.dispatch(newState.location)*/
             })
             .catch(() => console.log("Failed to load previous state"))
     }

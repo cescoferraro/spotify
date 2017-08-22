@@ -67,6 +67,7 @@ const copy = () => [
   new CopyWebpackPlugin(
     [
       { from: './server/server.js', to: './server.js' },
+      { from: './Dockerfile', to: './' },
       {
         from: './shared/signal/OneSignalSDKUpdaterWorker.js',
         to: './signal/OneSignalSDKUpdaterWorker.js'

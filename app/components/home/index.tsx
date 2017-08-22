@@ -10,7 +10,7 @@ import AddIcon from "material-ui/svg-icons/content/add"
 import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 
 const fanBoyGen = (id, move) => () => {
-    window.location.href = API_URL() + "/login/" + id + "/" + move
+    window.location.href = API_URL() + "/artist/" + move + "/" + id
 }
 
 const login = () => {

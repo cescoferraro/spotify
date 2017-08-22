@@ -5,3 +5,4 @@ RUN npm i compression
 RUN npm i morgan 
 ADD ./ /srv/acharh/
 CMD ["node","server.js"]
+EXPOSE 5000 
