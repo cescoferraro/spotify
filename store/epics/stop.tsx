@@ -11,5 +11,25 @@ import { genericObservable } from "./observables";
 export const stopEpic = (action$, store) => {
     return action$.ofType("PAUSE")
         .mergeMap(genericObservable({ path: "pause" }))
-        .mapTo({ type: "DONE" })
+        .catch((err, caught) => {
+            console.log("kfnsdknfj")
+            console.log("kfnsdknfj")
+            return Observable.of({ type: "HOME" })
+        })
+        .mergeMap((now) => {
+            console.log(now)
+
+            if (now.response !== undefined) {
+                console.log(now)
+                return (Observable.merge(
+                    Observable.of({ type: "STOP_SUCESS" })
+                ))
+            } else {
+                console.log("bahhhhhhhhhh")
+                return (Observable.merge(
+                    Observable.of({ type: "HOME" })
+                ))
+            }
+
+        })
 }

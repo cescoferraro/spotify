@@ -53,6 +53,7 @@ func ProcessToken(code string) (*oauth2.Token, error) {
 	defer TokenHUB.Unlock()
 	log.Println("cheking existence")
 	if TokenHUB.Tokens[code] != nil {
+		log.Println("token found")
 		return TokenHUB.Tokens[code], nil
 	}
 	var err error

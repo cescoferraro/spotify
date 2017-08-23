@@ -17,7 +17,7 @@
     "api/build": "VERSION=$npm_package_version ./internal/scripts/buildGO.sh",
 
     "dll": "webpack --config webpack.dll.js ",
-    "dev": "concurrently 'yarn hot' 'yarn api/run'",
+    "dev": "concurrently 'yarn web/run' 'yarn api/run'",
     "prod": "concurrently 'yarn web/build' 'yarn api/build'"
   },
   "author": "Francesco Antonello Ferraro",

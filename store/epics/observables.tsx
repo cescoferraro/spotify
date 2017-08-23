@@ -9,20 +9,20 @@ import "rxjs/add/operator/filter"
 import { API_URL } from "../../shared/api/index";
 import { toastr as toastrFactory } from 'react-redux-toastr'
 
-export const genericObservable = ({ path, toastr = true }) => (action) => (
-    Observable.ajax({
-        url: API_URL() + "/" + path,
-        body: action.payload.token,
-        method: "POST",
-        responseType: 'json',
-        crossDomain: true
-    }).map((ajax) => {
-        if (toastr) { toastrFactory.success(path.toUpperCase()) }
-        return ajax
-    }).catch((err, caught) => {
-        return Observable.of({ type: "HOME" })
-    })
-)
+export const genericObservable = ({ path, toastr = true }) => (action) => {
+    console.log(action.payload.token)
+    return (
+        Observable.ajax({
+            url: API_URL() + "/" + path,
+            body: action.payload.token,
+            method: "POST",
+            responseType: 'json',
+            crossDomain: true
+        }).map((ajax) => {
+            if (toastr) { toastrFactory.success(path.toUpperCase()) }
+            return ajax
+        }))
+}
 
 export const playPlaylistMap = () => (action) => {
     console.log(action)

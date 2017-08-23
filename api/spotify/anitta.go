@@ -7,8 +7,8 @@ import (
 	"github.com/zmb3/spotify"
 )
 
-// Anitta TODO: NEEDS COMMENT INFO
-func Anitta(move bool, id string, token string) (*spotify.FullArtist, error) {
+// ShowFeelings TODO: NEEDS COMMENT INFO
+func ShowFeelings(move bool, id string, token string) (*spotify.FullArtist, error) {
 	var Artist *spotify.FullArtist
 	client, err := Authss(token)
 	if err != nil {

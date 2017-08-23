@@ -11,12 +11,12 @@ import (
 func pauseEndPoint(w http.ResponseWriter, r *http.Request) {
 	body, err := tools.GetBODY(r)
 	if err != nil {
-		http.Error(w, http.StatusText(400), 400)
+		http.Error(w, err.Error(), 400)
 		return
 	}
 	err = spotify.Pause(body)
 	if err != nil {
-		http.Error(w, http.StatusText(400), 400)
+		http.Error(w, err.Error(), 400)
 		return
 	}
 	render.JSON(w, r, "next")
