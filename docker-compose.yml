@@ -1,9 +1,8 @@
 version: '3'
 services:
   nginx:
-    container_name: nginx 
-    build: 
-      context: ./ssl
+    image: cescoferraro/nginx 
+    container_name: nginx
     ports:
       - "443:443"
       - "80:80"
