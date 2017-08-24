@@ -1,18 +1,16 @@
-import { ARTISTS } from "../../../shared/playlists";
+import { ARTISTS } from "../../../shared/playlists"
 import * as React from "react"
-import RaisedButton from 'material-ui/RaisedButton'
+import RaisedButton from "material-ui/RaisedButton"
 import * as CSS from "./main.css"
-import * as cs from "classnames"
 import SelectField from "material-ui/SelectField"
 import MenuItem from "material-ui/MenuItem"
-import { isServer } from "../../../store/createStore";
+import { isServer } from "../../../store/createStore"
 import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import { API_URL } from "../../../shared/api"
 import Subheader from "material-ui/Subheader"
 
 export class Chooser extends React.Component<any, any> {
     private constructor(props) {
-        props
         super(props)
         this.state = { value: ARTISTS[0].value }
         this.handleChange = this.handleChange.bind(this)
