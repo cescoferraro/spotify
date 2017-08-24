@@ -2,13 +2,13 @@ import { toastr } from "react-redux-toastr"
 
 const upHandler = (e) => {
     toastr.success("The UP", "cloud 9", {
-        position: "bottom-left"
+        position: "bottom-center"
     })
     console.log("upppp")
 }
 const downHandler = (e) => {
     toastr.error("The down", "rot in hell", {
-        position: "bottom-left"
+        position: "bottom-center"
     })
     console.log("downnnnn")
 }

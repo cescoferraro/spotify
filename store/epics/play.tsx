@@ -11,14 +11,53 @@ import { toastr as toastrFactory } from 'react-redux-toastr'
 import { playPlaylistMap, playSongMap } from "./observables";
 import { genericObservable } from "./observables";
 
+
 export const playSongEpic = (action$, store) => {
     return action$.ofType("PLAY_SONG")
         .mergeMap(playSongMap())
-        .mapTo({ type: "DONE" })
+        .catch((err, caught) => {
+            return Observable.of(1)
+        })
+        .mergeMap((now) => {
+            console.log(now)
+
+            if (now.response !== undefined) {
+                console.log(now)
+                return (Observable.merge(
+                    Observable.of({ type: "PLAY_SONG_SUCESS" })
+                ))
+            } else {
+                console.log("bahhhhhhhhhh")
+                toastrFactory.warning("LOGIN AGAIN")
+                return (Observable.merge(
+                    Observable.of({ type: "HOME" })
+                ))
+            }
+
+        })
 }
 
 export const playEpic = (action$, store) => {
     return action$.ofType("PLAY")
         .mergeMap(genericObservable({ path: "play" }))
-        .mapTo({ type: "DONE" })
+        .catch((err, caught) => {
+            return Observable.of(1)
+        })
+        .mergeMap((now) => {
+            console.log(now)
+
+            if (now.response !== undefined) {
+                console.log(now)
+                return (Observable.merge(
+                    Observable.of({ type: "PLAY_SUCESS" })
+                ))
+            } else {
+                console.log("bahhhhhhhhhh")
+                toastrFactory.warning("LOGIN AGAIN")
+                return (Observable.merge(
+                    Observable.of({ type: "HOME" })
+                ))
+            }
+
+        })
 } 

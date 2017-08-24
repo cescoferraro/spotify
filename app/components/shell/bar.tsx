@@ -15,6 +15,7 @@ const boilLogo = (props) => {
         <DashboardIcon
             onClick={() => {
                 props.dispatch({ type: "LOGOUT", payload: { token: props.token } })
+                props.dispatch({ type: "HOME" })
             }}
             className={CSS.button}
         /> :

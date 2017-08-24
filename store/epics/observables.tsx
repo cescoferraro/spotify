@@ -19,7 +19,11 @@ export const genericObservable = ({ path, toastr = true }) => (action) => {
             responseType: 'json',
             crossDomain: true
         }).map((ajax) => {
-            if (toastr) { toastrFactory.success(path.toUpperCase()) }
+            if (toastr) {
+                toastrFactory.success(path.toUpperCase(), "", {
+                    position: "bottom-center"
+                })
+            }
             return ajax
         }))
 }

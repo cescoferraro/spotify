@@ -45,6 +45,8 @@ export class Chooser extends React.Component<any, any> {
                     fullWidth={true}
                     onClick={this.ShowFeelings(this.state.value, "love")}
                     label="LOVE" />
+                <br />
+                <br />
                 <RaisedButton
                     icon={<DashboardIcon />}
                     labelStyle={{ fontSize: "100%" }}

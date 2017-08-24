@@ -17,7 +17,7 @@ export const Artist = (props) => {
                 {"s "} {props.artist.name}
             </div>
             <div className={cs(CSS.layer, CSS.layer3)}>
-                <img alt="" src={props.artist.images[0].url} />
+                <img alt="" src={props.artist.images[0].url ? props.artist.images[0].url : "https://google.com/favicon.ico"} />
             </div>
         </div>
     ) : (

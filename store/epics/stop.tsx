@@ -7,14 +7,13 @@ import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { genericObservable } from "./observables";
+import { toastr as toastrFactory } from 'react-redux-toastr'
 
 export const stopEpic = (action$, store) => {
     return action$.ofType("PAUSE")
         .mergeMap(genericObservable({ path: "pause" }))
         .catch((err, caught) => {
-            console.log("kfnsdknfj")
-            console.log("kfnsdknfj")
-            return Observable.of({ type: "HOME" })
+            return Observable.of(1)
         })
         .mergeMap((now) => {
             console.log(now)
@@ -26,6 +25,7 @@ export const stopEpic = (action$, store) => {
                 ))
             } else {
                 console.log("bahhhhhhhhhh")
+                toastrFactory.warning("LOGIN AGAIN")
                 return (Observable.merge(
                     Observable.of({ type: "HOME" })
                 ))

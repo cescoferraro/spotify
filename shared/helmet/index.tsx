@@ -9,7 +9,7 @@ export const MyHelmet = ({ title }) => (
         <link rel="shortcut icon" href="icons/favicon.ico" />
         <title>{title + " | spotify"} </title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#303F9F" />
+        <meta name="theme-color" content="#1ED760" />
         <meta property="og:title" content="spotify" />
         <meta property="og:url" content="https://spotify.cescoferraro.xyz" />
         <meta property="og:image" content={Cesco} />

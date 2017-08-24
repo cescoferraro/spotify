@@ -20,7 +20,7 @@ const icons = new FaviconsWebpackPlugin({
     start_url: '/',
     statsFilename: 'icons/[name].[ext]',
     gcm_sender_id: '482941778795',
-    theme_color: '#00bfff'
+    theme_color: '#1ED760'
   },
   emitStats: true,
   logo: './shared/icon/favicon.png',
@@ -54,15 +54,6 @@ const limit = () =>
     maxChunks: 1
   });
 
-const flags = () => {
-  return new CopyWebpackPlugin([
-    {
-      from: './node_modules/react-flags/vendor/flags',
-      to: './flags'
-    }
-  ]);
-};
-
 const copy = () => [
   new CopyWebpackPlugin(
     [
@@ -75,12 +66,10 @@ const copy = () => [
       {
         from: './shared/signal/OneSignalSDKWorker.js',
         to: './signal/OneSignalSDKWorker.js'
-      },
-      { from: './node_modules/react-flags/vendor/flags', to: './flags' }
+      }
     ],
     { copyUnmodified: true }
-  ),
-  flags()
+  )
   // new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i })
 ];
 
@@ -159,7 +148,7 @@ const serverPlugins = env => {
   if (env.production) {
     return [...copy(), limit(), define(env), Uglify];
   } else {
-    return [flags(), limit(), define(env)];
+    return [limit(), define(env)];
   }
 };
 
