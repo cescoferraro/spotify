@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from "react"
 import { Observable } from "rxjs/Observable"
 import "rxjs/add/operator/map"
 import "rxjs/add/observable/dom/ajax"
@@ -45,10 +45,19 @@ class MyPlaylistsClass extends React.Component<any, any> {
                         console.log(follower)
                         return (
                             <ListItem
+                                leftAvatar={
+                                    <Avatar
+                                        src={follower.images[0] ?
+                                            follower.images[0].url :
+                                            "https://google.com/favicon.ico"
+                                        }
+                                    />}
                                 key={Math.random()}
                                 primaryText={follower.name}
-                                leftAvatar={<Avatar src={follower.images[0].url} />}
-                                rightIcon={<CommunicationChatBubble onClick={this.playSong(follower)} />}
+                                rightIcon={
+                                    <CommunicationChatBubble
+                                        onClick={this.playSong(follower)}
+                                    />}
                             />
                         )
                     })}

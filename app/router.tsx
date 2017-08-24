@@ -6,7 +6,7 @@ import { Shell } from "./components/shell/index"
 import { MyHelmet } from "../shared/helmet/index"
 import { AsyncDashboard } from "./components/dashboard"
 import { Artist } from "./components/artist/artist"
-import { HomeComponent } from "./components/home"
+import { HomeComponent } from "./components/home/home"
 import { APP_ACTIONS } from "../store/actions";
 
 const AppRouterClass = (props) => {

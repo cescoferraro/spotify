@@ -72,7 +72,13 @@ export class Following extends React.Component<any, any>{
                         return <ListItem
                             key={Math.random()}
                             primaryText={artist.name}
-                            leftAvatar={<Avatar src={artist.images[0].url} />}
+                            leftAvatar={
+                                <Avatar
+                                    src={artist.images[0] ?
+                                        artist.images[0].url :
+                                        "https://google.com/favicon.ico"
+                                    }
+                                />}
                             rightIcon={<CommunicationChatBubble />}
                             onClick={() => {
                                 this.unfollow(artist.id)

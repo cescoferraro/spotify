@@ -1,0 +1,38 @@
+$margin: 20px;
+$util: calc( 100vh - 64px );
+$mainButton: calc( ( $util * 0.2 ) - (2 * $margin) );
+$hateHeight: calc( ( $util * 0.4 ) - (2 * $margin) );
+
+.container {
+    height: ;
+    background-color: black;
+    height: $util;
+    .dashboard {
+	padding: $margin;
+	height: $mainButton;
+	display: flex;
+	justify-content:center;
+	align-items:center;
+	align-self: center;
+	div {
+	    height: 80%!important; 
+	    button {
+		height: 100% !important; 
+		display: flex !important;
+		justify-content: center;
+	    }
+	}
+    }
+}
+.hate{
+    padding:20px;
+    height: $hateHeight;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+    align-self: center;
+}
+
+.hateButton{
+    transform: scale(2.0) !important;
+}
