@@ -9,6 +9,7 @@ import { Plays } from "./changer"
 import { Timer } from "./timer"
 import { LOADING } from "../loading/index"
 import { LISTCharger } from "./listCharger"
+import * as CSS from "./main.css"
 
 export class DashboardComponent extends React.Component<any, any> {
     public render() {
@@ -18,7 +19,7 @@ export class DashboardComponent extends React.Component<any, any> {
             <LOADING userAgent={this.props.userAgent} /> :
             payload.user ?
                 (
-                    <div >
+                    <div className={CSS.container}>
                         <INFO payload={payload} />
                         <Player {...this.props} />
                         <div>
@@ -33,7 +34,7 @@ export class DashboardComponent extends React.Component<any, any> {
                             <Following token={token} />
                             <div>
                                 hew
-                                            </div>
+                            </div>
                             <MyPlaylists token={token} />
                         </div>
                         <br />

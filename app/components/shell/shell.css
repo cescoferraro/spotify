@@ -1,3 +1,4 @@
+@import "../../../shared/css/var/var.css";
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
 html {
@@ -16,7 +17,6 @@ html {
     overflow:auto;
     padding-left:5vw;
     padding-right:5vw;
-
 }
 
 .button {

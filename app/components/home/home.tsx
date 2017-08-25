@@ -19,7 +19,7 @@ export const HomeComponent = (props) => {
                     labelStyle={{ fontSize: "100%" }}
                     secondary={true}
                     fullWidth={true}
-                    label="Spotify Dashboard"
+                    label="Dashboard"
                 />
             </div>
             <Chooser />

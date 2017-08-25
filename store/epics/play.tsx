@@ -6,12 +6,15 @@ import "rxjs/add/operator/delay"
 import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
-import { playSongMap, genericObservable } from "./observables"
+import { genericObservable } from "./observables"
 import { WarningToast } from "../../shared/toastr"
+import { AJAX } from "../../shared/ajax"
 
 export const playSongEpic = (action$, store) => {
     return action$.ofType("PLAY_SONG")
-        .mergeMap(playSongMap())
+        .mergeMap((action) => (
+            AJAX("/play/" + action.payload.song, action.payload.token)
+        ))
         .catch((err, caught) => {
             return Observable.of(1)
         })

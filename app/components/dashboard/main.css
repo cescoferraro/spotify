@@ -1,12 +1,12 @@
 @import "../../../shared/css/var/var.css";
 
-.container{
-    height: calc( 100vh - 64px );
-    background-color: whitesmoke;
-    overflow:auto;
-    padding-left: 5vw;
-    padding-right:5vw;
+@media (--big-viewport) {
+    .container{
+	padding-left:15vw;
+	padding-right:15vw;
+    }
 }
+
 .pad{
     padding-left: 5vw;
     padding-right:5vw;
