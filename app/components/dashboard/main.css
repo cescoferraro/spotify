@@ -22,6 +22,7 @@
 }
 .select {
     width: 80% !important;
+    max-width: 80% !important;
 }
 .grey{
     fill: grey !important; 
@@ -31,6 +32,7 @@
 	color: black !important;
     }
     width: 20% !important;
+    max-width: 20% !important;
 }
 a {color: whitesmoke;}
 .menu{
