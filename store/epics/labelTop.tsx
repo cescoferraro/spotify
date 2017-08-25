@@ -10,7 +10,6 @@ import "rxjs/add/operator/catch"
 import { API_URL } from "../../shared/api/index"
 import { LABEL_TOP_ARTISTS } from "../actions/actions"
 import 'rxjs/add/observable/empty'
-import { toastr as toastrFactory } from 'react-redux-toastr'
 import { WarningToast } from "../../shared/toastr";
 
 

@@ -2,7 +2,6 @@ import { genericObservable } from "./observables";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of"
 import "rxjs/add/observable/merge"
-import { toastr as toastrFactory } from 'react-redux-toastr'
 import { WarningToast } from "../../shared/toastr";
 
 export const nowEpic = (action$, store) => (

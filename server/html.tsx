@@ -8,9 +8,8 @@ import { ToastrCSS } from "../shared/components/toastrCSS"
 import * as serialize from "serialize-javascript"
 import { ssrBehavior } from "react-md-spinner"
 
-
 export const HTML = (
-    { clientStats, serverStats, outputPath, production, content, store }
+    { clientStats, userAgent, serverStats, outputPath, production, content, store }
 ) => {
     const assets = flushedAssets(clientStats, outputPath, production)
     const { preload, scripts } = getScripts(assets.scripts, outputPath, production)
@@ -21,6 +20,9 @@ export const HTML = (
     }
     const cssChunks = {
         __html: `window.__CSS_CHUNKS__ = ${serialize(assets.cssHashRaw)}`
+    }
+    const spinner = {
+        __html: serialize(ssrBehavior.getStylesheetString(userAgent))
     }
     return (
         <html {...MyHelmet.html}>
@@ -35,6 +37,7 @@ export const HTML = (
                 <ToastrCSS />
                 <script dangerouslySetInnerHTML={inner} />
                 <script dangerouslySetInnerHTML={cssChunks} />
+                <script dangerouslySetInnerHTML={spinner} />
                 <OneSignalCDN production={production} />
                 <OneSignalInit production={production} />
             </head>

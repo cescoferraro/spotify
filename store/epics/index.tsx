@@ -3,7 +3,6 @@ import "rxjs/add/observable/merge"
 import "rxjs/add/observable/of"
 import "rxjs/add/operator/mergeMap"
 import { volumeMap } from "./observables";
-import { toastr as toastrFactory } from 'react-redux-toastr'
 import { WarningToast } from "../../shared/toastr";
 
 export const volumeEpic = (action$, store) => {

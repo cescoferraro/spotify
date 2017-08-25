@@ -5,9 +5,9 @@ import MenuItem from "material-ui/MenuItem"
 import * as CSS from "./main.css"
 import { connect } from "react-redux"
 import { compose } from "recompose"
-import { URIS } from "../../../shared/playlists";
+import { URIS } from "../../../shared/playlists"
 
-class listChargerClass extends React.Component<any, any> {
+class ListChargerClass extends React.Component<any, any> {
     constructor(props) {
         super(props)
         this.handleChange = this.handleChange.bind(this)
@@ -48,7 +48,10 @@ class listChargerClass extends React.Component<any, any> {
     }
 
     private playSong() {
-        this.props.dispatch({ type: "PLAY_THESE_SONGS", payload: { token: this.props.token, playlist: this.state.value } })
+        this.props.dispatch({
+            type: "PLAY_THESE_SONGS",
+            payload: { token: this.props.token, playlist: this.state.value }
+        })
     }
 
     private handleChange(event, index, value) {
@@ -56,8 +59,6 @@ class listChargerClass extends React.Component<any, any> {
     }
 }
 
-export const LISTCharger = compose(connect(() => {
-    return {
-        URIS: URIS
-    }
-}))(listChargerClass)
+export const LISTCharger = compose(
+    connect(() => ({ URIS }))
+)(ListChargerClass)

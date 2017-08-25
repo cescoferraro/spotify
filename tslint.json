@@ -14,6 +14,7 @@
    ],
    "align": [true, "parameters", "statements"],
    "no-console": [false],
+   "jsx-curly-spacing" : "always",
    "no-var-requires": false,
    "no-unused-variable": true,
    "ordered-imports": false,

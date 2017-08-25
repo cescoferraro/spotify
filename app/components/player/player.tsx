@@ -1,22 +1,22 @@
-import * as React from "react";
+import * as React from "react"
 import { API_URL } from "../../../shared/api/index"
-import MenuItem from 'material-ui/MenuItem'
-import IconButton from 'material-ui/IconButton'
-import ActionHome from 'material-ui/svg-icons/action/home'
-import PlayIcon from 'material-ui/svg-icons/av/play-arrow'
-import SkipPrevious from 'material-ui/svg-icons/av/skip-previous'
-import SkipNext from 'material-ui/svg-icons/av/skip-next'
-import Stop from 'material-ui/svg-icons/av/stop'
-import Pause from 'material-ui/svg-icons/av/pause'
-import Loop from 'material-ui/svg-icons/av/fiber-manual-record'
-import RepeatOne from 'material-ui/svg-icons/av/repeat-one'
+import MenuItem from "material-ui/MenuItem"
+import IconButton from "material-ui/IconButton"
+import ActionHome from "material-ui/svg-icons/action/home"
+import PlayIcon from "material-ui/svg-icons/av/play-arrow"
+import SkipPrevious from "material-ui/svg-icons/av/skip-previous"
+import SkipNext from "material-ui/svg-icons/av/skip-next"
+import Stop from "material-ui/svg-icons/av/stop"
+import Pause from "material-ui/svg-icons/av/pause"
+import Loop from "material-ui/svg-icons/av/fiber-manual-record"
+import RepeatOne from "material-ui/svg-icons/av/repeat-one"
 import * as CSS from "./main.css"
 import { connect } from "react-redux"
 import { compose } from "recompose"
 import Subheader from "material-ui/Subheader"
-import { Repeat } from "./repeat";
-import { NOW } from "./now";
-import { Volume } from "./volume";
+import { Repeat } from "./repeat"
+import { NOW } from "./now"
+import { Volume } from "./volume"
 
 export const Player = compose(
     connect()

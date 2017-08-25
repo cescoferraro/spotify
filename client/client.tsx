@@ -9,7 +9,6 @@ require("offline-js")
 Renderer(AppRouter)
 runServiceWorker()
 
-
 if (module.hot) {
     module.hot.accept(
         [
@@ -23,4 +22,3 @@ if (module.hot) {
             Renderer(NextEatApp)
         })
 }
-

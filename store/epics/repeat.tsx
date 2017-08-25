@@ -7,7 +7,6 @@ import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { API_URL } from "../../shared/api/index";
-import { toastr as toastrFactory } from 'react-redux-toastr'
 import { WarningToast } from "../../shared/toastr";
 
 export const repeatEpic = (action$, store) => {

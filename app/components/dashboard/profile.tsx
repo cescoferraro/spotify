@@ -1,12 +1,11 @@
 import * as React from "react"
-import * as CSS from "./main.css"
 import { Following } from "./following"
 import { MyPlaylists } from "./playlist"
 import { Player } from "../player/player"
-import { Plays } from "./changer";
-import { Timer } from "./timer";
+import { Plays } from "./changer"
+import { Timer } from "./timer"
 import Subheader from "material-ui/Subheader"
-import { INFO } from "./info";
+import { INFO } from "./info"
 
 export const SPOTIFYProfile = ({ dispatch, token, payload, css }) => {
     return (

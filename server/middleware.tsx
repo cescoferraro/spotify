@@ -15,6 +15,8 @@ export default function serverRenderer(props) {
         res.send("<!DOCTYPE html>" +
             renderToStaticMarkup(
                 <HTML
+
+                    userAgent={req.headers["user-agent"]}
                     store={store}
                     content={render.string}
                     {...props}
