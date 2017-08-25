@@ -8,6 +8,7 @@ import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { API_URL } from "../../shared/api/index";
 import { toastr as toastrFactory } from 'react-redux-toastr'
+import { WarningToast } from "../../shared/toastr";
 
 export const repeatEpic = (action$, store) => {
     return action$.ofType("REPEAT")
@@ -26,17 +27,13 @@ export const repeatEpic = (action$, store) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
-            console.log(now)
-
             if (now.response !== undefined) {
-                console.log(now)
                 return (Observable.merge(
                     Observable.of({ type: "NOW", payload: { token: store.getState().token } }),
                     Observable.of({ type: "REPEAT_SUCESS" })
                 ))
             } else {
-                console.log("bahhhhhhhhhh")
-                toastrFactory.warning("LOGIN AGAIN")
+                WarningToast()
                 return (Observable.merge(
                     Observable.of({ type: "HOME" })
                 ))

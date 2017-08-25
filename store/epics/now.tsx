@@ -3,6 +3,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of"
 import "rxjs/add/observable/merge"
 import { toastr as toastrFactory } from 'react-redux-toastr'
+import { WarningToast } from "../../shared/toastr";
 
 export const nowEpic = (action$, store) => (
     action$
@@ -12,17 +13,18 @@ export const nowEpic = (action$, store) => (
             return Observable.of(1)
         })
         .mergeMap((now) => {
-            console.log(now)
             if (now.response !== undefined) {
-                console.log(now)
+                const { response } = now
                 return (Observable.merge(
-                    Observable.of({ type: "SET_VOLUME", payload: now.response.device.volume_percent }),
-                    Observable.of({ type: "SET_NOW", payload: now.response }),
+                    Observable.of({
+                        type: "SET_VOLUME",
+                        payload: response.device.volume_percent
+                    }),
+                    Observable.of({ type: "SET_NOW", payload: response }),
                     Observable.of({ type: "DONE_NOW" })
                 ))
             } else {
-                console.log("bahhhhhhhhhh")
-                toastrFactory.warning("LOGIN AGAIN")
+                WarningToast()
                 return (Observable.merge(
                     Observable.of({ type: "HOME" })
                 ))

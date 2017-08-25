@@ -35,6 +35,9 @@ export class DashboardComponent extends React.Component<any, any> {
                                     <div>
                                         <Subheader> Extra information </Subheader>
                                         <Following token={token} />
+                                        <div>
+                                            hew
+					</div>
                                         <MyPlaylists token={token} />
                                     </div>
                                     <br />

@@ -6,11 +6,11 @@ import "rxjs/add/operator/delay"
 import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
-import { API_URL } from "../../shared/api/index";
-import { toastr as toastrFactory } from 'react-redux-toastr'
-import { playPlaylistMap, playSongMap } from "./observables";
-import { genericObservable } from "./observables";
-
+import { API_URL } from "../../shared/api/index"
+import { toastr as toastrFactory } from "react-redux-toastr"
+import { playPlaylistMap, playSongMap } from "./observables"
+import { genericObservable } from "./observables"
+import { WarningToast } from "../../shared/toastr"
 
 export const playSongEpic = (action$, store) => {
     return action$.ofType("PLAY_SONG")
@@ -19,21 +19,16 @@ export const playSongEpic = (action$, store) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
-            console.log(now)
-
             if (now.response !== undefined) {
-                console.log(now)
                 return (Observable.merge(
                     Observable.of({ type: "PLAY_SONG_SUCESS" })
                 ))
             } else {
-                console.log("bahhhhhhhhhh")
-                toastrFactory.warning("LOGIN AGAIN")
+                WarningToast()
                 return (Observable.merge(
                     Observable.of({ type: "HOME" })
                 ))
             }
-
         })
 }
 
@@ -44,10 +39,7 @@ export const playEpic = (action$, store) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
-            console.log(now)
-
             if (now.response !== undefined) {
-                console.log(now)
                 return (Observable.merge(
                     Observable.of({ type: "PLAY_SUCESS" })
                 ))
@@ -60,4 +52,4 @@ export const playEpic = (action$, store) => {
             }
 
         })
-} 
+}

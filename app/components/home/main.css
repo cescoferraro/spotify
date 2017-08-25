@@ -31,6 +31,7 @@ $hateHeight: calc( ( $util * 0.4 ) - (2 * $margin) );
     justify-content:center;
     align-items:center;
     align-self: center;
+    flex-direction: column;
 }
 
 .hateButton{

@@ -3,6 +3,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of"
 import "rxjs/add/observable/merge"
 import { toastr as toastrFactory } from 'react-redux-toastr'
+import { WarningToast } from "../../shared/toastr";
 
 
 export const logoutEpic = (action$, store) => {
@@ -12,16 +13,12 @@ export const logoutEpic = (action$, store) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
-            console.log(now)
-
             if (now.response !== undefined) {
-                console.log(now)
                 return (Observable.merge(
                     Observable.of({ type: "LOGOUT_SUCESS" })
                 ))
             } else {
-                console.log("bahhhhhhhhhh")
-                toastrFactory.warning("LOGIN AGAIN")
+                WarningToast()
                 return (Observable.merge(
                     Observable.of({ type: "HOME" })
                 ))

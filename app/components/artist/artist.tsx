@@ -3,9 +3,8 @@ import * as isEmpty from 'lodash/isEmpty'
 import { LOADING } from "../loading/index";
 import * as CSS from "./main.css"
 import * as cs from "classnames"
+
 export const Artist = (props) => {
-    console.log(props)
-    console.log(isEmpty)
     return !isEmpty(props.artist) ? (
         <div className={CSS.container}>
             <div className={cs(CSS.layer, CSS.layer1)}>
@@ -17,7 +16,11 @@ export const Artist = (props) => {
                 {"s "} {props.artist.name}
             </div>
             <div className={cs(CSS.layer, CSS.layer3)}>
-                <img alt="" src={props.artist.images[0].url ? props.artist.images[0].url : "https://google.com/favicon.ico"} />
+                <img alt="" src={
+                    props.artist.images[0].url ?
+                        props.artist.images[0].url :
+                        "https://google.com/favicon.ico"}
+                />
             </div>
         </div>
     ) : (

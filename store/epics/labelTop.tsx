@@ -11,6 +11,7 @@ import { API_URL } from "../../shared/api/index"
 import { LABEL_TOP_ARTISTS } from "../actions/actions"
 import 'rxjs/add/observable/empty'
 import { toastr as toastrFactory } from 'react-redux-toastr'
+import { WarningToast } from "../../shared/toastr";
 
 
 export const labelTopEpic = (action$, store) => {
@@ -27,16 +28,12 @@ export const labelTopEpic = (action$, store) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
-            console.log(now)
-
             if (now.response !== undefined) {
-                console.log(now)
                 return (Observable.merge(
                     Observable.of({ type: "LABEL_TOP_SUCESS" })
                 ))
             } else {
-                console.log("bahhhhhhhhhh")
-                toastrFactory.warning("LOGIN AGAIN")
+                WarningToast()
                 return (Observable.merge(
                     Observable.of({ type: "HOME" })
                 ))

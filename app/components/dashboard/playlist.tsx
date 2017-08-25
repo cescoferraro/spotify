@@ -42,7 +42,6 @@ class MyPlaylistsClass extends React.Component<any, any> {
                 <List>
                     <Subheader>Recent chats</Subheader>
                     {this.state.playlists.map((follower) => {
-                        console.log(follower)
                         return (
                             <ListItem
                                 leftAvatar={
@@ -54,10 +53,9 @@ class MyPlaylistsClass extends React.Component<any, any> {
                                     />}
                                 key={Math.random()}
                                 primaryText={follower.name}
-                                rightIcon={
-                                    <CommunicationChatBubble
-                                        onClick={this.playSong(follower)}
-                                    />}
+                                rightIcon={<CommunicationChatBubble
+                                    onClick={this.playSong(follower)}
+                                />}
                             />
                         )
                     })}
@@ -85,7 +83,12 @@ class MyPlaylistsClass extends React.Component<any, any> {
 
     }
     private playSong(follower) {
-        this.props.dispatch({ type: "PLAY_SONG", payload: { token: this.props.token, song: follower.uri } })
+        return () => {
+            this.props.dispatch({
+                type: "PLAY_SONG",
+                payload: { token: this.props.token, song: follower.uri }
+            })
+        }
     }
 }
 

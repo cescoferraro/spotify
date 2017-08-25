@@ -9,7 +9,6 @@ import Subheader from "material-ui/Subheader"
 import { INFO } from "./info";
 
 export const SPOTIFYProfile = ({ dispatch, token, payload, css }) => {
-    console.log(payload)
     return (
         <div>
             <div className={css.container}>
@@ -21,7 +20,6 @@ export const SPOTIFYProfile = ({ dispatch, token, payload, css }) => {
                 </div>
                 <Player token={token} dispatch={dispatch} />
                 <div>
-                    <Subheader> Player Controls </Subheader>
                     <div className={css.pad} >
                         <h2>sdjknfs</h2>
                         <Plays token={token} />

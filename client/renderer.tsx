@@ -13,20 +13,11 @@ import { offlineCheck } from "./offline"
 
 export const tag = document.getElementById("root")
 
-
-
 export const Renderer = (Component) => {
     const history = createBrowserHistory()
     const store = configureStore(history)
     offlineCheck(store)
-    if ((window as any).__PRODUCTION__) {
-        /* storage.createLoader(engine)(store)*/
-        /* .then((newState) => {*/
-        /* console.log("sending your ass to " + newState.location)*/
-        /* store.dispatch(newState.location)*/
-        /* })*/
-        /* .catch(() => console.log("Failed to load previous state"))*/
-    }
+    if ((window as any).__PRODUCTION__) { }
     const boilMUI = getMuiTheme(BoilTheme, { userAgent: navigator.userAgent })
     ReactDOM.render(
         <ReduxProvider store={store}>

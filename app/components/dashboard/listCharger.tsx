@@ -48,7 +48,7 @@ class listChargerClass extends React.Component<any, any> {
     }
 
     private playSong() {
-        this.props.dispatch({ type: "PLAY_PLAYLIST", payload: { token: this.props.token, playlist: this.state.value } })
+        this.props.dispatch({ type: "PLAY_THESE_SONGS", payload: { token: this.props.token, playlist: this.state.value } })
     }
 
     private handleChange(event, index, value) {

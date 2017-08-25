@@ -18,43 +18,42 @@ export class Chooser extends React.Component<any, any> {
     }
     public render() {
         return <div className={CSS.hate} >
-            <div>
-                <Subheader> Select an artist to love/hate</Subheader>
-                <SelectField
-                    hintText="Select artist"
-                    value={this.state.value}
-                    fullWidth={true}
-                    onChange={this.handleChange}
-                    id="sjkdfn"
-                >
-                    {
-                        ARTISTS.map((name) => (
-                            <MenuItem
-                                key={name.key}
-                                insetChildren={true}
-                                value={name.value}
-                                primaryText={name.name}
-                            />))
+            <Subheader> Select an artist to love/hate</Subheader>
+            <SelectField
+                hintText="Select artist"
+                fullWidth={true}
+                value={this.state.value}
+                onChange={this.handleChange}
+                id="sjkdfn"
+            >
+                {
+                    ARTISTS.map((name) => (
+                        <MenuItem
+                            key={name.key}
+                            insetChildren={true}
+                            value={name.value}
+                            primaryText={name.name}
+                        />))
 
-                    }
-                </SelectField>
-                <RaisedButton
-                    icon={<DashboardIcon />}
-                    labelStyle={{ fontSize: "100%" }}
-                    secondary={true}
-                    fullWidth={true}
-                    onClick={this.ShowFeelings(this.state.value, "love")}
-                    label="LOVE" />
-                <br />
-                <br />
-                <RaisedButton
-                    icon={<DashboardIcon />}
-                    labelStyle={{ fontSize: "100%" }}
-                    onClick={this.ShowFeelings(this.state.value, "hate")}
-                    secondary={true}
-                    fullWidth={true}
-                    label="HATE" />
-            </div>
+                }
+            </SelectField>
+            <RaisedButton
+                icon={<DashboardIcon />}
+                labelStyle={{ fontSize: "100%" }}
+                secondary={true}
+                fullWidth={true}
+                onClick={this.ShowFeelings(this.state.value, "love")}
+                label="LOVE" />
+            <div>
+                he
+	    </div>
+            <RaisedButton
+                fullWidth={true}
+                icon={<DashboardIcon />}
+                labelStyle={{ fontSize: "100%" }}
+                onClick={this.ShowFeelings(this.state.value, "hate")}
+                secondary={true}
+                label="HATE" />
         </div>
     }
     private handleChange(event, index, value) {

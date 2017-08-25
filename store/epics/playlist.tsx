@@ -5,23 +5,21 @@ import "rxjs/add/observable/merge"
 import "rxjs/add/observable/of"
 import { playPlaylistMap } from "./observables";
 import { toastr as toastrFactory } from 'react-redux-toastr'
+import { WarningToast } from "../../shared/toastr";
 
 export const playPlaylistEpic = (action$, store) => {
-    return action$.ofType("PLAY_PLAYLIST")
+    return action$.ofType("PLAY_THESE_SONGS")
         .mergeMap(playPlaylistMap())
         .catch((err, caught) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
-            console.log(now)
             if (now.response !== undefined) {
-                console.log(now)
                 return (Observable.merge(
-                    Observable.of({ type: "PLAY_PLAYLIST_SUCCESS" })
+                    Observable.of({ type: "PLAY_THESE_SONGS_SUCCESS" })
                 ))
             } else {
-                console.log("bahhhhhhhhhh")
-                toastrFactory.warning("LOGIN AGAIN")
+                WarningToast()
                 return (Observable.merge(
                     Observable.of({ type: "HOME" })
                 ))

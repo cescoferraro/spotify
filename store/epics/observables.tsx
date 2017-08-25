@@ -7,8 +7,7 @@ import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { API_URL } from "../../shared/api/index";
-import { toastr as toastrFactory } from 'react-redux-toastr'
-
+import { SuccessToast } from "../../shared/toastr";
 export const genericObservable = ({ path, toastr = true }) => (action) => {
     console.log(action.payload.token)
     return (
@@ -19,11 +18,7 @@ export const genericObservable = ({ path, toastr = true }) => (action) => {
             responseType: 'json',
             crossDomain: true
         }).map((ajax) => {
-            if (toastr) {
-                toastrFactory.success(path.toUpperCase(), "", {
-                    position: "bottom-center"
-                })
-            }
+            if (toastr) { SuccessToast(path.toUpperCase(), "") }
             return ajax
         }))
 }
@@ -37,10 +32,7 @@ export const playPlaylistMap = () => (action) => {
             method: "POST",
             responseType: 'json',
             crossDomain: true
-        }).catch((err, caught) => {
-            return Observable.of({ type: "HOME" })
-        })
-    )
+        }))
 }
 
 export const playSongMap = () => (action) => (
@@ -50,10 +42,7 @@ export const playSongMap = () => (action) => (
         method: "POST",
         responseType: 'json',
         crossDomain: true
-    }).catch((err, caught) => {
-        return Observable.of({ type: "HOME" })
-    })
-)
+    }))
 
 
 export const volumeMap = () => (action) => (
@@ -63,8 +52,5 @@ export const volumeMap = () => (action) => (
         method: "POST",
         responseType: 'json',
         crossDomain: true
-    }).catch((err, caught) => {
-        return Observable.of({ type: "HOME" })
-    })
-)
+    }))
 
