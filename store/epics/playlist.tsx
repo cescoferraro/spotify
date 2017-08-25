@@ -4,7 +4,7 @@ import "rxjs/add/operator/mapTo"
 import "rxjs/add/observable/merge"
 import "rxjs/add/observable/of"
 import { WarningToast } from "../../shared/toastr"
-import { AJAX } from "../../shared/ajax";
+import { AJAX } from "../../shared/ajax"
 
 export const playPlaylistEpic = (action$, store) => {
     return action$.ofType("PLAY_THESE_SONGS")
