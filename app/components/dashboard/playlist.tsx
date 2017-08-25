@@ -23,46 +23,49 @@ class MyPlaylistsClass extends React.Component<any, any> {
         this.play = this.play.bind(this)
         this.getTOP5 = this.getTOP5.bind(this)
         this.playSong = this.playSong.bind(this)
+        this.fire = this.fire.bind(this)
+        this.makeSure = this.makeSure.bind(this)
     }
     public render() {
         const label = this.state.hidden ? "Show" : "Hide"
-        return <div className={CSS.feature} >
-            <RaisedButton
-                fullWidth={true}
-                label={label + " Playlists"}
-                secondary={true}
-                className={CSS.selectButton}
-                onClick={() => {
-                    console.log(this.state.hidden)
-                    this.getTOP5()
-                    this.setState({ hidden: !this.state.hidden })
-                }}
-            />
-            {this.state.hidden ? null : (
-                <List>
-                    <Subheader>Recent chats</Subheader>
-                    {this.state.playlists.map((follower) => {
-                        return (
-                            <ListItem
-                                leftAvatar={
-                                    <Avatar
-                                        src={follower.images[0] ?
-                                            follower.images[0].url :
-                                            "https://google.com/favicon.ico"
-                                        }
-                                    />}
-                                key={Math.random()}
-                                primaryText={follower.name}
-                                rightIcon={<CommunicationChatBubble
-                                    onClick={this.playSong(follower)}
-                                />}
-                            />
-                        )
-                    })}
-                </List>
-            )}
-        </div>
+        return (
+            <div className={CSS.feature} >
+                <RaisedButton
+                    fullWidth={true}
+                    label={label + " Playlists"}
+                    secondary={true}
+                    className={CSS.selectButton}
+                    onClick={this.fire}
+                />
+                {this.lista}
+            </div>)
 
+    }
+    private lista() {
+        const songs = this.state.playlists.map((follower) => (
+            <ListItem
+                leftAvatar={<Avatar src={this.makeSure(follower)} />}
+                key={Math.random()}
+                primaryText={follower.name}
+                rightIcon={<CommunicationChatBubble onClick={this.playSong(follower)} />}
+            />
+        ))
+        return this.state.hidden ? null : (
+            <List>
+                <Subheader>Recent chats</Subheader>
+                {songs}
+            </List>
+        )
+
+    }
+    private makeSure(follower) {
+        return follower.images[0] ? follower.images[0].url :
+            "https://google.com/favicon.ico"
+    }
+    private fire() {
+        console.log(this.state.hidden)
+        this.getTOP5()
+        this.setState({ hidden: !this.state.hidden })
     }
     private play(id) {
         Observable.ajax(bodyUrl(API_URL() + "/playlists", this.props.token))

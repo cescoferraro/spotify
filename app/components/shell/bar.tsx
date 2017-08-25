@@ -10,16 +10,13 @@ const goBack = (props) => () => {
 }
 
 const boilLogo = (props) => {
+    const goAway = () => {
+        props.dispatch({ type: "LOGOUT", payload: { token: props.token } })
+        props.dispatch({ type: "HOME" })
+    }
     return props.location.type === "DASHBOARD" || props.location.type === "ARTIST" &&
         props.location.payload.user ?
-        <DashboardIcon
-            onClick={() => {
-                props.dispatch({ type: "LOGOUT", payload: { token: props.token } })
-                props.dispatch({ type: "HOME" })
-            }}
-            className={CSS.button}
-        /> :
-        null
+        (<DashboardIcon onClick={goAway} className={CSS.button} />) : null
 }
 
 export const SPOTIFYAppBar = (props) => {

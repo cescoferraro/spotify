@@ -3,13 +3,13 @@ import { NoMatchContainer } from "./404"
 import { MUIProvider } from "../../../shared/components/MUIProvider"
 
 describe("<NoMatchContainer />", () => {
-    it('404', () => {
+    it("404", () => {
         const component = mount(
             <MUIProvider>
                 <NoMatchContainer />
             </MUIProvider>
         )
-        expect(component.text()).toContain('NOT FOUND!');
+        expect(component.text()).toContain("NOT FOUND!")
         expect(component).toMatchSnapshot()
     })
 })

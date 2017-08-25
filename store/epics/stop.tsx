@@ -6,8 +6,8 @@ import "rxjs/add/operator/delay"
 import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
-import { genericObservable } from "./observables";
-import { WarningToast } from "../../shared/toastr";
+import { genericObservable } from "./observables"
+import { WarningToast } from "../../shared/toastr"
 
 export const stopEpic = (action$, store) => {
     return action$.ofType("PAUSE")

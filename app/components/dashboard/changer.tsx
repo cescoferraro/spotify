@@ -5,7 +5,7 @@ import MenuItem from "material-ui/MenuItem"
 import * as CSS from "./main.css"
 import { connect } from "react-redux"
 import { compose } from "recompose"
-import { URIS } from "../../../shared/playlists";
+import { URIS } from "../../../shared/playlists"
 
 class PlaysClass extends React.Component<any, any> {
     constructor(props) {
@@ -55,8 +55,6 @@ class PlaysClass extends React.Component<any, any> {
     }
 }
 
-export const Plays = compose(connect(() => {
-    return {
-        URIS: URIS
-    }
-}))(PlaysClass)
+export const Plays = compose(
+    connect(() => ({ URIS }))
+)(PlaysClass)

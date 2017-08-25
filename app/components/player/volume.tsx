@@ -1,25 +1,35 @@
-import * as React from "react";
+import * as React from "react"
 import * as CSS from "./main.css"
-import { compose } from "recompose"
-import { connect } from "react-redux"
-import Slider from 'material-ui/Slider'
+import Slider from "material-ui/Slider"
 
-export class Volume extends React.Component<any, any>{
-    render() {
-        const { token, dispatch, player } = this.props
+export class Volume extends React.Component<any, any> {
+    constructor(props) {
+        super(props)
+        this.onChange = this.onChange.bind(this)
+        this.fire = this.fire.bind(this)
+    }
+    public render() {
         return (
             <span className={CSS.volume}>
                 <Slider
-                    onChange={(event, newValue) => {
-                        dispatch({ type: "SET_VOLUME", payload: newValue * 100 })
-                        console.log(newValue)
-                    }}
-                    onDragStop={(event) => {
-                        dispatch({ type: "VOLUME", payload: { token, percent: player.volume } })
-
-                    }}
-                    step={0.10} value={player.volume / 100} />
+                    onChange={this.onChange}
+                    onDragStop={this.fire}
+                    step={0.10}
+                    value={this.props.player.volume / 100}
+                />
             </span>
         )
+    }
+    private onChange(event, newValue) {
+        this.props.dispatch({
+            type: "SET_VOLUME",
+            payload: newValue * 100
+        })
+    }
+    private fire(event) {
+        this.props.dispatch({
+            type: "VOLUME",
+            payload: { token: this.props.token, percent: this.props.player.volume }
+        })
     }
 }

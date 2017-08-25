@@ -14,7 +14,7 @@ export const DRAWER_TOGGLE_ACTION = () => {
 }
 
 export const ROUTER_ACTION = (type) => {
-    return { type: type }
+    return { type }
 }
 
 export const LABEL_TOP_ARTISTS = "LABEL_TOP_ARTISTS"

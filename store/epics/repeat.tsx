@@ -6,21 +6,16 @@ import "rxjs/add/operator/delay"
 import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
-import { API_URL } from "../../shared/api/index";
-import { WarningToast } from "../../shared/toastr";
+import { AJAX } from "../../shared/ajax"
+import { WarningToast } from "../../shared/toastr"
 
 export const repeatEpic = (action$, store) => {
     return action$.ofType("REPEAT")
         .mergeMap((action) => {
-            let next = action.payload.current === (action.payload.states.length - 1) ?
+            const next = action.payload.current === (action.payload.states.length - 1) ?
                 0 : action.payload.current + 1
-            return Observable.ajax({
-                url: API_URL() + "/repeat/" + action.payload.states[next],
-                body: action.payload.token,
-                method: "POST",
-                responseType: 'json',
-                crossDomain: true
-            }).delay(3333)
+            return AJAX("/repeat/" + action.payload.states[next], action.payload.token)
+                .delay(3333)
         })
         .catch((err, caught) => {
             return Observable.of(1)

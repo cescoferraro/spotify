@@ -3,11 +3,10 @@ import { connect } from "react-redux"
 import { compose } from "recompose"
 import { NoMatchContainer } from "./components/404/404"
 import { Shell } from "./components/shell/index"
-import { MyHelmet } from "../shared/helmet/index"
 import { AsyncDashboard } from "./components/dashboard"
 import { Artist } from "./components/artist/artist"
 import { HomeComponent } from "./components/home/home"
-import { APP_ACTIONS } from "../store/actions";
+import { APP_ACTIONS } from "../store/actions"
 
 const AppRouterClass = (props) => {
     switch (props.location.type) {

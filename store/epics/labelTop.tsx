@@ -7,22 +7,14 @@ import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import "rxjs/add/operator/catch"
-import { API_URL } from "../../shared/api/index"
 import { LABEL_TOP_ARTISTS } from "../actions/actions"
-import 'rxjs/add/observable/empty'
-import { WarningToast } from "../../shared/toastr";
-
+import "rxjs/add/observable/empty"
+import { WarningToast } from "../../shared/toastr"
+import { AJAX } from "../../shared/ajax"
 
 export const labelTopEpic = (action$, store) => {
     return action$.ofType(LABEL_TOP_ARTISTS)
-        .mergeMap((action) => (
-            Observable.ajax({
-                url: API_URL() + "/label/" + action.payload,
-                method: "POST",
-                responseType: 'json',
-                crossDomain: true
-            })
-        ))
+        .mergeMap((action) => (AJAX("/label/" + action.payload, "")))
         .catch((err, caught) => {
             return Observable.of(1)
         })
@@ -37,6 +29,5 @@ export const labelTopEpic = (action$, store) => {
                     Observable.of({ type: "HOME" })
                 ))
             }
-
         })
 }

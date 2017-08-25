@@ -15,7 +15,6 @@ const ReplacebleEpicMiddleware = createEpicMiddleware(RootEpic)
 
 export const isServer = () => !(typeof window !== "undefined" && window.document)
 
-
 export const configureStore = (history: any = {}) => {
     const { reducer, middleware, enhancer } = connectRoutes(history, routesMap)
     const rootReducer = allReducers(reducer)

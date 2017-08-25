@@ -1,8 +1,8 @@
-import { genericObservable } from "./observables";
-import { Observable } from "rxjs/Observable";
+import { genericObservable } from "./observables"
+import { Observable } from "rxjs/Observable"
 import "rxjs/add/observable/of"
 import "rxjs/add/observable/merge"
-import { WarningToast } from "../../shared/toastr";
+import { WarningToast } from "../../shared/toastr"
 
 export const nowEpic = (action$, store) => (
     action$

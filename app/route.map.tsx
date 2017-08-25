@@ -1,6 +1,6 @@
 import { homeThunk } from "./thunks"
 import { authThunk } from "./thunks/auth"
-import { artistThunk } from "./thunks/artist";
+import { artistThunk } from "./thunks/artist"
 
 export const routesMap = {
     HOME: {

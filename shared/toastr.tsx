@@ -1,4 +1,4 @@
-import { toastr as toastrFactory } from 'react-redux-toastr'
+import { toastr as toastrFactory } from "react-redux-toastr"
 
 export const SuccessToast = (title, description) => {
     toastrFactory.success(title.toUpperCase(), description, {

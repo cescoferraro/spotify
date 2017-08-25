@@ -1,12 +1,10 @@
 import * as React from "react"
 import { API_URL } from "../../../shared/api"
-import RaisedButton from 'material-ui/RaisedButton'
-const SPOTIFYIcon = require("../../../shared/images/spotify.svg")
+import RaisedButton from "material-ui/RaisedButton"
 import * as CSS from "./main.css"
 import * as cs from "classnames"
 import DashboardIcon from "material-ui/svg-icons/action/dashboard"
-import { Chooser } from "./chooser";
-
+import { Chooser } from "./chooser"
 
 export const HomeComponent = (props) => {
     const login = () => {
@@ -21,7 +19,8 @@ export const HomeComponent = (props) => {
                     labelStyle={{ fontSize: "100%" }}
                     secondary={true}
                     fullWidth={true}
-                    label="Spotify Dashboard" />
+                    label="Spotify Dashboard"
+                />
             </div>
             <Chooser />
         </div >

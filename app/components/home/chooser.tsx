@@ -15,47 +15,53 @@ export class Chooser extends React.Component<any, any> {
         this.state = { value: ARTISTS[0].value }
         this.handleChange = this.handleChange.bind(this)
         this.ShowFeelings = this.ShowFeelings.bind(this)
+        this.selects = this.selects.bind(this)
     }
     public render() {
-        return <div className={CSS.hate} >
-            <Subheader> Select an artist to love/hate</Subheader>
-            <SelectField
-                hintText="Select artist"
-                fullWidth={true}
-                value={this.state.value}
-                onChange={this.handleChange}
-                id="sjkdfn"
-            >
-                {
-                    ARTISTS.map((name) => (
-                        <MenuItem
-                            key={name.key}
-                            insetChildren={true}
-                            value={name.value}
-                            primaryText={name.name}
-                        />))
-
-                }
-            </SelectField>
-            <RaisedButton
-                icon={<DashboardIcon />}
-                labelStyle={{ fontSize: "100%" }}
-                secondary={true}
-                fullWidth={true}
-                onClick={this.ShowFeelings(this.state.value, "love")}
-                label="LOVE" />
-            <div>
-                he
-	    </div>
-            <RaisedButton
-                fullWidth={true}
-                icon={<DashboardIcon />}
-                labelStyle={{ fontSize: "100%" }}
-                onClick={this.ShowFeelings(this.state.value, "hate")}
-                secondary={true}
-                label="HATE" />
-        </div>
+        return (
+            <div className={CSS.hate} >
+                <Subheader> Select an artist to love/hate</Subheader>
+                <SelectField
+                    hintText="Select artist"
+                    fullWidth={true}
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    id="sjkdfn"
+                >
+                    {this.selects()}
+                </SelectField>
+                <RaisedButton
+                    icon={<DashboardIcon />}
+                    labelStyle={{ fontSize: "100%" }}
+                    secondary={true}
+                    fullWidth={true}
+                    onClick={this.ShowFeelings(this.state.value, "love")}
+                    label="LOVE"
+                />
+                <div>
+                    he
+            </div>
+                <RaisedButton
+                    fullWidth={true}
+                    icon={<DashboardIcon />}
+                    labelStyle={{ fontSize: "100%" }}
+                    onClick={this.ShowFeelings(this.state.value, "hate")}
+                    secondary={true}
+                    label="HATE"
+                />
+            </div>
+        )
     }
+    private selects() {
+        return ARTISTS.map((name) => (
+            <MenuItem
+                key={name.key}
+                insetChildren={true}
+                value={name.value}
+                primaryText={name.name}
+            />))
+    }
+
     private handleChange(event, index, value) {
         this.setState({ value })
     }
@@ -67,4 +73,3 @@ export class Chooser extends React.Component<any, any> {
         }
     }
 }
-

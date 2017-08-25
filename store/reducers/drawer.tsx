@@ -1,7 +1,7 @@
 import {
     DRAWER_TOGGLE_ACTION_NAME,
     DRAWER_ACTION_NAME
-} from "../actions/actions";
+} from "../actions/actions"
 
 import { Now } from "./now"
 
