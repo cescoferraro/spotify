@@ -27,7 +27,6 @@ $hateHeight: calc( ( $util * 0.4 ) - (2 * $margin) );
     }
 }
 .hate{
-    padding:20px;
     height: $hateHeight;
     display: flex;
     justify-content:center;
@@ -44,6 +43,12 @@ $hateHeight: calc( ( $util * 0.4 ) - (2 * $margin) );
     .container{
 	padding-left:15vw;
 	padding-right:15vw;
+    }
+}
+@media (--medium-viewport) {
+    .container{
+	padding-left:5vw;
+	padding-right:5vw;
     }
 }
 @media (--small-viewport) {

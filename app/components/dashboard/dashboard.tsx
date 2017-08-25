@@ -10,6 +10,7 @@ import { Timer } from "./timer"
 import { LOADING } from "../loading/index"
 import { LISTCharger } from "./listCharger"
 import * as CSS from "./main.css"
+import { Chooser } from "../home/chooser"
 
 export class DashboardComponent extends React.Component<any, any> {
     public render() {
@@ -27,6 +28,7 @@ export class DashboardComponent extends React.Component<any, any> {
                             <LISTCharger token={token} />
                             <Plays token={token} />
                             <Timer token={token} />
+                            <Chooser />
                         </div>
                         <br />
                         <div>

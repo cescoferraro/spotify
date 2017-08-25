@@ -4,10 +4,10 @@ import RaisedButton from "material-ui/RaisedButton"
 import * as CSS from "./main.css"
 import SelectField from "material-ui/SelectField"
 import MenuItem from "material-ui/MenuItem"
-import { isServer } from "../../../store/createStore"
 import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import { API_URL } from "../../../shared/api"
 import Subheader from "material-ui/Subheader"
+import { OfflineToast } from "../../../shared/toastr"
 
 export class Chooser extends React.Component<any, any> {
     private constructor(props) {
@@ -67,8 +67,11 @@ export class Chooser extends React.Component<any, any> {
     }
     private ShowFeelings(id, move) {
         return () => {
-            if (!isServer()) {
+            const { Offline } = (window as any)
+            if (Offline.state === "up") {
                 window.location.href = API_URL() + "/artist/" + move + "/" + id
+            } else {
+                OfflineToast()
             }
         }
     }

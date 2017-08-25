@@ -15,3 +15,13 @@ export const WarningToast = () => {
         }
     )
 }
+
+export const OfflineToast = () => {
+    toastrFactory.info(
+        "You are offline!".toUpperCase(),
+        "You do not have internet access. I cannot take you there. It's dangerous!",
+        {
+            position: "bottom-center"
+        }
+    )
+}
