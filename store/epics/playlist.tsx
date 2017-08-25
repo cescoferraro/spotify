@@ -3,12 +3,17 @@ import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/mapTo"
 import "rxjs/add/observable/merge"
 import "rxjs/add/observable/of"
-import { playPlaylistMap } from "./observables"
 import { WarningToast } from "../../shared/toastr"
+import { AJAX } from "../../shared/ajax";
 
 export const playPlaylistEpic = (action$, store) => {
     return action$.ofType("PLAY_THESE_SONGS")
-        .mergeMap(playPlaylistMap())
+        .mergeMap((action) => (
+            AJAX(
+                "/play/playlist",
+                { token: action.payload.token, songs: action.payload.playlist }
+            )
+        ))
         .catch((err, caught) => {
             return Observable.of(1)
         })

@@ -24,6 +24,7 @@ class MyPlaylistsClass extends React.Component<any, any> {
         this.getTOP5 = this.getTOP5.bind(this)
         this.playSong = this.playSong.bind(this)
         this.fire = this.fire.bind(this)
+        this.lista = this.lista.bind(this)
         this.makeSure = this.makeSure.bind(this)
     }
     public render() {
@@ -37,7 +38,7 @@ class MyPlaylistsClass extends React.Component<any, any> {
                     className={CSS.selectButton}
                     onClick={this.fire}
                 />
-                {this.lista}
+                {this.lista()}
             </div>)
 
     }

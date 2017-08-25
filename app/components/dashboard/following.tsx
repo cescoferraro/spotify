@@ -27,7 +27,7 @@ export class Following extends React.Component<any, any> {
                     label="TOP5 ARTISTS"
                     onClick={this.Toggle}
                 />
-                <List> {this.artistList} </List>
+                <List> {this.artistList()} </List>
             </div>
         )
     }
