@@ -1,16 +1,18 @@
 package spotify
 
 import (
+	"net/http"
+
 	"github.com/pkg/errors"
 )
 
 // Volume TODO: NEEDS COMMENT INFO
-func Volume(percent int, code string) error {
-	token, err := ProcessToken(code)
+func Volume(percent int, code string, r *http.Request) error {
+	token, err := ProcessToken(code, r)
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := Auth.NewClient(token)
+	client := Auth(r).NewClient(token)
 	err = client.Volume(percent)
 	if err != nil {
 		return errors.Wrap(err, "next error")

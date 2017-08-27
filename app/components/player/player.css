@@ -1,0 +1,56 @@
+.main{
+    margin:0;
+    align-content:center;
+    padding-left:3vw;
+    height: calc( 100vh - 64px - 48px );
+    padding-right:3vw;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    h2{color:white;}
+    .center{
+	padding-left: 5vw;
+	padding-right:5vw;
+	height: calc(  calc( 100vh - 64px - 48px) * 0.8);
+	.controls   {
+	    height: 30%;
+	    > div{
+		display:flex;
+		align-items: center;
+		justify-content: center;
+		button{
+		    width: 15vw !important;
+		    height: 15vw !important;
+		    .grey{
+			fill: grey !important; 
+		    }
+		    svg{
+			width: 10vw !important;
+			height: 10vw !important;
+		    }
+		}
+	    }
+	}
+	.now{
+	    height: 70%;
+	    .image{
+		display:flex;
+		justify-content:center;
+		align-items:center;
+	    }
+	    img{
+		height:35vh;
+	    }
+	    p {
+		text-align: center;
+		color: white;
+	    }
+	}
+	.volume{
+	    margin-bottom:0px;
+	    > div {
+		margin-bottom:0px !important;
+	    }
+	}
+    }
+}

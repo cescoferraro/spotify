@@ -14,7 +14,7 @@ func meEndPoint(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(400), 400)
 		return
 	}
-	user, err := spotify.GetProfile(body)
+	user, err := spotify.GetProfile(body, r)
 	if err != nil {
 		http.Error(w, http.StatusText(400), 400)
 		return

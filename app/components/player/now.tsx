@@ -1,9 +1,10 @@
 import * as React from "react"
 import { compose } from "recompose"
 import { connect } from "react-redux"
-import * as CSS from "./main.css"
+import * as CSS from "./player.css"
 
 const SongTitle = ({ now }) => {
+    console.log(now.Item.album.images[1].url)
     const hey = now.Item.artists.map(
         (artist, index) => (
             <a key={Math.random()}>
@@ -13,6 +14,9 @@ const SongTitle = ({ now }) => {
         )
     )
     return <p>{hey}</p>
+}
+const SongImage = ({ now }) => {
+    return <img alt="" src={now.Item.album.images[1].url} />
 }
 
 class NOWClass extends React.Component<any, any> {
@@ -25,6 +29,9 @@ class NOWClass extends React.Component<any, any> {
         return (
             <div className={CSS.now}>
                 <div onClick={this.fetch}>
+                    <div className={CSS.image} >
+                        {now.is_playing ? <SongImage now={now} /> : <img alt="" src="http://gavinsmith.ca/lj/live_blank.png" />}
+                    </div>
                     {now.is_playing ? <SongTitle now={now} /> : <p>Not Playing</p>}
                 </div>
             </div>

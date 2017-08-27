@@ -1,15 +1,17 @@
 package spotify
 
 import (
+	"net/http"
+
 	"github.com/pkg/errors"
 )
 
-func Next(code string) error {
-	token, err := ProcessToken(code)
+func Next(code string, r *http.Request) error {
+	token, err := ProcessToken(code, r)
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := Auth.NewClient(token)
+	client := Auth(r).NewClient(token)
 	err = client.Next()
 	if err != nil {
 		return errors.Wrap(err, "next error")

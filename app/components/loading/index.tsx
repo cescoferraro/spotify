@@ -8,6 +8,7 @@ export const LOADING = ({ userAgent }) => {
             <MDSpinner
                 className={CSS.main}
                 userAgent={userAgent}
+                singleColor="#00ff00"
             />
         </div>
     )

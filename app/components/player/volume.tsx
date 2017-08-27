@@ -1,5 +1,5 @@
 import * as React from "react"
-import * as CSS from "./main.css"
+import * as CSS from "./player.css"
 import Slider from "material-ui/Slider"
 
 export class Volume extends React.Component<any, any> {
@@ -10,14 +10,13 @@ export class Volume extends React.Component<any, any> {
     }
     public render() {
         return (
-            <span className={CSS.volume}>
-                <Slider
-                    onChange={this.onChange}
-                    onDragStop={this.fire}
-                    step={0.10}
-                    value={this.props.player.volume / 100}
-                />
-            </span>
+            <Slider
+                className={CSS.volume}
+                onChange={this.onChange}
+                onDragStop={this.fire}
+                step={0.10}
+                value={this.props.player.volume / 100}
+            />
         )
     }
     private onChange(event, newValue) {

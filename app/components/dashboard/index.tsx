@@ -6,9 +6,9 @@ import * as universalImport from "babel-plugin-universal-import/universalImport.
 export const AsyncDashboard = universal(
     universalImport({
         load: () => Promise.all([
-            System.import(/* webpackChunkName: 'dashboard' */ "./dashboard"),
-            importCss("main")]).then((promises) => promises[0]),
+            System.import(/* webpackChunkName: 'dashboard' */ "./component"),
+            importCss("dashboard")]).then((promises) => promises[0]),
         chunkName: () => "dashboard",
-        resolve: () => require.resolveWeak("./dashboard")
+        resolve: () => require.resolveWeak("./component")
     })
 )

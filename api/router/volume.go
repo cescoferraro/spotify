@@ -22,7 +22,7 @@ func volumeEndPoint(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(400), 400)
 		return
 	}
-	err = spotify.Volume(intPercent, body)
+	err = spotify.Volume(intPercent, body, r)
 	if err != nil {
 		http.Error(w, http.StatusText(400), 400)
 		return

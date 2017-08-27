@@ -15,7 +15,7 @@ func playlistEndPoint(w http.ResponseWriter, r *http.Request) {
 		log.Println(err.Error())
 		return
 	}
-	user, err := spotify.GetPLaylists(body)
+	user, err := spotify.GetPLaylists(body, r)
 	if err != nil {
 		log.Println(err.Error())
 		return

@@ -15,15 +15,28 @@ export const authThunk = (dispatch, getState) => {
             return user
         })
         .map((user) => {
-            dispatch(({
-                type: AT(state) ? "ARTIST" : state.toUpperCase(),
-                payload: {
-                    token,
-                    state,
-                    user: user.response
-                }
-            }))
+            if (AT(state)) {
+                dispatch(({
+                    type: "ARTIST",
+                    payload: {
+                        token,
+                        state,
+                        user: user.response
+                    }
+                }))
+                return;
+            } else {
+                dispatch(({
+                    type: state.toUpperCase(),
+                    payload: {
+                        token,
+                        state,
+                        tab: "player",
+                        user: user.response
+                    }
+                }))
+                return;
+            }
 
-        })
-        .subscribe((success) => { console.log("done") })
+        }).subscribe()
 }

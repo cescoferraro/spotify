@@ -18,7 +18,7 @@ func unfollowEndPoint(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(400), 400)
 		return
 	}
-	err = spotify.Unfollow(id, token)
+	err = spotify.Unfollow(id, token, r)
 	if err != nil {
 		http.Error(w, http.StatusText(400), 400)
 		return

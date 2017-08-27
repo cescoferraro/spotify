@@ -40,6 +40,7 @@ export const HTML = (
                 <script dangerouslySetInnerHTML={spinner} />
                 <OneSignalCDN production={production} />
                 <OneSignalInit production={production} />
+                <link rel="stylesheet" href="https://raw.githubusercontent.com/bvaughn/react-virtualized/master/source/styles.css" />
             </head>
             <body {...MyHelmet.html}>
                 <App content={content} />

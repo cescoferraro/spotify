@@ -1,7 +1,7 @@
 import * as React from "react"
+import * as CSS from "./tools.css"
 import RaisedButton from "material-ui/RaisedButton"
 import TextField from "material-ui/TextField"
-import * as CSS from "./main.css"
 import { connect } from "react-redux"
 import { compose } from "recompose"
 
@@ -15,20 +15,20 @@ class TimerComponent extends React.Component<any, any> {
     }
     public render() {
         return (
-            <div className={CSS.flex} >
+            <div className={CSS.center}>
                 <TextField
-                    className={CSS.select}
                     floatingLabelText="Interval between skips [seconds]"
                     floatingLabelFixed={true}
                     value={this.state.interval}
                     type="number"
+                    className={CSS.select}
                     onChange={this.setTimerInterval}
                     hintText="Number of seconds betwenn skips."
                 />
                 <RaisedButton
-                    className={CSS.selectButton}
                     backgroundColor={this.state.on ? "#Ff0000" : "#6ae368"}
                     label={this.state.on ? "Stop" : "Start"}
+                    className={CSS.button}
                     onClick={this.timer}
                 />
             </div>

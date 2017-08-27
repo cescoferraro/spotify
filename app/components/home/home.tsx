@@ -9,13 +9,13 @@ import { OfflineToast } from "../../../shared/toastr"
 
 export const HomeComponent = (props) => {
     const login = () => {
+        const url = API_URL() + "/login"
         const { Offline } = (window as any)
         if (Offline.state === "up") {
-            window.location.href = API_URL() + "/login"
+            window.location.href = url
         } else {
             OfflineToast()
         }
-
     }
     return (
         <div className={cs(CSS.container)} >

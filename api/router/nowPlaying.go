@@ -15,7 +15,7 @@ func nowPlayingEndPoint(w http.ResponseWriter, r *http.Request) {
 		log.Println(err.Error())
 		return
 	}
-	user, err := spotify.PlayerState(body)
+	user, err := spotify.PlayerState(body, r)
 	if err != nil {
 		log.Println(err.Error())
 	}

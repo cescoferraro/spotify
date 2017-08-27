@@ -1,8 +1,8 @@
 import * as React from "react"
+import * as CSS from "./tools.css"
 import RaisedButton from "material-ui/RaisedButton"
 import SelectField from "material-ui/SelectField"
 import MenuItem from "material-ui/MenuItem"
-import * as CSS from "./main.css"
 import { connect } from "react-redux"
 import { compose } from "recompose"
 import { URIS } from "../../../shared/playlists"
@@ -20,25 +20,26 @@ class ListChargerClass extends React.Component<any, any> {
         const items = this.props.URIS.map((name) => (
             <MenuItem
                 key={name.key}
-                className={CSS.menu}
                 insetChildren={true}
                 value={name.value}
                 primaryText={name.name}
             />))
         return (
-            <div className={CSS.flex}>
+            <div className={CSS.center}>
                 <SelectField
                     hintText="Select a name"
                     multiple={true}
-                    className={CSS.select}
                     value={this.state.value}
+                    floatingLabelText="Play multiple songs"
+                    floatingLabelFixed={true}
+                    className={CSS.select}
                     onChange={this.handleChange}
                 >
                     {items}
                 </SelectField>
                 <RaisedButton
-                    className={CSS.selectButton}
                     secondary={true}
+                    className={CSS.button}
                     label="Play"
                     onClick={this.playSong}
                 />

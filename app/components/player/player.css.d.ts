@@ -6,3 +6,6 @@ export const button: string
 export const volume: string
 export const svg: string
 export const now: string
+export const image: string
+export const controls: string
+export const center: string

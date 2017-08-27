@@ -8,7 +8,7 @@ export const routesMap = {
         thunk: homeThunk
     },
     DASHBOARD: {
-        path: "/dashboard"
+        path: "/dashboard/:tab"
     },
     ARTIST: {
         path: "/artist",

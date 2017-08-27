@@ -1,5 +1,5 @@
 export const runServiceWorker = () => {
-    if (document.location.hostname !== "localhost") {
+    if (document.location.protocol === "https:") {
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.register("/OneSignalSDKWorker.js").then((reg) => {
                 reg.onupdatefound = () => {

@@ -14,7 +14,7 @@ func followingEndPoint(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(400), 400)
 		return
 	}
-	user, err := spotify.Getfollowing(body)
+	user, err := spotify.Getfollowing(body, r)
 	if err != nil {
 		http.Error(w, http.StatusText(401), 401)
 		return

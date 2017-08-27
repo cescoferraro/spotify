@@ -15,8 +15,6 @@ html {
     height: calc( 100vh - 64px );
     background-color: black;
     overflow:auto;
-    padding-left:5vw;
-    padding-right:5vw;
 }
 
 .button {

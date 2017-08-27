@@ -27,6 +27,7 @@ func Endpoints(version string) chi.Router {
 	r.Post("/previous", previousEndPoint)
 	r.Post("/next", nextEndPoint)
 	r.Post("/following", followingEndPoint)
+	r.Post("/songs", songsEndPoint)
 	r.Post("/me", meEndPoint)
 	r.Post("/logout", logoutEndPoint)
 	r.Post("/now", nowPlayingEndPoint)

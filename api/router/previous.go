@@ -14,7 +14,7 @@ func previousEndPoint(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(401), 401)
 		return
 	}
-	err = spotify.Previous(body)
+	err = spotify.Previous(body, r)
 	if err != nil {
 		http.Error(w, http.StatusText(401), 401)
 		return

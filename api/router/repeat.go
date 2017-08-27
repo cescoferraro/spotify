@@ -17,7 +17,7 @@ func repeatEndPoint(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(401), 401)
 		return
 	}
-	err = spotify.Repeat(state, token)
+	err = spotify.Repeat(state, token, r)
 	if err != nil {
 		http.Error(w, http.StatusText(401), 401)
 		return

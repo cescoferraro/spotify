@@ -24,7 +24,7 @@ func playPlaylistEndPoint(w http.ResponseWriter, r *http.Request) {
 			songs = values
 		}
 	}
-	err := spotify.PLAYPlaylist(songs, token)
+	err := spotify.PLAYPlaylist(songs, token, r)
 	if err != nil {
 		http.Error(w, http.StatusText(400), 400)
 		return

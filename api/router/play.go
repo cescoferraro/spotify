@@ -16,7 +16,7 @@ func playEndPoint(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(401), 401)
 		return
 	}
-	err = spotify.Play(token)
+	err = spotify.Play(token, r)
 	if err != nil {
 		http.Error(w, http.StatusText(401), 401)
 		return

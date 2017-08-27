@@ -19,7 +19,7 @@ func anittaEndPoint(move bool) func(w http.ResponseWriter, r *http.Request) {
 		}
 
 		id := chi.URLParam(r, "id")
-		profile, err := spotify.ShowFeelings(move, id, code)
+		profile, err := spotify.ShowFeelings(move, id, code, r)
 		if err != nil {
 			log.Println(err.Error())
 			http.Error(w, http.StatusText(400), 400)

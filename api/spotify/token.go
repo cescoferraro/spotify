@@ -2,6 +2,7 @@ package spotify
 
 import (
 	"log"
+	"net/http"
 	"sync"
 	"time"
 
@@ -20,24 +21,30 @@ type AuthHub struct {
 var (
 	TokenHUB = AuthHub{Tokens: make(map[string]*oauth2.Token)}
 	State    = "dashboard"
-	Auth     = SPOTIFYAUTH()
 	Scopes   = []string{
-		spotify.ScopePlaylistModifyPrivate,
+		spotify.ScopeImageUpload,
+		spotify.ScopePlaylistReadPrivate,
 		spotify.ScopePlaylistModifyPublic,
-		spotify.ScopeUserReadPrivate,
+		spotify.ScopePlaylistModifyPrivate,
+		spotify.ScopePlaylistReadCollaborative,
 		spotify.ScopeUserFollowModify,
-		spotify.ScopeUserReadEmail,
 		spotify.ScopeUserFollowRead,
-		spotify.ScopeUserModifyPlaybackState,
-		spotify.ScopeUserReadPlaybackState,
 		spotify.ScopeUserLibraryModify,
+		spotify.ScopeUserLibraryRead,
+		spotify.ScopeUserReadPrivate,
+		spotify.ScopeUserReadEmail,
+		spotify.ScopeUserReadBirthdate,
+		spotify.ScopeUserReadCurrentlyPlaying,
+		spotify.ScopeUserReadPlaybackState,
+		spotify.ScopeUserModifyPlaybackState,
+		spotify.ScopeUserReadRecentlyPlayed,
 	}
 )
 
-func SPOTIFYAUTH() spotify.Authenticator {
+func Auth(r *http.Request) spotify.Authenticator {
 	redirectURI := "https://spotifyapi.cescoferraro.xyz/auth"
 	if !tools.IsProd() {
-		redirectURI = "http://localhost:8080/auth"
+		redirectURI = "http://" + r.Host + "/auth"
 	}
 	ClientID := "445f705eea2d4d0e8bbd97b796fb7957"
 	secretKey := "412fb5cbfec2464cb71b567efd0236ea"
@@ -47,7 +54,7 @@ func SPOTIFYAUTH() spotify.Authenticator {
 }
 
 // ProcessToken TODO: NEEDS COMMENT INFO
-func ProcessToken(code string) (*oauth2.Token, error) {
+func ProcessToken(code string, r *http.Request) (*oauth2.Token, error) {
 	log.Println("before LOck")
 	TokenHUB.Lock()
 	defer TokenHUB.Unlock()
@@ -58,7 +65,7 @@ func ProcessToken(code string) (*oauth2.Token, error) {
 	}
 	var err error
 	log.Println("exchanging")
-	TokenHUB.Tokens[code], err = Auth.Exchange(code)
+	TokenHUB.Tokens[code], err = Auth(r).Exchange(code)
 	if err != nil {
 		delete(TokenHUB.Tokens, code)
 		return nil, err

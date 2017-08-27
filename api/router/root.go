@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/cescoferraro/spotify/api/spotify"
 	"github.com/cescoferraro/spotify/api/tools"
@@ -15,12 +16,12 @@ func rootEndPoint(w http.ResponseWriter, r *http.Request) {
 	if tools.IsProd() {
 		buffer.WriteString("http://spotify.cescoferraro.xyz/auth/")
 	} else {
-		buffer.WriteString("http://localhost:5000/auth/")
+		buffer.WriteString("http://" + strings.Split(r.Host, ":")[0] + ":5000/auth/")
 	}
 	code := r.URL.Query().Get("code")
 	state := r.URL.Query().Get("state")
 	if r.URL.RawQuery != "" {
-		go spotify.ProcessToken(code)
+		go spotify.ProcessToken(code, r)
 		buffer.WriteString(code)
 		buffer.WriteString("/")
 		buffer.WriteString(state)
