@@ -20,25 +20,27 @@ export class Following extends React.Component<any, any> {
     }
     public componentWillMount() { this.getFollowingArtists() }
     public render() {
-        return this.state.followers.length !== 0 ?
+        return this.state.followers.length !== 0 ? (
             <div className={CSS.container}>
-                <AutoSizer>
-                    {({ height, width }) => {
-                        console.log(width, height)
-                        return (
-                            <List
-                                width={width}
-                                height={height}
-                                rowCount={this.state.followers.length}
-                                rowHeight={56}
-                                rowRenderer={this.rowRenderer}
-                            />
-                        )
-                    }}
-                </AutoSizer>
+                <Subheader>Following</Subheader>
+                <div className={CSS.listWrapper}>
+                    <AutoSizer>
+                        {({ height, width }) => {
+                            console.log(width, height)
+                            return (
+                                <List
+                                    width={width}
+                                    height={height}
+                                    rowCount={this.state.followers.length}
+                                    rowHeight={56}
+                                    rowRenderer={this.rowRenderer}
+                                />
+                            )
+                        }}
+                    </AutoSizer>
+                </div>
             </div>
-            :
-            <LOADING userAgent={this.props.userAgent} />
+        ) : <LOADING userAgent={this.props.userAgent} />
     }
     private rowRenderer({ key, index, isScrolling, isVisible, style }) {
         const artist = this.state.followers[index]

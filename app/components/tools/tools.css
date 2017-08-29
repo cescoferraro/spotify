@@ -1,22 +1,5 @@
 .container{
-    height: calc( 100vh - 64px - 48px );
-    width: 100vw;
-    > div {
+    .center{
 	padding: 3vw;
-    }
-}
-.center{
-    display:flex;
-    .select{
-	width:75% !important;
-	max-width:75%;
-    }
-    .button{
-	display:flex !important;
-	justify-content: center;
-	align-items: center;
-	width:25% !important;
-	max-width:25%;
-	button{ height: 85%!important; }
     }
 }

@@ -24,7 +24,7 @@ export const authThunk = (dispatch, getState) => {
                         user: user.response
                     }
                 }))
-                return;
+                return
             } else {
                 dispatch(({
                     type: state.toUpperCase(),
@@ -35,7 +35,7 @@ export const authThunk = (dispatch, getState) => {
                         user: user.response
                     }
                 }))
-                return;
+                return
             }
 
         }).subscribe()

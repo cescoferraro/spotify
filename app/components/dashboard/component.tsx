@@ -24,9 +24,7 @@ export class DashboardComponent extends React.Component<any, any> {
         const { token } = this.props.location.payload
         return payload.user ?
             (
-                <div
-                    className={CSS.container}
-                >
+                <div className={CSS.container}>
                     <Tabs
                         onChange={this.onChange}
                         className={CSS.tabs}

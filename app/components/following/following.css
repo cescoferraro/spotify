@@ -1,7 +1,10 @@
-
 .container{
+    height: calc( 100vh - 64px - 48px );
+}
+
+.listWrapper{
     display:flex;
     align-items:stretch;
-    height: calc( 100vh - 64px - 48px );
+    height: calc( 100vh - 64px - 48px - 48px);
     flex: 1 1 auto; 
 }

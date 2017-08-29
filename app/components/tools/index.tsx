@@ -8,7 +8,7 @@ import * as CSS from "./tools.css"
 export const TOOLS = ({ token }) => {
     return (
         <div className={CSS.container} >
-            <div>
+            <div className={CSS.center} >
                 <Subheader> Tools </Subheader>
                 <LISTCharger token={token} />
                 <Plays token={token} />

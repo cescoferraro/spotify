@@ -1,4 +1,5 @@
 import * as React from "react"
+import Subheader from "material-ui/Subheader"
 import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer"
 import List from "react-virtualized/dist/commonjs/List"
 import { Observable } from "rxjs/Observable"
@@ -9,7 +10,6 @@ import { API_URL } from "../../../shared/api/index"
 import * as CSS from "./playlists.css"
 import Avatar from "material-ui/Avatar"
 import { List as UIList, ListItem } from "material-ui/List"
-import Subheader from "material-ui/Subheader"
 import CommunicationChatBubble from "material-ui/svg-icons/communication/chat-bubble"
 import { bodyUrl } from "../../../shared/ajax"
 import { LOADING } from "../loading/index";
@@ -28,17 +28,20 @@ export class MyPlaylists extends React.Component<any, any> {
     public render() {
         return this.state.playlists.length !== 0 ?
             <div className={CSS.container}>
-                <AutoSizer>
-                    {({ height, width }) => (
-                        <List
-                            width={width}
-                            height={height}
-                            rowCount={this.state.playlists.length}
-                            rowHeight={56}
-                            rowRenderer={this.rowRenderer}
-                        />
-                    )}
-                </AutoSizer>
+                <Subheader>Playlists</Subheader>
+                <div className={CSS.listWrapper}>
+                    <AutoSizer>
+                        {({ height, width }) => (
+                            <List
+                                width={width}
+                                height={height}
+                                rowCount={this.state.playlists.length}
+                                rowHeight={56}
+                                rowRenderer={this.rowRenderer}
+                            />
+                        )}
+                    </AutoSizer>
+                </div>
             </div>
             :
             <LOADING userAgent={this.props.userAgent} />
