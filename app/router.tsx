@@ -16,8 +16,9 @@ const AppRouterClass = (props) => {
                     <HomeComponent  {...props} />
                 </Shell>
             )
-        case "DASHBOARD":
         case "AUTH":
+        case "DASHBOARD":
+        case "DASHBOARD_DETAIL":
             return (
                 <Shell id="Dashboard" {...props}>
                     <AsyncDashboard {...props} />
@@ -40,6 +41,6 @@ const AppRouterClass = (props) => {
 }
 
 export const AppRouter = compose(
-    connect(({ location, drawer, token, player, artist }) =>
-        ({ location, drawer, token, player, artist }), APP_ACTIONS)
+    connect(({ location, drawer, token, player, artist, songs }) =>
+        ({ location, drawer, token, player, artist, songs }), APP_ACTIONS)
 )(AppRouterClass)

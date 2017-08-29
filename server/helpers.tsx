@@ -1,4 +1,6 @@
 import * as React from "react"
+import * as serialize from "serialize-javascript"
+import { ssrBehavior } from "react-md-spinner"
 import { Helmet } from "react-helmet"
 
 const CachedFs = require("cachedfs")
@@ -20,6 +22,13 @@ export const BaseStyle = () => (
     </style>
 )
 
+export const Spinner = ({ userAgent }) => {
+    const spinner = {
+        __html: serialize(ssrBehavior.getStylesheetString(userAgent))
+    }
+    return <script dangerouslySetInnerHTML={spinner} />
+}
+
 export const OneSignalCDN = ({ production }) => {
     return (
         production ?
@@ -30,7 +39,7 @@ export const OneSignalInit = ({ production }) => {
     const text = ` var OneSignal = window.OneSignal || []; ` +
         `OneSignal.push(["init", {` +
         `appId: "fd9ebb5e-9bf7-46d0-8623-c96721f095c8", ` +
-        `autoRegister: true, notifyButton: {enable: true}}]); `
+        `autoRegister: true, notifyButton: {enable: false}}]); `
     return production ?
         (
             <script dangerouslySetInnerHTML={{ __html: text }} />

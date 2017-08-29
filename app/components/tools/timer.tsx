@@ -15,11 +15,12 @@ class TimerComponent extends React.Component<any, any> {
     }
     public render() {
         return (
-            <div className={CSS.center}>
+            <div>
                 <TextField
                     floatingLabelText="Interval between skips [seconds]"
                     floatingLabelFixed={true}
                     value={this.state.interval}
+                    fullWidth={true}
                     type="number"
                     className={CSS.select}
                     onChange={this.setTimerInterval}
@@ -27,6 +28,7 @@ class TimerComponent extends React.Component<any, any> {
                 />
                 <RaisedButton
                     backgroundColor={this.state.on ? "#Ff0000" : "#6ae368"}
+                    fullWidth={true}
                     label={this.state.on ? "Stop" : "Start"}
                     className={CSS.button}
                     onClick={this.timer}

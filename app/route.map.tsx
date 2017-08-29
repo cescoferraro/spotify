@@ -10,6 +10,9 @@ export const routesMap = {
     DASHBOARD: {
         path: "/dashboard/:tab"
     },
+    DASHBOARD_DETAIL: {
+        path: "/dashboard/:tab/:id"
+    },
     ARTIST: {
         path: "/artist",
         thunk: artistThunk

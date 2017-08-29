@@ -25,9 +25,10 @@ class ListChargerClass extends React.Component<any, any> {
                 primaryText={name.name}
             />))
         return (
-            <div className={CSS.center}>
+            <div>
                 <SelectField
                     hintText="Select a name"
+                    fullWidth={true}
                     multiple={true}
                     value={this.state.value}
                     floatingLabelText="Play multiple songs"
@@ -38,6 +39,7 @@ class ListChargerClass extends React.Component<any, any> {
                     {items}
                 </SelectField>
                 <RaisedButton
+                    fullWidth={true}
                     secondary={true}
                     className={CSS.button}
                     label="Play"

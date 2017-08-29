@@ -25,13 +25,14 @@ class PlaysClass extends React.Component<any, any> {
                 primaryText={name.name}
             />))
         return (
-            <div className={CSS.center}>
+            <div>
                 <SelectField
                     hintText="Select a name"
                     floatingLabelText="Play a single song"
                     floatingLabelFixed={true}
                     value={this.state.value}
                     className={CSS.select}
+                    fullWidth={true}
                     onChange={this.handleChange}
                 >
                     {items}
@@ -39,6 +40,7 @@ class PlaysClass extends React.Component<any, any> {
                 <RaisedButton
                     secondary={true}
                     className={CSS.button}
+                    fullWidth={true}
                     label="Play"
                     onClick={this.playSong}
                 />

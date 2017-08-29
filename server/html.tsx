@@ -1,12 +1,11 @@
 import * as React from "react"
 import {
     getScripts, getStyles, Helmator, Manifest,
-    OneSignalCDN, OneSignalInit, App, Dll, Javascript, BaseStyle
+    OneSignalCDN, OneSignalInit, App, Dll, Javascript, BaseStyle, Spinner
 } from "./helpers"
 import { flushedAssets } from "./flush"
 import { ToastrCSS } from "../shared/components/toastrCSS"
 import * as serialize from "serialize-javascript"
-import { ssrBehavior } from "react-md-spinner"
 
 export const HTML = (
     { clientStats, userAgent, serverStats, outputPath, production, content, store }
@@ -21,9 +20,6 @@ export const HTML = (
     const cssChunks = {
         __html: `window.__CSS_CHUNKS__ = ${serialize(assets.cssHashRaw)}`
     }
-    const spinner = {
-        __html: serialize(ssrBehavior.getStylesheetString(userAgent))
-    }
     return (
         <html {...MyHelmet.html}>
             <head >
@@ -37,7 +33,7 @@ export const HTML = (
                 <ToastrCSS />
                 <script dangerouslySetInnerHTML={inner} />
                 <script dangerouslySetInnerHTML={cssChunks} />
-                <script dangerouslySetInnerHTML={spinner} />
+                <Spinner userAgent={userAgent} />
                 <OneSignalCDN production={production} />
                 <OneSignalInit production={production} />
                 <link rel="stylesheet" href="https://raw.githubusercontent.com/bvaughn/react-virtualized/master/source/styles.css" />

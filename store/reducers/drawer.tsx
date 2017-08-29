@@ -44,3 +44,13 @@ export const token = (state = "", action: any = {}) => {
             return state
     }
 }
+
+
+export const songs = (state = [], action: any = {}) => {
+    switch (action.type) {
+        case "SET_SONGS":
+            return action.payload
+        default:
+            return state
+    }
+}

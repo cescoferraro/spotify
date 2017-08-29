@@ -9,7 +9,7 @@ export const INFO = ({ payload }) => {
     console.log(moment(user.birthdate))
     return (
         <div className={CSS.container} >
-            <Subheader>Songs</Subheader>
+            <Subheader>Profile</Subheader>
             <div className={CSS.content} >
                 <div>
                     <div className={CSS.image} >

@@ -13,7 +13,7 @@ import { Songs } from "../songs/index"
 
 export class DashboardComponent extends React.Component<any, any> {
     private tabMap = {
-        player: 0, tools: 1, playlists: 2, following: 3, profile: 4, songs: 5
+        player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5
     }
     constructor(props) {
         super(props)
@@ -31,10 +31,10 @@ export class DashboardComponent extends React.Component<any, any> {
                         value={this.tabMap[payload.tab]}
                     >
                         <Tab label="⏯" value={0} />
-                        <Tab label="🛠" value={1} />
-                        <Tab label="🎵" value={2} />
+                        <Tab label="🎵" value={1} />
+                        <Tab label="🎶" value={2} />
                         <Tab label="🏃" value={3} />
-                        <Tab label="ℹ" value={4} />
+                        <Tab label="🛠" value={4} />
                         <Tab label="ℹ" value={5} />
                     </Tabs>
                     <SwipeableViews
@@ -45,15 +45,14 @@ export class DashboardComponent extends React.Component<any, any> {
                         slideStyle={{ height: "calc( 100vh - 112px )", overflowX: "hidden" }}
                     >
                         <Player {...this.props} />
-                        <TOOLS token={token} />
+                        <Songs {...this.props} />
                         <MyPlaylists token={token} />
-                        <Following token={token} />
+                        <Following {...this.props} token={token} />
+                        <TOOLS token={token} />
                         <INFO payload={payload} />
-                        <Songs userAgent={this.props.userAgent} token={token} />
                     </SwipeableViews>
                 </div>
-            ) :
-            <LOADING userAgent={this.props.userAgent} />
+            ) : <LOADING userAgent={this.props.userAgent} />
     }
     private onChange(value) {
         this.props.ROUTER_ACTION(
