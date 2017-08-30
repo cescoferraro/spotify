@@ -41,6 +41,13 @@ export function SET_SONG_EXPLICIT_FILTER_ACTION(state) {
         payload: state
     }
 }
+export const SET_SONG_VISIBILITY_FILTER = "SET_SONG_VISIBILITY_FILTER"
+export function SET_SONG_VISIBILITY_FILTER_ACTION(state) {
+    return {
+        type: SET_SONG_VISIBILITY_FILTER,
+        payload: state
+    }
+}
 
 export const SET_SONG_LOADING_FILTER = "SET_SONG_LOADING_FILTER"
 export function SET_SONG_LOADING_FILTER_ACTION(state) {

@@ -13,15 +13,12 @@ import List from "react-virtualized/dist/commonjs/List"
 import { compose } from "recompose"
 import { connect } from "react-redux"
 import { filterSongsByType, filterExplicitSongs, FilterNavigation } from "./filters"
+import { SongsList } from "./list";
 
-class SongsListClass extends React.Component<any, any> {
+class SongsDisplayClass extends React.Component<any, any> {
     constructor(props) {
         super(props)
-        console.log(props)
         this.getMySongs = this.getMySongs.bind(this)
-        this.list = this.list.bind(this)
-        this.rowRenderer = this.rowRenderer.bind(this)
-        this.state = { loading: true }
     }
 
     public componentWillMount() {
@@ -31,82 +28,31 @@ class SongsListClass extends React.Component<any, any> {
     }
 
     public render() {
-        return this.state.loading ?
+        console.log(this.props)
+        return this.props.songsFilter.loading ?
             <LOADING userAgent={this.props.userAgent} /> :
             (
                 <div className={CSS.container}>
-                    <FilterNavigation className={CSS.nav} {...this.props} />
-                    {this.list()}
+                    <button onClick={() => {
+                        this.props.SET_SONG_VISIBILITY_FILTER_ACTION(!this.props.songsFilter.visibility)
+
+                    }} >test</button>
+                    <FilterNavigation  {...this.props} />
+                    <SongsList {...this.props} />
                 </div>
             )
-    }
-
-    private list() {
-        return this.props.songs.length !== 0 ?
-            (<div className={CSS.listWrapper}>
-                <AutoSizer>
-                    {({ height, width }) =>
-                        (
-                            <List
-                                width={width}
-                                height={height}
-                                rowCount={this.props.songs.length}
-                                rowHeight={56}
-                                rowRenderer={this.rowRenderer}
-                            />
-                        )
-                    }
-                </AutoSizer>
-            </div>
-            ) : (
-                <ListItem
-                    leftAvatar={<Avatar />}
-                    primaryText={"no songs"}
-                    rightIcon={<CommunicationChatBubble />}
-                />)
-    }
-    private rowRenderer({ key, index, isScrolling, isVisible, style }) {
-        const { track } = this.props.songs[index]
-        console.log(this.props.songs[index])
-        return (
-            <ListItem
-                key={key}
-                style={style}
-                leftAvatar={<Avatar src={this.makeSure(track.album)} />}
-                primaryText={track.name}
-                onClick={() => {
-                    this.props.ROUTER_ACTION(
-                        "DASHBOARD_DETAIL",
-                        {
-                            token: this.props.location.payload.token,
-                            state: this.props.location.payload.state,
-                            tab: "songs",
-                            id: track.id,
-                            data: track,
-                            user: this.props.location.payload.user
-                        }
-                    )
-                }}
-                rightIcon={<CommunicationChatBubble />}
-            />
-        )
-    }
-
-    private makeSure(follower) {
-        return follower.images[0] ? follower.images[0].url :
-            "https://google.com/favicon.ico"
     }
     private getMySongs() {
         AJAX("/songs", this.props.token)
             .map((user) => {
-                this.setState({ loading: false })
                 this.props.dispatch({ type: "SET_SONGS", payload: user.response })
+                this.props.SET_SONG_LOADING_FILTER_ACTION(false)
             }).take(1).subscribe()
     }
 }
 
-export const SongsList = compose(
+export const SongsDisplay = compose(
     connect((state) => {
         return ({ songs: filterExplicitSongs(state) })
     })
-)(SongsListClass)
+)(SongsDisplayClass)

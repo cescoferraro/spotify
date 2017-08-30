@@ -14,34 +14,14 @@ import { compose } from "recompose"
 import { connect } from "react-redux"
 import { filterSongsByType, filterExplicitSongs, FilterNavigation } from "./filters"
 
-class SongsListClass extends React.Component<any, any> {
+export class SongsList extends React.Component<any, any> {
     constructor(props) {
         super(props)
         console.log(props)
-        this.getMySongs = this.getMySongs.bind(this)
-        this.list = this.list.bind(this)
         this.rowRenderer = this.rowRenderer.bind(this)
     }
 
-    public componentWillMount() {
-        if (this.props.songs.length === 0) {
-            this.getMySongs()
-        }
-    }
-
     public render() {
-	console.log(this.props)
-        return this.props.songsFilter.loading ?
-            <LOADING userAgent={this.props.userAgent} /> :
-            (
-                <div className={CSS.container}>
-                    <FilterNavigation className={CSS.nav} {...this.props} />
-                    {this.list()}
-                </div>
-            )
-    }
-
-    private list() {
         return this.props.songs.length !== 0 ?
             (<div className={CSS.listWrapper}>
                 <AutoSizer>
@@ -66,28 +46,26 @@ class SongsListClass extends React.Component<any, any> {
                 />)
     }
     private rowRenderer({ key, index, isScrolling, isVisible, style }) {
+        const { payload } = this.props.location
         const { track } = this.props.songs[index]
-        console.log(this.props.songs[index])
         return (
             <ListItem
                 key={key}
                 style={style}
                 leftAvatar={<Avatar src={this.makeSure(track.album)} />}
+                rightIcon={<CommunicationChatBubble />}
                 primaryText={track.name}
                 onClick={() => {
                     this.props.ROUTER_ACTION(
                         "DASHBOARD_DETAIL",
                         {
-                            token: this.props.location.payload.token,
-                            state: this.props.location.payload.state,
+                            ...payload,
                             tab: "songs",
                             id: track.id,
-                            data: track,
-                            user: this.props.location.payload.user
+                            data: track
                         }
                     )
                 }}
-                rightIcon={<CommunicationChatBubble />}
             />
         )
     }
@@ -96,17 +74,5 @@ class SongsListClass extends React.Component<any, any> {
         return follower.images[0] ? follower.images[0].url :
             "https://google.com/favicon.ico"
     }
-    private getMySongs() {
-        AJAX("/songs", this.props.token)
-            .map((user) => {
-                this.props.dispatch({ type: "SET_SONGS", payload: user.response })
-		this.props.SET_SONG_LOADING_FILTER_ACTION(false)
-            }).take(1).subscribe()
-    }
 }
 
-export const SongsList = compose(
-    connect((state) => {
-        return ({ songs: filterExplicitSongs(state) })
-    })
-)(SongsListClass)

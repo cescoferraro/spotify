@@ -7,7 +7,7 @@ const recentsIcon = (title) =>
     < FontIcon className="material-icons" > {title}</FontIcon>;
 import { createSelector } from 'reselect'
 const nearbyIcon = <IconLocationOn />;
-
+import * as CSS from "./song.css"
 
 
 const getKindFilter = state => { return state.songsFilter.genre }
@@ -103,14 +103,12 @@ export class ExplicitFilterNavigation extends React.Component<any, any> {
     }
 }
 
-export class FilterNavigation extends React.Component<any, any> {
-    render() {
-        return (
-            <Paper className={this.props.className} zDepth={1}>
-                <KindFilterNavigation {...this.props} />
-                <ExplicitFilterNavigation {...this.props} />
-            </Paper>
-        );
-    }
+export const FilterNavigation = (props) => {
+    return props.songsFilter.visibility ? (
+        <Paper className={CSS.nav} zDepth={1}>
+            <KindFilterNavigation {...props} />
+            <ExplicitFilterNavigation {...props} />
+        </Paper>
+    ) : null;
 }
 

@@ -3,7 +3,8 @@ import {
     DRAWER_ACTION_NAME,
     SET_SONG_GENRE_FILTER,
     SET_SONG_EXPLICIT_FILTER,
-    SET_SONG_LOADING_FILTER
+    SET_SONG_LOADING_FILTER,
+    SET_SONG_VISIBILITY_FILTER
 } from "../actions/actions"
 
 import { Now } from "./now"
@@ -58,12 +59,19 @@ export const songs = (state = [], action: any = {}) => {
     }
 }
 
-export const songsFilter = (state = { genre: "", explicit: true, loading: true }, action: any = {}) => {
+export const songsFilter = (state = {
+    visibility: true,
+    genre: "",
+    explicit: true,
+    loading: true
+}, action: any = {}) => {
     switch (action.type) {
         case SET_SONG_GENRE_FILTER:
             return { ...state, genre: action.payload }
         case SET_SONG_EXPLICIT_FILTER:
             return { ...state, explicit: action.payload }
+        case SET_SONG_VISIBILITY_FILTER:
+            return { ...state, visibility: action.payload }
         case SET_SONG_LOADING_FILTER:
             return { ...state, loading: action.payload }
         default:
