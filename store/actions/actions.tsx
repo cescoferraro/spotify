@@ -32,3 +32,20 @@ export function SET_SONG_GENRE_FILTER_ACTION(state) {
         payload: state
     }
 }
+
+
+export const SET_SONG_EXPLICIT_FILTER = "SET_SONG_EXPLICIT_FILTER"
+export function SET_SONG_EXPLICIT_FILTER_ACTION(state) {
+    return {
+        type: SET_SONG_EXPLICIT_FILTER,
+        payload: state
+    }
+}
+
+export const SET_SONG_LOADING_FILTER = "SET_SONG_LOADING_FILTER"
+export function SET_SONG_LOADING_FILTER_ACTION(state) {
+    return {
+        type: SET_SONG_LOADING_FILTER,
+        payload: state
+    }
+}

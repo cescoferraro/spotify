@@ -21,6 +21,7 @@ class SongsListClass extends React.Component<any, any> {
         this.getMySongs = this.getMySongs.bind(this)
         this.list = this.list.bind(this)
         this.rowRenderer = this.rowRenderer.bind(this)
+        this.state = { loading: true }
     }
 
     public componentWillMount() {
@@ -30,8 +31,7 @@ class SongsListClass extends React.Component<any, any> {
     }
 
     public render() {
-	console.log(this.props)
-        return this.props.songsFilter.loading ?
+        return this.state.loading ?
             <LOADING userAgent={this.props.userAgent} /> :
             (
                 <div className={CSS.container}>
@@ -99,8 +99,8 @@ class SongsListClass extends React.Component<any, any> {
     private getMySongs() {
         AJAX("/songs", this.props.token)
             .map((user) => {
+                this.setState({ loading: false })
                 this.props.dispatch({ type: "SET_SONGS", payload: user.response })
-		this.props.SET_SONG_LOADING_FILTER_ACTION(false)
             }).take(1).subscribe()
     }
 }

@@ -3,8 +3,8 @@ const express = require('express');
 const morgan = require('morgan');
 const app = express();
 const path = require('path');
-const cacheTime = 86400000 * 30;
-const maxAge = { maxAge: cacheTime };
+const fiveMin = 1000 * 60 * 5;
+const maxAge = { maxAge: fiveMin };
 app.disable('x-powered-by');
 app.use(morgan('combined'));
 app.use(compression());
@@ -21,28 +21,28 @@ const outputPath = __dirname;
 app.get('/service-worker.js', (req, res) => {
   res.sendFile('./service-worker.js', {
     root: './',
-    maxAge: cacheTime
+    maxAge: fiveMin
   });
 });
 
 app.get('/manifest.json', (req, res) => {
   res.sendFile('/manifest.json', {
     root: './icons',
-    maxAge: cacheTime
+    maxAge: fiveMin
   });
 });
 
 app.get('/OneSignalSDKWorker.js', (req, res) => {
   res.sendFile('/OneSignalSDKWorker.js', {
     root: './signal',
-    maxAge: 86400000 * 30
+    maxAge: fiveMin
   });
 });
 
 app.get('/OneSignalSDKUpdaterWorker.js', (req, res) => {
   res.sendFile('/OneSignalSDKUpdaterWorker.js', {
     root: './signal',
-    maxAge: 86400000 * 30
+    maxAge: fiveMin
   });
 });
 
