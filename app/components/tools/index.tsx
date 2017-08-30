@@ -9,7 +9,6 @@ export const TOOLS = ({ token }) => {
     return (
         <div className={CSS.container} >
             <div className={CSS.center} >
-                <Subheader> Tools </Subheader>
                 <LISTCharger token={token} />
                 <Plays token={token} />
                 <Timer token={token} />

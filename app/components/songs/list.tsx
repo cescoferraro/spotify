@@ -10,8 +10,12 @@ import * as ReactList from "react-list"
 import * as CSS from "./song.css"
 import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer"
 import List from "react-virtualized/dist/commonjs/List"
+import { createSelector } from 'reselect'
+import { compose } from "recompose"
+import { connect } from "react-redux"
+import { BottomNavigationExampleSimple } from "./filters";
 
-export class SongsList extends React.Component<any, any> {
+class SongsListClass extends React.Component<any, any> {
     constructor(props) {
         super(props)
         console.log(props)
@@ -28,7 +32,10 @@ export class SongsList extends React.Component<any, any> {
         return this.props.songs.length !== 0 ?
             (
                 <div className={CSS.container}>
-                    <Subheader>Songs</Subheader>
+                    <BottomNavigationExampleSimple
+                        className={CSS.nav}
+                        genre_action={this.props.SET_SONG_GENRE_FILTER_ACTION}
+                    />
                     {this.list()}
                 </div>
             ) : <LOADING userAgent={this.props.userAgent} />
@@ -54,6 +61,7 @@ export class SongsList extends React.Component<any, any> {
     }
     private rowRenderer({ key, index, isScrolling, isVisible, style }) {
         const { track } = this.props.songs[index]
+        console.log(this.props.songs[index])
         return (
             <ListItem
                 key={key}
@@ -90,3 +98,31 @@ export class SongsList extends React.Component<any, any> {
             }).take(1).subscribe()
     }
 }
+
+
+
+const getGenreFilter = state => { return state.songsFilter.genre }
+const getSongs = state => state.songs
+
+export const getVisibleSongs = createSelector(
+    [getGenreFilter, getSongs],
+    (visibilityFilter, songs) => {
+        switch (visibilityFilter) {
+            case '':
+                console.log(songs)
+                return songs
+            default:
+                return songs.filter(t => {
+                    return t.track.album.album_type === visibilityFilter
+                })
+        }
+    }
+)
+
+
+
+export const SongsList = compose(
+    connect((state) => {
+        return ({ songs: getVisibleSongs(state) })
+    })
+)(SongsListClass)

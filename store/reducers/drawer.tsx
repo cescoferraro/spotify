@@ -1,6 +1,7 @@
 import {
     DRAWER_TOGGLE_ACTION_NAME,
-    DRAWER_ACTION_NAME
+    DRAWER_ACTION_NAME,
+    SET_SONG_GENRE_FILTER
 } from "../actions/actions"
 
 import { Now } from "./now"
@@ -50,6 +51,15 @@ export const songs = (state = [], action: any = {}) => {
     switch (action.type) {
         case "SET_SONGS":
             return action.payload
+        default:
+            return state
+    }
+}
+
+export const songsFilter = (state = { genre: "" }, action: any = {}) => {
+    switch (action.type) {
+        case SET_SONG_GENRE_FILTER:
+            return { ...state, genre: action.payload }
         default:
             return state
     }

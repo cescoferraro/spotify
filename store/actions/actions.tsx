@@ -24,3 +24,11 @@ export function LABEL_TOP_ARTISTS_ACTION(state) {
         payload: state
     }
 }
+
+export const SET_SONG_GENRE_FILTER = " SET_SONG_GENRE_FILTER"
+export function SET_SONG_GENRE_FILTER_ACTION(state) {
+    return {
+        type: SET_SONG_GENRE_FILTER,
+        payload: state
+    }
+}

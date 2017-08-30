@@ -26,8 +26,12 @@
     .listWrapper{
 	display:flex;
 	align-items:stretch;
-	height: calc( 100vh - 64px - 48px  - 47px);
+	height: calc( 100vh - 64px - 64px - 48px  - 47px);
 	flex: 1 1 auto; 
+    }
+    .nav{
+	width: 100vw;
+	z-index: 30;
     }
 }
 h2{text-align:center;}

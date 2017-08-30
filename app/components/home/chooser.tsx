@@ -19,10 +19,11 @@ export class Chooser extends React.Component<any, any> {
     }
     public render() {
         return (
-            <div className={CSS.hate} >
-                <Subheader> Select an artist to love/hate</Subheader>
+            <div  >
                 <SelectField
                     hintText="Select artist"
+                    floatingLabelText="Select an artist to love/hate"
+                    floatingLabelFixed={true}
                     fullWidth={true}
                     value={this.state.value}
                     onChange={this.handleChange}
@@ -38,9 +39,6 @@ export class Chooser extends React.Component<any, any> {
                     onClick={this.ShowFeelings(this.state.value, "love")}
                     label="LOVE"
                 />
-                <div>
-                    he
-            </div>
                 <RaisedButton
                     fullWidth={true}
                     icon={<DashboardIcon />}
