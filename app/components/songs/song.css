@@ -1,6 +1,13 @@
 .container{
     height: calc( 100vh - 64px - 48px );
     overflow:hidden;
+    .float{
+	position: fixed;
+	bottom:20px !important;
+	right:20px !important;
+	left:185vw;
+	z-index:2;
+    }
     .content{
 	height: calc( 100vh - 64px - 48px - 48px);
 	display: flex;
@@ -26,8 +33,13 @@
     .listWrapper{
 	display:flex;
 	align-items:stretch;
-	height: calc( 100vh - 64px - 56px  - 47px);
 	flex: 1 1 auto; 
+    }
+    .listFull{
+	height: calc( 100vh - 64px - 47px);
+    }
+    .listLow{
+	height: calc( 100vh - 64px -112px - 47px);
     }
     .nav{
 	width: 100vw;

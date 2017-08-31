@@ -1,4 +1,6 @@
 import * as React from "react"
+import RaisedButton from "material-ui/RaisedButton"
+import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import Avatar from "material-ui/Avatar"
 import { List as UIList, ListItem } from "material-ui/List"
 import CommunicationChatBubble from "material-ui/svg-icons/communication/chat-bubble"
@@ -14,6 +16,8 @@ import { compose } from "recompose"
 import { connect } from "react-redux"
 import { filterSongsByType, filterExplicitSongs, FilterNavigation } from "./filters"
 import { SongsList } from "./list";
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class SongsDisplayClass extends React.Component<any, any> {
     constructor(props) {
@@ -22,26 +26,33 @@ class SongsDisplayClass extends React.Component<any, any> {
     }
 
     public componentWillMount() {
-        if (this.props.songs.length === 0) {
+        console.log(this.props.songs)
+        if (this.props.songs.data.length === 0) {
             this.getMySongs()
         }
     }
 
     public render() {
-        console.log(this.props)
-        return this.props.songsFilter.loading ?
+        return this.props.songs.loading ?
             <LOADING userAgent={this.props.userAgent} /> :
             (
                 <div className={CSS.container}>
-                    <button onClick={() => {
-                        this.props.SET_SONG_VISIBILITY_FILTER_ACTION(!this.props.songsFilter.visibility)
-
-                    }} >test</button>
+                    <FloatingActionButton
+                        className={CSS.float}
+                        onClick={() => {
+                            this.props.SET_SONG_VISIBILITY_FILTER_ACTION(
+                                !this.props.songs.visibility
+                            )
+                        }}
+                    >
+                        <DashboardIcon />
+                    </FloatingActionButton>
                     <FilterNavigation  {...this.props} />
                     <SongsList {...this.props} />
                 </div>
             )
     }
+
     private getMySongs() {
         AJAX("/songs", this.props.token)
             .map((user) => {
@@ -53,6 +64,6 @@ class SongsDisplayClass extends React.Component<any, any> {
 
 export const SongsDisplay = compose(
     connect((state) => {
-        return ({ songs: filterExplicitSongs(state) })
+        return ({ songs: { ...state.songs, data: filterExplicitSongs(state) } })
     })
 )(SongsDisplayClass)

@@ -50,22 +50,17 @@ export const token = (state = "", action: any = {}) => {
 }
 
 
-export const songs = (state = [], action: any = {}) => {
-    switch (action.type) {
-        case "SET_SONGS":
-            return action.payload
-        default:
-            return state
-    }
-}
 
-export const songsFilter = (state = {
+export const songs = (state = {
     visibility: true,
     genre: "",
+    data: [],
     explicit: true,
     loading: true
 }, action: any = {}) => {
     switch (action.type) {
+        case "SET_SONGS":
+            return { ...state, data: action.payload }
         case SET_SONG_GENRE_FILTER:
             return { ...state, genre: action.payload }
         case SET_SONG_EXPLICIT_FILTER:

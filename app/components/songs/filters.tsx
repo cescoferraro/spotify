@@ -10,9 +10,9 @@ const nearbyIcon = <IconLocationOn />;
 import * as CSS from "./song.css"
 
 
-const getKindFilter = state => { return state.songsFilter.genre }
-const getExplicitFilter = state => { return state.songsFilter.explicit }
-const getSongs = state => state.songs
+const getKindFilter = state => { return state.songs.genre }
+const getExplicitFilter = state => { return state.songs.explicit }
+const getSongs = state => state.songs.data
 
 export const filterSongsByType = createSelector(
     [getKindFilter, getSongs],
@@ -104,7 +104,8 @@ export class ExplicitFilterNavigation extends React.Component<any, any> {
 }
 
 export const FilterNavigation = (props) => {
-    return props.songsFilter.visibility ? (
+    console.log(props.songs)
+    return props.songs.visibility ? (
         <Paper className={CSS.nav} zDepth={1}>
             <KindFilterNavigation {...props} />
             <ExplicitFilterNavigation {...props} />

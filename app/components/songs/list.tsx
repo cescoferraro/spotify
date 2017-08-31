@@ -10,9 +10,11 @@ import * as ReactList from "react-list"
 import * as CSS from "./song.css"
 import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer"
 import List from "react-virtualized/dist/commonjs/List"
+import InfiniteLoader from "react-virtualized/dist/commonjs/InfiniteLoader"
 import { compose } from "recompose"
 import { connect } from "react-redux"
 import { filterSongsByType, filterExplicitSongs, FilterNavigation } from "./filters"
+import * as cs from "classnames"
 
 export class SongsList extends React.Component<any, any> {
     constructor(props) {
@@ -22,32 +24,38 @@ export class SongsList extends React.Component<any, any> {
     }
 
     public render() {
-        return this.props.songs.length !== 0 ?
-            (<div className={CSS.listWrapper}>
+        return (
+            <div className={
+                cs(CSS.listWrapper,
+                    this.props.songs.visibility ? CSS.listLow : CSS.listFull)}>
                 <AutoSizer>
-                    {({ height, width }) =>
-                        (
-                            <List
-                                width={width}
-                                height={height}
-                                rowCount={this.props.songs.length}
-                                rowHeight={56}
-                                rowRenderer={this.rowRenderer}
-                            />
-                        )
-                    }
+                    {({ height, width }) => {
+                        if (this.props.songs.data.length !== 0) {
+                            return (
+                                <List
+                                    width={width}
+                                    height={height}
+                                    rowCount={this.props.songs.data.length}
+                                    rowHeight={56}
+                                    rowRenderer={this.rowRenderer}
+                                />
+                            )
+                        } else {
+                            return (
+                                <ListItem
+                                    leftAvatar={<Avatar />}
+                                    primaryText={"no songs"}
+                                    rightIcon={<CommunicationChatBubble />}
+                                />)
+                        }
+                    }}
                 </AutoSizer>
             </div>
-            ) : (
-                <ListItem
-                    leftAvatar={<Avatar />}
-                    primaryText={"no songs"}
-                    rightIcon={<CommunicationChatBubble />}
-                />)
+        )
     }
     private rowRenderer({ key, index, isScrolling, isVisible, style }) {
         const { payload } = this.props.location
-        const { track } = this.props.songs[index]
+        const { track } = this.props.songs.data[index]
         return (
             <ListItem
                 key={key}

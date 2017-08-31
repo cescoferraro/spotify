@@ -17,6 +17,7 @@ export class DashboardComponent extends React.Component<any, any> {
     }
     constructor(props) {
         super(props)
+        console.log(this.props.songs)
         this.onChange = this.onChange.bind(this)
     }
     public render() {
