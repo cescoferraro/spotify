@@ -3,6 +3,27 @@ import { authThunk } from "./thunks/auth"
 import { artistThunk } from "./thunks/artist"
 import { AJAX } from "../shared/ajax";
 
+const dashboardThunk = (dispatch, getStore) => {
+    const { songs, token, tab } = getStore()
+    const reduxStorage = JSON.parse(localStorage.getItem("my-save-key"))
+    const LStoken = token || reduxStorage.token
+    const LStab = reduxStorage.tab || tab
+    const gotToken = LStoken !== ""
+    const reduxSongsExist = reduxStorage.songs.data.length === 0
+    /* dispatch({ type: "SET_TAB", payload: LStab })*/
+    console.log(tab)
+    console.log(reduxStorage.tab)
+    console.log(LStab)
+    if (songs.loading && gotToken && reduxSongsExist) {
+        AJAX("/songs", LStoken)
+            .map((user) => {
+                dispatch({ type: "SET_SONGS", payload: user.response })
+                dispatch({ type: "SET_SONG_LOADING_FILTER", payload: false })
+            }).take(1).subscribe()
+    }
+}
+
+
 export const routesMap = {
     HOME: {
         path: "/",
@@ -10,24 +31,11 @@ export const routesMap = {
     },
     DASHBOARD: {
         path: "/dashboard/:tab",
-        thunk: (dispatch, getStore) => {
-
-            const { songs, token } = getStore()
-            console.log(21398767893634)
-            console.log(getStore())
-            if (songs.loading) {
-                AJAX("/songs", token)
-                    .map((user) => {
-                        dispatch({ type: "SET_SONGS", payload: user.response })
-                        dispatch({ type: "SET_SONG_LOADING_FILTER", payload: false })
-                    }).take(1).subscribe()
-            }
-            /* console.log(getStore().location.payload)*/
-            /* console.log(getStore().token)*/
-        }
+        thunk: dashboardThunk
     },
     DASHBOARD_DETAIL: {
-        path: "/dashboard/:tab/:id"
+        path: "/dashboard/:tab/:id",
+        thunk: dashboardThunk
     },
     ARTIST: {
         path: "/artist",

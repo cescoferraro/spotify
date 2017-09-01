@@ -17,7 +17,7 @@ const tabs = {
 
 export class DashboardComponent extends React.Component<any, any> {
     private tabMap = {
-        player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5
+        player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5, loading: 6
     }
     constructor(props) {
         super(props)
@@ -55,13 +55,14 @@ export class DashboardComponent extends React.Component<any, any> {
                         <div>hjksadfb</div>
                         <TOOLS {...this.props} />
                         <INFO {...this.props} />
+                        <LOADING userAgent={this.props.userAgent} />
                     </SwipeableViews>
                 </div>
             ) : <LOADING userAgent={this.props.userAgent} />
     }
     private onChange(value) {
         const tab = Object.keys(this.tabMap).find((key) => this.tabMap[key] === value)
-        this.props.dispatch({ type: "SET_TAB", payload: tab })
+        this.props.DISPATCH("SET_TAB", tab)
         this.props.ROUTER_ACTION("DASHBOARD", { tab })
     }
 }

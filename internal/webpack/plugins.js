@@ -16,9 +16,9 @@ const icons = new FaviconsWebpackPlugin({
   config: {
     appName: 'spotify',
     background_color: '#000000',
-    display: ' fullscreen',
+    display: 'fullscreen',
     lang: 'pt',
-    start_url: '/',
+    start_url: './?pwa=true',
     statsFilename: 'icons/[name].[ext]',
     gcm_sender_id: '482941778795',
     theme_color: '#1ED760'

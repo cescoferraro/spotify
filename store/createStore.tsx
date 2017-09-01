@@ -8,17 +8,21 @@ import { routesMap } from "../app/route.map"
 import * as storage from "redux-storage"
 import createEngine from "redux-storage-engine-localstorage"
 import debounce from "redux-storage-decorator-debounce"
-export let engine = createEngine("my-save-key")
+import filter from 'redux-storage-decorator-filter'
 import { createLogger } from "redux-logger"
-engine = debounce(engine, 8000)
+export let engine = createEngine("my-save-key")
+engine = debounce(engine, 2000)
+engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab", "user"], ["location"]);
+
+
 const ReplacebleEpicMiddleware = createEpicMiddleware(RootEpic)
 
 export const isServer = () => !(typeof window !== "undefined" && window.document)
 
 export const configureStore = (history: any = {}) => {
     const { reducer, middleware, enhancer } = connectRoutes(history, routesMap)
-    const rootReducer = allReducers(reducer)
-    const reducerXXX = storage.reducer(rootReducer)
+    const appReducers = allReducers(reducer)
+    const reducerXXX = storage.reducer(appReducers)
     const middlewareXXX = storage.createMiddleware(engine, Object.keys(routesMap))
     const middlewares = composeWithDevTools(
         applyMiddleware(middleware,

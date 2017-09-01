@@ -11,7 +11,7 @@ import * as CSS from "./playlists.css"
 import Avatar from "material-ui/Avatar"
 import { List as UIList, ListItem } from "material-ui/List"
 import CommunicationChatBubble from "material-ui/svg-icons/communication/chat-bubble"
-import { bodyUrl } from "../../../shared/ajax"
+import { bodyUrl, AJAX } from "../../../shared/ajax"
 import { LOADING } from "../loading/index";
 
 export class MyPlaylists extends React.Component<any, any> {
@@ -66,11 +66,11 @@ export class MyPlaylists extends React.Component<any, any> {
             "https://google.com/favicon.ico"
     }
     private getPlaylists() {
-        Observable.ajax(bodyUrl(API_URL() + "/playlists", this.props.token))
+        AJAX("/playlists", this.props.token)
             .map((user) => {
                 console.log(user)
-                this.props.dispatch({ type: "SET_PLAYLISTS_LOADING_FILTER", payload: false })
-                this.props.dispatch({ type: "SET_PLAYLISTS", payload: user.response })
+                this.props.DISPATCH("SET_PLAYLISTS_LOADING_FILTER", false)
+                this.props.DISPATCH("SET_PLAYLISTS", user.response)
             }).take(1).subscribe()
     }
 }

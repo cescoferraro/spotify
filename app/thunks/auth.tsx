@@ -13,6 +13,7 @@ export const authThunk = (dispatch, getState) => {
         .map((user) => {
             dispatch({ type: "SET_TOKEN", payload: token })
             dispatch({ type: "SET_USER", payload: user.response })
+            dispatch({ type: "SET_TAB", payload: "player" })
             return user
         })
         .map((user) => {
@@ -29,7 +30,7 @@ export const authThunk = (dispatch, getState) => {
             } else {
                 dispatch(({
                     type: state.toUpperCase(),
-                    payload: { tab: getState().tab }
+                    payload: { tab: "player" }
                 }))
                 return
             }

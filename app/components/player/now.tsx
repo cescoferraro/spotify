@@ -41,7 +41,7 @@ class NOWClass extends React.Component<any, any> {
         /* this.fetch()*/
     }
     private fetch() {
-        this.props.dispatch({ type: "NOW", payload: { token: this.props.token } })
+        this.props.DISPATCH("NOW", { token: this.props.token })
     }
 }
 export const NOW = compose(connect(({ token, player }) => ({ token, player })))(NOWClass)

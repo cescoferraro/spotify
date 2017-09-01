@@ -3,28 +3,15 @@ import * as CSS from "./song.css"
 import Subheader from "material-ui/Subheader"
 import IconButton from 'material-ui/IconButton';
 import PlayIcon from "material-ui/svg-icons/av/play-arrow"
-
+import ReactStars from 'react-stars'
 const GoBack = (props) => () => {
-    console.log(props)
-    props.ROUTER_ACTION(
-        "DASHBOARD",
-        {
-            token: props.token,
-            tab: "songs",
-            user: props.user
-
-        }
-    )
+    props.ROUTER_ACTION("DASHBOARD", { tab: "songs" })
 }
 
 export const SongsDetail = (props) => {
-    const { ROUTER_ACTION, location, token, dispatch } = props
-    const song = location.payload.data
+    const { ROUTER_ACTION, songs, token, DISPATCH } = props
+    const song = songs.detail
     const onClick = GoBack(props)
-    console.log("99999999999999999999")
-    console.log(token)
-    console.log(song)
-    console.log("99999999999999999999")
     return (
         <div className={CSS.container} >
             <Subheader>Song</Subheader>
@@ -35,15 +22,15 @@ export const SongsDetail = (props) => {
                     </div>
                     <div className={CSS.data} >
                         <h2><a href={song.external_urls.spotify}>{song.name}</a></h2>
-                        <h4>Popularity: {song.popularity}</h4>
+                        <ReactStars count={5} value={song.popularity / 20} size={24} color2={'#ffd700'} />
                     </div>
                     <IconButton
                         className={CSS.playContainer}
-                        iconClassName={CSS.playIcon}
                         onClick={() => {
-                            dispatch({ type: "PLAY_SONG", payload: { token, song: song.uri } })
+                            DISPATCH("PLAY_SONG", { token, song: song.uri })
                         }}
                     >
+                        <PlayIcon className={CSS.playIcon} />
                     </IconButton>
                 </div>
             </div>

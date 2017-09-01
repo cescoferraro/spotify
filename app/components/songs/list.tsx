@@ -63,6 +63,7 @@ export class SongsList extends React.Component<any, any> {
                 rightIcon={<CommunicationChatBubble />}
                 primaryText={track.name}
                 onClick={() => {
+                    this.props.DISPATCH("SET_SONGS_DETAIL", track)
                     this.props.ROUTER_ACTION(
                         "DASHBOARD_DETAIL",
                         {

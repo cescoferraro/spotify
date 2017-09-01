@@ -64,3 +64,5 @@ export function SET_SONG_SEARCH_FILTER_ACTION(state) {
         payload: state
     }
 }
+
+export const DISPATCH = (type, payload) => ({ type, payload })

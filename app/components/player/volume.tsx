@@ -20,13 +20,10 @@ export class Volume extends React.Component<any, any> {
         )
     }
     private onChange(event, newValue) {
-        this.props.dispatch({
-            type: "SET_VOLUME",
-            payload: newValue * 100
-        })
+        this.props.DISPATCH("SET_VOLUME", newValue * 100)
     }
     private fire(event) {
-        this.props.dispatch({
+        this.props.DISPATCH({
             type: "VOLUME",
             payload: { token: this.props.token, percent: this.props.player.volume }
         })

@@ -45,6 +45,7 @@ class SongsDisplayClass extends React.Component<any, any> {
                         }}
                     >
                         <DashboardIcon />
+                        <DashboardIcon />
                     </FloatingActionButton>
                     <SongsList {...this.props} />
                     <FilterNavigation  {...this.props} />

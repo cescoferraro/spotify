@@ -28,6 +28,14 @@
 	    justify-content: center;
 	    align-items: center;
 	}
+
+	.playIcon{
+	    height:120px !important;
+	    width:120px !important;
+	}
+	.playContainer{
+	    width: 100% !important;
+	}
     }
     .listWrapper{
 	display:flex;
@@ -57,9 +65,4 @@ h4{
 .dialog{
     width:90vw !important;
     height:50vh !important;
-}
-
-.playIcon{
-}
-.playContainer{
 }
