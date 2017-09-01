@@ -14,7 +14,7 @@ import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer"
 import List from "react-virtualized/dist/commonjs/List"
 import { compose } from "recompose"
 import { connect } from "react-redux"
-import { filterSongsByType, filterExplicitSongs, FilterNavigation } from "./filters"
+import { filterSearchSongs, filterSongsByType, filterExplicitSongs, FilterNavigation } from "./filters"
 import { SongsList } from "./list";
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -25,10 +25,9 @@ class SongsDisplayClass extends React.Component<any, any> {
         this.getMySongs = this.getMySongs.bind(this)
     }
 
-    public componentWillMount() {
-        console.log(this.props.songs)
-        if (this.props.songs.data.length === 0) {
-            this.getMySongs()
+    public componentWillUpdate() {
+        if (this.props.songs.loading && this.props.token !== "") {
+            /* this.getMySongs()*/
         }
     }
 
@@ -47,13 +46,14 @@ class SongsDisplayClass extends React.Component<any, any> {
                     >
                         <DashboardIcon />
                     </FloatingActionButton>
-                    <FilterNavigation  {...this.props} />
                     <SongsList {...this.props} />
+                    <FilterNavigation  {...this.props} />
                 </div>
             )
     }
 
     private getMySongs() {
+        console.log(this.props.token)
         AJAX("/songs", this.props.token)
             .map((user) => {
                 this.props.dispatch({ type: "SET_SONGS", payload: user.response })
@@ -64,6 +64,6 @@ class SongsDisplayClass extends React.Component<any, any> {
 
 export const SongsDisplay = compose(
     connect((state) => {
-        return ({ songs: { ...state.songs, data: filterExplicitSongs(state) } })
+        return ({ songs: { ...state.songs, data: filterSearchSongs(state) } })
     })
 )(SongsDisplayClass)

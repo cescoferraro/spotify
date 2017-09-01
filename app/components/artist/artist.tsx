@@ -13,10 +13,10 @@ export const Artist = (props) => {
     return !isEmpty(props.artist) ? (
         <div className={CSS.container}>
             <div className={cs(CSS.layer, CSS.layer1)}>
-                <img alt="" src={props.location.payload.user.images[0].url} />
+                <img alt="" src={props.user.images[0].url} />
             </div>
             <div className={cs(CSS.layer, CSS.layer2)}>
-                {props.location.payload.user.display_name}
+                {props.user.display_name}
                 {" now "} {props.artist.move}
                 {"s "} {props.artist.name}
             </div>

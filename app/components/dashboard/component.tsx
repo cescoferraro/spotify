@@ -11,25 +11,28 @@ import SwipeableViews from "react-swipeable-views"
 import { TOOLS } from "../tools/index"
 import { Songs } from "../songs/index"
 
+const tabs = {
+    player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5
+}
+
 export class DashboardComponent extends React.Component<any, any> {
     private tabMap = {
         player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5
     }
     constructor(props) {
         super(props)
-        console.log(this.props.songs)
+        console.log(234324)
         this.onChange = this.onChange.bind(this)
     }
     public render() {
-        const { payload } = this.props.location
-        const { token } = this.props.location.payload
-        return payload.user ?
+        const { token, user, tab } = this.props
+        return user ?
             (
                 <div className={CSS.container}>
                     <Tabs
                         onChange={this.onChange}
                         className={CSS.tabs}
-                        value={this.tabMap[payload.tab]}
+                        value={this.tabMap[tab]}
                     >
                         <Tab label="⏯" value={0} />
                         <Tab label="🎵" value={1} />
@@ -42,29 +45,24 @@ export class DashboardComponent extends React.Component<any, any> {
                         id="swipe"
                         onChangeIndex={this.onChange}
                         className={CSS.container}
-                        index={this.tabMap[payload.tab]}
+                        index={this.tabMap[tab]}
                         slideStyle={{ height: "calc( 100vh - 112px )", overflowX: "hidden" }}
                     >
                         <Player {...this.props} />
                         <Songs {...this.props} />
-                        <MyPlaylists token={token} />
-                        <Following {...this.props} token={token} />
-                        <TOOLS token={token} />
-                        <INFO payload={payload} />
+                        <MyPlaylists {...this.props} />
+                        {/* <Following {...this.props} /> */}
+                        <div>hjksadfb</div>
+                        <TOOLS {...this.props} />
+                        <INFO {...this.props} />
                     </SwipeableViews>
                 </div>
             ) : <LOADING userAgent={this.props.userAgent} />
     }
     private onChange(value) {
-        this.props.ROUTER_ACTION(
-            "DASHBOARD",
-            {
-                token: this.props.location.payload.token,
-                state: this.props.location.payload.state,
-                tab: Object.keys(this.tabMap).find((key) => this.tabMap[key] === value),
-                user: this.props.location.payload.user
-            }
-        )
+        const tab = Object.keys(this.tabMap).find((key) => this.tabMap[key] === value)
+        this.props.dispatch({ type: "SET_TAB", payload: tab })
+        this.props.ROUTER_ACTION("DASHBOARD", { tab })
     }
 }
 

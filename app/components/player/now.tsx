@@ -38,7 +38,7 @@ class NOWClass extends React.Component<any, any> {
         )
     }
     public componentWillMount() {
-        this.fetch()
+        /* this.fetch()*/
     }
     private fetch() {
         this.props.dispatch({ type: "NOW", payload: { token: this.props.token } })

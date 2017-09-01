@@ -15,6 +15,7 @@ const PreloadWebpackPlugin = require('./css.js');
 const icons = new FaviconsWebpackPlugin({
   config: {
     appName: 'spotify',
+    background_color: '#000000',
     display: ' fullscreen',
     lang: 'pt',
     start_url: '/',

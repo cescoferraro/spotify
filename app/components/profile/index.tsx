@@ -4,9 +4,8 @@ import * as CSS from "./profile.css"
 import * as moment from 'moment';
 moment.locale("pt-br")
 
-export const INFO = ({ payload }) => {
-    const { user } = payload
-    console.log(moment(user.birthdate))
+export const INFO = (props) => {
+    const { user } = props
     return (
         <div className={CSS.container} >
             <Subheader>Profile</Subheader>

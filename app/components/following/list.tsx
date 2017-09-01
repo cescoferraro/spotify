@@ -56,12 +56,11 @@ export class ArtistList extends React.Component<any, any>{
                     this.props.ROUTER_ACTION(
                         "DASHBOARD_DETAIL",
                         {
-                            token: this.props.location.payload.token,
-                            state: this.props.location.payload.state,
+                            token: this.props.token,
                             tab: "following",
                             id: artist.id,
                             data: artist,
-                            user: this.props.location.payload.user
+                            user: this.props.user
                         }
                     )
                 }}

@@ -56,3 +56,11 @@ export function SET_SONG_LOADING_FILTER_ACTION(state) {
         payload: state
     }
 }
+
+export const SET_SONG_SEARCH_FILTER = "SET_SONG_SEARCH_FILTER"
+export function SET_SONG_SEARCH_FILTER_ACTION(state) {
+    return {
+        type: SET_SONG_SEARCH_FILTER,
+        payload: state
+    }
+}

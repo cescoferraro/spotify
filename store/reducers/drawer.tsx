@@ -4,7 +4,8 @@ import {
     SET_SONG_GENRE_FILTER,
     SET_SONG_EXPLICIT_FILTER,
     SET_SONG_LOADING_FILTER,
-    SET_SONG_VISIBILITY_FILTER
+    SET_SONG_VISIBILITY_FILTER,
+    SET_SONG_SEARCH_FILTER
 } from "../actions/actions"
 
 import { Now } from "./now"
@@ -13,8 +14,7 @@ export const drawer = (state = false, action: any = {}) => {
     switch (action.type) {
         case DRAWER_TOGGLE_ACTION_NAME:
             return !state
-        case DRAWER_ACTION_NAME:
-            return action.payload
+        case DRAWER_ACTION_NAME: return action.payload
         default:
             return state
     }
@@ -26,6 +26,20 @@ export const player = (state = { now: Now, volume: 30 }, action: any = {}) => {
             return { ...state, now: action.payload }
         case "SET_VOLUME":
             return { ...state, volume: action.payload }
+        default:
+            return state
+    }
+}
+
+export const user = (state = {
+    display_name: "dsf",
+    followers: { total: 234 },
+    external_urls: { spotify: "https://www.google.com/favicon.ico" },
+    images: [{ url: "https://www.google.com/favicon.ico" }]
+}, action: any = {}) => {
+    switch (action.type) {
+        case "SET_USER":
+            return action.payload
         default:
             return state
     }
@@ -50,10 +64,46 @@ export const token = (state = "", action: any = {}) => {
 }
 
 
+export const tab = (state = "player", action: any = {}) => {
+    switch (action.type) {
+        case "SET_TAB":
+            return action.payload
+        default:
+            return state
+    }
+}
+
+
+export const playlists = (state = {
+    visibility: false,
+    genre: "",
+    search: "",
+    data: [],
+    explicit: true,
+    loading: true
+}, action: any = {}) => {
+    switch (action.type) {
+        case "SET_PLAYLISTS":
+            return { ...state, data: action.payload }
+        case "SET_PLAYLISTS_GENRE_FILTER":
+            return { ...state, genre: action.payload }
+        case "SET_PLAYLISTS_EXPLICIT_FILTER":
+            return { ...state, explicit: action.payload }
+        case "SET_PLAYLISTS_VISIBILITY_FILTER":
+            return { ...state, visibility: action.payload }
+        case "SET_PLAYLISTS_LOADING_FILTER":
+            return { ...state, loading: action.payload }
+        case "SET_PLAYLISTS_SEARCH_FILTER":
+            return { ...state, search: action.payload }
+        default:
+            return state
+    }
+}
 
 export const songs = (state = {
-    visibility: true,
+    visibility: false,
     genre: "",
+    search: "",
     data: [],
     explicit: true,
     loading: true
@@ -69,6 +119,8 @@ export const songs = (state = {
             return { ...state, visibility: action.payload }
         case SET_SONG_LOADING_FILTER:
             return { ...state, loading: action.payload }
+        case SET_SONG_SEARCH_FILTER:
+            return { ...state, search: action.payload }
         default:
             return state
     }

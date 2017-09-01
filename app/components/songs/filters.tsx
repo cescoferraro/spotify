@@ -1,4 +1,5 @@
 import * as React from "react"
+import Subheader from "material-ui/Subheader"
 import FontIcon from 'material-ui/FontIcon';
 import { BottomNavigation, BottomNavigationItem } from 'material-ui/BottomNavigation';
 import Paper from 'material-ui/Paper';
@@ -8,10 +9,12 @@ const recentsIcon = (title) =>
 import { createSelector } from 'reselect'
 const nearbyIcon = <IconLocationOn />;
 import * as CSS from "./song.css"
-
-
+import TextField from 'material-ui/TextField';
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 const getKindFilter = state => { return state.songs.genre }
 const getExplicitFilter = state => { return state.songs.explicit }
+const getSearchFilter = state => { return state.songs.search }
 const getSongs = state => state.songs.data
 
 export const filterSongsByType = createSelector(
@@ -19,7 +22,6 @@ export const filterSongsByType = createSelector(
     (visibilityFilter, songs) => {
         switch (visibilityFilter) {
             case '':
-                console.log(songs)
                 return songs
             default:
                 return songs.filter(t => {
@@ -32,7 +34,6 @@ export const filterSongsByType = createSelector(
 export const filterExplicitSongs = createSelector(
     [filterSongsByType, getExplicitFilter],
     (songs, explicit) => {
-        console.log(explicit)
         return songs.filter((song) => {
             /* if (explicit) { return true }*/
             return (song.track.explicit === explicit)
@@ -40,76 +41,116 @@ export const filterExplicitSongs = createSelector(
     }
 )
 
-
-export class KindFilterNavigation extends React.Component<any, any> {
-    state = { selectedIndex: 0, };
-    select = (index) => this.setState({ selectedIndex: index });
-    render() {
-        return (
-            <BottomNavigation selectedIndex={this.state.selectedIndex}>
-                <BottomNavigationItem
-                    icon={recentsIcon("Singles")}
-                    onClick={() => {
-
-                        this.props.SET_SONG_GENRE_FILTER_ACTION("single")
-                        this.select(0)
-                    }}
-                />
-                <BottomNavigationItem
-                    icon={recentsIcon("from Album")}
-                    onClick={() => {
-
-                        this.props.SET_SONG_GENRE_FILTER_ACTION("album")
-                        this.select(1)
-                    }}
-                />
-                <BottomNavigationItem
-                    icon={recentsIcon("All Songs")}
-                    onClick={() => {
-                        this.props.SET_SONG_GENRE_FILTER_ACTION("")
-                        this.select(2)
-                    }}
-                />
-            </BottomNavigation>
-        );
+export const filterSearchSongs = createSelector(
+    [filterExplicitSongs, getSearchFilter],
+    (songs, search) => {
+        return songs.filter((song) => {
+            /* if (explicit) { return true }*/
+            return song.track.name.includes(search)
+        })
     }
+)
+const kindFactory = (kind) => {
+    let genre
+    switch (kind) {
+        case "":
+            genre = 2
+            break
+        case "single":
+            genre = 0
+            break
+        case "album":
+            genre = 1
+            break
+    }
+    return genre
 }
 
-export class ExplicitFilterNavigation extends React.Component<any, any> {
-    state = { selectedIndex: 1, };
-    select = (index) => this.setState({ selectedIndex: index });
-    render() {
-        console.log(this.props)
-        return (
-            <BottomNavigation selectedIndex={this.state.selectedIndex}>
-                <BottomNavigationItem
-                    icon={recentsIcon("Clean")}
-                    onClick={() => {
-                        console.log(this.props)
-                        this.props.SET_SONG_EXPLICIT_FILTER_ACTION(false)
-                        this.select(0)
-                    }}
-                />
-                <BottomNavigationItem
-                    icon={recentsIcon("Explicit")}
-                    onClick={() => {
-                        console.log(this.props)
-                        this.props.SET_SONG_EXPLICIT_FILTER_ACTION(true)
-                        this.select(1)
-                    }}
-                />
-            </BottomNavigation>
-        );
-    }
+export const KindFilterNavigation = (props) => {
+    const genre = kindFactory(props.songs.genre)
+    return (
+        <BottomNavigation selectedIndex={genre}>
+            <BottomNavigationItem
+                icon={recentsIcon("Singles")}
+                onClick={() => {
+                    props.SET_SONG_GENRE_FILTER_ACTION("single")
+                }}
+            />
+            <BottomNavigationItem
+                icon={recentsIcon("Albums")}
+                onClick={() => {
+                    props.SET_SONG_GENRE_FILTER_ACTION("album")
+                }}
+            />
+            <BottomNavigationItem
+                icon={recentsIcon("All")}
+                onClick={() => {
+                    props.SET_SONG_GENRE_FILTER_ACTION("")
+                }}
+            />
+        </BottomNavigation>
+    );
+}
+
+export const ExplicitFilterNavigation = (props) => {
+    const hey = props.songs.explicit ? 1 : 0
+    return (
+        <BottomNavigation selectedIndex={hey}>
+            <BottomNavigationItem
+                icon={recentsIcon("Clean")}
+                onClick={() => {
+                    console.log(props)
+                    props.SET_SONG_EXPLICIT_FILTER_ACTION(false)
+                }}
+            />
+            <BottomNavigationItem
+                icon={recentsIcon("Explicit")}
+                onClick={() => {
+                    console.log(props)
+                    props.SET_SONG_EXPLICIT_FILTER_ACTION(true)
+                }}
+            />
+        </BottomNavigation>
+    );
 }
 
 export const FilterNavigation = (props) => {
-    console.log(props.songs)
-    return props.songs.visibility ? (
-        <Paper className={CSS.nav} zDepth={1}>
+    const handleClose = () => {
+        props.SET_SONG_VISIBILITY_FILTER_ACTION(
+            !props.songs.visibility
+        )
+    }
+    const actions = [
+        <FlatButton
+            label="Close"
+            primary={true}
+            onClick={handleClose}
+        />
+    ];
+    return (
+        <Dialog
+            title="Song Filters"
+            actions={actions}
+            modal={false}
+            contentClassName={CSS.dialog}
+            open={props.songs.visibility}
+            onRequestClose={handleClose}
+        >
+            <Subheader>Kind</Subheader>
             <KindFilterNavigation {...props} />
+            <Subheader>Clean or Explicit?</Subheader>
             <ExplicitFilterNavigation {...props} />
-        </Paper>
-    ) : null;
+            <Subheader>Search for keywork</Subheader>
+            <TextField
+                onChange={(event, newValue) => {
+                    props.SET_SONG_SEARCH_FILTER_ACTION(newValue)
+                }}
+                value={props.songs.search}
+                fullWidth={true}
+                inputStyle={{ textAlign: 'center' }}
+                hintStyle={{ textAlign: 'center' }}
+            />
+        </Dialog>
+    )
 }
 

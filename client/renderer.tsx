@@ -11,9 +11,11 @@ import { offlineCheck } from "./offline"
 
 export const tag = document.getElementById("root")
 
+const history = createBrowserHistory()
+const store = configureStore(history)
+
+
 export const Renderer = (Component) => {
-    const history = createBrowserHistory()
-    const store = configureStore(history)
     offlineCheck(store)
     /* if ((window as any).__PRODUCTION__) { }*/
     const boilMUI = getMuiTheme(BoilTheme, { userAgent: navigator.userAgent })

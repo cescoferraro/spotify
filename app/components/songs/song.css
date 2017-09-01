@@ -2,10 +2,9 @@
     height: calc( 100vh - 64px - 48px );
     overflow:hidden;
     .float{
-	position: fixed;
-	bottom:20px !important;
-	right:20px !important;
-	left:185vw;
+	position: absolute;
+	top:75% !important;
+	left: 180%;
 	z-index:2;
     }
     .content{
@@ -36,18 +35,31 @@
 	flex: 1 1 auto; 
     }
     .listFull{
-	height: calc( 100vh - 64px - 47px);
+	height: calc( 100vh - 64px - 48px);
     }
     .listLow{
-	height: calc( 100vh - 64px -112px - 47px);
+	height: calc( 100vh - 64px -48px - 150px);
     }
     .nav{
 	width: 100vw;
 	z-index: 30;
+	/* border-bottom: 1px solid #1ED760; */
     }
 }
+
+
 h2{text-align:center;}
 h4{
     color:white;
     margin: 0.5em;
+}
+
+.dialog{
+    width:90vw !important;
+    height:50vh !important;
+}
+
+.playIcon{
+}
+.playContainer{
 }

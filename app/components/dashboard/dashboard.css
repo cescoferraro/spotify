@@ -2,11 +2,11 @@
 
 .container {
     background-color: black;
-    height: calc( 100vh - 64px - 48px );
+    height: calc( 100vh - 64px);
     overflow: hidden;
     .tabs{
-	position: fixed !important;
-	bottom: 0px !important;
+	/* position: fixed !important; */
+	/* bottom: 0px !important; */
 	width: 100vw !important; 
 	z-index: 2442 !important ;
 	div:nth-child(2) div {

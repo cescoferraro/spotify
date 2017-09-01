@@ -15,12 +15,11 @@ const boilLogo = (props) => {
         props.dispatch({ type: "HOME" })
     }
     return props.location.type === "DASHBOARD" || props.location.type === "ARTIST" &&
-        props.location.payload.user ?
+        props.user ?
         (<DashboardIcon onClick={goAway} className={CSS.button} />) : null
 }
 
 export const SPOTIFYAppBar = (props) => {
-    console.log("came back")
     return (
         <AppBar
             showMenuIconButton={true}

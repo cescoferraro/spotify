@@ -1,6 +1,7 @@
 package spotify
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/pkg/errors"
@@ -19,5 +20,7 @@ func GetPLaylists(code string, r *http.Request) ([]spotify.SimplePlaylist, error
 	if err != nil {
 		return playlists.Playlists, errors.Wrap(err, "client.CurrentUser")
 	}
+	log.Println(444444444444444)
+	log.Println(playlists)
 	return playlists.Playlists, nil
 }

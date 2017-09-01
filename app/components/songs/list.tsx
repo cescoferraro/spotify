@@ -54,7 +54,6 @@ export class SongsList extends React.Component<any, any> {
         )
     }
     private rowRenderer({ key, index, isScrolling, isVisible, style }) {
-        const { payload } = this.props.location
         const { track } = this.props.songs.data[index]
         return (
             <ListItem
@@ -67,7 +66,6 @@ export class SongsList extends React.Component<any, any> {
                     this.props.ROUTER_ACTION(
                         "DASHBOARD_DETAIL",
                         {
-                            ...payload,
                             tab: "songs",
                             id: track.id,
                             data: track

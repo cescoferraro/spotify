@@ -50,6 +50,10 @@ class PlaysClass extends React.Component<any, any> {
     }
 
     private playSong() {
+        console.log("777777777777777777")
+        console.log(this.props.token)
+        console.log(this.state.value)
+        console.log("777777777777777777")
         this.props.dispatch({ type: "PLAY_SONG", payload: { token: this.props.token, song: this.state.value } })
     }
 

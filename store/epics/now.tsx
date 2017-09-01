@@ -12,6 +12,7 @@ export const nowEpic = (action$, store) => (
             return Observable.of(1)
         })
         .mergeMap((now) => {
+            console.log(now)
             if (now.response !== undefined) {
                 const { response } = now
                 return (Observable.merge(
