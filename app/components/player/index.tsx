@@ -14,8 +14,9 @@ import { NOW } from "./now"
 import { Volume } from "./volume"
 
 export const Player = compose(
+    connect()
 )((props) => {
-    const IconProps = IconPropCreator(props)
+    const IconProps = IconPropCreator(props.DISPATCH, props.token)
     return (
         <div className={CSS.main}>
             <div className={CSS.center}>
@@ -37,13 +38,9 @@ export const Player = compose(
                         <IconButton {...IconProps("NEXT") } >
                             <SkipNext />
                         </IconButton>
-                        <Repeat
-                            className={CSS.button}
-                            {...props}
-                            {...IconProps("NEXT") }
-                        />
+                        <Repeat className={CSS.button} {...props} {...IconProps("NEXT") } />
                     </div>
-                    <Volume{...props} />
+                    <Volume {...props} />
                 </div>
             </div>
         </div>
@@ -51,11 +48,11 @@ export const Player = compose(
 
 })
 
-const IconPropCreator = (props) =>
+const IconPropCreator = (dispatch, token) =>
     (type) => {
         return {
             onClick: () => {
-                props.DISPATCH(type, props.token)
+                dispatch(type, { token })
             }
         }
     }

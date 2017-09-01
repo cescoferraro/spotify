@@ -27,6 +27,7 @@ export const SongsDetail = (props) => {
                     <IconButton
                         className={CSS.playContainer}
                         onClick={() => {
+                            console.log(token)
                             DISPATCH("PLAY_SONG", { token, song: song.uri })
                         }}
                     >
