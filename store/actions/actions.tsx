@@ -65,4 +65,4 @@ export function SET_SONG_SEARCH_FILTER_ACTION(state) {
     }
 }
 
-export const DISPATCH = (type, payload) => ({ type, payload })
+export const DISPATCH = (type, payload, meta = {}) => ({ type, payload, meta })

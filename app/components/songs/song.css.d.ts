@@ -1,6 +1,5 @@
 export const listWrapper: string
 export const listLow: string
-
 export const float: string
 export const listFull: string
 export const container: string

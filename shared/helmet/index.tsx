@@ -6,8 +6,8 @@ export const MyHelmet = ({ title }) => (
     <Helmet>
         <html lang="pt" />
         <meta charSet="utf-8" />
-        <link rel="shortcut icon" href="icons/favicon.ico" />
-        <title>{title + " | spotify"} </title>
+        <link rel="shortcut icon" href="/icons/favicon.ico" />
+        <title>{title + "spotify"} </title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#1ED760" />
         <meta property="og:title" content="spotify" />

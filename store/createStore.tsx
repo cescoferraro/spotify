@@ -12,7 +12,7 @@ import filter from 'redux-storage-decorator-filter'
 import { createLogger } from "redux-logger"
 export let engine = createEngine("my-save-key")
 engine = debounce(engine, 2000)
-engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab", "user"], ["location"]);
+engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab", "user", "playlists"], ["location"]);
 
 
 const ReplacebleEpicMiddleware = createEpicMiddleware(RootEpic)
@@ -23,7 +23,7 @@ export const configureStore = (history: any = {}) => {
     const { reducer, middleware, enhancer } = connectRoutes(history, routesMap)
     const appReducers = allReducers(reducer)
     const reducerXXX = storage.reducer(appReducers)
-    const middlewareXXX = storage.createMiddleware(engine, Object.keys(routesMap))
+    const middlewareXXX = storage.createMiddleware(engine)
     const middlewares = composeWithDevTools(
         applyMiddleware(middleware,
             middlewareXXX,

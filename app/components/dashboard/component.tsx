@@ -1,7 +1,7 @@
 import * as React from "react"
 import { compose } from "recompose"
 import { Following } from "../following"
-import { MyPlaylists } from "../playlists"
+import { Playlists } from "../playlists"
 import { Player } from "../player"
 import { INFO } from "../profile"
 import { LOADING } from "../loading/index"
@@ -50,7 +50,7 @@ export class DashboardComponent extends React.Component<any, any> {
                     >
                         <Player {...this.props} />
                         <Songs {...this.props} />
-                        <MyPlaylists {...this.props} />
+                        <Playlists {...this.props} />
                         {/* <Following {...this.props} /> */}
                         <div>hjksadfb</div>
                         <TOOLS {...this.props} />

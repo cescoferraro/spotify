@@ -5,16 +5,15 @@ const SPOTIFYLogo = require("../../../shared/images/spotify.svg")
 import DashboardIcon from "material-ui/svg-icons/navigation/cancel"
 
 const goBack = (props) => () => {
-    props.ROUTER_ACTION("HOME")
-    props.DRAWER_ACTION(false)
+    props.DISPATCH("HOME", { format: true })
 }
 
 const boilLogo = (props) => {
     const goAway = () => {
-        props.dispatch({ type: "LOGOUT", payload: { token: props.token } })
-        props.dispatch({ type: "HOME" })
+        props.DISPATCH("LOGOUT", { token: props.token })
+        props.DISPATCH("HOME", { format: true })
     }
-    return props.location.type === "DASHBOARD" || props.location.type === "ARTIST" &&
+    return props.location.type !== "HOME" &&
         props.user ?
         (<DashboardIcon onClick={goAway} className={CSS.button} />) : null
 }

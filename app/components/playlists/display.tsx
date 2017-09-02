@@ -9,31 +9,21 @@ import Subheader from "material-ui/Subheader"
 import FlatButton from "material-ui/FlatButton"
 import { LOADING } from "../loading"
 import * as ReactList from "react-list"
-import * as CSS from "./song.css"
+import * as CSS from "./playlists.css"
 import AutoSizer from "react-virtualized/dist/commonjs/AutoSizer"
 import List from "react-virtualized/dist/commonjs/List"
 import { compose } from "recompose"
 import { connect } from "react-redux"
-import { filterSearchSongs, filterSongsByType, filterExplicitSongs, FilterNavigation } from "./filters"
-import { SongsList } from "./list";
+import { PlaylistsList } from "./list";
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 
-class SongsDisplayClass extends React.Component<any, any> {
+class PlaylistsDisplayClass extends React.Component<any, any> {
     constructor(props) {
         super(props)
-        console.info("information songs being created component")
-        this.getMySongs = this.getMySongs.bind(this)
     }
-
-    public componentWillUpdate() {
-        if (this.props.songs.loading && this.props.token !== "") {
-            /* this.getMySongs()*/
-        }
-    }
-
     public render() {
-        return this.props.songs.loading ?
+        return this.props.playlists.loading ?
             <LOADING userAgent={this.props.userAgent} /> :
             (
                 <div className={CSS.container}>
@@ -47,24 +37,12 @@ class SongsDisplayClass extends React.Component<any, any> {
                     >
                         <DashboardIcon />
                     </FloatingActionButton>
-                    <SongsList {...this.props} />
-                    <FilterNavigation  {...this.props} />
+                    <PlaylistsList {...this.props} />
                 </div>
             )
     }
 
-    private getMySongs() {
-        console.log(this.props.token)
-        AJAX("/songs", this.props.token)
-            .map((user) => {
-                this.props.dispatch({ type: "SET_SONGS", payload: user.response })
-                this.props.SET_SONG_LOADING_FILTER_ACTION(false)
-            }).take(1).subscribe()
-    }
 }
 
-export const SongsDisplay = compose(
-    connect((state) => {
-        return ({ songs: { ...state.songs, data: filterSearchSongs(state) } })
-    })
-)(SongsDisplayClass)
+export const PlaylistsDisplay = compose()(PlaylistsDisplayClass)
+

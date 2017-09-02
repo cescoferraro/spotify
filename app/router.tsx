@@ -41,6 +41,6 @@ const AppRouterClass = (props) => {
 }
 
 export const AppRouter = compose(
-    connect(({ location, drawer, token, player, artist, songs, user, tab, playlists }) =>
-        ({ location, drawer, token, player, artist, songs, user, tab, playlists }), APP_ACTIONS)
+    connect(({ id, location, drawer, token, player, artist, songs, user, tab, playlists }) =>
+        ({ id, location, drawer, token, player, artist, songs, user, tab, playlists }), APP_ACTIONS)
 )(AppRouterClass)

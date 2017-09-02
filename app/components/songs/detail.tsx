@@ -4,14 +4,15 @@ import Subheader from "material-ui/Subheader"
 import IconButton from 'material-ui/IconButton';
 import PlayIcon from "material-ui/svg-icons/av/play-arrow"
 import ReactStars from 'react-stars'
-const GoBack = (props) => () => {
-    props.ROUTER_ACTION("DASHBOARD", { tab: "songs" })
+export const GoBack = (tab, props) => () => {
+    props.DISPATCH("DASHBOARD", { tab })
 }
 
 export const SongsDetail = (props) => {
-    const { ROUTER_ACTION, songs, token, DISPATCH } = props
+    const { id, songs, token, DISPATCH } = props
+    console.log(id)
     const song = songs.detail
-    const onClick = GoBack(props)
+    const onClick = GoBack("songs", props)
     return (
         <div className={CSS.container} >
             <Subheader>Song</Subheader>
@@ -22,6 +23,7 @@ export const SongsDetail = (props) => {
                     </div>
                     <div className={CSS.data} >
                         <h2><a href={song.external_urls.spotify}>{song.name}</a></h2>
+                        <h2>{song.id}</h2>
                         <ReactStars count={5} value={song.popularity / 20} size={24} color2={'#ffd700'} />
                     </div>
                     <IconButton

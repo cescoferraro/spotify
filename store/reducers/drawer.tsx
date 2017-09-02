@@ -26,8 +26,8 @@ export const storage = (state = { loaded: false, location: {} }, action) => {
         case LOAD:
             return { ...state, loaded: true };
         case SAVE:
-            console.log('Something has changed and written to disk!');
-            return { ...state, location: action.payload.location };
+            const location = action.payload.location
+            return { ...state, location };
         default:
             return state;
     }
@@ -81,8 +81,21 @@ export const token = (state = "", action: any = {}) => {
 
 export const tab = (state = "loading", action: any = {}) => {
     switch (action.type) {
+        case "DASHBOARD":
+        case "DASHBOARD_DETAIL":
+            return action.payload.tab
         case "SET_TAB":
             return action.payload
+        default:
+            return state
+    }
+}
+
+
+export const id = (state = "", action: any = {}) => {
+    switch (action.type) {
+        case "DASHBOARD_DETAIL":
+            return action.payload.id
         default:
             return state
     }
@@ -94,12 +107,21 @@ export const playlists = (state = {
     genre: "",
     search: "",
     data: [],
+    detail: {
+        images: [{ url: "https://www.google.com/favicon.ico" }],
+        external_urls: { spotify: "https://www.google.com/favicon.ico" },
+        album: {
+            images: [{ url: "https://www.google.com/favicon.ico" }]
+        }
+    },
     explicit: true,
     loading: true
 }, action: any = {}) => {
     switch (action.type) {
         case "SET_PLAYLISTS":
             return { ...state, data: action.payload }
+        case "SET_PLAYLISTS_DETAIL":
+            return { ...state, detail: action.payload }
         case "SET_PLAYLISTS_GENRE_FILTER":
             return { ...state, genre: action.payload }
         case "SET_PLAYLISTS_EXPLICIT_FILTER":
