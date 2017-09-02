@@ -1,0 +1,7 @@
+FROM golang
+MAINTAINER Francesco Ferraro <francescoaferraro@gmail.com>
+WORKDIR /app
+ADD dist_api/spotify spotify
+ENV PORT 8080
+EXPOSE 8080
+ENTRYPOINT ["./spotify"]

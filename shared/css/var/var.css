@@ -1,0 +1,8 @@
+:root {
+  --mainColor: red;
+  --contentHeight: calc( 100vh -64px );
+}
+
+@custom-media --small-viewport (width < 30rem);
+@custom-media --medium-viewport (width > 30rem);
+@custom-media --big-viewport (width > 60rem);

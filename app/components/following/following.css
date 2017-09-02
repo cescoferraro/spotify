@@ -1,0 +1,11 @@
+.container{
+    height: calc( 100vh - 64px - 48px );
+    overflow:hidden;
+}
+
+.listWrapper{
+    display:flex;
+    align-items:stretch;
+    height: calc( 100vh - 64px - 48px  - 47px);
+    flex: 1 1 auto; 
+}

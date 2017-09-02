@@ -1,0 +1,33 @@
+job=frontend:
+    description: "Runs Webpack Production"
+    use: dev-image
+    artifact: wwww
+    user: "{user.uid}"
+    mounts: [source]
+    interactive: true
+    command:  npm run production
+    depends: [vars]
+
+
+job=delete:
+    description: "delete www/ folder"
+    use: dev-image
+    mounts: [source]
+    command:  rm -rf www/
+
+
+job=api:
+    description: "Builds API Binary"
+    use: dev-image
+    artifact: dist/spotify
+    user: "{user.uid}"
+    mounts: [source]
+    interactive: true
+    command: ./build/scripts/buildGO.sh
+    depends: [vars]
+    env:
+      - "VERSION={env.API_VERSION}"
+
+
+
+

@@ -9,8 +9,14 @@
     "jsx": "react",
     "sourceMap": true,
     "emitDecoratorMetadata": true,
+<<<<<<< HEAD
     "experimentalDecorators": true,
     "outDir": "www",
+=======
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "outDir": "dist",
+>>>>>>> release/1.0.0
     "typeRoots": [
       "node_modules@types"
     ]

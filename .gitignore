@@ -1,6 +1,17 @@
 dist/
+<<<<<<< HEAD
 .dobi/
 .idea/
 www/
 vendor/
 /node_modules/
+=======
+dll/
+.awcache/
+
+node_modules/
+.wercker/
+coverage/
+vendor/
+/dist_api/spotify
+>>>>>>> release/1.0.0

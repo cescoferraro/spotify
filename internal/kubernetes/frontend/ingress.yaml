@@ -1,0 +1,19 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: spotify
+  name: spotify-ing
+spec:
+  tls:		
+  - hosts:		
+    - spotify.cescoferraro.xyz		
+    secretName: wildcard-tls 
+  rules:
+  - host: spotify.cescoferraro.xyz
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: spotify-svc
+          servicePort: 5000
