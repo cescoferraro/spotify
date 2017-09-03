@@ -10,8 +10,8 @@ import createEngine from "redux-storage-engine-localstorage"
 import debounce from "redux-storage-decorator-debounce"
 import filter from 'redux-storage-decorator-filter'
 import { createLogger } from "redux-logger"
-export let engine = createEngine("my-save-key")
-engine = debounce(engine, 2000)
+export let engine = createEngine("spotify")
+engine = debounce(engine, 1000)
 engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab", "user", "playlists"], ["location"]);
 
 
@@ -23,7 +23,7 @@ export const configureStore = (history: any = {}) => {
     const { reducer, middleware, enhancer } = connectRoutes(history, routesMap)
     const appReducers = allReducers(reducer)
     const reducerXXX = storage.reducer(appReducers)
-    const middlewareXXX = storage.createMiddleware(engine)
+    const middlewareXXX = storage.createMiddleware(engine, Object.keys(routesMap))
     const middlewares = composeWithDevTools(
         applyMiddleware(middleware,
             middlewareXXX,

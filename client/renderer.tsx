@@ -21,17 +21,25 @@ export const Renderer = (Component) => {
     storage.createLoader(engine)(store)
         .then((newState) => {
             /* console.log("sending your ass to " + JSON.stringify(newState.location))*/
+            const reduxStorage = JSON.parse(localStorage.getItem("spotify"))
+            console.log("REDUX LOADED:", newState)
+            console.log("LOCALSTORAGE:", reduxStorage)
             if (!isServer()) {
                 if (window.matchMedia('(display-mode: fullscreen)').matches) {
                     console.log("This is running as fullscreen.");
+                    console.log("sending your ass to");
+                    console.log(newState.storage.location);
+                    console.log(newState.storage.location.pathname);
                     if (!isEmpty(newState.storage.location)) {
                         store.dispatch(newState.storage.location)
                     }
                 }
             }
-
         })
-        .catch(() => console.log("Failed to load previous state"))
+        .catch((error) => {
+            console.log("Failed to load previous state")
+            console.log(error)
+        })
     /* if ((window as any).__PRODUCTION__) { }*/
     const boilMUI = getMuiTheme(BoilTheme, { userAgent: navigator.userAgent })
     ReactDOM.render(

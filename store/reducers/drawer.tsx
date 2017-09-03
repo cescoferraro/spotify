@@ -7,6 +7,7 @@ import {
     SET_SONG_VISIBILITY_FILTER,
     SET_SONG_SEARCH_FILTER
 } from "../actions/actions"
+import * as isEmpty from "lodash/isEmpty"
 
 import { Now } from "./now"
 
@@ -21,13 +22,23 @@ export const drawer = (state = false, action: any = {}) => {
 }
 import { LOAD, SAVE } from 'redux-storage';
 
-export const storage = (state = { loaded: false, location: {} }, action) => {
+export const storage = (state = {
+}, action) => {
     switch (action.type) {
         case LOAD:
-            return { ...state, loaded: true };
+            console.log("LOADING FROM REDUX")
+            console.log(state)
+            console.log("LOADING FROM REDUX STORAGE LOCATION")
+            const reduxStorage = JSON.parse(localStorage.getItem("spotify")) || {}
+            console.log(reduxStorage)
+            return { ...state }
         case SAVE:
-            const location = action.payload.location
-            return { ...state, location };
+            const location = (action.payload.location)
+
+            console.log(isEmpty(location))
+            location.kind = "push"
+            console.log(location)
+            return location
         default:
             return state;
     }
