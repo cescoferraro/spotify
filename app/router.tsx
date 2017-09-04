@@ -12,7 +12,7 @@ const AppRouterClass = (props) => {
     switch (props.location.type) {
         case "HOME":
             return (
-                <Shell id="Home" {...props}>
+                <Shell title="Home" {...props}>
                     <HomeComponent  {...props} />
                 </Shell>
             )
@@ -20,19 +20,19 @@ const AppRouterClass = (props) => {
         case "DASHBOARD":
         case "DASHBOARD_DETAIL":
             return (
-                <Shell id="Dashboard" {...props}>
+                <Shell title="Dashboard" {...props}>
                     <AsyncDashboard {...props} />
                 </Shell>
             )
         case "ARTIST":
             return (
-                <Shell id="Dashboard" {...props}>
+                <Shell title="Dashboard" {...props}>
                     <Artist {...props} />
                 </Shell>
             )
         default:
             return (
-                <Shell id="404" {...props}>
+                <Shell title="404" {...props}>
                     <NoMatchContainer {...props} />
                 </Shell>
             )
@@ -41,6 +41,6 @@ const AppRouterClass = (props) => {
 }
 
 export const AppRouter = compose(
-    connect(({ id, location, drawer, token, player, artist, songs, user, tab, playlists }) =>
-        ({ id, location, drawer, token, player, artist, songs, user, tab, playlists }), APP_ACTIONS)
+    connect(({ title, location, drawer, token, player, artist, songs, user, tab, playlists }) =>
+        ({ title, location, drawer, token, player, artist, songs, user, tab, playlists }), APP_ACTIONS)
 )(AppRouterClass)

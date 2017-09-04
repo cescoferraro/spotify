@@ -1,31 +1,26 @@
 import * as React from "react"
-import { compose } from "recompose"
-import { Following } from "../following"
+import * as CSS from "./dashboard.css"
+import SwipeableViews from "react-swipeable-views"
 import { Playlists } from "../playlists"
 import { Player } from "../player"
 import { INFO } from "../profile"
 import { LOADING } from "../loading/index"
-import * as CSS from "./dashboard.css"
 import { Tabs, Tab } from "material-ui/Tabs"
-import SwipeableViews from "react-swipeable-views"
 import { TOOLS } from "../tools/index"
 import { Songs } from "../songs/index"
 
 const tabs = {
-    player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5
+    player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5, loading: 6
 }
 
-export class DashboardComponent extends React.Component<any, any> {
-    private tabMap = {
-        player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5, loading: 6
-    }
+export default class DashboardComponent extends React.Component<any, any> {
+    private tabMap = tabs
     constructor(props) {
         super(props)
-        console.log(234324)
         this.onChange = this.onChange.bind(this)
     }
     public render() {
-        const { token, user, tab } = this.props
+        const { user, tab } = this.props
         return user ?
             (
                 <div className={CSS.container}>
@@ -61,10 +56,11 @@ export class DashboardComponent extends React.Component<any, any> {
             ) : <LOADING userAgent={this.props.userAgent} />
     }
     private onChange(value) {
-        const tab = Object.keys(this.tabMap).find((key) => this.tabMap[key] === value)
-        this.props.DISPATCH("SET_TAB", tab)
-        this.props.ROUTER_ACTION("DASHBOARD", { tab })
+        const tab = Object.keys(this.tabMap)
+            .find((key) => this.tabMap[key] === value)
+        const { prev } = this.props.location
+        this.props.DISPATCH("DASHBOARD", { tab, prev })
+        this.props.DISPATCH("SET_TAB", { tab })
     }
 }
 
-export default compose()(DashboardComponent)

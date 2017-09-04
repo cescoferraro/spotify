@@ -6,8 +6,8 @@ export const NAVIGATOR = ({ store, log = true }) => {
     const LStoken = reduxStorage ? reduxStorage.token : "" || token
     const LStab = reduxStorage ? reduxStorage.tab : ""
     const gotToken = (token || LStoken) !== ""
-    const reduxSongsExist = reduxStorage ? reduxStorage.songs.data.length !== 0 : false
-    const reduxPlaylistsExist = reduxStorage ? reduxStorage.playlists.data.length !== 0 : false
+    const reduxSongsExist = reduxStorage ? reduxStorage.songs ? true : false : false
+    const reduxPlaylistsExist = reduxStorage ? reduxStorage.playlists ? true : false : false
     const reduxStorageExist = reduxStorage ? reduxStorage.storage ? true : false : false
     if (log) {
         console.log("REDUX:", store)
@@ -23,7 +23,7 @@ export const NAVIGATOR = ({ store, log = true }) => {
         console.log("LOCALSTORAGE SONGS exist :", reduxSongsExist)
 
         console.log("LOCALSTORAGE STORAGE exist :", reduxStorageExist)
-        console.log("LOCALSTORAGE STORAGE LOCATION:", reduxStorageExist ? reduxStorage.storage.location : null)
+        console.log("LOCALSTORAGE STORAGE :", reduxStorageExist ? reduxStorage.storage : null)
         console.log("REDUX LOCATION:", location)
     }
     return ({
@@ -39,10 +39,7 @@ export const NAVIGATOR = ({ store, log = true }) => {
 
 export const dashboardThunk = (dispatch, getStore) => {
     const { playlists, songs, token, tab } = getStore()
-    const NAV = NAVIGATOR({ store: getStore(), log: true })
-    /* if (tab !== NAV.LStab) {*/
-    /* dispatch({ type: "SET_TAB", payload: tab })*/
-    /* }*/
+    const NAV = NAVIGATOR({ store: getStore(), log: false })
     if (NAV.gotToken) {
         if (songs.loading && !NAV.reduxSongsExist) {
             console.info("firing songs request")

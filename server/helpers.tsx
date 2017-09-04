@@ -24,9 +24,9 @@ export const BaseStyle = () => (
 
 export const Spinner = ({ userAgent }) => {
     const spinner = {
-        __html: serialize(ssrBehavior.getStylesheetString(userAgent))
+        __html: (ssrBehavior.getStylesheetString(userAgent))
     }
-    return <script dangerouslySetInnerHTML={spinner} />
+    return <style dangerouslySetInnerHTML={spinner} />
 }
 
 export const OneSignalCDN = ({ production }) => {
@@ -140,4 +140,14 @@ export const Helmator = () => {
         meta: HelmetApp.meta.toComponent(),
         link: HelmetApp.link.toComponent()
     })
+}
+
+export const ProductionVAR = (production) => {
+    const inner = { __html: `window.__PRODUCTION__ = ${serialize(production)}` }
+    return (<script dangerouslySetInnerHTML={inner} />)
+}
+
+export const CssChunks = (assets) => {
+    const cssChunks = { __html: `window.__CSS_CHUNKS__ = ${serialize(assets.cssHashRaw)}` }
+    return (<script dangerouslySetInnerHTML={cssChunks} />)
 }

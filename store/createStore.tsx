@@ -11,7 +11,7 @@ import debounce from "redux-storage-decorator-debounce"
 import filter from 'redux-storage-decorator-filter'
 import { createLogger } from "redux-logger"
 export let engine = createEngine("spotify")
-engine = debounce(engine, 1000)
+engine = debounce(engine, 2000)
 engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab", "user", "playlists"], ["location"]);
 
 

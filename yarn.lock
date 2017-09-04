@@ -7544,7 +7544,7 @@ redux-storage-engine-localstorage@^1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/redux-storage-engine-localstorage/-/redux-storage-engine-localstorage-1.1.4.tgz#2849278d78970f0c3f5f3d4727caa3c30783ed49"
 
-redux-storage-merger-simple@^1.0.2:
+redux-storage-merger-simple@^1.0.2, redux-storage-merger-simple@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/redux-storage-merger-simple/-/redux-storage-merger-simple-1.0.5.tgz#29a2886b0e770d9b70811aca800aa8efae89fb73"
   dependencies:

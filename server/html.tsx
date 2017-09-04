@@ -1,7 +1,12 @@
 import * as React from "react"
 import {
-    getScripts, getStyles, Helmator, Manifest,
-    OneSignalCDN, OneSignalInit, App, Dll, Javascript, BaseStyle, Spinner
+    getScripts, getStyles,
+    Helmator, Manifest,
+    OneSignalCDN, OneSignalInit,
+    App, Dll,
+    Javascript, BaseStyle,
+    Spinner, ProductionVAR,
+    CssChunks
 } from "./helpers"
 import { flushedAssets } from "./flush"
 import { ToastrCSS } from "../shared/components/toastrCSS"
@@ -14,12 +19,6 @@ export const HTML = (
     const { preload, scripts } = getScripts(assets.scripts, outputPath, production)
     const styles = getStyles(assets.stylesheets, outputPath, production)
     const MyHelmet = Helmator()
-    const inner = {
-        __html: `window.__PRODUCTION__ = ${serialize(production)}`
-    }
-    const cssChunks = {
-        __html: `window.__CSS_CHUNKS__ = ${serialize(assets.cssHashRaw)}`
-    }
     return (
         <html {...MyHelmet.html}>
             <head >
@@ -31,12 +30,11 @@ export const HTML = (
                 {preload}
                 <BaseStyle />
                 <ToastrCSS />
-                <script dangerouslySetInnerHTML={inner} />
-                <script dangerouslySetInnerHTML={cssChunks} />
+                <ProductionVAR production={production} />
+                <CssChunks assets={assets} />
                 <Spinner userAgent={userAgent} />
                 <OneSignalCDN production={production} />
                 <OneSignalInit production={production} />
-                <link rel="stylesheet" href="https://raw.githubusercontent.com/bvaughn/react-virtualized/master/source/styles.css" />
             </head>
             <body {...MyHelmet.html}>
                 <App content={content} />

@@ -7,8 +7,8 @@ import { MyHelmet } from "../../../shared/helmet/index"
 
 export const Shell = (props) => {
     return (
-        <div id={props.id}>
-            <MyHelmet title={props.id} />
+        <div id={props.title}>
+            <MyHelmet title={props.title} />
             <SPOTIFYAppBar {...props} />
             <div className={CSS.container}>
                 {props.children}

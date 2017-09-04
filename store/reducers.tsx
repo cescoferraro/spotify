@@ -1,11 +1,20 @@
 import { combineReducers } from "redux"
-import { reducer as toastrReducer } from "react-redux-toastr"
-import { id, playlists, tab, drawer, player, token, artist, songs, user, storage } from "./reducers/drawer"
+import { reducer as toastr } from "react-redux-toastr"
+import { drawer } from "./reducers/drawer"
+import { artist } from "./reducers/artist"
+import { token } from "./reducers/token"
+import { tab } from "./reducers/tab"
+import { id } from "./reducers/id"
+import { user } from "./reducers/user"
+import { playlists } from "./reducers/playlists"
+import { songs } from "./reducers/songs"
+import { player } from "./reducers/player";
+import { storage } from "./reducers/storage";
 
 export let allReducers = (location) => combineReducers({
     location,
     id,
-    toastr: toastrReducer,
+    toastr,
     songs,
     playlists,
     storage,
