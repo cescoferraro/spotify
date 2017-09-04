@@ -18,6 +18,14 @@ engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab",
 const ReplacebleEpicMiddleware = createEpicMiddleware(RootEpic)
 
 export const isServer = () => !(typeof window !== "undefined" && window.document)
+export const isPWA = () => {
+    if (!isServer()) {
+        if (window.matchMedia('(display-mode: fullscreen)').matches) {
+            return true
+        }
+    }
+    return false
+}
 
 export const configureStore = (history: any = {}) => {
     const { reducer, middleware, enhancer } = connectRoutes(history, routesMap)

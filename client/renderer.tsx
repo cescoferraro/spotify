@@ -4,7 +4,7 @@ import { AppContainer } from "react-hot-loader"
 import getMuiTheme from "material-ui/styles/getMuiTheme"
 import MuiThemeProvider from "material-ui/styles/MuiThemeProvider"
 import { Provider as ReduxProvider } from "react-redux"
-import { configureStore, engine, isServer } from "../store/createStore"
+import { configureStore, engine, isServer, isPWA } from "../store/createStore"
 import { createBrowserHistory } from "history"
 import { BoilTheme } from "../shared/theme"
 import { offlineCheck } from "./offline"
@@ -25,8 +25,7 @@ export const Renderer = (Component) => {
             console.log("==========================================")
             console.log("REDUX LOADED:", newState)
             console.log("LOCALSTORAGE:", reduxStorage)
-            if (!isServer()) {
-                /* if (window.matchMedia('(display-mode: fullscreen)').matches) {*/
+            if (!isPWA()) {
                 if (!isEmpty(newState.storage)) {
                     if ((window as any).__PRODUCTION__) {
                         store.dispatch(newState.storage)

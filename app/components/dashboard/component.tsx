@@ -21,39 +21,38 @@ export default class DashboardComponent extends React.Component<any, any> {
     }
     public render() {
         const { user, tab } = this.props
-        return user ?
-            (
-                <div className={CSS.container}>
-                    <Tabs
-                        onChange={this.onChange}
-                        className={CSS.tabs}
-                        value={this.tabMap[tab]}
-                    >
-                        <Tab label="⏯" value={0} />
-                        <Tab label="🎵" value={1} />
-                        <Tab label="🎶" value={2} />
-                        <Tab label="🏃" value={3} />
-                        <Tab label="🛠" value={4} />
-                        <Tab label="ℹ" value={5} />
-                    </Tabs>
-                    <SwipeableViews
-                        id="swipe"
-                        onChangeIndex={this.onChange}
-                        className={CSS.container}
-                        index={this.tabMap[tab]}
-                        slideStyle={{ height: "calc( 100vh - 112px )", overflowX: "hidden" }}
-                    >
-                        <Player {...this.props} />
-                        <Songs {...this.props} />
-                        <Playlists {...this.props} />
-                        {/* <Following {...this.props} /> */}
-                        <div>hjksadfb</div>
-                        <TOOLS {...this.props} />
-                        <INFO {...this.props} />
-                        <LOADING userAgent={this.props.userAgent} />
-                    </SwipeableViews>
-                </div>
-            ) : <LOADING userAgent={this.props.userAgent} />
+        return user ? (
+            <div className={CSS.container}>
+                <Tabs
+                    onChange={this.onChange}
+                    className={CSS.tabs}
+                    value={this.tabMap[tab]}
+                >
+                    <Tab label="⏯" value={0} />
+                    <Tab label="🎵" value={1} />
+                    <Tab label="🎶" value={2} />
+                    <Tab label="🏃" value={3} />
+                    <Tab label="🛠" value={4} />
+                    <Tab label="ℹ" value={5} />
+                </Tabs>
+                <SwipeableViews
+                    id="swipe"
+                    onChangeIndex={this.onChange}
+                    className={CSS.container}
+                    index={this.tabMap[tab]}
+                    slideStyle={{ height: "calc( 100vh - 112px )", overflowX: "hidden" }}
+                >
+                    <Player {...this.props} />
+                    <Songs {...this.props} />
+                    <Playlists {...this.props} />
+                    {/* <Following {...this.props} /> */}
+                    <div>hjksadfb</div>
+                    <TOOLS {...this.props} />
+                    <INFO {...this.props} />
+                    <LOADING userAgent={this.props.userAgent} />
+                </SwipeableViews>
+            </div>
+        ) : <LOADING userAgent={this.props.userAgent} />
     }
     private onChange(value) {
         const tab = Object.keys(this.tabMap)
@@ -63,4 +62,3 @@ export default class DashboardComponent extends React.Component<any, any> {
         this.props.DISPATCH("SET_TAB", { tab })
     }
 }
-
