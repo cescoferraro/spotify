@@ -30,9 +30,7 @@ class PlaylistsDisplayClass extends React.Component<any, any> {
                     <FloatingActionButton
                         className={CSS.float}
                         onClick={() => {
-                            this.props.SET_SONG_VISIBILITY_FILTER_ACTION(
-                                !this.props.songs.visibility
-                            )
+                            this.props.DISPATCH("SET_SONG_VISIBILITY_FILTER", !this.props.songs.visibility)
                         }}
                     >
                         <DashboardIcon />

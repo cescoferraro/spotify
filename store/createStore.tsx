@@ -12,7 +12,7 @@ import filter from 'redux-storage-decorator-filter'
 import { createLogger } from "redux-logger"
 export let engine = createEngine("spotify")
 engine = debounce(engine, 2000)
-engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab", "user", "playlists"], ["location"]);
+engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab", "user", "playlists", "id"], ["location"]);
 
 
 const ReplacebleEpicMiddleware = createEpicMiddleware(RootEpic)

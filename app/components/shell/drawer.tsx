@@ -8,11 +8,11 @@ const Boy = require("../../../shared/images/boy.svg")
 const BoilLogo = require("../../../shared/images/spotify.svg")
 
 const goBack = (props) => () => {
-    props.ROUTER_ACTION("HOME")
-    props.DRAWER_ACTION(false)
+    props.DISPATCH("HOME", {})
+    props.DISPATCH("DRAWER_ACTION", false)
 }
 
-const closeOnClick = (props) => (open) => { props.DRAWER_ACTION(open) }
+const closeOnClick = (props) => (open) => { props.DISPATCH("DRAWER_ACTION", open) }
 
 export const SPOTIFYDrawer = (props) => {
     return (

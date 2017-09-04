@@ -36,11 +36,7 @@ export class SongsDisplay extends React.Component<any, any> {
                 <div className={CSS.container}>
                     <FloatingActionButton
                         className={CSS.float}
-                        onClick={() => {
-                            this.props.SET_SONG_VISIBILITY_FILTER_ACTION(
-                                !this.props.songs.visibility
-                            )
-                        }}
+                        onClick={() => { this.props.DISPATCH("SET_SONG_VISIBILITY_FILTER", !this.props.songs.visibility) }}
                     >
                         <DashboardIcon />
                     </FloatingActionButton>

@@ -53,7 +53,7 @@ export class ArtistList extends React.Component<any, any>{
                 leftAvatar={<Avatar src={this.makeSure(artist)} />}
                 primaryText={artist.name}
                 onClick={() => {
-                    this.props.ROUTER_ACTION(
+                    this.props.DISPATCH(
                         "DASHBOARD_DETAIL",
                         {
                             token: this.props.token,

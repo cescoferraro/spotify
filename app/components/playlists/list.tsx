@@ -62,7 +62,7 @@ export class PlaylistsList extends React.Component<any, any> {
                 rightIcon={<CommunicationChatBubble />}
                 onClick={() => {
                     this.props.DISPATCH("SET_PLAYLISTS_DETAIL", track)
-                    this.props.ROUTER_ACTION("DASHBOARD_DETAIL", { tab: "playlists", id: track.id, data: track })
+                    this.props.DISPATCH("DASHBOARD_DETAIL", { tab: "playlists", id: track.id, data: track })
                 }}
             />
         )

@@ -73,19 +73,19 @@ export const KindFilterNavigation = (props) => {
             <BottomNavigationItem
                 icon={recentsIcon("Singles")}
                 onClick={() => {
-                    props.SET_SONG_GENRE_FILTER_ACTION("single")
+                    props.DISPATCH("SET_SONG_GENRE_FILTER", "single")
                 }}
             />
             <BottomNavigationItem
                 icon={recentsIcon("Albums")}
                 onClick={() => {
-                    props.SET_SONG_GENRE_FILTER_ACTION("album")
+                    props.DISPATCH("SET_SONG_GENRE_FILTER", "album")
                 }}
             />
             <BottomNavigationItem
                 icon={recentsIcon("All")}
                 onClick={() => {
-                    props.SET_SONG_GENRE_FILTER_ACTION("")
+                    props.DISPATCH("SET_SONG_GENRE_FILTER", "")
                 }}
             />
         </BottomNavigation>
@@ -100,14 +100,14 @@ export const ExplicitFilterNavigation = (props) => {
                 icon={recentsIcon("Clean")}
                 onClick={() => {
                     console.log(props)
-                    props.SET_SONG_EXPLICIT_FILTER_ACTION(false)
+                    props.DISPATCH("SET_SONG_EXPLICIT_FILTER_ACTION", false)
                 }}
             />
             <BottomNavigationItem
                 icon={recentsIcon("Explicit")}
                 onClick={() => {
                     console.log(props)
-                    props.SET_SONG_EXPLICIT_FILTER_ACTION(true)
+                    props.DISPATCH("SET_SONG_EXPLICIT_FILTER_ACTION", true)
                 }}
             />
         </BottomNavigation>
@@ -116,9 +116,7 @@ export const ExplicitFilterNavigation = (props) => {
 
 export const FilterNavigation = (props) => {
     const handleClose = () => {
-        props.SET_SONG_VISIBILITY_FILTER_ACTION(
-            !props.songs.visibility
-        )
+        props.DISPATCH("SET_SONG_VISIBILITY_FILTER", !props.songs.visibility)
     }
     const actions = [
         <FlatButton
@@ -143,7 +141,7 @@ export const FilterNavigation = (props) => {
             <Subheader>Search for keywork</Subheader>
             <TextField
                 onChange={(event, newValue) => {
-                    props.SET_SONG_SEARCH_FILTER_ACTION(newValue)
+                    props.DISPATCH("SET_SONG_SEARCH_FILTER", newValue)
                 }}
                 value={props.songs.search}
                 fullWidth={true}
