@@ -7,13 +7,12 @@ import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import "rxjs/add/operator/catch"
-import { LABEL_TOP_ARTISTS } from "../actions/actions"
 import "rxjs/add/observable/empty"
 import { WarningToast } from "../../shared/toastr"
 import { AJAX } from "../../shared/ajax"
 
 export const labelTopEpic = (action$, store) => {
-    return action$.ofType(LABEL_TOP_ARTISTS)
+    return action$.ofType("LABEL_TOP_ARTISTS")
         .mergeMap((action) => (AJAX("/label/" + action.payload, "")))
         .catch((err, caught) => {
             return Observable.of(1)

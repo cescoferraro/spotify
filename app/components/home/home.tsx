@@ -7,16 +7,17 @@ import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import { Chooser } from "./chooser"
 import { OfflineToast } from "../../../shared/toastr"
 
-export const HomeComponent = (props) => {
-    const login = () => {
-        const url = API_URL() + "/login"
-        const { Offline } = (window as any)
-        if (Offline.state === "up") {
-            window.location.href = url
-        } else {
-            OfflineToast()
-        }
+const login = () => {
+    const url = API_URL() + "/login"
+    const { Offline } = (window as any)
+    if (Offline.state === "up") {
+        window.location.href = url
+    } else {
+        OfflineToast()
     }
+}
+
+export const HomeComponent = (props) => {
     return (
         <div className={cs(CSS.container)} >
             <div className={CSS.dashboard}>

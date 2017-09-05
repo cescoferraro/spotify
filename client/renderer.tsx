@@ -25,9 +25,10 @@ export const Renderer = (Component) => {
             console.log("==========================================")
             console.log("REDUX LOADED:", newState)
             console.log("LOCALSTORAGE:", reduxStorage)
-            if (!isPWA()) {
+            if (isPWA()) {
                 if (!isEmpty(newState.storage)) {
                     if ((window as any).__PRODUCTION__) {
+                        console.log("sending oyu ass to: ", newState.storage.pathname)
                         store.dispatch(newState.storage)
                     }
                 }

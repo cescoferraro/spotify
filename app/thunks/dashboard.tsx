@@ -10,6 +10,9 @@ export const NAVIGATOR = ({ store, log = true }) => {
     const reduxPlaylistsExist = reduxStorage ? reduxStorage.playlists ? true : false : false
     const reduxStorageExist = reduxStorage ? reduxStorage.storage ? true : false : false
     if (log) {
+        console.log("==========================================")
+        console.log("THUNK")
+        console.log("==========================================")
         console.log("REDUX:", store)
         console.log("LOCASLSTORAGE :", reduxStorage)
         console.log("REDUX TOKEN IS :", token)
@@ -25,6 +28,7 @@ export const NAVIGATOR = ({ store, log = true }) => {
         console.log("LOCALSTORAGE STORAGE exist :", reduxStorageExist)
         console.log("LOCALSTORAGE STORAGE :", reduxStorageExist ? reduxStorage.storage : null)
         console.log("REDUX LOCATION:", location)
+        console.log("==========================================")
     }
     return ({
         reduxStorage,

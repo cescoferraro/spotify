@@ -56,7 +56,7 @@ export class SongsList extends React.Component<any, any> {
                 primaryText={track.name}
                 onClick={() => {
                     this.props.DISPATCH("DASHBOARD_DETAIL", {
-                        tab: "songs", prev: this.props.location.prev, id: track.id, data: track
+                        tab: "songs", prev: this.props.location.prev, id: track.id,
                     })
                     this.props.DISPATCH("SET_SONGS_DETAIL", track)
                 }}

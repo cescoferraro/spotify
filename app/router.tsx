@@ -6,7 +6,9 @@ import { Shell } from "./components/shell/index"
 import { AsyncDashboard } from "./components/dashboard"
 import { Artist } from "./components/artist/artist"
 import { HomeComponent } from "./components/home/home"
-import { APP_ACTIONS } from "../store/actions"
+import { bindActionCreators } from "redux"
+export const DISPATCH = (type, payload, meta = {}) => ({ type, payload, meta })
+export const APP_ACTIONS = (dispatch) => bindActionCreators({ DISPATCH }, dispatch)
 
 const AppRouterClass = (props) => {
     switch (props.location.type) {
@@ -41,6 +43,12 @@ const AppRouterClass = (props) => {
 }
 
 export const AppRouter = compose(
-    connect(({ title, location, drawer, token, player, artist, songs, user, tab, playlists }) =>
-        ({ title, location, drawer, token, player, artist, songs, user, tab, playlists }), APP_ACTIONS)
-)(AppRouterClass)
+    connect(
+        ({ title, location, drawer, token,
+            player, artist, songs, user,
+            tab, playlists }) => ({
+                title, location, drawer, token,
+                player, artist, songs, user,
+                tab, playlists
+            }), APP_ACTIONS))
+    (AppRouterClass)
