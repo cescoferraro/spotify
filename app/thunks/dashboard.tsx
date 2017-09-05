@@ -4,7 +4,7 @@ import { isProduction } from "../../shared/utils"
 
 export const dashboardThunk = (dispatch, getStore) => {
     const { playlists, songs, token, tab } = getStore()
-    const NAV = NAVIGATOR({ store: getStore(), log: true })
+    const NAV = NAVIGATOR({ store: getStore(), log: false })
     if (NAV.gotToken) {
         if (songs.loading && (!NAV.reduxSongsExist || !isProduction())) {
             console.info("firing songs request")

@@ -8,10 +8,12 @@ import { id } from "./reducers/id"
 import { user } from "./reducers/user"
 import { playlists } from "./reducers/playlists"
 import { songs } from "./reducers/songs"
-import { player } from "./reducers/player";
-import { storage } from "./reducers/storage";
+import { player } from "./reducers/player"
+import { storage } from "./reducers/storage"
+import { app } from "./reducers/app"
 
 export let appReducers = (location) => combineReducers({
+    app,
     location,
     id,
     toastr,
