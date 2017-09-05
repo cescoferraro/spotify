@@ -1,10 +1,11 @@
-import { isServer } from "../../store/createStore"
+import { isServer } from "../utils"
 
 export const API_URL = () => {
+    const { hostname, protocol } = document.location
     if (!isServer()) {
-        if (document.location.hostname === "spotify.cescoferraro.xyz") {
+        if (hostname === "spotify.cescoferraro.xyz") {
             return "https://spotifyapi.cescoferraro.xyz"
         }
     }
-    return document.location.protocol + "//" + document.location.hostname + ":8080"
+    return protocol + "//" + hostname + ":8080"
 }

@@ -3,8 +3,8 @@ import { SongsDetail } from "./detail";
 import { SongsDisplay } from "./display";
 
 export const Songs = (props) => {
-    const { payload } = props.location
-    return payload.id && payload.tab === "songs" ?
+    const { id, tab } = props.location.payload
+    return id && tab === "songs" ?
         <SongsDetail {...props} /> :
         <SongsDisplay {...props} />
 }

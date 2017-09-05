@@ -11,7 +11,7 @@ import { songs } from "./reducers/songs"
 import { player } from "./reducers/player";
 import { storage } from "./reducers/storage";
 
-export let allReducers = (location) => combineReducers({
+export let appReducers = (location) => combineReducers({
     location,
     id,
     toastr,

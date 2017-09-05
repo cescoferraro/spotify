@@ -37,10 +37,7 @@ class PreloadPlugin {
             hashes[tt] = hashes[key];
             delete hashes[key];
           });
-          filesToInclude =
-            ' <script> window.__CSS_CHUNKS__ = ' +
-            serialize(hashes) +
-            '</script> ';
+          filesToInclude = ' <script> window.__CSS_CHUNKS__ = ' + serialize(hashes) + '</script> ';
           if (htmlPluginData.html.indexOf('</head>') !== -1) {
             htmlPluginData.html = htmlPluginData.html.replace(
               '</head>',

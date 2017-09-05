@@ -19,6 +19,9 @@ export const HTML = (
     const { preload, scripts } = getScripts(assets.scripts, outputPath, production)
     const styles = getStyles(assets.stylesheets, outputPath, production)
     const MyHelmet = Helmator()
+    const cssChunks = {
+        __html: `window.__CSS_CHUNKS__ = ${serialize(assets.cssHashRaw)}`
+    }
     return (
         <html {...MyHelmet.html}>
             <head >
@@ -31,8 +34,8 @@ export const HTML = (
                 <BaseStyle />
                 <ToastrCSS />
                 <ProductionVAR production={production} />
-                <CssChunks assets={assets} />
                 <Spinner userAgent={userAgent} />
+                <script dangerouslySetInnerHTML={cssChunks} />
                 <OneSignalCDN production={production} />
                 <OneSignalInit production={production} />
             </head>

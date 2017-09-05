@@ -1,6 +1,7 @@
+import * as log from "loglevel"
 import { LOAD, SAVE } from 'redux-storage'
 import { routesMap } from "../../app/route.map"
-import { isServer } from "../createStore";
+import { isServer } from '../../shared/utils';
 
 const DASH = (action) => {
     const { tab, prev } = action.payload
@@ -18,7 +19,7 @@ const DASH_DET = (action) => {
     return {
         kind: "push",
         pathname: "/dashboard/" + tab + "/" + id,
-        payload: { tab: tab },
+        payload: { tab, id },
         prev: prev,
         routesMap: routesMap,
         type: "DASHBOARD_DETAIL"
@@ -40,12 +41,12 @@ export const storage = (state = {
             return { ...state }
     }
 }
-
 const PERFORM = (thing) => {
     if (!isServer()) {
         const reduxStorage = JSON.parse(localStorage.getItem("spotify")) || {}
         reduxStorage.storage = thing
-        console.log(reduxStorage.storage)
+        console.log(9999999999999999999999999)
+        log.debug(reduxStorage.storage)
         localStorage["spotify"] = JSON.stringify(reduxStorage)
     }
 }

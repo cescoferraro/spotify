@@ -6,8 +6,9 @@ import { Player } from "../player"
 import { INFO } from "../profile"
 import { LOADING } from "../loading/index"
 import { Tabs, Tab } from "material-ui/Tabs"
-import { TOOLS } from "../tools/index"
+import { Tools } from "../tools/index"
 import { Songs } from "../songs/index"
+import { Following } from "../following/index";
 
 const tabs = {
     player: 0, songs: 1, playlists: 2, following: 3, tools: 4, profile: 5, loading: 6
@@ -45,9 +46,8 @@ export default class DashboardComponent extends React.Component<any, any> {
                     <Player {...this.props} />
                     <Songs {...this.props} />
                     <Playlists {...this.props} />
-                    {/* <Following {...this.props} /> */}
-                    <div>hjksadfb</div>
-                    <TOOLS {...this.props} />
+                    <Following {...this.props} />
+                    <Tools {...this.props} />
                     <INFO {...this.props} />
                     <LOADING userAgent={this.props.userAgent} />
                 </SwipeableViews>

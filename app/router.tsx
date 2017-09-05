@@ -10,7 +10,9 @@ import { bindActionCreators } from "redux"
 export const DISPATCH = (type, payload, meta = {}) => ({ type, payload, meta })
 export const APP_ACTIONS = (dispatch) => bindActionCreators({ DISPATCH }, dispatch)
 
-const AppRouterClass = (props) => {
+export const AppRouter = compose(
+    connect((state) => ({ ...state }), APP_ACTIONS)
+)((props) => {
     switch (props.location.type) {
         case "HOME":
             return (
@@ -39,16 +41,4 @@ const AppRouterClass = (props) => {
                 </Shell>
             )
     }
-
-}
-
-export const AppRouter = compose(
-    connect(
-        ({ title, location, drawer, token,
-            player, artist, songs, user,
-            tab, playlists }) => ({
-                title, location, drawer, token,
-                player, artist, songs, user,
-                tab, playlists
-            }), APP_ACTIONS))
-    (AppRouterClass)
+})
