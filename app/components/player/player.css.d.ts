@@ -9,3 +9,4 @@ export const now: string
 export const image: string
 export const controls: string
 export const center: string
+export const device: string
