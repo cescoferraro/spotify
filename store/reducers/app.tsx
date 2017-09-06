@@ -1,6 +1,7 @@
 
 export const app = (state = {
-    progress: false
+    progress: true,
+
 }, action: any = {}) => {
     switch (action.type) {
         case "TOOGLE_PROGRESS_BAR":

@@ -1,7 +1,7 @@
 package router
 
 import (
-	"log"
+	"fmt"
 	"net/http"
 
 	"github.com/cescoferraro/spotify/api/spotify"
@@ -12,12 +12,14 @@ import (
 func nowPlayingEndPoint(w http.ResponseWriter, r *http.Request) {
 	body, err := tools.GetBODY(r)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, err.Error(), 400)
 		return
 	}
-	user, err := spotify.PlayerState(body, r)
+	user, err := spotify.Now(body, r)
 	if err != nil {
-		log.Println(err.Error())
+		http.Error(w, err.Error(), 400)
+		return
 	}
+	fmt.Println(user.State)
 	render.JSON(w, r, user)
 }

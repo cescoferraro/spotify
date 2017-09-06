@@ -2,7 +2,7 @@ import { combineEpics } from "redux-observable"
 import { playEpic, playSongEpic } from "./epics/play"
 import { stopEpic } from "./epics/stop"
 import { previousEpic } from "./epics/previous"
-import { nowEpic } from "./epics/now"
+import { playerEpic } from "./epics/now"
 import { logoutEpic } from "./epics/logout"
 import { repeatEpic } from "./epics/repeat"
 import { volumeEpic } from "./epics/index"
@@ -14,7 +14,7 @@ export const RootEpic = combineEpics(
     playEpic,
     stopEpic,
     previousEpic,
-    nowEpic,
+    playerEpic,
     playSongEpic,
     logoutEpic,
     repeatEpic,

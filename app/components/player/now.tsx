@@ -2,6 +2,7 @@ import * as React from "react"
 import { compose } from "recompose"
 import { connect } from "react-redux"
 import * as CSS from "./player.css"
+import { PLAYER_ACTION } from "../../../store/constants";
 
 const SongTitle = ({ now }) => {
     console.log(now.Item.album.images[1].url)
@@ -25,14 +26,14 @@ class NOWClass extends React.Component<any, any> {
         this.fetch = this.fetch.bind(this)
     }
     public render() {
-        const { now } = this.props.player
+        const { player } = this.props
         return (
             <div className={CSS.now}>
                 <div onClick={this.fetch}>
                     <div className={CSS.image} >
-                        {now.is_playing ? <SongImage now={now} /> : <img alt="" src="http://gavinsmith.ca/lj/live_blank.png" />}
+                        {player.is_playing ? <SongImage now={player} /> : <img alt="" src="http://gavinsmith.ca/lj/live_blank.png" />}
                     </div>
-                    {now.is_playing ? <SongTitle now={now} /> : <p>Not Playing</p>}
+                    {player.is_playing ? <SongTitle now={player} /> : <p>Not Playing</p>}
                 </div>
             </div>
         )
@@ -41,7 +42,7 @@ class NOWClass extends React.Component<any, any> {
         /* this.fetch()*/
     }
     private fetch() {
-        this.props.DISPATCH("NOW", { token: this.props.token })
+        this.props.DISPATCH(PLAYER_ACTION, { token: this.props.token })
     }
 }
-export const NOW = compose(connect(({ token, player }) => ({ token, player })))(NOWClass)
+export const CurrentSong = compose(connect(({ token, player }) => ({ token, player })))(NOWClass)

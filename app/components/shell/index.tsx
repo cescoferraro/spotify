@@ -13,7 +13,7 @@ export const Shell = (props) => {
             <SPOTIFYAppBar {...props} />
             <LinearProgress
                 color="#Cd5c5c"
-                value={!props.app.progress ? 0 : 33}
+                value={!props.app.progress ? 0 : 0}
                 mode={!props.app.progress ? "indeterminate" : "determinate"}
             />
             <div className={CSS.container}>

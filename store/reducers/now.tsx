@@ -1,11 +1,6 @@
-export const Now = {
+export const PlayerPrimerState = {
     timestamp: 1502597210726,
-    context: {
-        external_urls: null,
-        href: "",
-        type: "",
-        uri: ""
-    },
+    context: { external_urls: null, href: "", type: "", uri: "" },
     progress_ms: 184412,
     is_playing: false,
     Item: {
@@ -42,5 +37,8 @@ export const Now = {
         external_ids: { isrc: "BR4LW1300006" },
         popularity: 40
     },
+    device: { volume_percent: 0 },
+    current_device: 0,
+    devices: [{ id: "sdkfjnds", name: "dsjkfndsf" }],
     repeat_state: "off"
 }

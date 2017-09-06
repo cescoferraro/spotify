@@ -12,7 +12,6 @@ import * as cs from "classnames"
 export class SongsList extends React.Component<any, any> {
     constructor(props) {
         super(props)
-        console.log(props)
         this.rowRenderer = this.rowRenderer.bind(this)
     }
 

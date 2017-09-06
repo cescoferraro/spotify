@@ -7,34 +7,28 @@ import (
 	"github.com/zmb3/spotify"
 )
 
-// NowPlaying TODO: NEEDS COMMENT INFO
-func NowPlaying(code string, r *http.Request) (*spotify.CurrentlyPlaying, error) {
-	var CurrentlyPlaying *spotify.CurrentlyPlaying
-	token, err := ProcessToken(code, r)
-	if err != nil {
-		return CurrentlyPlaying, errors.Wrap(err, "retrieveToken")
-	}
-	client := Auth(r).NewClient(token)
-
-	CurrentlyPlaying, err = client.PlayerCurrentlyPlaying()
-	if err != nil {
-		return CurrentlyPlaying, errors.Wrap(err, "next error")
-	}
-	return CurrentlyPlaying, nil
+type NowResponse struct {
+	State   spotify.PlayerState    `json:"state"`
+	Devices []spotify.PlayerDevice `json:"devices"`
 }
 
-// PlayerState TODO: NEEDS COMMENT INFO
-func PlayerState(code string, r *http.Request) (*spotify.PlayerState, error) {
-	var CurrentlyPlaying *spotify.PlayerState
+// Now TODO: NEEDS COMMENT INFO
+func Now(code string, r *http.Request) (NowResponse, error) {
+	var CurrentlyPlaying NowResponse
+	var devices []spotify.PlayerDevice
 	token, err := ProcessToken(code, r)
 	if err != nil {
 		return CurrentlyPlaying, errors.Wrap(err, "retrieveToken")
 	}
 	client := Auth(r).NewClient(token)
 
-	CurrentlyPlaying, err = client.PlayerState()
+	response, err := client.PlayerState()
 	if err != nil {
-		return CurrentlyPlaying, errors.Wrap(err, "next error")
+		return NowResponse{State: *response, Devices: devices}, errors.Wrap(err, "next error")
 	}
-	return CurrentlyPlaying, nil
+	devices, err = client.PlayerDevices()
+	if err != nil {
+		return NowResponse{State: *response, Devices: devices}, errors.Wrap(err, "next error")
+	}
+	return NowResponse{State: *response, Devices: devices}, nil
 }

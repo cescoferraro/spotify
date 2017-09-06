@@ -2,10 +2,14 @@ import { SuccessToast } from "../../shared/toastr"
 import { AJAX } from "../../shared/ajax"
 
 export const genericObservable = ({ path, toastr = true }) =>
-    (action) => (
-        AJAX("/" + path, action.payload.token)
-            .map((ajax) => {
-                if (toastr) { SuccessToast(path.toUpperCase(), "") }
-                return ajax
-            })
-    )
+    (action) => {
+        console.log(999999999999999)
+        console.log(action)
+        return (
+            AJAX("/" + path, action.payload.token)
+                .map((ajax) => {
+                    if (toastr) { SuccessToast(path.toUpperCase(), "") }
+                    return ajax
+                })
+        )
+    }

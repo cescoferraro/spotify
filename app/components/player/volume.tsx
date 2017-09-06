@@ -15,7 +15,7 @@ export class Volume extends React.Component<any, any> {
                 onChange={this.onChange}
                 onDragStop={this.fire}
                 step={0.10}
-                value={this.props.player.volume / 100}
+                value={this.props.player.device.volume_percent / 100}
             />
         )
     }
@@ -25,7 +25,7 @@ export class Volume extends React.Component<any, any> {
     private fire(event) {
         this.props.DISPATCH({
             type: "VOLUME",
-            payload: { token: this.props.token, percent: this.props.player.volume }
+            payload: { token: this.props.token, percent: this.props.player.device.volume_percent }
         })
     }
 }

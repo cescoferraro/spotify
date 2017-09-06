@@ -5,6 +5,7 @@ import "rxjs/add/observable/dom/ajax"
 import { API_URL } from "../../shared/api/index"
 import { isArtistState } from "./shared"
 import { bodyUrl, AJAX } from "../../shared/ajax"
+import { PLAYER_ACTION } from "../../store/constants";
 
 export const authThunk = (dispatch, getState) => {
     const { token, state } = getState().location.payload
@@ -21,6 +22,7 @@ export const authThunk = (dispatch, getState) => {
             } else {
                 const { prev } = getState().location
                 dispatch(({ type: state.toUpperCase(), payload: { tab: "player", prev } }))
+                dispatch({ type: PLAYER_ACTION, payload: { token } })
             }
 
         })

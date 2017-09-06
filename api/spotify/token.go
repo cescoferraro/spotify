@@ -71,7 +71,7 @@ func ProcessToken(code string, r *http.Request) (*oauth2.Token, error) {
 		return nil, err
 	}
 	log.Println("gouroutine delete")
-	go deleteToken(code, TokenHUB.Tokens)
+
 	return TokenHUB.Tokens[code], err
 }
 
