@@ -3,8 +3,6 @@ import { AJAX } from "../../shared/ajax"
 
 export const genericObservable = ({ path, toastr = true }) =>
     (action) => {
-        console.log(999999999999999)
-        console.log(action)
         return (
             AJAX("/" + path, action.payload.token)
                 .map((ajax) => {

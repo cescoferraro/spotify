@@ -45,8 +45,6 @@ const PERFORM = (thing) => {
     if (!isServer()) {
         const reduxStorage = JSON.parse(localStorage.getItem("spotify")) || {}
         reduxStorage.storage = thing
-        console.log(9999999999999999999999999)
-        log.debug(reduxStorage.storage)
         localStorage["spotify"] = JSON.stringify(reduxStorage)
     }
 }

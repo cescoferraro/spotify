@@ -1,10 +1,11 @@
 @import "../../../shared/css/var/var.css";
 @import url('https://fonts.googleapis.com/css?family=Roboto');
 
-html {
+html, body {
     font-family: 'Roboto', sans-serif;
     font-size: 20px;
     background-color: black;
+    overflow: hidden;
 }
 
 .base{

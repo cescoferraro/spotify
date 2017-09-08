@@ -17,7 +17,7 @@ export const CurrentDevice = (props) => {
                 floatingLabelFixed={true}
                 fullWidth={true}
                 floatingLabelText="Dispatching actions to the device"
-                value={hasActiveDevice ? player.current_device : 9999}
+                value={player.current_device}
                 onChange={(event, index, device) => {
                     if (hasActiveDevice) {
                         props.DISPATCH("SET_DEVICE", index)
@@ -25,11 +25,10 @@ export const CurrentDevice = (props) => {
                 }}
                 hintText="Select a name"
             >
-                {
-                    hasActiveDevice ?
-                        player.devices.map((device, index) => { return <MenuItem value={index} key={Math.random()} primaryText={device.name} /> }) :
-                        <MenuItem value={9999} key={Math.random()} primaryText={"No active device"} />
-                }
+                <MenuItem value={0} key={Math.random()} primaryText={"Active Device"} />
+                {player.devices.map(
+                    (device, index) =>
+                        (<MenuItem value={index + 1} key={Math.random()} primaryText={device.name} />))}
             </SelectField>
         </div>
     )

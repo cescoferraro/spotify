@@ -7,11 +7,11 @@ import { offlineCheck } from "./offline";
 import { LoadFROMLocalStorage } from "./localStorage";
 import { configureStore } from "../store/createStore";
 import { createBrowserHistory } from "history"
-
-const store = configureStore(createBrowserHistory())
-
 injectTapEventPlugin()
 require("offline-js")
+
+
+const store = configureStore(createBrowserHistory())
 Renderer(AppRouter, store)
 runServiceWorker()
 offlineCheck(store)
