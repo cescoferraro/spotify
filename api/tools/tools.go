@@ -13,7 +13,6 @@ func IsProd() bool {
 		log.Println("truuue!")
 		return true
 	}
-	log.Println("false!!!!!!!!!")
 	return false
 }
 
