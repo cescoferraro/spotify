@@ -1,25 +1,53 @@
 package router
 
 import (
+	"context"
 	"log"
 	"net/http"
 
+	"encoding/json"
+
 	"github.com/cescoferraro/spotify/api/spotify"
-	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/justinas/alice"
 	"github.com/pressly/chi/render"
 )
 
-func playEndPoint(w http.ResponseWriter, r *http.Request) {
-	token, err := tools.GetBODY(r)
-	log.Println("hey")
-	if err != nil {
-		http.Error(w, http.StatusText(401), 401)
-		return
-	}
-	err = spotify.Play(token, r)
-	if err != nil {
-		http.Error(w, http.StatusText(401), 401)
-		return
-	}
-	render.JSON(w, r, true)
+type PlayRequest struct {
+	Token  string `json:"token"`
+	Device string `json:"device"`
 }
+
+var playEndPoint = alice.New(
+	func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			Request := PlayRequest{}
+			err := json.NewDecoder(r.Body).Decode(&Request)
+			if err != nil {
+				http.Error(w, err.Error(), 401)
+				return
+			}
+			ctx := context.WithValue(r.Context(), "token", Request.Token)
+			ctx = context.WithValue(ctx, "device", Request.Device)
+			next.ServeHTTP(w, r.WithContext(ctx))
+			return
+		})
+	}).
+	ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Request := r.Context().Value("request").(PlayRequest)
+		tokenCTX := r.Context().Value("token").(string)
+		device := r.Context().Value("device").(string)
+		log.Println(device)
+
+		token, err := spotify.ProcessToken(tokenCTX, r)
+		if err != nil {
+			http.Error(w, http.StatusText(401), 401)
+			return
+		}
+		client := spotify.Auth(r).NewClient(token)
+		err = client.Play()
+		if err != nil {
+			http.Error(w, http.StatusText(401), 401)
+			return
+		}
+		render.JSON(w, r, true)
+	}).(http.HandlerFunc)

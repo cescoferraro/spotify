@@ -14,10 +14,10 @@
   revision = "1909bc2f63dc92bb931deace8b8312c4db72d12f"
 
 [[projects]]
-  name = "github.com/gorilla/websocket"
+  name = "github.com/justinas/alice"
   packages = ["."]
-  revision = "ea4d1f681babbce9545c9c5f3d5194a789c89f5b"
-  version = "v1.2.0"
+  revision = "052b8b6c18edb9db317af86806d8e00ebaa94160"
+  version = "1.0.0"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -58,6 +58,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "880258c0e7de440bef7933e28a4e0e9235f6768e0b0b04dd368fe5fda375ecee"
+  inputs-digest = "dbf1dac34122785e1d3c4a361905e923a14c17323d4182cd0124314fc2615886"
   solver-name = "gps-cdcl"
   solver-version = 1

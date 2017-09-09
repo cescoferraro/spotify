@@ -39,7 +39,7 @@ export const playEpic = (action$, store) => {
         .mergeMap((action) => {
             token = action.payload.token
             console.log(action.payload.device)
-            return AJAX("/play", token)
+            return AJAX("/play", JSON.stringify({ token, device: "29831uj894h" }))
         })
         .catch((err, caught) => {
             return Observable.of(1)
