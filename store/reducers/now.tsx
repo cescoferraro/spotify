@@ -38,7 +38,7 @@ export const PlayerPrimerState = {
         popularity: 40
     },
     device: { volume_percent: 0 },
-    current_device: 0,
-    devices: [{ id: "sdkfjnds", name: "dsjkfndsf" }],
+    current_device: "",
+    devices: [{ id: "r89u348u99r83u93ru", name: "dsjkfndsf" }],
     repeat_state: "off"
 }

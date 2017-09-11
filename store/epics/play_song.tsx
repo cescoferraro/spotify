@@ -11,30 +11,25 @@ import { WarningToast } from "../../shared/toastr"
 import { AJAX } from "../../shared/ajax"
 import { PLAYER_ACTION } from "../constants"
 
-export const playEpic = (action$, store) => {
-    let token
-    return action$.ofType("PLAY")
-        .mergeMap((action) => {
-            token = action.payload.token
-            const { player } = store.getState()
-            return AJAX("/play", JSON.stringify({ token, device: player.current_device }))
-        })
+export const playSongEpic = (action$, store) => {
+    return action$.ofType("PLAY_SONG")
+        .mergeMap((action) => (
+            AJAX("/play/" + action.payload.song, action.payload.token)
+        ))
         .catch((err, caught) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
-            if (now !== 1) {
+            if (now.response !== undefined) {
                 return (Observable.merge(
-                    Observable.of({ type: "PLAY_SUCESS" }),
-                    Observable.of({ type: PLAYER_ACTION, payload: { token } })
+                    Observable.of({ type: "PLAY_SONG_SUCESS" })
                 ))
             } else {
                 WarningToast()
                 return (Observable.merge(
-                    Observable.of({ type: "PLAY_FAILURE" }),
                     Observable.of({ type: "HOME" })
                 ))
             }
-
         })
 }
+

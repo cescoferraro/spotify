@@ -1,4 +1,4 @@
-package spotify
+package tools
 
 import (
 	"log"
@@ -6,7 +6,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/zmb3/spotify"
 	"golang.org/x/oauth2"
 )
@@ -43,7 +42,7 @@ var (
 
 func Auth(r *http.Request) spotify.Authenticator {
 	redirectURI := "https://spotifyapi.cescoferraro.xyz/auth"
-	if !tools.IsProd() {
+	if !IsProd() {
 		redirectURI = "http://" + r.Host + "/auth"
 	}
 	ClientID := "445f705eea2d4d0e8bbd97b796fb7957"
@@ -55,23 +54,18 @@ func Auth(r *http.Request) spotify.Authenticator {
 
 // ProcessToken TODO: NEEDS COMMENT INFO
 func ProcessToken(code string, r *http.Request) (*oauth2.Token, error) {
-	log.Println("before LOck")
 	TokenHUB.Lock()
 	defer TokenHUB.Unlock()
-	log.Println("cheking existence")
 	if TokenHUB.Tokens[code] != nil {
 		log.Println("token found")
 		return TokenHUB.Tokens[code], nil
 	}
 	var err error
-	log.Println("exchanging")
 	TokenHUB.Tokens[code], err = Auth(r).Exchange(code)
 	if err != nil {
 		delete(TokenHUB.Tokens, code)
 		return nil, err
 	}
-	log.Println("gouroutine delete")
-
 	return TokenHUB.Tokens[code], err
 }
 

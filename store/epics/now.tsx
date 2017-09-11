@@ -17,11 +17,16 @@ export const playerEpic = (action$, store) => (
             console.log(store.getState())
             const current_device = store.getState().player.current_device
             if (now.response !== undefined) {
-                const { current_device } = store.getState().player
+                const { player } = store.getState()
+
+                const activeDevice = player.devices.filter((device) => { return device.is_active })
                 const payload = {
                     devices: now.response.devices,
                     ...now.response.state,
-                    current_device: current_device > store.getState().player.devices.length - 1 ? current_device : 0
+                    current_device:
+                    now.response.state.device.id ?
+                        now.response.state.device.id
+                        : ""
                 }
                 console.log(payload)
                 console.log(store.getState())

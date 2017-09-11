@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/cescoferraro/spotify/api/spotify"
+	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/pressly/chi"
 )
 
@@ -13,7 +13,7 @@ func loginEndPoint(state string) func(http.ResponseWriter, *http.Request) {
 		// percent := chi.URLParam(r, "percent")
 		log.Println("LOGIN!!!!")
 		log.Println(r.Host)
-		url := spotify.Auth(r).AuthURL(state)
+		url := tools.Auth(r).AuthURL(state)
 		log.Println(url)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
@@ -27,7 +27,7 @@ func artistloginEndPoint(state string) func(http.ResponseWriter, *http.Request) 
 		id := chi.URLParam(r, "id")
 		move := chi.URLParam(r, "move")
 		log.Println("LOGIN")
-		url := spotify.Auth(r).AuthURL(id + "@" + move)
+		url := tools.Auth(r).AuthURL(id + "@" + move)
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 		// w.Write([]byte("<script>console.log('Please login')</script>"))

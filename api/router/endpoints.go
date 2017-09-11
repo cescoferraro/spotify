@@ -20,7 +20,6 @@ func Endpoints(version string) chi.Router {
 	r.Get("/artist/{move}/{id}", artistloginEndPoint("anitta"))
 	r.Post("/love/{id}", anittaEndPoint(true))
 	r.Post("/hate/{id}", anittaEndPoint(false))
-	r.Post("/label/{id}", labelEndPoint)
 	r.Get("/status", statusEndPoint)
 	r.Post("/playlists", playlistEndPoint)
 	r.Post("/pause", pauseEndPoint)

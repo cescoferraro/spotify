@@ -1,7 +1,6 @@
 package tools
 
 import (
-	"log"
 	"net"
 	"os"
 )
@@ -10,7 +9,6 @@ import (
 func IsProd() bool {
 	prod := os.Getenv("KUBERNETES")
 	if prod == "true" {
-		log.Println("truuue!")
 		return true
 	}
 	return false

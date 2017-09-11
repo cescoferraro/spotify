@@ -2,35 +2,56 @@ import * as React from "react"
 import * as CSS from "./player.css"
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import { ActiveDevice } from "./active";
+
+export const fromPlayerCurrentDevice = (player) => {
+    const localComponentDevices = player.devices
+        .map((device, index) => ({ ...device, value: index }))
+    const currentDevice = localComponentDevices
+        .filter((device) => (device.id === player.current_device))
+    const currentValue = currentDevice.length !== 0 ? currentDevice[0].value : 9999
+    return { localComponentDevices, currentDevice, currentValue }
+}
 
 export const CurrentDevice = (props) => {
     const { player } = props
-    const activeDevice = player.devices.filter((device) => { return device.is_active })
-    const hasActiveDevice = activeDevice[0] ? true : false
+    const stateDevice = fromPlayerCurrentDevice(player)
+    console.log(stateDevice.localComponentDevices)
+    console.log(stateDevice.currentDevice)
+    console.log(stateDevice.currentValue)
     return (
         <div className={CSS.device}>
-            <h2>
-                {activeDevice[0] ? activeDevice[0].name : "no active device"}
-            </h2>
+            <ActiveDevice player={player} />
             <SelectField
                 id="device_selector"
+                hintText="Select a name"
+                floatingLabelText="Dispatching actions to the device"
                 floatingLabelFixed={true}
                 fullWidth={true}
-                floatingLabelText="Dispatching actions to the device"
-                value={player.current_device}
+                value={stateDevice.currentValue}
                 onChange={(event, index, device) => {
-                    if (hasActiveDevice) {
-                        props.DISPATCH("SET_DEVICE", index)
+                    if (device === 9999) {
+                        props.DISPATCH("SET_DEVICE", "")
+                    } else {
+                        props.DISPATCH("SET_DEVICE",
+                            stateDevice.localComponentDevices[device].id
+                        )
                     }
                 }}
-                hintText="Select a name"
             >
-                <MenuItem value={0} key={Math.random()} primaryText={"Active Device"} />
-                {player.devices.map(
+                <MenuItem
+                    value={9999}
+                    key={Math.random()}
+                    primaryText={"Active Device"}
+                />
+                {stateDevice.localComponentDevices.map(
                     (device, index) =>
-                        (<MenuItem value={index + 1} key={Math.random()} primaryText={device.name} />))}
+                        (<MenuItem
+                            value={device.value}
+                            key={Math.random()}
+                            primaryText={device.name}
+                        />))}
             </SelectField>
         </div>
     )
 }
-                /* value={hasActiveDevice ? player.devices.indexOf(activeDevice[0]) : 9999} */
