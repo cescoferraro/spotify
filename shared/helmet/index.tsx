@@ -15,7 +15,7 @@ export const MyHelmet = ({ title }) => (
         <meta property="og:image" content={Cesco} />
         <meta property="og:type" content="website" />
         <meta property="og:site_name" content="spotify" />
-        <meta property="og:description" content="Cutting Edge PWA React.js boilerplate" />
+        <meta property="og:description" content="PWA Spotify Client" />
     </Helmet>
 
 )

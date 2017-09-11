@@ -3,7 +3,15 @@ const webpack = require('webpack');
 
 module.exports = env => ({
   entry: {
-    vendor: ['react', 'react-dom']
+    vendor: [
+      'react',
+      'react-dom',
+      'material-ui',
+      'lodash',
+      'react-redux',
+      'redux',
+      'rxjs'
+    ]
   },
   output: {
     filename: '[name].dll.js',
