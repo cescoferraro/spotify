@@ -1,4 +1,4 @@
-package router
+package artist
 
 import (
 	"fmt"
@@ -103,8 +103,19 @@ func split(buf []spotify.ID, lim int) [][]spotify.ID {
 	return chunks
 }
 
-func anittaEndPoint(move bool) func(w http.ResponseWriter, r *http.Request) {
+func anittaEndPoint() func(w http.ResponseWriter, r *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var move bool
+		moveR := chi.URLParam(r, "move")
+		switch moveR {
+		case "love":
+			move = true
+		case "hate":
+			move = true
+		default:
+			http.Error(w, http.StatusText(400), 400)
+			return
+		}
 		code, err := tools.GetBODY(r)
 		if err != nil {
 			http.Error(w, http.StatusText(400), 400)

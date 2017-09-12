@@ -1,1 +1,1 @@
-export const PLAYER_ACTION = "NOW"
+export const PLAYER_STATUS = "PLAYER"

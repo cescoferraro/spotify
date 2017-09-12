@@ -8,17 +8,25 @@ import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { genericObservable } from "./observables"
 import { WarningToast } from "../../shared/toastr"
+import { AJAX } from "../../shared/ajax"
+import { PLAYER_STATUS } from "../constants"
 
 export const stopEpic = (action$, store) => {
+    let token
     return action$.ofType("PAUSE")
-        .mergeMap(genericObservable({ path: "pause" }))
+        .mergeMap((action) => {
+            token = action.payload.token
+            const { player } = store.getState()
+            return AJAX("/player/pause", JSON.stringify({ token, device: player.current_device }))
+        })
         .catch((err, caught) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
             if (now.response !== undefined) {
                 return Observable.merge(
-                    Observable.of({ type: "STOP_SUCESS" })
+                    Observable.of({ type: "STOP_SUCESS" }),
+                    Observable.of({ type: PLAYER_STATUS, payload: { token } })
                 )
             } else {
                 WarningToast()

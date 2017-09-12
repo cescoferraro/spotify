@@ -8,7 +8,7 @@ import { AJAX } from "../../shared/ajax"
 export const volumeEpic = (action$, store) => {
     return action$.ofType("VOLUME")
         .mergeMap((action) => (
-            AJAX("/volume/" + action.payload.percent, action.payload.token)
+            AJAX("/player/volume/" + action.payload.percent, action.payload.token)
         ))
         .catch((err, caught) => {
             return Observable.of(1)

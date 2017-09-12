@@ -6,7 +6,7 @@ import { WarningToast } from "../../shared/toastr"
 
 export const logoutEpic = (action$, store) => {
     return action$.ofType("LOGOUT")
-        .mergeMap(genericObservable({ path: "logout", toastr: false }))
+        .mergeMap(genericObservable({ path: "app/logout", toastr: false }))
         .catch((err, caught) => {
             return Observable.of(1)
         })

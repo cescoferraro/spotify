@@ -9,20 +9,25 @@ import "rxjs/add/operator/filter"
 import { genericObservable } from "./observables"
 import { WarningToast } from "../../shared/toastr"
 import { AJAX } from "../../shared/ajax"
-import { PLAYER_ACTION } from "../constants"
+import { PLAYER_STATUS } from "../constants"
 
 export const playSongEpic = (action$, store) => {
+    let token
     return action$.ofType("PLAY_SONG")
-        .mergeMap((action) => (
-            AJAX("/play/" + action.payload.song, action.payload.token)
-        ))
+        .mergeMap((action) => {
+            token = action.payload.token
+            const { song } = action.payload
+            const { player } = store.getState()
+            return AJAX("/player/play/" + song, JSON.stringify({ token, device: player.current_device }))
+        })
         .catch((err, caught) => {
             return Observable.of(1)
         })
         .mergeMap((now) => {
             if (now.response !== undefined) {
                 return (Observable.merge(
-                    Observable.of({ type: "PLAY_SONG_SUCESS" })
+                    Observable.of({ type: "PLAY_SONG_SUCESS" }),
+                    Observable.of({ type: PLAYER_STATUS, payload: { token } })
                 ))
             } else {
                 WarningToast()

@@ -41,9 +41,9 @@ var (
 )
 
 func Auth(r *http.Request) spotify.Authenticator {
-	redirectURI := "https://spotifyapi.cescoferraro.xyz/auth"
+	redirectURI := "https://spotifyapi.cescoferraro.xyz/callback"
 	if !IsProd() {
-		redirectURI = "http://" + r.Host + "/auth"
+		redirectURI = "http://" + r.Host + "/callback"
 	}
 	ClientID := "445f705eea2d4d0e8bbd97b796fb7957"
 	secretKey := "412fb5cbfec2464cb71b567efd0236ea"

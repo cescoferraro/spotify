@@ -8,7 +8,7 @@ import { Chooser } from "./chooser"
 import { OfflineToast } from "../../../shared/toastr"
 
 const login = () => {
-    const url = API_URL() + "/login"
+    const url = API_URL() + "/app/login"
     const { Offline } = (window as any)
     if (Offline.state === "up") {
         window.location.href = url

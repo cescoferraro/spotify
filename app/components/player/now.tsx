@@ -2,7 +2,7 @@ import * as React from "react"
 import { compose } from "recompose"
 import { connect } from "react-redux"
 import * as CSS from "./player.css"
-import { PLAYER_ACTION } from "../../../store/constants";
+import { PLAYER_STATUS } from "../../../store/constants";
 
 const SongTitle = ({ now }) => {
     console.log(now.Item.album.images[1].url)
@@ -42,7 +42,7 @@ class NOWClass extends React.Component<any, any> {
         /* this.fetch()*/
     }
     private fetch() {
-        this.props.DISPATCH(PLAYER_ACTION, { token: this.props.token })
+        this.props.DISPATCH(PLAYER_STATUS, { token: this.props.token })
     }
 }
 export const CurrentSong = compose(connect(({ token, player }) => ({ token, player })))(NOWClass)

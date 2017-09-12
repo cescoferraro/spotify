@@ -1,11 +1,10 @@
-package router
+package app
 
 import (
 	"log"
 	"net/http"
 
 	"github.com/cescoferraro/spotify/api/tools"
-	"github.com/pressly/chi"
 )
 
 func loginEndPoint(state string) func(http.ResponseWriter, *http.Request) {
@@ -18,19 +17,6 @@ func loginEndPoint(state string) func(http.ResponseWriter, *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		http.Redirect(w, r, url, http.StatusPermanentRedirect)
 		w.Write([]byte("<script>console.log('Please login')</script>"))
-		return
-	}
-}
-
-func artistloginEndPoint(state string) func(http.ResponseWriter, *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
-		id := chi.URLParam(r, "id")
-		move := chi.URLParam(r, "move")
-		log.Println("LOGIN")
-		url := tools.Auth(r).AuthURL(id + "@" + move)
-		w.Header().Set("Access-Control-Allow-Origin", "*")
-		http.Redirect(w, r, url, http.StatusPermanentRedirect)
-		// w.Write([]byte("<script>console.log('Please login')</script>"))
 		return
 	}
 }

@@ -9,7 +9,7 @@ export const artistThunk = (dispatch, getState) => {
     const { token, state, user } = getState().location.payload
     if (state) {
         const two = state.split("@")
-        Observable.ajax(bodyUrl(API_URL() + "/" + two[1] + "/" + two[0], token))
+        Observable.ajax(bodyUrl(API_URL() + "/artist/" + two[1] + "/" + two[0], token))
             .take(1)
             .map((http) => {
                 dispatch({ type: "SET_ARTIST", payload: { ...http.response, move: two[1], user } })

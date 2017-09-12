@@ -8,15 +8,17 @@ import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { AJAX } from "../../shared/ajax"
 import { WarningToast } from "../../shared/toastr"
-import { PLAYER_ACTION } from "../constants";
+import { PLAYER_STATUS } from "../constants";
 
 export const repeatEpic = (action$, store) => {
+    let token
     return action$.ofType("REPEAT")
         .mergeMap((action) => {
+            token = action.payload.token
             const next = action.payload.current === (action.payload.states.length - 1) ?
                 0 : action.payload.current + 1
-            return AJAX("/repeat/" + action.payload.states[next], action.payload.token)
-                .delay(3333)
+            const { player } = store.getState()
+            return AJAX("/player/repeat/" + action.payload.states[next], JSON.stringify({ token, device: player.current_device })).delay(1000)
         })
         .catch((err, caught) => {
             return Observable.of(1)
@@ -24,7 +26,7 @@ export const repeatEpic = (action$, store) => {
         .mergeMap((now) => {
             if (now.response !== undefined) {
                 return (Observable.merge(
-                    Observable.of({ type: PLAYER_ACTION, payload: { token: store.getState().token } }),
+                    Observable.of({ type: PLAYER_STATUS, payload: { token: store.getState().token } }),
                     Observable.of({ type: "REPEAT_SUCESS" })
                 ))
             } else {

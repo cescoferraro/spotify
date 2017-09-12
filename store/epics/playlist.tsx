@@ -7,13 +7,15 @@ import { WarningToast } from "../../shared/toastr"
 import { AJAX } from "../../shared/ajax"
 
 export const playPlaylistEpic = (action$, store) => {
+    let token
     return action$.ofType("PLAY_THESE_SONGS")
-        .mergeMap((action) => (
-            AJAX(
-                "/play/playlist",
-                { token: action.payload.token, songs: action.payload.playlist }
-            )
-        ))
+        .mergeMap((action) => {
+            token = action.payload.token
+            const { player } = store.getState()
+            return AJAX("/player/play/playlist", JSON.stringify({
+                token, songs: action.payload.playlist, device: player.current_device
+            }))
+        })
         .catch((err, caught) => {
             return Observable.of(1)
         })

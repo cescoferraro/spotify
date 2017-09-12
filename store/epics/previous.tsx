@@ -11,7 +11,7 @@ import { WarningToast } from "../../shared/toastr"
 
 export const previousEpic = (action$, store) => {
     return action$.ofType("PREVIOUS")
-        .mergeMap(genericObservable({ path: "previous" }))
+        .mergeMap(genericObservable({ path: "player/previous" }))
         .catch((err, caught) => {
             return Observable.of(1)
         })
