@@ -8,10 +8,15 @@ import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { genericObservable } from "./observables"
 import { WarningToast } from "../../shared/toastr"
+import { AJAX } from "../../shared/ajax";
 
 export const previousEpic = (action$, store) => {
+    let token
     return action$.ofType("PREVIOUS")
-        .mergeMap(genericObservable({ path: "player/previous" }))
+        .mergeMap((action) => {
+            token = action.payload.token
+            return AJAX("/player/previous", JSON.stringify({ token }))
+        })
         .catch((err, caught) => {
             return Observable.of(1)
         })

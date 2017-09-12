@@ -6,10 +6,12 @@ import { WarningToast } from "../../shared/toastr"
 import { AJAX } from "../../shared/ajax"
 
 export const volumeEpic = (action$, store) => {
+    let token
     return action$.ofType("VOLUME")
-        .mergeMap((action) => (
-            AJAX("/player/volume/" + action.payload.percent, action.payload.token)
-        ))
+        .mergeMap((action) => {
+            token = action.payload.token
+            return AJAX("/player/volume/" + action.payload.percent, JSON.stringify({ token }))
+        })
         .catch((err, caught) => {
             return Observable.of(1)
         })
