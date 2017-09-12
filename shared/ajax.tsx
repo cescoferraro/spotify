@@ -20,3 +20,5 @@ export const AJAX = (url, body) => (
         crossDomain: true
     })
 )
+
+export const getTokenFromRequestBody = (ajax) => (JSON.parse(ajax.request.body).token)

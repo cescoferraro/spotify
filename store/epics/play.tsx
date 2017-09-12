@@ -7,28 +7,30 @@ import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
 import { WarningToast } from "../../shared/toastr"
-import { AJAX } from "../../shared/ajax"
+import { AJAX, getTokenFromRequestBody } from "../../shared/ajax"
 import { PLAYER_STATUS } from "../constants"
 
+
 export const playEpic = (action$, store) => {
-    let token
     return action$.ofType("PLAY")
-        .mergeMap((action) => {
-            token = action.payload.token
-            const { player } = store.getState()
-            return AJAX("/player/play", { token, device: player.current_device })
-        })
-        .catch((err, caught) => {
-            return Observable.of(1)
-        })
+        .mergeMap((action) => (
+            AJAX("/player/play", {
+                token: action.payload.token,
+                device: store.getState().player.current_device
+            })))
+        .catch((error, caught) => (Observable.of({ error })))
         .mergeMap((now) => {
-            if (now !== 1) {
+            if (now.response) {
                 return (Observable.merge(
                     Observable.of({ type: "PLAY_SUCESS" }),
-                    Observable.of({ type: PLAYER_STATUS, payload: { token } })
+                    Observable.of({
+                        type: PLAYER_STATUS,
+                        payload: { token: getTokenFromRequestBody(now) }
+                    })
                 ))
             } else {
                 WarningToast()
+                console.log(now.error)
                 return (Observable.merge(
                     Observable.of({ type: "PLAY_FAILURE" }),
                     Observable.of({ type: "HOME" })

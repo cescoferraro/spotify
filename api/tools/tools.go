@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/cescoferraro/spotify/api/types"
+	"github.com/go-chi/chi"
 	"github.com/zmb3/spotify"
 )
 
@@ -77,6 +78,27 @@ func SpotifyClientMiddleware(next http.Handler) http.Handler {
 		}
 		client := Auth(r).NewClient(oauthToken)
 		ctx := context.WithValue(r.Context(), ClientKey, client)
+		next.ServeHTTP(w, r.WithContext(ctx))
+		return
+	})
+}
+
+var MoveKey = &types.ContextKey{"move"}
+
+func GetMoveFromRequest(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var move bool
+		moveR := chi.URLParam(r, "move")
+		switch moveR {
+		case "love":
+			move = true
+		case "hate":
+			move = true
+		default:
+			http.Error(w, "either love or hate", 400)
+			return
+		}
+		ctx := context.WithValue(r.Context(), MoveKey, move)
 		next.ServeHTTP(w, r.WithContext(ctx))
 		return
 	})
