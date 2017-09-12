@@ -2,10 +2,11 @@ package artist
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/spotify/api/types"
+	"github.com/justinas/alice"
 	"github.com/pkg/errors"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/render"
@@ -72,39 +73,25 @@ func ArtistTrack(client spotify.Client, uri string) ([][]spotify.ID, error) {
 	albumObject, err := client.GetArtistAlbums(spotify.ID(uri))
 	if err != nil {
 		fmt.Printf("%s\n", err.Error())
-		return split(IDS, 50), errors.Wrap(err, "Follow")
+		return tools.Split(IDS, 50), errors.Wrap(err, "Follow")
 	}
 	for _, albums := range albumObject.Albums {
 		trackPage, err := client.GetAlbumTracks(albums.ID)
 		if err != nil {
 			fmt.Printf("%s\n", err.Error())
-			return split(IDS, 50), errors.Wrap(err, "Follow")
+			return tools.Split(IDS, 50), errors.Wrap(err, "Follow")
 		}
-		// 	for _, track := range trackPage.Tracks {
-		// 		Tracks = append(Tracks, track)
-		// 	}
-		// fmt.Println(Tracks)
 		for _, id := range trackPage.Tracks {
 			IDS = append(IDS, id.ID)
 		}
 	}
-	return split(IDS, 50), nil
-}
-func split(buf []spotify.ID, lim int) [][]spotify.ID {
-	var chunk []spotify.ID
-	chunks := make([][]spotify.ID, 0, len(buf)/lim+1)
-	for len(buf) >= lim {
-		chunk, buf = buf[:lim], buf[lim:]
-		chunks = append(chunks, chunk)
-	}
-	if len(buf) > 0 {
-		chunks = append(chunks, buf[:len(buf)])
-	}
-	return chunks
+	return tools.Split(IDS, 50), nil
 }
 
-func anittaEndPoint() func(w http.ResponseWriter, r *http.Request) {
-	return func(w http.ResponseWriter, r *http.Request) {
+var anittaEndPoint = alice.
+	New(tools.RequestBodyMiddleware).
+	Append(tools.SpotifyClientMiddleware).
+	ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		var move bool
 		moveR := chi.URLParam(r, "move")
 		switch moveR {
@@ -113,22 +100,14 @@ func anittaEndPoint() func(w http.ResponseWriter, r *http.Request) {
 		case "hate":
 			move = true
 		default:
-			http.Error(w, http.StatusText(400), 400)
+			http.Error(w, "either love or hate", 400)
 			return
 		}
-		code, err := tools.GetBODY(r)
+		body := r.Context().Value(tools.BodyKey).(types.PlayerRequest)
+		profile, err := ShowFeelings(move, chi.URLParam(r, "id"), body.Token, r)
 		if err != nil {
-			http.Error(w, http.StatusText(400), 400)
-			return
-		}
-
-		id := chi.URLParam(r, "id")
-		profile, err := ShowFeelings(move, id, code, r)
-		if err != nil {
-			log.Println(err.Error())
-			http.Error(w, http.StatusText(400), 400)
+			http.Error(w, err.Error(), 400)
 			return
 		}
 		render.JSON(w, r, profile)
-	}
-}
+	}).(http.HandlerFunc)

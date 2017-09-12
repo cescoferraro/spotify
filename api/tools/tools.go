@@ -8,7 +8,21 @@ import (
 	"os"
 
 	"github.com/cescoferraro/spotify/api/types"
+	"github.com/zmb3/spotify"
 )
+
+func Split(buf []spotify.ID, lim int) [][]spotify.ID {
+	var chunk []spotify.ID
+	chunks := make([][]spotify.ID, 0, len(buf)/lim+1)
+	for len(buf) >= lim {
+		chunk, buf = buf[:lim], buf[lim:]
+		chunks = append(chunks, chunk)
+	}
+	if len(buf) > 0 {
+		chunks = append(chunks, buf[:len(buf)])
+	}
+	return chunks
+}
 
 // IsProd TODO: NEEDS COMMENT INFO
 func IsProd() bool {

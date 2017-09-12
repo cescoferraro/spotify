@@ -5,6 +5,8 @@ import (
 	"net/http"
 
 	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/spotify/api/types"
+	"github.com/justinas/alice"
 	"github.com/pkg/errors"
 	"github.com/pressly/chi/render"
 	"github.com/zmb3/spotify"
@@ -61,16 +63,16 @@ func Tracks(client spotify.Client) ([]spotify.SavedTrack, error) {
 	return tracks.Tracks, nil
 }
 
-func songsEndPoint(w http.ResponseWriter, r *http.Request) {
-	body, err := tools.GetBODY(r)
-	if err != nil {
-		http.Error(w, http.StatusText(400), 400)
-		return
-	}
-	user, err := Songs(body, r)
-	if err != nil {
-		http.Error(w, err.Error(), 401)
-		return
-	}
-	render.JSON(w, r, user)
-}
+var songsEndPoint = alice.
+	New(tools.RequestBodyMiddleware).
+	Append(tools.SpotifyClientMiddleware).
+	ThenFunc(func(w http.ResponseWriter, r *http.Request) {
+		body := r.Context().Value(tools.BodyKey).(types.PlayerRequest)
+
+		user, err := Songs(body.Token, r)
+		if err != nil {
+			http.Error(w, err.Error(), 401)
+			return
+		}
+		render.JSON(w, r, user)
+	}).(http.HandlerFunc)
