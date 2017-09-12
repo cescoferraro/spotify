@@ -17,7 +17,7 @@ export const playSongEpic = (action$, store) => {
             token = action.payload.token
             const { song } = action.payload
             const { player } = store.getState()
-            return AJAX("/player/play/" + song, JSON.stringify({ token, device: player.current_device }))
+            return AJAX("/player/play/" + song, { token, device: player.current_device })
         })
         .catch((err, caught) => {
             return Observable.of(1)

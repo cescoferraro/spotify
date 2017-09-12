@@ -13,9 +13,9 @@ import (
 )
 
 var anittaEndPoint = alice.
-	New(tools.RequestBodyMiddleware).
+	New(tools.GetMoveFromRequest).
+	Append(tools.RequestBodyMiddleware).
 	Append(tools.SpotifyClientMiddleware).
-	Append(tools.GetMoveFromRequest).
 	ThenFunc(func(w http.ResponseWriter, r *http.Request) {
 		id := chi.URLParam(r, "id")
 		move := r.Context().Value(tools.MoveKey).(bool)

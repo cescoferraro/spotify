@@ -3,12 +3,13 @@ package tools
 import (
 	"context"
 	"encoding/json"
+	"log"
 	"net"
 	"net/http"
 	"os"
 
 	"github.com/cescoferraro/spotify/api/types"
-	"github.com/go-chi/chi"
+	"github.com/pressly/chi"
 	"github.com/zmb3/spotify"
 )
 
@@ -88,7 +89,9 @@ var MoveKey = &types.ContextKey{"move"}
 func GetMoveFromRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var move bool
+		log.Println(333333333333333)
 		moveR := chi.URLParam(r, "move")
+		log.Println(moveR)
 		switch moveR {
 		case "love":
 			move = true
