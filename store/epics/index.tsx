@@ -10,7 +10,7 @@ export const volumeEpic = (action$, store) => {
     return action$.ofType("VOLUME")
         .mergeMap((action) => {
             token = action.payload.token
-            return AJAX("/player/volume/" + action.payload.percent, JSON.stringify({ token }))
+            return AJAX("/player/volume/" + action.payload.percent, { token })
         })
         .catch((err, caught) => {
             return Observable.of(1)

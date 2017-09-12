@@ -12,9 +12,9 @@ export const playPlaylistEpic = (action$, store) => {
         .mergeMap((action) => {
             token = action.payload.token
             const { player } = store.getState()
-            return AJAX("/player/play/playlist", JSON.stringify({
+            return AJAX("/player/play/playlist", {
                 token, songs: action.payload.playlist, device: player.current_device
-            }))
+            })
         })
         .catch((err, caught) => {
             return Observable.of(1)

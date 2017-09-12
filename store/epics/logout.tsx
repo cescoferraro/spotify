@@ -1,4 +1,3 @@
-import { genericObservable } from "./observables"
 import { Observable } from "rxjs/Observable"
 import "rxjs/add/observable/of"
 import "rxjs/add/observable/merge"
@@ -11,7 +10,7 @@ export const logoutEpic = (action$, store) => {
 
         .mergeMap((action) => {
             token = action.payload.token
-            return AJAX("/app/logout", JSON.stringify({ token }))
+            return AJAX("/app/logout", { token })
         })
         .catch((err, caught) => {
             return Observable.of(1)

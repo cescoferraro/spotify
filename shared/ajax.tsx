@@ -13,7 +13,8 @@ export const bodyUrl = (url, body) => ({
 
 export const AJAX = (url, body) => (
     Observable.ajax({
-        url: API_URL() + url, body,
+        url: API_URL() + url,
+        body: JSON.stringify(body),
         method: "POST",
         responseType: "json",
         crossDomain: true

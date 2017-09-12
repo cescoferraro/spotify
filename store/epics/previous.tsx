@@ -6,7 +6,6 @@ import "rxjs/add/operator/delay"
 import "rxjs/add/operator/mapTo"
 import "rxjs/add/operator/mergeMap"
 import "rxjs/add/operator/filter"
-import { genericObservable } from "./observables"
 import { WarningToast } from "../../shared/toastr"
 import { AJAX } from "../../shared/ajax";
 
@@ -15,7 +14,7 @@ export const previousEpic = (action$, store) => {
     return action$.ofType("PREVIOUS")
         .mergeMap((action) => {
             token = action.payload.token
-            return AJAX("/player/previous", JSON.stringify({ token }))
+            return AJAX("/player/previous", { token })
         })
         .catch((err, caught) => {
             return Observable.of(1)

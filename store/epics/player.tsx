@@ -1,4 +1,3 @@
-import { genericObservable } from "./observables"
 import { Observable } from "rxjs/Observable"
 import "rxjs/add/observable/of"
 import "rxjs/add/observable/merge"
@@ -15,7 +14,7 @@ export const playerEpic = (action$, store) => {
                 token = action.payload.token
                 const { song } = action.payload
                 const { player } = store.getState()
-                return AJAX("/player", JSON.stringify({ token, device: player.current_device }))
+                return AJAX("/player", { token, device: player.current_device })
             })
             .catch((err, caught) => { return Observable.of(1) })
             .mergeMap((now) => {

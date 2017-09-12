@@ -18,7 +18,7 @@ export const repeatEpic = (action$, store) => {
             const next = action.payload.current === (action.payload.states.length - 1) ?
                 0 : action.payload.current + 1
             const { player } = store.getState()
-            return AJAX("/player/repeat/" + action.payload.states[next], JSON.stringify({ token, device: player.current_device })).delay(1000)
+            return AJAX("/player/repeat/" + action.payload.states[next], { token, device: player.current_device }).delay(1000)
         })
         .catch((err, caught) => {
             return Observable.of(1)

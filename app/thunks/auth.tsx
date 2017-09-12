@@ -9,7 +9,7 @@ import { PLAYER_STATUS } from "../../store/constants";
 
 export const authThunk = (dispatch, getState) => {
     const { token, state } = getState().location.payload
-    AJAX("/profile", JSON.stringify({ token }))
+    AJAX("/profile", { token })
         .take(1)
         .map((user) => {
             dispatch({ type: "SET_TAB", payload: { tab: "player" } })
