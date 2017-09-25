@@ -9,11 +9,12 @@ import (
 	"github.com/cescoferraro/spotify/api/profile"
 	"github.com/cescoferraro/spotify/api/songs"
 	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/spotify/api/youtube"
 	"github.com/pressly/chi"
 	"github.com/pressly/chi/middleware"
 )
 
-// Router TODO: NEEDS COMMENT INFO
+// Endpoints TODO: NEEDS COMMENT INFO
 func Endpoints(version string) chi.Router {
 	r := chi.NewRouter()
 	r.Use(middleware.Logger, tools.Cors)
@@ -24,6 +25,8 @@ func Endpoints(version string) chi.Router {
 	profile.RegisterProfileEndpoints("/profile", r)
 	songs.RegisterProfileEndpoints("/songs", r)
 	app.RegisterAppEndpoints("/app", version, r)
+	r.Get("/yt", youtube.LOGIN)
+	r.Get("/youtube", youtube.CALLBACK)
 	r.Get("/callback", CallBackEndPoint)
 	return r
 }

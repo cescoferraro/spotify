@@ -18,6 +18,7 @@ func artistloginEndPoint(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// RegisterArtistEndpoints TODO: NEEDS COMMENT INFO
 func RegisterArtistEndpoints(base string, r *chi.Mux) {
 	r.Route(base, func(r chi.Router) {
 		r.Get("/{move}/{id}", artistloginEndPoint)

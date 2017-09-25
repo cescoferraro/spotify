@@ -16,6 +16,11 @@ const login = () => {
         OfflineToast()
     }
 }
+const YOUTUBE = () => {
+    const url = API_URL() + "/yt"
+    window.location.href = url
+
+}
 
 export const HomeComponent = (props) => {
     return (
@@ -31,6 +36,15 @@ export const HomeComponent = (props) => {
                 />
             </div>
             <Chooser />
+            <br />
+            <RaisedButton
+                onClick={YOUTUBE}
+                icon={<DashboardIcon />}
+                labelStyle={{ fontSize: "100%" }}
+                secondary={true}
+                fullWidth={true}
+                label="YOUTUBE"
+            />
         </div >
     )
 }

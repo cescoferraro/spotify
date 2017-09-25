@@ -13,6 +13,7 @@ import (
 	"github.com/zmb3/spotify"
 )
 
+// Split TODO: NEEDS COMMENT INFO
 func Split(buf []spotify.ID, lim int) [][]spotify.ID {
 	var chunk []spotify.ID
 	chunks := make([][]spotify.ID, 0, len(buf)/lim+1)
@@ -35,6 +36,7 @@ func IsProd() bool {
 	return false
 }
 
+// GetLocalIP TODO: NEEDS COMMENT INFO
 func GetLocalIP() string {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
@@ -53,6 +55,15 @@ func GetLocalIP() string {
 
 var BodyKey = &types.ContextKey{"body"}
 
+// EmptyMiddleware TODO: NEEDS COMMENT INFO
+func EmptyMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		next.ServeHTTP(w, r)
+		return
+	})
+}
+
+// RequestBodyMiddleware TODO: NEEDS COMMENT INFO
 func RequestBodyMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		Body := types.PlayerRequest{}
@@ -69,6 +80,7 @@ func RequestBodyMiddleware(next http.Handler) http.Handler {
 
 var ClientKey = &types.ContextKey{"client"}
 
+// SpotifyClientMiddleware TODO: NEEDS COMMENT INFO
 func SpotifyClientMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		body := r.Context().Value(BodyKey).(types.PlayerRequest)
@@ -86,6 +98,7 @@ func SpotifyClientMiddleware(next http.Handler) http.Handler {
 
 var MoveKey = &types.ContextKey{"move"}
 
+// GetMoveFromRequest TODO: NEEDS COMMENT INFO
 func GetMoveFromRequest(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var move bool

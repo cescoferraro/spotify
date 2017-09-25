@@ -2,6 +2,7 @@ package player
 
 import "github.com/pressly/chi"
 
+// RegisterPlayerEndpoints TODO: NEEDS COMMENT INFO
 func RegisterPlayerEndpoints(base string, r *chi.Mux) {
 	r.Route(base, func(r chi.Router) {
 		r.Post("/", nowPlayingEndPoint)

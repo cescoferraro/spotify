@@ -4,7 +4,7 @@ import "rxjs/add/operator/take"
 import "rxjs/add/observable/dom/ajax"
 import { API_URL } from "../../shared/api/index"
 import { isArtistState } from "./shared"
-import { bodyUrl, AJAX } from "../../shared/ajax"
+import { bodyUrl, AJAX, getTokenFromRequestBody } from "../../shared/ajax"
 import { PLAYER_STATUS } from "../../store/constants";
 
 export const authThunk = (dispatch, getState) => {
@@ -22,8 +22,10 @@ export const authThunk = (dispatch, getState) => {
                 dispatch(({ type: "ARTIST", payload: { token, state, user: user.response } }))
             } else {
                 const { prev } = getState().location
+                console.log(7777777777777)
+                console.log(state)
                 dispatch(({ type: state.toUpperCase(), payload: { tab: "player", prev } }))
-                dispatch({ type: PLAYER_STATUS, payload: { token } })
+                dispatch({ type: PLAYER_STATUS, payload: { token: getTokenFromRequestBody(user) } })
             }
 
         })
