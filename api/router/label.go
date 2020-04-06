@@ -3,7 +3,7 @@ package router
 import (
 	"net/http"
 
-	"github.com/pressly/chi/render"
+	"github.com/go-chi/render"
 )
 
 func labelEndPoint(w http.ResponseWriter, r *http.Request) {

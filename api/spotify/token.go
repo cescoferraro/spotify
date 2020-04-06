@@ -33,7 +33,7 @@ var (
 		spotify.ScopeUserLibraryRead,
 		spotify.ScopeUserReadPrivate,
 		spotify.ScopeUserReadEmail,
-		spotify.ScopeUserReadBirthdate,
+		//spotify.ScopeUserReadBirthdate,
 		spotify.ScopeUserReadCurrentlyPlaying,
 		spotify.ScopeUserReadPlaybackState,
 		spotify.ScopeUserModifyPlaybackState,

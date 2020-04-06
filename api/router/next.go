@@ -5,7 +5,7 @@ import (
 
 	"github.com/cescoferraro/spotify/api/spotify"
 	"github.com/cescoferraro/spotify/api/tools"
-	"github.com/pressly/chi/render"
+	"github.com/go-chi/render"
 )
 
 func nextEndPoint(w http.ResponseWriter, r *http.Request) {

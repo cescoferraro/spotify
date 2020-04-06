@@ -18,7 +18,8 @@
     "api/deploy": "rm -rf api/dist/ && yarn api/build && docker-compose build api && yarn refresh",
     "deploy": "yarn web/deploy && yarn api/deploy",
     "start": "concurrently 'yarn web/run' 'yarn api/run'",
-    "prod": "concurrently 'yarn web/build' 'yarn api/build'"
+    "prod": "concurrently 'yarn web/build' 'yarn api/build'",
+    "webpack-defaults": "webpack-defaults"
   },
   "author": "Francesco Antonello Ferraro",
   "license": "ISC",

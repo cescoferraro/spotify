@@ -6,8 +6,8 @@ import (
 
 	"github.com/cescoferraro/spotify/api/spotify"
 	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/go-chi/render"
 	"github.com/pressly/chi"
-	"github.com/pressly/chi/render"
 )
 
 func repeatEndPoint(w http.ResponseWriter, r *http.Request) {

@@ -6,7 +6,7 @@ import (
 
 	"github.com/cescoferraro/spotify/api/spotify"
 	"github.com/cescoferraro/spotify/api/tools"
-	"github.com/pressly/chi/render"
+	"github.com/go-chi/render"
 )
 
 func nowPlayingEndPoint(w http.ResponseWriter, r *http.Request) {

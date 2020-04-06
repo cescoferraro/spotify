@@ -1,16 +1,16 @@
 package app
 
 import (
-	"github.com/pressly/chi"
-	"github.com/pressly/chi/render"
-	"net/http"
-	"log"
-	"github.com/gorilla/websocket"
-	"github.com/pressly/chi/middleware"
 	"bytes"
+	"github.com/go-chi/render"
+	"github.com/gorilla/websocket"
+	"github.com/pressly/chi"
+	"github.com/pressly/chi/middleware"
+	"log"
+	"net/http"
 )
 
-func Router(version string) (chi.Router) {
+func Router(version string) chi.Router {
 	if version == "" {
 		version = "NOT SET"
 	}
@@ -157,7 +157,3 @@ func Router(version string) (chi.Router) {
 	})
 	return r
 }
-
-
-
-
