@@ -58,7 +58,7 @@
     "lodash": "^4.17.4",
     "material-ui": "^0.19.0",
     "moment": "^2.18.1",
-    "morgan": "^1.8.2",
+    "morgan": "^1.9.1",
     "noop-webpack-plugin": "^1.0.1",
     "offline-js": "^0.7.19",
     "org": "^0.2.0",
