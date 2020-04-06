@@ -1,6 +1,0 @@
-#+TITLE: spotify 
-#+OPTIONS: toc:nil 
-
-[[https://spotify.cescoferraro.xyz][spotify.cescoferraro.xyz
-]]
-#  LocalWords:  Pre redux PWA js SSR css LocalWords
