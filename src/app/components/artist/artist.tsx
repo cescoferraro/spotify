@@ -1,5 +1,5 @@
 import * as cs from "classnames"
-// import * as isEmpty from "lodash/isEmpty"
+import {isEmpty} from "lodash"
 import * as React from "react"
 import {LOADING} from "../loading/index"
 import * as CSS from "./main.css"
@@ -9,7 +9,7 @@ const hejsa = (artist: any) => {
         "https://google.com/favicon.ico"
 };
 
-const isEmpty = (dd: any) => true;
+// const isEmpty = (dd: any) => true;
 export const Artist = (props: any) => {
     return !isEmpty(props.artist) ? (
         <div className={CSS.container}>

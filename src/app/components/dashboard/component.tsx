@@ -55,7 +55,6 @@ export class DashboardComponent extends React.Component<any, any> {
                         {/* <Following {...this.props} /> */}
                         <div>hjksadfb</div>
                         <INFO {...this.props} />
-                        <LOADING userAgent={this.props.userAgent}/>
                     </SwipeableViews>
                 </div>
             ) : <LOADING userAgent={this.props.userAgent}/>

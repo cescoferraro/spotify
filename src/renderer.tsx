@@ -18,19 +18,19 @@ const store = configureStore(history);
 
 export const Renderer = (Component: any) => {
     // offlineCheck(store);
-    // storage.createLoader(engine)(store)
-    //     .then((newState: any) => {
-    //         /* console.log("sending your ass to " + JSON.stringify(newState.location))*/
-    //         if (!isServer()) {
-    //             if (window.matchMedia('(display-mode: fullscreen)').matches) {
-    //                 console.log("This is running as fullscreen.");
-    //                 if (!isEmpty(newState.storage.location)) {
-    //                     store.dispatch(newState.storage.location)
-    //                 }
-    //             }
-    //         }
-    //
-    //     });
+    storage.createLoader(engine)(store)
+        .then((newState: any) => {
+            /* console.log("sending your ass to " + JSON.stringify(newState.location))*/
+            if (!isServer()) {
+                if (window.matchMedia('(display-mode: fullscreen)').matches) {
+                    console.log("This is running as fullscreen.");
+                    if (!isEmpty(newState.storage.location)) {
+                        store.dispatch(newState.storage.location)
+                    }
+                }
+            }
+
+        });
     /* if ((window as any).__PRODUCTION__) { }*/
     const boilMUI = getMuiTheme(BoilTheme, {userAgent: navigator.userAgent});
     ReactDOM.render(
