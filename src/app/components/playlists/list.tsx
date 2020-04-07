@@ -17,7 +17,9 @@ export class PlaylistsList extends React.Component<any, any> {
         return (
             <div className={
                 cs.default(CSS.listWrapper,
-                    this.props.playlists.visibility ? CSS.listLow : CSS.listFull)}>
+                    this.props.playlists.visibility ? CSS.listLow : CSS.listFull)}
+                 style={{height: 400}}
+            >
                 <AutoSizer>
                     {({height, width}: any) => {
                         if (this.props.playlists.data.length !== 0) {

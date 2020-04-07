@@ -17,7 +17,10 @@ export class SongsList extends React.Component<any, any> {
         return (
             <div className={
                 cs.default(CSS.listWrapper,
-                    this.props.songs.visibility ? CSS.listLow : CSS.listFull)}>
+                    this.props.songs.visibility ? CSS.listLow : CSS.listFull)}
+
+                 style={{height: 400}}
+            >
                 <AutoSizer>
                     {({height, width}: any) => {
                         if (this.props.songs.data.length !== 0) {

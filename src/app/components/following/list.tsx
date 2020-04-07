@@ -25,7 +25,9 @@ export class ArtistList extends React.Component<any, any> {
         return this.state.followers.length !== 0 ? (
             <div className={CSS.container}>
                 <Subheader>Following</Subheader>
-                <div className={CSS.listWrapper}>
+                <div
+                    style={{height: 400}}
+                    className={CSS.listWrapper}>
                     <AutoSizer>
                         {({height, width}: any) => {
                             console.log(width, height);

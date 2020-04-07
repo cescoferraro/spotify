@@ -17,22 +17,22 @@ export const dashboardThunk = (dispatch: any, getStore: any) => {
     console.log("SONGS LOADING :", songs.loading);
     console.log("LOCALSTORAGE SONGS exist :", reduxSongsExist);
     if (gotToken) {
-        if (songs.loading && !reduxSongsExist) {
+        // if (songs.loading && !reduxSongsExist) {
             console.info("firing songs request");
             AJAX("/songs", token || LStoken)
                 .map((user) => {
                     dispatch({ type: "SET_SONGS", payload: user.response });
                     dispatch({ type: "SET_SONG_LOADING_FILTER", payload: false })
                 }).take(1).subscribe()
-        }
-        if (playlists.loading && !reduxPlaylistsExist) {
+        // }
+        // if (playlists.loading && !reduxPlaylistsExist) {
             console.info("firing playlists request");
             AJAX("/playlists", token || LStoken)
                 .map((user) => {
                     dispatch({ type: "SET_PLAYLISTS", payload: user.response });
                     dispatch({ type: "SET_PLAYLISTS_LOADING_FILTER", payload: false })
                 }).take(1).subscribe()
-        }
+        // }
     }
     if (tab !== LStab) {
         dispatch({ type: "SET_TAB", payload: tab })
