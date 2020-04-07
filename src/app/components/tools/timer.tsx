@@ -1,18 +1,19 @@
-import * as React from "react"
-import * as CSS from "./tools.css"
 import RaisedButton from "material-ui/RaisedButton"
 import TextField from "material-ui/TextField"
-import { connect } from "react-redux"
-import { compose } from "recompose"
+import * as React from "react"
+import {connect} from "react-redux"
+import {compose} from "recompose"
+import * as CSS from "./tools.css"
 
 class TimerComponent extends React.Component<any, any> {
 
-    constructor(props) {
+    constructor(props: any) {
         super(props);
-        this.state = { interval: 6, on: false, setInterval: null };
+        this.state = {interval: 6, on: false, setInterval: null};
         this.timer = this.timer.bind(this);
         this.setTimerInterval = this.setTimerInterval.bind(this)
     }
+
     public render() {
         return (
             <div>
@@ -36,25 +37,28 @@ class TimerComponent extends React.Component<any, any> {
             </div>
         )
     }
-    private setTimerInterval(event, newValue) {
-        this.setState({ interval: newValue })
+
+    private setTimerInterval(event: any, newValue: any) {
+        this.setState({interval: newValue})
     }
+
     private timer() {
         if (!this.state.on) {
             const sub = setInterval(() => {
                 this.props.dispatch(
                     {
                         type: "NEXT",
-                        payload: { token: this.props.token }
+                        payload: {token: this.props.token}
                     }
                 )
             }, this.state.interval * 1000);
-            this.setState({ setInterval: sub })
+            this.setState({setInterval: sub})
         } else {
             clearInterval(this.state.setInterval);
-            this.setState({ setInterval: null })
+            this.setState({setInterval: null})
         }
-        this.setState({ on: !this.state.on })
+        this.setState({on: !this.state.on})
     }
 }
+
 export const Timer = compose(connect())(TimerComponent);

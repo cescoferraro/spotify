@@ -1,14 +1,14 @@
 import * as React from "react"
-import { connect } from "react-redux"
-import { compose } from "recompose"
-import { NoMatchContainer } from "./components/404/404"
-import { Shell } from "./components/shell/index"
-import { AsyncDashboard } from "./components/dashboard"
-import { Artist } from "./components/artist/artist"
-import { HomeComponent } from "./components/home/home"
-import { APP_ACTIONS } from "../store/actions"
+import {connect} from "react-redux"
+import {compose} from "recompose"
+import {APP_ACTIONS} from "../store/actions"
+import {NoMatchContainer} from "./components/404/404"
+import {Artist} from "./components/artist/artist"
+import {AsyncDashboard} from "./components/dashboard"
+import {HomeComponent} from "./components/home/home"
+import {Shell} from "./components/shell"
 
-const AppRouterClass = (props) => {
+const AppRouterClass = (props: any) => {
     switch (props.location.type) {
         case "HOME":
             return (
@@ -41,6 +41,6 @@ const AppRouterClass = (props) => {
 };
 
 export const AppRouter = compose(
-    connect(({ id, location, drawer, token, player, artist, songs, user, tab, playlists }) =>
-        ({ id, location, drawer, token, player, artist, songs, user, tab, playlists }), APP_ACTIONS)
+    connect(({id, location, drawer, token, player, artist, songs, user, tab, playlists}: any) =>
+        ({id, location, drawer, token, player, artist, songs, user, tab, playlists}), APP_ACTIONS)
 )(AppRouterClass);

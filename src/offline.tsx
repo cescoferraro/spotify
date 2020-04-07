@@ -1,20 +1,18 @@
-import { toastr } from "react-redux-toastr"
-
-const upHandler = (e) => {
+const upHandler = (e: any) => {
     /* toastr.success("The UP", "cloud 9", {*/
     /* position: "bottom-center"*/
     /* })*/
     console.log("upppp")
 };
-const downHandler = (e) => {
+const downHandler = (e: any) => {
     /* toastr.error("The down", "rot in hell", {*/
     /* position: "bottom-center"*/
     /* })*/
     console.log("downnnnn")
 };
 
-export const offlineCheck = (store) => {
-    const { Offline } = (window as any);
+export const offlineCheck = (store: any) => {
+    const {Offline} = (window as any);
     Offline.options = {
         checkOnLoad: true,
         checks: {

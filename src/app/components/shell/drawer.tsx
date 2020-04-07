@@ -5,8 +5,8 @@ import Subheader from "material-ui/Subheader"
 import * as React from "react"
 import * as CSS from "./shell.css"
 
-const Boy = require("../../../shared/images/boy.svg");
-const BoilLogo = require("../../../shared/images/spotify.svg");
+// const Boy = require("../../../shared/images/boy.svg");
+// const BoilLogo = require("../../../shared/images/spotify.svg");
 
 const goBack = (props: any) => () => {
     props.ROUTER_ACTION("HOME");
@@ -25,14 +25,14 @@ export const SPOTIFYDrawer = (props: any) => {
             open={props.drawer}
         >
             <div className={cs.default(CSS.flex, CSS.main)}>
-                <BoilLogo
-                    onClick={goBack(props)}
-                    className={cs.default(CSS.svg)}
-                />
+                {/*<BoilLogo*/}
+                {/*    onClick={goBack(props)}*/}
+                {/*    className={cs.default(CSS.svg)}*/}
+                {/*/>*/}
             </div>
             <Subheader>spotify</Subheader>
             <MenuItem
-                leftIcon={<Boy className={CSS.button}/>}
+                // leftIcon={<Boy className={CSS.button}/>}
                 onClick={goBack(props)}
             >
                 User 123

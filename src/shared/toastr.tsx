@@ -11,8 +11,6 @@ export const WarningToast = () => {
         "Login Again!".toUpperCase(),
         "Your token expired or you do not have any active spotify clients!",
         {
-
-
             // position: "bottom-center"
         }
     )

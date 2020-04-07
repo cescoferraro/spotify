@@ -1,9 +1,9 @@
 import { AJAX } from "../../shared/ajax";
 
-export const dashboardThunk = (dispatch, getStore) => {
+export const dashboardThunk = (dispatch: any, getStore: any) => {
     dispatch({ type: "WHATEVER" });
     const { playlists, songs, token, tab } = getStore();
-    const reduxStorage = JSON.parse(localStorage.getItem("my-save-key"));
+    const reduxStorage = JSON.parse(localStorage.getItem("my-save-key") as string);
     const LStoken = reduxStorage ? reduxStorage.token : "" || token;
     const LStab = reduxStorage ? reduxStorage.tab : "";
     const gotToken = (token || LStoken) !== "";

@@ -3,7 +3,7 @@ import DashboardIcon from "material-ui/svg-icons/navigation/cancel"
 import * as React from "react"
 import * as CSS from "./shell.css"
 
-const SPOTIFYLogo = require("../../../shared/images/spotify.svg");
+// const SPOTIFYLogo = require("../../../shared/images/spotify.svg");
 
 const goBack = (props: any) => () => {
     props.DISPATCH("HOME", {format: true})
@@ -27,7 +27,7 @@ export const SPOTIFYAppBar = (props: any) => {
             // onTitleTouchTap={goBack(props)}
             title="Spotify "
             iconElementRight={boilLogo(props)}
-            iconElementLeft={<SPOTIFYLogo className={CSS.button}/>}
+            // iconElementLeft={<SPOTIFYLogo className={CSS.button}/>}
             titleStyle={{color: "black"}}
         />
     )

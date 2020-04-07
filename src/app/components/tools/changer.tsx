@@ -1,14 +1,14 @@
-import * as React from "react"
-import * as CSS from "./tools.css"
+import MenuItem from "material-ui/MenuItem"
 import RaisedButton from "material-ui/RaisedButton"
 import SelectField from "material-ui/SelectField"
-import MenuItem from "material-ui/MenuItem"
-import { connect } from "react-redux"
-import { compose } from "recompose"
-import { URIS } from "../../../shared/playlists"
+import * as React from "react"
+import {connect} from "react-redux"
+import {compose} from "recompose"
+import {URIS} from "../../../shared/playlists"
+import * as CSS from "./tools.css"
 
 class PlaysClass extends React.Component<any, any> {
-    constructor(props) {
+    constructor(props: any) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.playSong = this.playSong.bind(this);
@@ -16,8 +16,9 @@ class PlaysClass extends React.Component<any, any> {
             value: this.props.URIS[0].value
         }
     }
+
     public render() {
-        const items = this.props.URIS.map((name) => (
+        const items = this.props.URIS.map((name: any) => (
             <MenuItem
                 key={name.key}
                 insetChildren={true}
@@ -54,14 +55,14 @@ class PlaysClass extends React.Component<any, any> {
         console.log(this.props.token);
         console.log(this.state.value);
         console.log("777777777777777777");
-        this.props.dispatch({ type: "PLAY_SONG", payload: { token: this.props.token, song: this.state.value } })
+        this.props.dispatch({type: "PLAY_SONG", payload: {token: this.props.token, song: this.state.value}})
     }
 
-    private handleChange(event, index, value) {
-        this.setState({ value })
+    private handleChange(event: any, index: any, value: any) {
+        this.setState({value})
     }
 }
 
 export const Plays = compose(
-    connect(() => ({ URIS }))
+    connect(() => ({URIS}))
 )(PlaysClass);

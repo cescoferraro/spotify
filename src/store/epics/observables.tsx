@@ -1,11 +1,13 @@
-import { SuccessToast } from "../../shared/toastr"
-import { AJAX } from "../../shared/ajax"
+import {AJAX} from "../../shared/ajax"
+import {SuccessToast} from "../../shared/toastr"
 
-export const genericObservable = ({ path, toastr = true }) =>
-    (action) => (
+export const genericObservable = ({path, toastr = true}: any) =>
+    (action: any) => (
         AJAX("/" + path, action.payload.token)
             .map((ajax) => {
-                if (toastr) { SuccessToast(path.toUpperCase(), "") }
+                if (toastr) {
+                    SuccessToast(path.toUpperCase(), "")
+                }
                 return ajax
             })
     );

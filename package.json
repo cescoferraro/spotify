@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.10",
+    "@types/history": "^4.7.5",
     "@types/lodash": "^4.14.149",
     "@types/material-ui": "^0.21.7",
     "@types/react": "^16.9.32",
@@ -48,7 +49,10 @@
     "@types/react-swipeable-views": "^0.13.0",
     "@types/react-virtualized": "^9.21.8",
     "@types/recompose": "^0.30.7",
+    "@types/redux-first-router": "^2.1.5",
+    "@types/redux-logger": "^3.0.7",
     "@types/redux-storage": "^4.1.0",
+    "@types/redux-storage-engine-localstorage": "^1.1.1",
     "classnames": "^2.2.6",
     "history": "^4.10.1",
     "material-ui": "^0.20.2",

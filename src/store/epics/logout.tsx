@@ -1,24 +1,24 @@
-import { genericObservable } from "./observables"
-import { Observable } from "rxjs/Observable"
-import "rxjs/add/observable/of"
 import "rxjs/add/observable/merge"
-import { WarningToast } from "../../shared/toastr"
+import "rxjs/add/observable/of"
+import {Observable} from "rxjs/Observable"
+import {WarningToast} from "../../shared/toastr"
+import {genericObservable} from "./observables"
 
-export const logoutEpic = (action$, store) => {
+export const logoutEpic = (action$: any, store: any) => {
     return action$.ofType("LOGOUT")
-        .mergeMap(genericObservable({ path: "logout", toastr: false }))
-        .catch((err, caught) => {
+        .mergeMap(genericObservable({path: "logout", toastr: false}))
+        .catch((err: any, caught: any) => {
             return Observable.of(1)
         })
-        .mergeMap((now) => {
+        .mergeMap((now: any) => {
             if (now.response !== undefined) {
                 return (Observable.merge(
-                    Observable.of({ type: "LOGOUT_SUCESS" })
+                    Observable.of({type: "LOGOUT_SUCESS"})
                 ))
             } else {
                 WarningToast();
                 return (Observable.merge(
-                    Observable.of({ type: "HOME" })
+                    Observable.of({type: "HOME"})
                 ))
             }
 

@@ -1,34 +1,33 @@
-import { connectRoutes } from "redux-first-router"
-import { createStore, applyMiddleware, compose } from "redux"
-import { composeWithDevTools } from "redux-devtools-extension"
-import { createEpicMiddleware } from "redux-observable"
-import { RootEpic } from "./epics"
-import { allReducers } from "./reducers"
-import { routesMap } from "../app/route.map"
+import {applyMiddleware, compose, createStore} from "redux"
+import {composeWithDevTools} from "redux-devtools-extension";
+import {connectRoutes} from "redux-first-router"
+import {createLogger} from "redux-logger";
+import {createEpicMiddleware} from "redux-observable"
 import * as storage from "redux-storage"
-import createEngine from "redux-storage-engine-localstorage"
 import debounce from "redux-storage-decorator-debounce"
 import filter from 'redux-storage-decorator-filter'
-import { createLogger } from "redux-logger"
+import createEngine from "redux-storage-engine-localstorage"
+import {routesMap} from "../app/route.map"
+import {allReducers} from "./reducers"
+
 export let engine = createEngine("my-save-key");
 engine = debounce(engine, 2000);
 engine = filter(engine, ["storage", "songs", "player", "token", "drawer", "tab", "user", "playlists"], ["location"]);
 
-
-const ReplacebleEpicMiddleware = createEpicMiddleware(RootEpic);
+const ReplacebleEpicMiddleware = createEpicMiddleware();
 
 export const isServer = () => !(typeof window !== "undefined" && window.document);
 
 export const configureStore = (history: any = {}) => {
-    const { reducer, middleware, enhancer } = connectRoutes(history, routesMap);
+    const {reducer, middleware, enhancer} = connectRoutes(history, routesMap as any);
     const appReducers = allReducers(reducer);
-    const reducerXXX = storage.reducer(appReducers);
-    const middlewareXXX = storage.createMiddleware(engine);
+    // const reducerXXX = storage.reducer(appReducers);
+    // const middlewareXXX = storage.createMiddleware(engine);
     const middlewares = composeWithDevTools(
-        applyMiddleware(middleware,
-            middlewareXXX,
+        applyMiddleware(
+            middleware,
+            // middlewareXXX,
             createLogger({
-                collapsed: (getState, action, logEntry) => !logEntry.error,
                 predicate: (getState, action) => {
                     return !isServer()
                 }
@@ -36,8 +35,8 @@ export const configureStore = (history: any = {}) => {
             ReplacebleEpicMiddleware
         )
     );
-    const createStoreWithMiddleware = applyMiddleware(middlewareXXX)(createStore);
-    const store = createStoreWithMiddleware(reducerXXX, compose(enhancer, middlewares));
+    // const createStoreWithMiddleware = applyMiddleware(middlewareXXX)(createStore);
+    const store = createStore(appReducers, compose(enhancer, middlewares));
     if (module.hot) {
         module.hot.accept(["./reducers.tsx"], () => {
             const nextRootReducer = require("./reducers.tsx").allReducers(reducer);
@@ -45,7 +44,7 @@ export const configureStore = (history: any = {}) => {
         });
         module.hot.accept(["./epics.tsx"], () => {
             const nextRootEpic = require("./epics.tsx").RootEpic;
-            ReplacebleEpicMiddleware.replaceEpic(nextRootEpic)
+            ReplacebleEpicMiddleware.run(nextRootEpic)
         })
     }
     return store
