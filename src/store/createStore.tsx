@@ -19,7 +19,7 @@ const ReplacebleEpicMiddleware = createEpicMiddleware();
 export const isServer = () => !(typeof window !== "undefined" && window.document);
 
 export const configureStore = (history: any = {}) => {
-    const {reducer, middleware, enhancer} = connectRoutes(routesMap as any);
+    const {reducer, middleware, enhancer} = connectRoutes(routesMap as any, {basename: "/spotify"});
     const appReducers = allReducers(reducer);
     const reducerXXX = storage.reducer(appReducers);
     const middlewareXXX = storage.createMiddleware(engine);

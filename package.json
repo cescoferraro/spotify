@@ -1,7 +1,7 @@
 {
   "name": "boiler",
   "version": "0.1.0",
-  "private": true,
+  "homepage": "http://cescoferraro.github.io/spotify",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -17,7 +17,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -54,6 +56,7 @@
     "@types/redux-storage": "^4.1.0",
     "@types/redux-storage-engine-localstorage": "^1.1.1",
     "classnames": "^2.2.6",
+    "gh-pages": "^2.2.0",
     "history": "^4.10.1",
     "material-ui": "^0.20.2",
     "moment": "^2.24.0",
