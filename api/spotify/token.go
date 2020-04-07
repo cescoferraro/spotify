@@ -6,7 +6,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/zmb3/spotify"
 	"golang.org/x/oauth2"
 )
@@ -43,11 +42,11 @@ var (
 
 func Auth(r *http.Request) spotify.Authenticator {
 	redirectURI := "https://spotifyapi.cescoferraro.xyz/auth"
-	if !tools.IsProd() {
-		redirectURI = "http://" + r.Host + "/auth"
-	}
-	ClientID := "445f705eea2d4d0e8bbd97b796fb7957"
-	secretKey := "412fb5cbfec2464cb71b567efd0236ea"
+	//if !tools.IsProd() {
+	redirectURI = "http://" + r.Host + "/auth"
+	//}
+	ClientID := "b7c0eb3228774d998db94fe352dfd2d9"
+	secretKey := "63fe79e44da74938aec14c23c346ea06"
 	auth := spotify.NewAuthenticator(redirectURI, Scopes...)
 	auth.SetAuthInfo(ClientID, secretKey)
 	return auth

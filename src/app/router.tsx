@@ -9,6 +9,7 @@ import {HomeComponent} from "./components/home/home"
 import {Shell} from "./components/shell"
 
 const AppRouterClass = (props: any) => {
+    console.log(props);
     switch (props.location.type) {
         case "HOME":
             return (

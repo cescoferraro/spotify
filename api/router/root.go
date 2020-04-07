@@ -16,7 +16,7 @@ func rootEndPoint(w http.ResponseWriter, r *http.Request) {
 	if tools.IsProd() {
 		buffer.WriteString("http://spotify.cescoferraro.xyz/auth/")
 	} else {
-		buffer.WriteString("http://" + strings.Split(r.Host, ":")[0] + ":5000/auth/")
+		buffer.WriteString("http://" + strings.Split(r.Host, ":")[0] + ":3000/auth/")
 	}
 	code := r.URL.Query().Get("code")
 	state := r.URL.Query().Get("state")

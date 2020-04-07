@@ -3,7 +3,6 @@ import RaisedButton from "material-ui/RaisedButton"
 import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import * as React from "react"
 import {API_URL} from "../../../shared/api"
-import {OfflineToast} from "../../../shared/toastr"
 import {Chooser} from "./chooser"
 import * as CSS from "./main.css"
 
@@ -11,11 +10,11 @@ export const HomeComponent = (props: any) => {
     const login = () => {
         const url = API_URL() + "/login";
         const {Offline} = (window as any);
-        if (Offline.state === "up") {
+        // if (Offline.state === "up") {
             window.location.href = url
-        } else {
-            OfflineToast()
-        }
+        // } else {
+        //     OfflineToast()
+        // }
     };
     return (
         <div className={cs.default(CSS.container)}>

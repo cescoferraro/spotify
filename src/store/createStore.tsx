@@ -1,7 +1,7 @@
 import {applyMiddleware, compose, createStore} from "redux"
-import {composeWithDevTools} from "redux-devtools-extension";
+import {composeWithDevTools} from "redux-devtools-extension"
 import {connectRoutes} from "redux-first-router"
-import {createLogger} from "redux-logger";
+import {createLogger} from "redux-logger"
 import {createEpicMiddleware} from "redux-observable"
 import * as storage from "redux-storage"
 import debounce from "redux-storage-decorator-debounce"
@@ -19,10 +19,10 @@ const ReplacebleEpicMiddleware = createEpicMiddleware();
 export const isServer = () => !(typeof window !== "undefined" && window.document);
 
 export const configureStore = (history: any = {}) => {
-    const {reducer, middleware, enhancer} = connectRoutes(history, routesMap as any);
+    const {reducer, middleware, enhancer} = connectRoutes(routesMap as any);
     const appReducers = allReducers(reducer);
-    // const reducerXXX = storage.reducer(appReducers);
-    // const middlewareXXX = storage.createMiddleware(engine);
+    const reducerXXX = storage.reducer(appReducers);
+    const middlewareXXX = storage.createMiddleware(engine);
     const middlewares = composeWithDevTools(
         applyMiddleware(
             middleware,
@@ -35,8 +35,17 @@ export const configureStore = (history: any = {}) => {
             ReplacebleEpicMiddleware
         )
     );
-    // const createStoreWithMiddleware = applyMiddleware(middlewareXXX)(createStore);
-    const store = createStore(appReducers, compose(enhancer, middlewares));
+    const createStoreWithMiddleware = applyMiddleware(middlewareXXX)(createStore);
+    const store = createStoreWithMiddleware(reducerXXX, compose(enhancer, middlewares) as any)
+
+    // const {reducer, middleware, enhancer} = connectRoutes(routesMap as any)
+    //
+    // const middlewares = applyMiddleware(middleware,ReplacebleEpicMiddleware)
+    // const enhancers = compose(enhancer, middlewares)
+    //
+    // const store = createStore(allReducers(reducer), enhancers)
+    // ReplacebleEpicMiddleware.run(RootEpic);
+    // const store = createStore(appReducers, compose(enhancer, middlewares));
     if (module.hot) {
         module.hot.accept(["./reducers.tsx"], () => {
             const nextRootReducer = require("./reducers.tsx").allReducers(reducer);
