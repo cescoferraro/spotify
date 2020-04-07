@@ -1,0 +1,15 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "no-inferrable-types": [
+      true,
+      "ignore-params",
+      "ignore-properties"
+    ]
+  },
+  "rulesDirectory": []
+}

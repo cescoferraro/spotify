@@ -1,0 +1,16 @@
+/*@import "../../../shared/css/var/var.css";*/
+
+.container {
+    background-color: black;
+    height: calc( 100vh - 64px);
+    overflow: hidden;
+    .tabs{
+	/* position: fixed !important; */
+	/* bottom: 0px !important; */
+	width: 100vw !important;
+	z-index: 2442 !important ;
+	div:nth-child(2) div {
+	    background-color: black !important;
+	}
+    }
+}

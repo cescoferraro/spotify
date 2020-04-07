@@ -1,4 +1,0 @@
-FROM  mhart/alpine-node:base-6
-WORKDIR /srv/spotify
-ADD www/ /srv/spotify/www
-CMD ["node","www/server.bundle.js"]
