@@ -1,21 +1,18 @@
-import RaisedButton from "material-ui/RaisedButton";
-import DashboardIcon from "material-ui/svg-icons/action/dashboard";
 import * as React from "react"
 import {connect} from "react-redux"
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import {compose} from "recompose"
-import {API_URL} from "../shared/api";
-import {APP_ACTIONS} from "../store/actions"
-
+import {AuthComponent} from "./new/auth";
+import {Auth} from "./new/auth_store";
+import {HomeComponent} from "./new/home";
+import {APP_ACTIONS} from "./store/actions"
+const auth = new Auth ();
 
 export const AppRouter = compose(
     connect(({id, location, drawer, token, player, artist, songs, user, tab, playlists}: any) =>
         ({id, location, drawer, token, player, artist, songs, user, tab, playlists}), APP_ACTIONS)
 )((props: any) => {
     console.log(props);
-    const login = () => {
-        window.location.href = API_URL() + "/login";
-    };
     return (
         <Router>
             <div>
@@ -33,21 +30,14 @@ export const AppRouter = compose(
                     </ul>
                 </nav>
                 <Switch>
-                    <Route path="/auth">
-                        <h2>abour</h2>
+                    <Route  path="/auth">
+                        <AuthComponent auth={auth}/>
                     </Route>
                     <Route path="/users">
                         <h2>users</h2>
                     </Route>
                     <Route path="/">
-                        <RaisedButton
-                            onClick={login}
-                            icon={<DashboardIcon/>}
-                            labelStyle={{fontSize: "100%"}}
-                            secondary={true}
-                            fullWidth={true}
-                            label="Dashboard"
-                        />
+                        <HomeComponent auth={auth}/>
                     </Route>
                 </Switch>
             </div>

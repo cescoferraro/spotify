@@ -7,7 +7,6 @@ import * as ReactDOM from "react-dom"
 import {AppContainer} from "react-hot-loader"
 import {Provider as ReduxProvider} from "react-redux"
 import * as storage from "redux-storage"
-import {offlineCheck} from "./offline"
 import {BoilTheme} from "./shared/theme"
 import {configureStore, engine, isServer} from "./store/createStore"
 
