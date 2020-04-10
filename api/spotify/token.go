@@ -1,6 +1,7 @@
 package spotify
 
 import (
+	"github.com/cescoferraro/spotify/api/tools"
 	"log"
 	"net/http"
 	"sync"
@@ -41,12 +42,18 @@ var (
 )
 
 func Auth(r *http.Request) spotify.Authenticator {
-	redirectURI := "https://spotifyapi.cescoferraro.xyz/auth"
-	//if !tools.IsProd() {
-	redirectURI = "http://" + r.Host + "/auth"
-	//}
-	ClientID := "b7c0eb3228774d998db94fe352dfd2d9"
-	secretKey := "63fe79e44da74938aec14c23c346ea06"
+	redirectURI := "http://" + r.Host + "/auth"
+	log.Println("kube kube *********")
+	if tools.IsProd() {
+		redirectURI = "https://spotifyapi.cescoferraro.xyz/auth"
+	}
+	log.Println("(((((((((((((((((")
+	log.Println(r.Host == "spotifyapi.cescoferraro.xyz")
+	log.Println(redirectURI)
+	log.Println("}}}}}}}}}}}}}}}}")
+
+	ClientID := "29341ec7d73e4383b58db00e354dc89c"
+	secretKey := "3ef3543b524a4978ae5f7b14fdc63a6d"
 	auth := spotify.NewAuthenticator(redirectURI, Scopes...)
 	auth.SetAuthInfo(ClientID, secretKey)
 	return auth

@@ -4,6 +4,7 @@ import {useEffect, useState} from "react";
 import {RouteComponentProps, withRouter} from "react-router";
 import {AjaxResponse} from "rxjs/ajax";
 import {Observable} from "rxjs/Observable";
+import 'rxjs/add/observable/dom/ajax';
 import {NowListening} from "../reactappenv";
 import {AJAX} from "../app/shared/ajax";
 import {Auth} from "./auth_store";

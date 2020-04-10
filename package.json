@@ -1,7 +1,8 @@
 {
   "name": "boiler",
   "version": "0.1.0",
-  "homepage": "http://cescoferraro.github.io/spotify",
+  "license": "MIT",
+  "homepage": "https://spotify.cescoferraro.xyz/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
@@ -17,13 +18,13 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
-    "rxjs": "^6.5.5",
+    "rxjs": "6",
     "store": "^2.0.12",
     "typescript": "~3.7.2"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && cp ./src/Dockerfile ./build/Dockerfile",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
