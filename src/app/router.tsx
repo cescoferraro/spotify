@@ -4,8 +4,8 @@ import * as React from "react"
 import {connect} from "react-redux"
 import {BrowserRouter as Router, Link, Route, Switch} from "react-router-dom";
 import {compose} from "recompose"
-import {API_URL} from "../shared/api";
-import {APP_ACTIONS} from "../store/actions"
+import {API_URL} from "./shared/api";
+import {APP_ACTIONS} from "./store/actions"
 
 
 export const AppRouter = compose(

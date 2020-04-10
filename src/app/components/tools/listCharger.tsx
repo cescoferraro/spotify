@@ -4,7 +4,7 @@ import SelectField from "material-ui/SelectField"
 import * as React from "react"
 import {connect} from "react-redux"
 import {compose} from "recompose"
-import {URIS} from "../../../shared/playlists"
+import {URIS} from "../../shared/playlists"
 import * as CSS from "./tools.css"
 
 

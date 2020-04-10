@@ -21,9 +21,16 @@ export class Auth {
 
     @observable
     public token: string | "initial" = "initial";
+    @observable
+    public profile: SpotifyProfile.RootObject | null = null;
 
     constructor() {
         autoSave(this);
+    }
+
+    @action
+    public setProfile(st: SpotifyProfile.RootObject) {
+        this.profile = st;
     }
 
     @action

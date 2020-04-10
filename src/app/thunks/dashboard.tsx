@@ -1,4 +1,4 @@
-import { AJAX } from "../../shared/ajax";
+import { AJAX } from "../shared/ajax";
 
 export const dashboardThunk = (dispatch: any, getStore: any) => {
     dispatch({ type: "WHATEVER" });

@@ -1,7 +1,8 @@
 import "rxjs/add/observable/dom/ajax"
 import "rxjs/add/operator/map"
+import "rxjs/add/operator/take"
 import {Observable} from "rxjs/Observable"
-import {API_URL} from "./api/index"
+import {API_URL} from "./api"
 
 export const bodyUrl = (url: any, body: any) => ({
     url, body,
@@ -17,5 +18,5 @@ export const AJAX = (url: any, body: any) => (
         method: "POST",
         responseType: "json",
         crossDomain: true
-    })
+    }).take(1)
 );

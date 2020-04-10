@@ -1,7 +1,7 @@
 import RaisedButton from "material-ui/RaisedButton";
 import DashboardIcon from "material-ui/svg-icons/action/dashboard";
 import * as React from "react";
-import {API_URL} from "../shared/api";
+import {API_URL} from "../app/shared/api";
 
 export const HomeComponent = (props: any) => {
   const login = () => {

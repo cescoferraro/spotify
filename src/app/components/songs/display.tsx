@@ -3,7 +3,7 @@ import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import * as React from "react"
 import {connect} from "react-redux"
 import {compose} from "recompose"
-import {AJAX} from "../../../shared/ajax"
+import {AJAX} from "../../shared/ajax"
 import {LOADING} from "../loading"
 import {FilterNavigation, filterSearchSongs} from "./filters"
 import {SongsList} from "./list";

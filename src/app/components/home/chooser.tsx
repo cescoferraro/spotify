@@ -3,9 +3,9 @@ import RaisedButton from "material-ui/RaisedButton"
 import SelectField from "material-ui/SelectField"
 import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import * as React from "react"
-import {API_URL} from "../../../shared/api"
-import {ARTISTS} from "../../../shared/playlists"
-import {OfflineToast} from "../../../shared/toastr"
+import {API_URL} from "../../shared/api"
+import {ARTISTS} from "../../shared/playlists"
+import {OfflineToast} from "../../shared/toastr"
 
 export class Chooser extends React.Component<any, any> {
     private constructor(props: any) {

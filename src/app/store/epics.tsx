@@ -5,7 +5,7 @@ import { previousEpic } from "./epics/previous"
 import { nowEpic } from "./epics/now"
 import { logoutEpic } from "./epics/logout"
 import { repeatEpic } from "./epics/repeat"
-import { volumeEpic } from "./epics/index"
+// import { volumeEpic } from "./epics"
 import { nextEpic } from "./epics/next"
 import { playPlaylistEpic } from "./epics/playlist"
 import { labelTopEpic } from "./epics/labelTop"
@@ -18,7 +18,7 @@ export const RootEpic = combineEpics(
     playSongEpic,
     logoutEpic,
     repeatEpic,
-    volumeEpic,
+    // volumeEpic,
     playPlaylistEpic,
     labelTopEpic,
     nextEpic

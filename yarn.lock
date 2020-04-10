@@ -7146,6 +7146,18 @@ mkdirp@^0.5.1, mkdirp@^0.5.3, mkdirp@~0.5.1:
   dependencies:
     minimist "^1.2.5"
 
+mobx-react-lite@2:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/mobx-react-lite/-/mobx-react-lite-2.0.5.tgz#a17296938d34c5dd5e1f2666d57e8f799741cad3"
+  integrity sha512-7ifvIAHqxGDgVidRiSNIKLenZaspfhSDz9nkyWiyyZlqHbVTnxqNcB1jnQHEE9Kycl75Z//dN3IoQNeqWWsZ4g==
+
+mobx-react@^6.2.2:
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/mobx-react/-/mobx-react-6.2.2.tgz#45e8e7c4894cac8399bba0a91060d7cfb8ea084b"
+  integrity sha512-Us6V4ng/iKIRJ8pWxdbdysC6bnS53ZKLKlVGBqzHx6J+gYPYbOotWvhHZnzh/W5mhpYXxlXif4kL2cxoWJOplQ==
+  dependencies:
+    mobx-react-lite "2"
+
 mobx@^5.15.4:
   version "5.15.4"
   resolved "https://registry.yarnpkg.com/mobx/-/mobx-5.15.4.tgz#9da1a84e97ba624622f4e55a0bf3300fb931c2ab"
@@ -9743,6 +9755,13 @@ rxjs@^6.5.3:
   version "6.5.4"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.4.tgz#e0777fe0d184cec7872df147f303572d414e211c"
   integrity sha512-naMQXcgEo3csAEGvw/NydRA0fuS2nDZJiw1YUWFKU7aPPAPGZEsD4Iimit96qwCieH6y614MCLYwdkrWx7z/7Q==
+  dependencies:
+    tslib "^1.9.0"
+
+rxjs@^6.5.5:
+  version "6.5.5"
+  resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-6.5.5.tgz#c5c884e3094c8cfee31bf27eb87e54ccfc87f9ec"
+  integrity sha512-WfQI+1gohdf0Dai/Bbmk5L5ItH5tYqm3ki2c5GdWhKjalzjg93N3avFjVStyZZz+A2Em+ZxKH5bNghw9UeylGQ==
   dependencies:
     tslib "^1.9.0"
 

@@ -1,6 +1,6 @@
 import * as React from "react"
 import { NoMatchContainer } from "./404"
-import { MUIProvider } from "../../../shared/components/MUIProvider"
+import { MUIProvider } from "../../shared/components/MUIProvider"
 
 describe("<NoMatchContainer />", () => {
     it("404", () => {

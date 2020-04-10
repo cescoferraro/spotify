@@ -2,7 +2,7 @@ import * as cs from "classnames"
 import RaisedButton from "material-ui/RaisedButton"
 import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import * as React from "react"
-import {API_URL} from "../../../shared/api"
+import {API_URL} from "../../shared/api"
 import {Chooser} from "./chooser"
 import * as CSS from "./main.css"
 

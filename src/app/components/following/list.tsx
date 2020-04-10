@@ -4,7 +4,7 @@ import Subheader from "material-ui/Subheader"
 import CommunicationChatBubble from "material-ui/svg-icons/content/remove"
 import * as React from "react";
 import {AutoSizer, List} from "react-virtualized"
-import {AJAX} from "../../../shared/ajax";
+import {AJAX} from "../../shared/ajax";
 import {LOADING} from "../loading/index";
 import * as CSS from "./following.css"
 

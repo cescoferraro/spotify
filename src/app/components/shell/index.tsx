@@ -1,5 +1,5 @@
 import * as React from "react"
-import {MyHelmet} from "../../../shared/helmet"
+import {MyHelmet} from "../../shared/helmet"
 import {SPOTIFYAppBar} from "./bar"
 import {SPOTIFYDrawer} from "./drawer"
 import * as CSS from "./shell.css"
