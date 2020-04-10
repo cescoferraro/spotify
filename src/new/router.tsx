@@ -1,46 +1,46 @@
+import AppBar from "material-ui/AppBar";
+import IconButton from "material-ui/IconButton";
+import DashboardIcon from "material-ui/svg-icons/action/dashboard"
 import * as React from "react"
-import {connect} from "react-redux"
-import {BrowserRouter as Router, Link, Route} from "react-router-dom";
-import {compose} from "recompose"
+import {BrowserRouter as Router, Route, withRouter} from "react-router-dom";
 import {AuthComponent} from "./auth";
 import {Auth} from "./auth_store";
 import {DashboardComponent} from "./dashboard";
 import {HomeComponent} from "./home";
-import {APP_ACTIONS} from "../app/store/actions"
 
 const auth = new Auth();
 
-export const AppRouter = compose(
-    // connect(({id, location, drawer, token, player, artist, songs, user, tab, playlists}: any) =>
-    //     ({id, location, drawer, token, player, artist, songs, user, tab, playlists}), APP_ACTIONS)
-)((props: any) => {
+const AppBarSpotify = withRouter((props: any) => {
+  return (
+    <AppBar
+      title={"Material Spotify"}
+      iconElementRight={(<IconButton><DashboardIcon/></IconButton>)}
+      onLeftIconButtonClick={() => {
+
+      }}
+      onTitleClick={() => {
+        props.history.push("/")
+      }}
+    />
+  );
+});
+
+export const AppRouter = (
+  (props: {}) => {
     console.log(props);
     return (
-        <Router>
-            <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/auth">About</Link>
-                        </li>
-                        <li>
-                            <Link to="/dashboard">Users</Link>
-                        </li>
-                    </ul>
-                </nav>
-                <Route path="/auth">
-                    <AuthComponent auth={auth}/>
-                </Route>
-                <Route path="/dashboard">
-                    <DashboardComponent auth={auth}/>
-                </Route>
-                <Route path="/" exact={true}>
-                    <HomeComponent auth={auth}/>
-                </Route>
-            </div>
-        </Router>
+      <Router>
+        <AppBarSpotify
+        />
+        <Route path="/auth">
+          <AuthComponent auth={auth}/>
+        </Route>
+        <Route path="/dashboard">
+          <DashboardComponent auth={auth}/>
+        </Route>
+        <Route path="/" exact={true}>
+          <HomeComponent auth={auth}/>
+        </Route>
+      </Router>
     );
-});
+  });
