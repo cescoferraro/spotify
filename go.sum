@@ -1,3 +1,6 @@
+github.com/SonicRoshan/straf v1.0.3 h1:iMqe2cCX1kAvvluw75DF5yKG5Maujef+mgxMV5rdLnU=
+github.com/SonicRoshan/straf v2.0.0+incompatible h1:vVTIgqoClTiG4v9HOJevsoD+gNxkuc1bB+D6oTHNrew=
+github.com/SonicRoshan/straf v2.0.0+incompatible/go.mod h1:g3kp5UNrljuSZFiph4NEBWoK80Xt8Z0MQ9SCf7CrBlg=
 github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8 h1:DujepqpGd1hyOd7aW59XpK7Qymp8iy83xq74fLr21is=
 github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8/go.mod h1:xkRDCp4j0OGD1HRkm4kmhM+pmpv3AKq5SU7GMg4oO/Q=
 github.com/go-chi/chi v3.1.5+incompatible h1:TcUFIZz4n9dleJjD6lxsoqPJDiEVQEWcNjj3mevAEFQ=
@@ -12,6 +15,8 @@ github.com/graphql-go/graphql v0.7.9 h1:5Va/Rt4l5g3YjwDnid3vFfn43faaQBq7rMcIZ0Vn
 github.com/graphql-go/graphql v0.7.9/go.mod h1:k6yrAYQaSP59DC5UVxbgxESlmVyojThKdORUqGDGmrI=
 github.com/graphql-go/handler v0.2.3 h1:CANh8WPnl5M9uA25c2GBhPqJhE53Fg0Iue/fRNla71E=
 github.com/graphql-go/handler v0.2.3/go.mod h1:leLF6RpV5uZMN1CdImAxuiayrYYhOk33bZciaUGaXeU=
+github.com/lab259/go-graphql-struct v1.0.2 h1:O+9wfPwpy+FRWUnMA8Y90c7J3aS2weTxxYYglxKNH1s=
+github.com/lab259/go-graphql-struct v1.0.2/go.mod h1:kIA3i4AHraNzZdMQxiJ5QRgPljczfKXqRXE1F1BJ83c=
 github.com/pkg/errors v0.8.0 h1:WdK/asTD0HN+q6hsWO3/vpuAkAr+tw6aNJNDFFf0+qw=
 github.com/pkg/errors v0.8.0/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pressly/chi v3.0.0+incompatible h1:rxmSn7a9cawCIcyHMjGjmw72Yo5dcw2NFqT8CWZ882M=

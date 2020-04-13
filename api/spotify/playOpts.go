@@ -11,11 +11,11 @@ import (
 
 // PlayOpts TODO: NEEDS COMMENT INFO
 func PlayOpts(id string, code string, r *http.Request) error {
-	token, err := ProcessToken(code, r)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := Auth(r).NewClient(token)
+	client := Auth().NewClient(token)
 	err = client.PlayOpt(&spotify.PlayOptions{
 		URIs: []spotify.URI{spotify.URI(id)},
 	})
@@ -28,7 +28,7 @@ func PlayOpts(id string, code string, r *http.Request) error {
 
 // PlayOpts TODO: NEEDS COMMENT INFO
 func PLAYPlaylist(songs []string, code string, r *http.Request) error {
-	token, err := ProcessToken(code, r)
+	token, err := ProcessToken(code)
 	if err != nil {
 		log.Println(err.Error())
 		return errors.Wrap(err, "retrieveToken")
@@ -40,7 +40,7 @@ func PLAYPlaylist(songs []string, code string, r *http.Request) error {
 		URIs = append(URIs, spotify.URI(value))
 	}
 
-	client := Auth(r).NewClient(token)
+	client := Auth().NewClient(token)
 	err = client.PlayOpt(&spotify.PlayOptions{
 		URIs: URIs,
 	})

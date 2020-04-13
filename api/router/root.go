@@ -21,7 +21,7 @@ func rootEndPoint(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	state := r.URL.Query().Get("state")
 	if r.URL.RawQuery != "" {
-		go spotify.ProcessToken(code, r)
+		go spotify.ProcessToken(code)
 		buffer.WriteString(code)
 		buffer.WriteString("/")
 		buffer.WriteString(state)

@@ -8,11 +8,11 @@ import (
 
 // Play TODO: NEEDS COMMENT INFO
 func Play(code string, r *http.Request) error {
-	token, err := ProcessToken(code, r)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := Auth(r).NewClient(token)
+	client := Auth().NewClient(token)
 	err = client.Play()
 	if err != nil {
 		return errors.Wrap(err, "play error")

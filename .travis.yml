@@ -6,4 +6,4 @@ before_script:
   - nvm install 13
   - yarn
 script:
-  - yarn buil
+  - yarn build

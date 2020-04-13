@@ -13,7 +13,7 @@ func nowPlayingEndPoint(w http.ResponseWriter, r *http.Request) {
 	log.Println(get)
 	gget := r.Header.Get("authorization")
 	log.Println(gget)
-	user, err := spotify.PlayerState(get, r)
+	user, err := spotify.PlayerState(get)
 	if err != nil {
 		log.Println(err.Error())
 	}

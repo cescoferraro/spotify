@@ -9,11 +9,11 @@ import (
 
 // Repeat TODO: NEEDS COMMENT INFO
 func Repeat(state string, code string, r *http.Request) error {
-	token, err := ProcessToken(code, r)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return errors.Wrap(err, "retrieveToken")
 	}
-	client := Auth(r).NewClient(token)
+	client := Auth().NewClient(token)
 	log.Println(" 7777")
 	err = client.Repeat(state)
 	if err != nil {

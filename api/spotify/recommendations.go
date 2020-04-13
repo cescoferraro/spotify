@@ -11,11 +11,11 @@ import (
 func GetRecommendations(artists []string, code string, r *http.Request) (*spotify.Recommendations, error) {
 	recommendations := new(spotify.Recommendations)
 	var err error
-	token, err := ProcessToken(code, r)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return recommendations, errors.Wrap(err, "retrieveToken")
 	}
-	client := Auth(r).NewClient(token)
+	client := Auth().NewClient(token)
 	artistSeed := []spotify.ID{}
 	for _, artist := range artists {
 		artistSeed = append(artistSeed, spotify.ID(artist))

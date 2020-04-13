@@ -3,7 +3,6 @@ package spotify
 import (
 	"github.com/cescoferraro/spotify/api/tools"
 	"log"
-	"net/http"
 	"sync"
 	"time"
 
@@ -41,17 +40,12 @@ var (
 	}
 )
 
-func Auth(r *http.Request) spotify.Authenticator {
-	redirectURI := "http://" + r.Host + "/auth"
+func Auth() spotify.Authenticator {
+	redirectURI := "http://localohost:8080/auth"
 	log.Println("kube kube *********")
 	if tools.IsProd() {
 		redirectURI = "https://spotifyapi.cescoferraro.xyz/auth"
 	}
-	log.Println("(((((((((((((((((")
-	log.Println(r.Host == "spotifyapi.cescoferraro.xyz")
-	log.Println(redirectURI)
-	log.Println("}}}}}}}}}}}}}}}}")
-
 	ClientID := "29341ec7d73e4383b58db00e354dc89c"
 	secretKey := "3ef3543b524a4978ae5f7b14fdc63a6d"
 	auth := spotify.NewAuthenticator(redirectURI, Scopes...)
@@ -60,7 +54,7 @@ func Auth(r *http.Request) spotify.Authenticator {
 }
 
 // ProcessToken TODO: NEEDS COMMENT INFO
-func ProcessToken(code string, r *http.Request) (*oauth2.Token, error) {
+func ProcessToken(code string) (*oauth2.Token, error) {
 	log.Println("before LOck")
 	TokenHUB.Lock()
 	defer TokenHUB.Unlock()
@@ -71,7 +65,7 @@ func ProcessToken(code string, r *http.Request) (*oauth2.Token, error) {
 	}
 	var err error
 	log.Println("exchanging")
-	TokenHUB.Tokens[code], err = Auth(r).Exchange(code)
+	TokenHUB.Tokens[code], err = Auth().Exchange(code)
 	if err != nil {
 		delete(TokenHUB.Tokens, code)
 		return nil, err

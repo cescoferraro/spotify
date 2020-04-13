@@ -59,11 +59,11 @@ func ShowFeelings(move bool, id string, token string, r *http.Request) (*spotify
 // Authss TODO: NEEDS COMMENT INFO
 func Authss(token string, r *http.Request) (spotify.Client, error) {
 	var OAUTH spotify.Client
-	OauthToken, err := ProcessToken(token, r)
+	OauthToken, err := ProcessToken(token)
 	if err != nil {
 		return OAUTH, errors.Wrap(err, "retrieveToken")
 	}
-	return Auth(r).NewClient(OauthToken), nil
+	return Auth().NewClient(OauthToken), nil
 }
 
 // ArtistTrack TODO: NEEDS COMMENT INFO

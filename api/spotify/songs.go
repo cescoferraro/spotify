@@ -12,11 +12,11 @@ import (
 func Songs(code string, r *http.Request) ([]spotify.SavedTrack, error) {
 	var main []spotify.SavedTrack
 	var err error
-	token, err := ProcessToken(code, r)
+	token, err := ProcessToken(code)
 	if err != nil {
 		return main, errors.Wrap(err, "retrieveToken")
 	}
-	client := Auth(r).NewClient(token)
+	client := Auth().NewClient(token)
 
 	total, err := TotalTracks(client)
 	if err != nil {
