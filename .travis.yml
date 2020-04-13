@@ -3,6 +3,7 @@ services:
   - docker
 node_js: "13"
 before_script:
+  - nvm install 13
   - yarn
   - yarn build
 script:
