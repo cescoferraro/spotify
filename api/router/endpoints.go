@@ -2,8 +2,8 @@ package router
 
 import (
 	"github.com/cescoferraro/spotify/api/tools"
-	"github.com/pressly/chi"
-	"github.com/pressly/chi/middleware"
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
 )
 
 // Router TODO: NEEDS COMMENT INFO

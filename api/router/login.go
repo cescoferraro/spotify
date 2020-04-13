@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/cescoferraro/spotify/api/spotify"
-	"github.com/pressly/chi"
+	"github.com/go-chi/chi"
 )
 
 func loginEndPoint(state string) func(http.ResponseWriter, *http.Request) {

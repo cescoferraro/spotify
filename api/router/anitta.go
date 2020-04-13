@@ -6,8 +6,8 @@ import (
 
 	"github.com/cescoferraro/spotify/api/spotify"
 	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/go-chi/chi"
 	"github.com/go-chi/render"
-	"github.com/pressly/chi"
 )
 
 func anittaEndPoint(move bool) func(w http.ResponseWriter, r *http.Request) {

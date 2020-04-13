@@ -25,7 +25,7 @@ export const AuthComponent = withRouter(({auth, ...other}: RouteComponentProps<{
       )
       .subscribe(
         (e) => {
-          console.log("yyyyyyy")
+          console.log("yyyyyyy");
           auth.setToken(token);
           auth.setProfile(e.response as SpotifyProfile.RootObject);
           other.history.push("/dashboard")
