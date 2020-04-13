@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useEffect} from "react";
 import {RouteComponentProps, withRouter} from "react-router";
-import {Observable} from "rxjs";
+import {EMPTY} from "rxjs";
 import {ajax} from "rxjs/ajax";
 import {catchError} from "rxjs/operators";
 import {API_URL} from "../app/shared/api";
@@ -20,7 +20,7 @@ export const AuthComponent = withRouter(({auth, ...other}: RouteComponentProps<{
         catchError((e, obs) => {
           console.log(e);
           other.history.push("/");
-          return Observable.empty();
+          return EMPTY;
         }),
       )
       .subscribe(

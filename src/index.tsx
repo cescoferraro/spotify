@@ -3,18 +3,20 @@ import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
 import React from "react";
 import * as ReactDOM from "react-dom";
 import {AppContainer} from "react-hot-loader";
-import {BoilTheme} from "./new";
 import './index.css';
-import {AppRouter} from "./new/router";
+import {BoilTheme} from "./new";
+import {App} from "./new/app";
 import * as serviceWorker from './serviceWorker';
+
+
 
 const boilMUI = getMuiTheme(BoilTheme, {userAgent: navigator.userAgent});
 ReactDOM.render(
-  <MuiThemeProvider muiTheme={boilMUI}>
-    <AppContainer>
-      <AppRouter/>
-    </AppContainer>
-  </MuiThemeProvider>
+    <MuiThemeProvider muiTheme={boilMUI}>
+      <AppContainer>
+        <App/>
+      </AppContainer>
+    </MuiThemeProvider>
   , document.getElementById("root"));
 
-serviceWorker.unregister();
+serviceWorker.register();

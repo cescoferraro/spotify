@@ -5,17 +5,15 @@ import (
 	"net/http"
 
 	"github.com/cescoferraro/spotify/api/spotify"
-	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/go-chi/render"
 )
 
 func nowPlayingEndPoint(w http.ResponseWriter, r *http.Request) {
-	body, err := tools.GetBODY(r)
-	if err != nil {
-		log.Println(err.Error())
-		return
-	}
-	user, err := spotify.PlayerState(body, r)
+	get := r.Header.Get("Authorization")
+	log.Println(get)
+	gget := r.Header.Get("authorization")
+	log.Println(gget)
+	user, err := spotify.PlayerState(get, r)
 	if err != nil {
 		log.Println(err.Error())
 	}

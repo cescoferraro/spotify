@@ -1,67 +1,50 @@
-import Button from "material-ui/RaisedButton"
+import gql from 'graphql-tag';
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {RouteComponentProps, withRouter} from "react-router";
-import {AjaxResponse} from "rxjs/ajax";
-import {Observable} from "rxjs/Observable";
-import 'rxjs/add/observable/dom/ajax';
+import {ChildProps, graphql} from 'react-apollo';
 import {NowListening} from "../reactappenv";
-import {AJAX} from "../app/shared/ajax";
-import {Auth} from "./auth_store";
 
-const getSelector = (history: any) => {
-  return (e: any, obs: any) => {
-    console.log(e);
-    history.push("/");
-    return Observable.empty();
-  };
-};
+type Props = ChildProps<{ input: any }, { result?: NowListening.Root }>;
 
-interface IDashboardComponentState {
-  listening: boolean
-  now: NowListening.Root | null
-}
+export const Repo = graphql<Props>(
+  gql`
+    query {
+      result @rest(type: "Result", path: "/now") {
+        timestamp
+        is_playing
+        device {
+          is_active
+          name
+          __typename
+        }
+        __typename
+      }
+    }
+  `
+)((props: Props) => {
+    console.log(99);
+    console.log(props);
+    const {data} = props;
+    if (data && data.loading) {
+      return <div>Loading...</div>;
+    }
+    if (data && data.result) {
+      return (<div><h3>{data?.result?.device.name}</h3></div>);
+    } else {
+      return (
+        <div
+          onClick={() => {
+            if (props.mutate) {
+              props.mutate({variables: {}})
+            }
+          }}
+        >
+          <h2>slkdfk</h2>
 
-const fetchDashboardState = ({auth, setState, state, history}: any) => () => {
-  if (auth.token != "initial") {
-    AJAX("/now", auth.token)
-      .catch(getSelector(history))
-      .subscribe((e: AjaxResponse) => {
-        const response = e.response as NowListening.Root;
-        setState({...state, now: response as any, listening: !!response});
-        console.log(e.response);
-      });
-  } else {
-    history.push("/")
-  }
-  console.info(auth);
-};
-
-export const DashboardComponent = withRouter((
-  {auth, history}: RouteComponentProps<{}> & { auth: Auth }) => {
-  let initialState: IDashboardComponentState = {listening: false, now: null};
-  const [state, setState] = useState(initialState);
-  useEffect(fetchDashboardState({auth, history, state, setState}), [auth.token]);
-  return (
-    <div onClick={() => fetchDashboardState({auth, history, state, setState})()}>
-      {state.listening && (
-        <div>
-          {state.now?.Item.name}
-          listeninig
-          <Button
-            onClick={() => {
-              AJAX("/pause", auth.token)
-                .catch(getSelector(history))
-                .subscribe((e: AjaxResponse) => {
-                  console.log(e.response);
-                });
-            }}
-          >
-            Stop
-          </Button>
         </div>
-      )}
-      {!state.listening && <h2>not listeninig</h2>}
-    </div>
-  );
-});
+      );
+    }
+  }
+);
+
+
+

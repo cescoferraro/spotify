@@ -1,0 +1,97 @@
+schema {
+  query: Query
+  mutation: Mutation
+}
+directive @rest(
+  path: String = "/"
+  type: String = ""
+) on FIELD
+
+
+type Mutation {
+
+  #    verifyToken(token: String!): Boolean
+}
+
+
+type Query {
+  result: NowPlaying
+}
+
+type NowPlaying {
+  timestamp: Int
+  progress_ms: Int
+  is_playing: Boolean
+  shuffle_state: Boolean
+  repeat_state: String
+  device: Device
+  Item: Item
+  context: Context
+}
+type Device {
+  id: String
+  is_active: Boolean
+  is_restricted: Boolean
+  name: String
+  type: String
+  volume_percent: Int
+}
+
+type ExternalIds {
+  isrc: String
+}
+
+type ExternalUrls {
+  spotify: String
+}
+
+type Images {
+  height: Int
+  width: Int
+  url: String
+}
+
+type Album {
+  name: String
+  album_type: String
+  id: String
+  uri: String
+  href: String
+  external_urls: ExternalUrls
+  images: [Images]
+  available_markets: [String]
+}
+
+type Artists {
+  name: String
+  id: String
+  uri: String
+  href: String
+  external_urls: ExternalUrls
+}
+
+type Item {
+  disc_number: Int
+  duration_ms: Int
+  explicit: Boolean
+  href: String
+  id: String
+  name: String
+  preview_url: String
+  track_number: Int
+  uri: String
+  popularity: Int
+  external_ids: ExternalIds
+  album: Album
+  external_urls: ExternalUrls
+  available_markets: [String]
+  artists: [Artists]
+}
+
+type Context {
+  href: String
+  type: String
+  uri: String
+  external_urls: ExternalUrls
+}
+

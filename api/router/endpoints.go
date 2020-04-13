@@ -30,7 +30,7 @@ func Endpoints(version string) chi.Router {
 	r.Post("/songs", songsEndPoint)
 	r.Post("/me", meEndPoint)
 	r.Post("/logout", logoutEndPoint)
-	r.Post("/now", nowPlayingEndPoint)
+	r.Get("/now", nowPlayingEndPoint)
 	r.Get("/version", versionEndPoint(version))
 	r.HandleFunc("/auth", rootEndPoint)
 	return r
