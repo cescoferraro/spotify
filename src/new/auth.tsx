@@ -31,7 +31,7 @@ export const AuthComponent = withRouter(({auth, ...other}: RouteComponentProps<{
           other.history.push("/dashboard")
         }
       );
-  }, [token]);
+  }, [token, auth, other]);
   return null;
 });
 

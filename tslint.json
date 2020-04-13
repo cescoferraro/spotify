@@ -9,7 +9,8 @@
       true,
       "ignore-params",
       "ignore-properties"
-    ]
+    ],
+    "react/jsx-uses-react": 1
   },
   "rulesDirectory": []
 }
