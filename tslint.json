@@ -10,6 +10,7 @@
       "ignore-params",
       "ignore-properties"
     ],
+    "no-unused-variable": [false],
     "react/jsx-uses-react": 1
   },
   "rulesDirectory": []
