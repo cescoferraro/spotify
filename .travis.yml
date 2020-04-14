@@ -6,7 +6,7 @@ node_js: "13"
 before_script:
   - sudo apt update -y
   - sudo apt install --only-upgrade docker-ce -y
-  - dockerinfo
+  - docker info
   - nvm install 13
   - yarn
 script:
