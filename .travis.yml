@@ -8,7 +8,7 @@ before_script:
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get -qq update
-  - sudo apt install docker-ce -y
+  - sudo apt install docker-ce docker-ce-cli containerd.io -y
   - docker info
   - docker-compose --version
   - sudo rm /usr/local/bin/docker-compose
@@ -21,7 +21,7 @@ before_script:
 script:
   - yarn build
   - bash scripts/buildGO.sh
-  - DOCKER_HOST="ssh://root@45.79.80.53" docker-compose stop web
+  - DOCKER_HOST="ssh://root:$PASSWORD@45.79.80.53" docker-compose stop web
   - docker-compose rm -f web
   - docker-compose up --build web
 
