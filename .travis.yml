@@ -3,6 +3,7 @@ dist: bionic
 services:
   - docker
 node_js: '13'
+go: 1.13.x
 before_script:
   - sudo apt update
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
