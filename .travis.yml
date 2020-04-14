@@ -9,12 +9,13 @@ before_script:
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get -qq update
   - sudo apt install docker-ce -y
+  - docker info
   - docker-compose --version
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - docker info
+  - docker-compose --version
   - nvm install 13
   - yarn
 script:
@@ -26,5 +27,5 @@ script:
 
 
 env:
-  -DOCKER_COMPOSE_VERSION=1.8.0
+  -DOCKER_COMPOSE_VERSION=1.25.4
 
