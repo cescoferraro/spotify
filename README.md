@@ -1,4 +1,4 @@
-#Material Spotify [![Build Status](https://travis-ci.org/cescoferraro/spotify.svg?branch=master)](https://travis-ci.org/cescoferraro/spotify)
+# Material Spotify [![Build Status](https://travis-ci.org/cescoferraro/spotify.svg?branch=master)](https://travis-ci.org/cescoferraro/spotify)
 
 Hosted web at [https://spotify.cescoferraro.xyz](https://spotify.cescoferraro.xyz)
 
