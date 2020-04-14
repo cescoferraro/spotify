@@ -1,34 +1,36 @@
 language: go
 dist: bionic
 services:
-  - docker
-node_js: "13"
+- docker
+node_js: '13'
 before_script:
-  - sudo apt update
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get -qq update
-  - sudo apt install docker-ce docker-ce-cli containerd.io -y
-  - docker info
-  - docker-compose --version
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
-  - docker-compose --version
-  - nvm install 13
-  - yarn
+- sudo apt update
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu
+  $(lsb_release -cs) stable"
+- sudo apt-get -qq update
+- sudo apt install docker-ce docker-ce-cli containerd.io -y
+- docker info
+- docker-compose --version
+- sudo rm /usr/local/bin/docker-compose
+- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname
+  -s`-`uname -m` > docker-compose
+- chmod +x docker-compose
+- sudo mv docker-compose /usr/local/bin
+- docker-compose --version
+- nvm install 13
+- yarn
 script:
-  - yarn build
-  - bash scripts/buildGO.sh
-  - DOCKER_HOST='ssh://root@45.79.80.53' docker-compose stop web
-  - docker-compose rm -f web
-  - docker-compose up --build web
-
+- yarn build
+- bash scripts/buildGO.sh
+- DOCKER_HOST='ssh://root@45.79.80.53' docker-compose stop web
+- docker-compose rm -f web
+- docker-compose up --build web
 addons:
   apt:
     packages:
-      - sshpass
-env:
-  -DOCKER_COMPOSE_VERSION=1.25.4
-
+    - sshpass
+env: "-DOCKER_COMPOSE_VERSION=1.25.4"
+before_install:
+- openssl aes-256-cbc -K $encrypted_db2095f63ba3_key -iv $encrypted_db2095f63ba3_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
