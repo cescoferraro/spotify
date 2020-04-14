@@ -26,7 +26,11 @@ script:
 - DOCKER_HOST='ssh://root@45.79.80.53' docker-compose stop web
 - docker-compose rm -f web
 - docker-compose up --build web
+
+
 addons:
+  ssh_known_hosts:
+    - 45.79.80.53
   apt:
     packages:
     - sshpass
