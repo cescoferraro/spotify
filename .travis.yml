@@ -10,7 +10,6 @@ before_script:
   - sudo apt-get -qq update
   - sudo apt install docker-ce docker-ce-cli containerd.io -y
   - docker info
-  - sshpass -p $PASSWORD ssh root@45.79.80.53
   - docker-compose --version
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
@@ -22,7 +21,7 @@ before_script:
 script:
   - yarn build
   - bash scripts/buildGO.sh
-  - DOCKER_HOST="ssh://root@45.79.80.53" docker-compose stop web
+  - DOCKER_HOST='ssh://root@45.79.80.53' docker-compose stop web
   - docker-compose rm -f web
   - docker-compose up --build web
 
