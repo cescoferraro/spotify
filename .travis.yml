@@ -7,12 +7,8 @@ before_script:
   - sudo apt update
   - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
   - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - echo "deb [trusted=yes] http://deb.debian.org/debian testing main" |sudo tee /etc/apt/sources.list.d/debian.list
   - sudo apt-get -qq update
-  - sudo apt-get install debian-archive-keyring gnupg -y
-  - echo "deb http://deb.debian.org/debian testing main" |sudo tee /etc/apt/sources.list.d/debian.list
-  - sudo apt update
-  - sudo apt install qemu-user-static binfmt-support docker-ce -y
+  - sudo apt install docker-ce -y
   - docker-compose --version
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
