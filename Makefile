@@ -1,3 +1,5 @@
+.PHONY: start build
+
 start:
 	bash scripts/runGO.sh
 
