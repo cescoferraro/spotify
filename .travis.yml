@@ -3,7 +3,12 @@ services:
   - docker
 node_js: "13"
 before_script:
+  - sudo apt-get -y sshpass
+  - sshpass -p 'Nuvil3012@' ssh root@45.79.80.53
   - nvm install 13
   - yarn
 script:
   - yarn build
+  - docker-compose stop web
+  - docker-compose rm -f web
+  - docker-compose up --build web

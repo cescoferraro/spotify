@@ -49,13 +49,7 @@ export const Player = (
         return (
           <React.Fragment>
             <div onClick={() => {
-              data?.refetch({})
-                .then(() => {
-                  console.info("then");
-                })
-                .catch(() => {
-                  console.info("catch");
-                })
+              data?.refetch({}).then(() => true).catch(() => true);
             }}>
               {!notListeniing && data?.nowPlaying ? <Name {...props}/> : "not listening"}
             </div>
