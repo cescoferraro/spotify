@@ -38,7 +38,7 @@ export const Player = (
           if (["initial", ""].includes(auth.token)) {
             history.push("/")
           }
-        }, [auth]);
+        }, [auth, history]);
         if (data?.loading) {
           return <div>Fetching</div>;
         }

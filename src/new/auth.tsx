@@ -12,6 +12,6 @@ export const AuthComponent = withRouter(
       auth.setToken(token);
       other.history.push("/dashboard")
     }, [token, auth, other]);
-    return null;
+    return <React.Fragment></React.Fragment>;
   });
 
