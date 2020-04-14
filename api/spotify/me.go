@@ -1,15 +1,13 @@
 package spotify
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
+	"log"
 )
 
 // GetProfile TODO: NEEDS COMMENT INFO
-func GetProfile(code string, r *http.Request) (*spotify.PrivateUser, error) {
+func GetProfile(code string) (*spotify.PrivateUser, error) {
 	var user *spotify.PrivateUser
 	var err error
 	log.Println("before retrieving code")

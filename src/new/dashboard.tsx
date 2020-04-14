@@ -1,50 +1,66 @@
-import gql from 'graphql-tag';
+import {gql} from "@apollo/client";
 import * as React from "react";
+import {useEffect} from "react";
 import {ChildProps, graphql} from 'react-apollo';
-import {NowListening} from "../reactappenv";
+import {RouteComponentProps, withRouter} from "react-router";
+import {PlayerComponentQuery} from "../types/PlayerComponentQuery";
+import {Auth} from "./auth_store";
 
-type Props = ChildProps<{ input: any }, { result?: NowListening.Root }>;
-
-export const Repo = graphql<Props>(
-  gql`
-    query {
-      result @rest(type: "Result", path: "/now") {
-        timestamp
-        is_playing
-        device {
-          is_active
-          name
-          __typename
-        }
-        __typename
+type PlayerProps = ChildProps<{ auth: Auth } & RouteComponentProps, PlayerComponentQuery>;
+const query = gql`
+  query PlayerComponentQuery{
+    nowPlaying {
+      Device {
+        Name
       }
     }
-  `
-)((props: Props) => {
-    console.log(99);
-    console.log(props);
-    const {data} = props;
-    if (data && data.loading) {
-      return <div>Loading...</div>;
-    }
-    if (data && data.result) {
-      return (<div><h3>{data?.result?.device.name}</h3></div>);
-    } else {
-      return (
-        <div
-          onClick={() => {
-            if (props.mutate) {
-              props.mutate({variables: {}})
-            }
-          }}
-        >
-          <h2>slkdfk</h2>
-
-        </div>
-      );
-    }
   }
-);
+`;
 
-
-
+const Name = ({data}: PlayerProps) => {
+  console.log("data");
+  console.log("data");
+  console.log(data);
+  const device = data?.nowPlaying?.Device;
+  return (
+    <div>
+      <h2>{device?.Name}</h2>
+    </div>
+  );
+};
+export const Player = (
+  withRouter(
+    graphql<PlayerProps>(query)(
+      (props: PlayerProps) => {
+        const {data, auth, history} = props;
+        console.info(props);
+        useEffect(() => {
+          if (["initial", ""].includes(auth.token)) {
+            history.push("/")
+          }
+        }, [auth]);
+        if (data?.loading) {
+          return <div>Fetching</div>;
+        }
+        const notListeniing = data?.error?.message.includes("204");
+        if (data?.error && !notListeniing) {
+          return <div>Error</div>;
+        }
+        return (
+          <React.Fragment>
+            <div onClick={() => {
+              data?.refetch({})
+                .then(() => {
+                  console.info("then");
+                })
+                .catch(() => {
+                  console.info("catch");
+                })
+            }}>
+              {!notListeniing && data?.nowPlaying ? <Name {...props}/> : "not listening"}
+            </div>
+          </React.Fragment>
+        )
+      }
+    )
+  ));

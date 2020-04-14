@@ -1,0 +1,5 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+directive @rest(
+  path: String = "/"
+  type: String = ""
+) on FIELD

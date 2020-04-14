@@ -1,7 +1,8 @@
 {
   "defaultSeverity": "error",
   "extends": [
-    "tslint:recommended"
+    "tslint:recommended",
+    "tslint:react"
   ],
   "jsRules": {},
   "rules": {
@@ -10,7 +11,7 @@
       "ignore-params",
       "ignore-properties"
     ],
-    "no-unused-variable": [false],
+    "no-unused-variable": "off",
     "react/jsx-uses-react": 1
   },
   "rulesDirectory": []

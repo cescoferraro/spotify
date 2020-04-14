@@ -1,97 +1,62 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
 schema {
   query: Query
   mutation: Mutation
 }
-directive @rest(
-  path: String = "/"
-  type: String = ""
-) on FIELD
 
-
-type Mutation {
-
-  #    verifyToken(token: String!): Boolean
-}
-
-
-type Query {
-  result: NowPlaying
-}
-
-type NowPlaying {
-  timestamp: Int
-  progress_ms: Int
-  is_playing: Boolean
-  shuffle_state: Boolean
-  repeat_state: String
-  device: Device
-  Item: Item
-  context: Context
-}
 type Device {
-  id: String
-  is_active: Boolean
-  is_restricted: Boolean
-  name: String
-  type: String
-  volume_percent: Int
+  Active: Boolean
+  Name: String
+  Restricted: Boolean
+  Type: String
+  Volume: Int
 }
 
-type ExternalIds {
-  isrc: String
-}
-
-type ExternalUrls {
-  spotify: String
+type Followers {
+  Endpoint: String
 }
 
 type Images {
-  height: Int
-  width: Int
-  url: String
+  Height: Int
+  URL: String
+  Width: Int
 }
 
-type Album {
-  name: String
-  album_type: String
-  id: String
-  uri: String
-  href: String
-  external_urls: ExternalUrls
-  images: [Images]
-  available_markets: [String]
+type Mutation {
+  test: String
 }
 
-type Artists {
-  name: String
-  id: String
-  uri: String
-  href: String
-  external_urls: ExternalUrls
+type PlaybackContext {
+  Endpoint: String
+  Type: String
 }
 
-type Item {
-  disc_number: Int
-  duration_ms: Int
-  explicit: Boolean
-  href: String
-  id: String
-  name: String
-  preview_url: String
-  track_number: Int
-  uri: String
-  popularity: Int
-  external_ids: ExternalIds
-  album: Album
-  external_urls: ExternalUrls
-  available_markets: [String]
-  artists: [Artists]
+type PlayerState {
+  Device: Device
+  PlaybackContext: PlaybackContext
+  Playing: Boolean
+  Progress: Int
+  RepeatState: String
+  ShuffleState: Boolean
+  Timestamp: Int
 }
 
-type Context {
-  href: String
-  type: String
-  uri: String
-  external_urls: ExternalUrls
+type PrivateUser {
+  Birthdate: String
+  Country: String
+  DisplayName: String
+  Email: String
+  Endpoint: String
+  Followers: Followers
+  ID: String
+  Images: [Images]
+  Product: String
+  URI: String
 }
 
+type Query {
+  login: String
+  me: PrivateUser
+  nowPlaying: PlayerState
+}

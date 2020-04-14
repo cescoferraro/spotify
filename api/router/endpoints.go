@@ -17,6 +17,7 @@ func Endpoints(version string) chi.Router {
 	r.Use(middleware.Logger, tools.Cors)
 	r.Post("/me", meEndPoint)
 	r.Get("/now", nowPlayingEndPoint)
+	r.Get("/login", loginEndPoint("dashboard"))
 	r.Get("/version", versionEndPoint(version))
 	r.HandleFunc("/auth", rootEndPoint)
 	schema := funcName()

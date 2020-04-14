@@ -41,7 +41,7 @@ var (
 )
 
 func Auth() spotify.Authenticator {
-	redirectURI := "http://localohost:8080/auth"
+	redirectURI := "http://localhost:8080/auth"
 	log.Println("kube kube *********")
 	if tools.IsProd() {
 		redirectURI = "https://spotifyapi.cescoferraro.xyz/auth"

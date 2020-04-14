@@ -1,18 +1,27 @@
+import {gql} from "@apollo/client";
 import RaisedButton from "material-ui/RaisedButton";
 import DashboardIcon from "material-ui/svg-icons/action/dashboard";
 import * as React from "react";
-import {API_URL} from "../app/shared/api";
+import {ChildProps, graphql} from "react-apollo";
+import {HomeComponentQuery} from "../types/HomeComponentQuery";
+import {Auth} from "./auth_store";
 
-export const HomeComponent = (props: any) => {
-  const login = () => {
-    window.location.href = API_URL() + "/login";
-  };
-  return <RaisedButton
-    onClick={login}
-    icon={<DashboardIcon/>}
-    labelStyle={{fontSize: "100%"}}
-    secondary={true}
-    fullWidth={true}
-    label="Dashboard"
-  />
-};
+type HomeComponentProps = ChildProps<{ auth: Auth }, HomeComponentQuery>;
+
+export const HomeComponent = graphql<HomeComponentProps>
+(gql`query HomeComponentQuery  { login } `)(
+  ({data}: HomeComponentProps) => {
+    if (data && !data.loading && data.login) {
+      return (
+        <RaisedButton
+          onClick={() => window.location.href = data?.login as string}
+          icon={<DashboardIcon/>}
+          secondary={true}
+          label="Dashboard"
+        />
+      );
+    }
+    return null;
+  }
+);
+
