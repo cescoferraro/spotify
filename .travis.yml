@@ -7,6 +7,7 @@ before_script:
   - yarn
 script:
   - yarn build
+  - bash scripts/buildGO.sh
   - docker-compose stop web
   - docker-compose rm -f web
   - docker-compose up --build web
