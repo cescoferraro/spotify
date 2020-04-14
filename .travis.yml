@@ -19,6 +19,7 @@ before_script:
   - sudo mv docker-compose /usr/local/bin
   - docker-compose --version
   - nvm install 13
+  - go mod vendor
   - yarn
 script:
   - yarn build
