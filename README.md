@@ -1,8 +1,10 @@
 #Material Spotify [![Build Status](https://travis-ci.org/cescoferraro/spotify.svg?branch=master)](https://travis-ci.org/cescoferraro/spotify)
 
-Available ass [www.cescoferraro.xyz] ()
+Hosted web at [https://spotify.cescoferraro.xyz](https://spotify.cescoferraro.xyz)
 
-## Available Api Scripts
+Hosted api at [https://spotifyapi.cescoferraro.xyz/graphql](https://spotifyapi.cescoferraro.xyz/graphql)
+
+## Available Api Scripts 
 ### `yarn start` 
 Runs the web app in the development mode.<br />
 #### `make build`
