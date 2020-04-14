@@ -22,7 +22,7 @@ before_script:
   - yarn
 script:
   - yarn build
-  - bash scripts/buildGO.sh
+  - make build
   - DOCKER_HOST='ssh://root@45.79.80.53' docker-compose stop web api
   - DOCKER_HOST='ssh://root@45.79.80.53' docker-compose rm -f web api
   - DOCKER_HOST='ssh://root@45.79.80.53' docker-compose up -d --build web api
