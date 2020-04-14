@@ -24,11 +24,11 @@ before_script:
 script:
   - yarn build
   - bash scripts/buildGO.sh
-  - docker-compose stop web
+  - DOCKER_HOST="ssh://root@45.79.80.53" docker-compose stop web
   - docker-compose rm -f web
   - docker-compose up --build web
 
 
 env:
-  - DOCKER_HOST="ssh://root@45.79.80.53" DOCKER_COMPOSE_VERSION=1.8.0
+  -DOCKER_COMPOSE_VERSION=1.8.0
 
