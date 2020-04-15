@@ -1,16 +1,14 @@
 language: go
 dist: bionic
-services:
-  - docker
+services: docker
 node_js: '13'
 go: 1.13.x
 before_script:
-  - sudo apt update
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu
-    $(lsb_release -cs) stable"
   - sudo apt-get -qq update
-  - sudo apt install docker-ce docker-ce-cli containerd.io -y
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get -qq update
+  - sudo apt-get install docker-ce docker-ce-cli containerd.io -y
   - docker info
   - docker-compose --version
   - sudo rm /usr/local/bin/docker-compose
