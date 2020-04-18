@@ -2,14 +2,12 @@ package spotify
 
 import (
 	"fmt"
-	"net/http"
-
 	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
 )
 
 // Getfollowing TODO: NEEDS COMMENT INFO
-func Songs(code string, r *http.Request) ([]spotify.SavedTrack, error) {
+func Songs(code string) ([]spotify.SavedTrack, error) {
 	var main []spotify.SavedTrack
 	var err error
 	token, err := ProcessToken(code)

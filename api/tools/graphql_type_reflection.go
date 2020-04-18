@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/pkg/errors"
+	"log"
 	"reflect"
 )
 
@@ -21,7 +22,7 @@ func describeStruct(s interface{}) {
 			describeSlice(iType)
 
 		default:
-			describeSimpleType("!!! something wrong happens !!!")
+			describeSimpleType("!!! something wrong happens !!!", "sdfsfd")
 		}
 
 		return
@@ -104,6 +105,7 @@ func describeSimpleType(text ...interface{}) {
 	// var fieldType string = text[1].(string)
 	// var fieldTag string = strings.Split(text[2].(string), ":")[1]
 	var out string = ""
+	log.Println(text)
 	switch text[1] {
 	case "string":
 		out = `"` + fieldName + `": &graphql.Field{

@@ -16,7 +16,7 @@ import (
 var version string
 
 func main() {
-	schema := schema.FuncName()
+	schema := schema.Generator()
 	r := chi.NewRouter()
 	r.Use(middleware.Logger, tools.Cors)
 	r.HandleFunc("/auth", endpoints.RootEndPoint)

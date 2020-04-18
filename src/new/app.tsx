@@ -26,6 +26,10 @@ const client = ({history}: { history: any }) => new ApolloClient({
         };
       }),
       onError(({graphQLErrors, networkError}) => {
+        if(networkError){
+
+          console.log(networkError)
+        }
         if (graphQLErrors) {
           console.log(graphQLErrors)
           // auth.setToken("");

@@ -18,7 +18,7 @@ const query = gql`
   }
 `;
 
-const Name = ({data}: PlayerProps) => {
+const Name = ({data, auth}: PlayerProps) => {
   console.log("data");
   console.log("data");
   console.log(data);
@@ -26,6 +26,7 @@ const Name = ({data}: PlayerProps) => {
   return (
     <div>
       <h2>{device?.Name}</h2>
+      <p>{auth.token}</p>
     </div>
   );
 };
@@ -50,6 +51,8 @@ export const Player = (
         }
         return (
           <React.Fragment>
+            <h2></h2>
+            {auth.token}
             <ReactJkMusicPlayer
               audioLists={audioList1}
               defaultPlayIndex={0}
@@ -141,5 +144,5 @@ const audioList1 = [
     cover: '//cdn.lijinke.cn/nande.jpg',
     musicSrc: '//cdn.lijinke.cn/nande.mp3',
   },
-]
+];
 
