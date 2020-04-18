@@ -2,6 +2,7 @@ import {gql} from "@apollo/client";
 import * as React from "react";
 import {useEffect} from "react";
 import {ChildProps, graphql} from 'react-apollo';
+import ReactJkMusicPlayer from "react-jinke-music-player";
 import {RouteComponentProps, withRouter} from "react-router";
 import {PlayerComponentQuery} from "../types/PlayerComponentQuery";
 import {Auth} from "./auth_store";
@@ -48,6 +49,42 @@ export const Player = (
         }
         return (
           <React.Fragment>
+            <ReactJkMusicPlayer
+              audioLists={[...audioList1, ...audioList2]}
+              defaultPlayIndex={0}
+              mode={"full"}
+              bounds={'body'}
+              clearPriorAudioLists={false}
+              autoPlayInitLoadPlayList={false}
+              preload={false}
+              glassBg={false}
+              remember={false}
+              remove={false}
+              defaultPosition={{
+                top: 300,
+                left: 120,
+              }}
+              once={false}
+              autoPlay={false}
+              toggleMode={false}
+              showMiniModeCover={false}
+              drag={false}
+              seeked={false}
+              showMediaSession={false}
+              showPlay={false}
+              showReload={false}
+              showDownload={false}
+              showPlayMode={false}
+              showThemeSwitch={false}
+              showLyric={false}
+              showDestroy={false}
+              extendsContent={false}
+              defaultVolume={1}
+              playModeShowTime={600}
+              loadAudioErrorPlayNext={true}
+              autoHiddenCover={false}
+              spaceBar={false}
+            />
             <div onClick={() => {
               data?.refetch({}).then(() => true).catch(() => true);
             }}>
@@ -58,3 +95,53 @@ export const Player = (
       }
     )
   ));
+
+const audioList1 = [
+  {
+    name: '高尚',
+    singer: '薛之谦',
+    cover: '//cdn.lijinke.cn/nande.jpg',
+    musicSrc: '//cdn.lijinke.cn/gaoshang.mp3',
+    lyric: "sadf",
+  },
+  {
+    name: 'Despacito',
+    singer: 'Luis Fonsi',
+    cover:
+      'http://res.cloudinary.com/alick/image/upload/v1502689731/Despacito_uvolhp.jpg',
+    musicSrc: () => {
+      return Promise.resolve(
+        'http://res.cloudinary.com/alick/video/upload/v1502689683/Luis_Fonsi_-_Despacito_ft._Daddy_Yankee_uyvqw9.mp3'
+      )
+    },
+  },
+]
+
+const audioList2 = [
+  {
+    name: 'Bedtime Stories',
+    singer: 'Jay Chou',
+    cover:
+      'http://res.cloudinary.com/alick/image/upload/v1502375978/bedtime_stories_bywggz.jpg',
+    musicSrc:
+      'http://res.cloudinary.com/alick/video/upload/v1502375674/Bedtime_Stories.mp3',
+  },
+  {
+    name: 'Dorost Nemisham',
+    singer: 'Sirvan Khosravi',
+    cover:
+      'https://res.cloudinary.com/ehsanahmadi/image/upload/v1573758778/Sirvan-Khosravi-Dorost-Nemisham_glicks.jpg',
+    musicSrc: () => {
+      return Promise.resolve(
+        'https://res.cloudinary.com/ehsanahmadi/video/upload/v1573550770/Sirvan-Khosravi-Dorost-Nemisham-128_kb8urq.mp3'
+      )
+    },
+  },
+  {
+    name: '难得',
+    singer: '安来宁',
+    cover: '//cdn.lijinke.cn/nande.jpg',
+    musicSrc: '//cdn.lijinke.cn/nande.mp3',
+  },
+]
+

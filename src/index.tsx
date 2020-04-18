@@ -7,8 +7,7 @@ import './index.css';
 import {BoilTheme} from "./new";
 import {App} from "./new/app";
 import * as serviceWorker from './serviceWorker';
-
-
+import "react-jinke-music-player/assets/index.css";
 
 const boilMUI = getMuiTheme(BoilTheme, {userAgent: navigator.userAgent});
 ReactDOM.render(
