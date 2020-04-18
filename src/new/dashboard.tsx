@@ -10,6 +10,9 @@ import {Auth} from "./auth_store";
 type PlayerProps = ChildProps<{ auth: Auth } & RouteComponentProps, PlayerComponentQuery>;
 const query = gql`
   query PlayerComponentQuery{
+    mySongs {
+      name
+    }
     nowPlaying {
       Device {
         Name
@@ -51,8 +54,9 @@ export const Player = (
         }
         return (
           <React.Fragment>
-            <h2></h2>
-            {auth.token}
+            <p>
+              {auth.token}
+            </p>
             <ReactJkMusicPlayer
               audioLists={audioList1}
               defaultPlayIndex={0}

@@ -7,6 +7,11 @@
 // GraphQL query operation: PlayerComponentQuery
 // ====================================================
 
+export interface PlayerComponentQuery_mySongs {
+  __typename: "SavedTrack";
+  name: string | null;
+}
+
 export interface PlayerComponentQuery_nowPlaying_Device {
   __typename: "Device";
   Name: string | null;
@@ -18,5 +23,6 @@ export interface PlayerComponentQuery_nowPlaying {
 }
 
 export interface PlayerComponentQuery {
+  mySongs: (PlayerComponentQuery_mySongs | null)[] | null;
   nowPlaying: PlayerComponentQuery_nowPlaying | null;
 }

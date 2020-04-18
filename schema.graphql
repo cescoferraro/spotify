@@ -5,6 +5,13 @@ schema {
   mutation: Mutation
 }
 
+type Album {
+  AlbumType: String
+  endpoint: String
+  images: [Images]
+  name: String
+}
+
 type Device {
   Active: Boolean
   Name: String
@@ -58,5 +65,28 @@ type PrivateUser {
 type Query {
   login: String
   me: PrivateUser
+  mySongs: [SavedTrack]
   nowPlaying: PlayerState
+}
+
+type SavedTrack {
+  name: String
+  track: track
+}
+
+type artists {
+  endpoint: String
+  name: String
+}
+
+type track {
+  album: Album
+  artists: [artists]
+  duration: Int
+  endpoint: String
+  explicit: Boolean
+  name: String
+  popularity: Int
+  previewURL: String
+  trackNumber: Int
 }
