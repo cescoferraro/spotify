@@ -1,4 +1,4 @@
-package router
+package endpoints
 
 import (
 	"bytes"
@@ -10,7 +10,7 @@ import (
 	"github.com/cescoferraro/spotify/api/tools"
 )
 
-func rootEndPoint(w http.ResponseWriter, r *http.Request) {
+func RootEndPoint(w http.ResponseWriter, r *http.Request) {
 	log.Println("*")
 	var buffer bytes.Buffer
 	if tools.IsProd() {

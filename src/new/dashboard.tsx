@@ -37,7 +37,7 @@ export const Player = (
         console.info(props);
         useEffect(() => {
           if (["initial", ""].includes(auth.token)) {
-            history.push("/")
+            // history.push("/")
           }
         }, [auth, history]);
         if (data?.loading) {
@@ -45,12 +45,13 @@ export const Player = (
         }
         const notListeniing = data?.error?.message.includes("204");
         if (data?.error && !notListeniing) {
+          // auth.setToken("");
           return <div>Error</div>;
         }
         return (
           <React.Fragment>
             <ReactJkMusicPlayer
-              audioLists={[...audioList1, ...audioList2]}
+              audioLists={audioList1}
               defaultPlayIndex={0}
               mode={"full"}
               bounds={'body'}
@@ -66,15 +67,15 @@ export const Player = (
               }}
               once={false}
               autoPlay={false}
-              toggleMode={false}
-              showMiniModeCover={false}
-              drag={false}
+              toggleMode={true}
+              showMiniModeCover={true}
+              drag={true}
               seeked={false}
               showMediaSession={false}
-              showPlay={false}
+              showPlay={true}
               showReload={false}
-              showDownload={false}
-              showPlayMode={false}
+              showDownload={true}
+              showPlayMode={true}
               showThemeSwitch={false}
               showLyric={false}
               showDestroy={false}
@@ -82,8 +83,8 @@ export const Player = (
               defaultVolume={1}
               playModeShowTime={600}
               loadAudioErrorPlayNext={true}
-              autoHiddenCover={false}
-              spaceBar={false}
+              autoHiddenCover={true}
+              spaceBar={true}
             />
             <div onClick={() => {
               data?.refetch({}).then(() => true).catch(() => true);
@@ -115,9 +116,6 @@ const audioList1 = [
       )
     },
   },
-]
-
-const audioList2 = [
   {
     name: 'Bedtime Stories',
     singer: 'Jay Chou',

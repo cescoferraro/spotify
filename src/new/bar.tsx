@@ -1,17 +1,20 @@
 import AppBar from "material-ui/AppBar";
-import IconButton from "material-ui/IconButton";
-import DashboardIcon from "material-ui/svg-icons/action/dashboard";
 import * as React from "react";
-import {withRouter} from "react-router-dom";
+import {useEffect} from "react";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {Auth} from "./auth_store";
 
-export const AppBarSpotify = withRouter((props: any) => {
+export const AppBarSpotify = withRouter((props: RouteComponentProps<any> & { auth: Auth }) => {
+  useEffect(() => {
+    console.log(props.auth.token);
+    // if (props.auth.token != "initial") {
+    //   props.history.push("/dashboard")
+    // }
+  }, [props]);
   return (
     <AppBar
       title={"Material Spotify"}
-      iconElementRight={(<IconButton><DashboardIcon/></IconButton>)}
-      onLeftIconButtonClick={() => {
-
-      }}
+      showMenuIconButton={false}
       onTitleClick={() => {
         props.history.push("/")
       }}

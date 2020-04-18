@@ -1,11 +1,14 @@
 package tools
 
 import (
-	"bytes"
+	"context"
+	"github.com/graphql-go/handler"
 	"net/http"
 )
 
-// Cors TODO: NEEDS COMMENT INFO
+type Key string
+
+// Cors middleware
 func Cors(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		they := "Accept, Content-Type, Content-Length, " +
@@ -15,7 +18,6 @@ func Cors(h http.Handler) http.Handler {
 			w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 			w.Header().Set("Access-Control-Allow-Headers", they)
 		}
-		// Pause here if its Preflighted OPTIONS request
 		if r.Method == "OPTIONS" {
 			w.WriteHeader(200)
 			return
@@ -25,12 +27,10 @@ func Cors(h http.Handler) http.Handler {
 
 }
 
-// GetBODY TODO: NEEDS COMMENT INFO
-func GetBODY(r *http.Request) (string, error) {
-	buf := bytes.NewBuffer(make([]byte, 0, r.ContentLength))
-	_, err := buf.ReadFrom(r.Body)
-	if err != nil {
-		return "", err
-	}
-	return string(buf.Bytes()), nil
+func HttpHeaderMiddleware(next *handler.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		token := r.Header.Get("Authorization")
+		ctx := context.WithValue(r.Context(), Key("token"), token)
+		next.ContextHandler(ctx, w, r)
+	})
 }

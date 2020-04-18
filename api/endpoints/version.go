@@ -1,4 +1,4 @@
-package router
+package endpoints
 
 import (
 	"net/http"
@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/render"
 )
 
-func versionEndPoint(version string) func(http.ResponseWriter, *http.Request) {
+func VersionEndPoint(version string) func(http.ResponseWriter, *http.Request) {
 	if version == "" {
 		version = "NOT SET"
 	}
