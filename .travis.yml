@@ -21,7 +21,7 @@ before_script:
   - go mod vendor
   - yarn
 script:
-  - yarn build
+  - yarn build || travis_terminate 1;
   - make build
   - DOCKER_HOST='ssh://root@45.79.80.53' docker-compose stop web api
   - DOCKER_HOST='ssh://root@45.79.80.53' docker-compose rm -f web api
