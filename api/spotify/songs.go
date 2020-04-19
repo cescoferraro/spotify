@@ -16,13 +16,14 @@ func Songs(code string) ([]spotify.SavedTrack, error) {
 	}
 	client := Auth().NewClient(token)
 
+	pace := 40
 	total, err := TotalTracks(client)
 	if err != nil {
 		return main, errors.Wrap(err, "client.CurrentUser")
 	}
-	for i := 0; i <= total/40; i++ {
-		fmt.Println(i * 40)
-		localTracks, err := Tracks(client)
+	for i := 0; i < 1; i++ {
+		fmt.Println(i * pace)
+		localTracks, err := Tracks(i*pace, client)
 		if err != nil {
 			return main, errors.Wrap(err, "client.CurrentUser")
 		}
@@ -45,11 +46,12 @@ func TotalTracks(client spotify.Client) (int, error) {
 	return tracks.Total, nil
 }
 
-func Tracks(client spotify.Client) ([]spotify.SavedTrack, error) {
+func Tracks(offeset int, client spotify.Client) ([]spotify.SavedTrack, error) {
 	num := int(40)
 	var track []spotify.SavedTrack
 	tracks, err := client.CurrentUsersTracksOpt(&spotify.Options{
-		Limit: &num,
+		Offset: &offeset,
+		Limit:  &num,
 	})
 	if err != nil {
 		return track, err

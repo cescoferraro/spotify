@@ -5,13 +5,6 @@ schema {
   mutation: Mutation
 }
 
-type Album {
-  AlbumType: String
-  endpoint: String
-  images: [Images]
-  name: String
-}
-
 type Device {
   Active: Boolean
   Name: String
@@ -22,12 +15,6 @@ type Device {
 
 type Followers {
   Endpoint: String
-}
-
-type Images {
-  Height: Int
-  URL: String
-  Width: Int
 }
 
 type Mutation {
@@ -57,7 +44,7 @@ type PrivateUser {
   Endpoint: String
   Followers: Followers
   ID: String
-  Images: [Images]
+  Images: [images]
   Product: String
   URI: String
 }
@@ -70,23 +57,13 @@ type Query {
 }
 
 type SavedTrack {
+  images: [images]
   name: String
-  track: track
+  uri: String
 }
 
-type artists {
-  endpoint: String
-  name: String
-}
-
-type track {
-  album: Album
-  artists: [artists]
-  duration: Int
-  endpoint: String
-  explicit: Boolean
-  name: String
-  popularity: Int
-  previewURL: String
-  trackNumber: Int
+type images {
+  height: Int
+  url: String
+  width: Int
 }

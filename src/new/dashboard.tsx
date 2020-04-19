@@ -12,10 +12,17 @@ const query = gql`
   query PlayerComponentQuery{
     mySongs {
       name
+      uri
+      images {
+        url
+        height
+        width
+      }
     }
     nowPlaying {
       Device {
         Name
+
       }
     }
   }

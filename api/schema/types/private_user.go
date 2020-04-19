@@ -3,15 +3,15 @@ package types
 import "github.com/graphql-go/graphql"
 
 var image = graphql.NewObject(graphql.ObjectConfig{
-	Name: "Images",
+	Name: "images",
 	Fields: graphql.Fields{
-		"Height": &graphql.Field{
+		"height": &graphql.Field{
 			Type: graphql.Int,
 		},
-		"Width": &graphql.Field{
+		"width": &graphql.Field{
 			Type: graphql.Int,
 		},
-		"URL": &graphql.Field{
+		"url": &graphql.Field{
 			Type: graphql.String,
 		}},
 })

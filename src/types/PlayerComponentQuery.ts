@@ -7,9 +7,18 @@
 // GraphQL query operation: PlayerComponentQuery
 // ====================================================
 
+export interface PlayerComponentQuery_mySongs_images {
+  __typename: "images";
+  url: string | null;
+  height: number | null;
+  width: number | null;
+}
+
 export interface PlayerComponentQuery_mySongs {
   __typename: "SavedTrack";
   name: string | null;
+  uri: string | null;
+  images: (PlayerComponentQuery_mySongs_images | null)[] | null;
 }
 
 export interface PlayerComponentQuery_nowPlaying_Device {

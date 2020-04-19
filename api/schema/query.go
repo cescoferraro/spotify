@@ -6,11 +6,14 @@ import (
 	"github.com/cescoferraro/spotify/api/spotify"
 	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/graphql-go/graphql"
+	spotify2 "github.com/zmb3/spotify"
 	"log"
 )
 
 type Song struct {
-	Name string
+	Name   string
+	URI    string
+	Images []spotify2.Image
 }
 
 var query = graphql.NewObject(graphql.ObjectConfig{
@@ -30,7 +33,7 @@ var query = graphql.NewObject(graphql.ObjectConfig{
 					log.Println(err.Error())
 					return nil, err
 				}
-				eee, err := json.MarshalIndent(&user, "", "    ")
+				eee, err := json.MarshalIndent(&user[0], "", "    ")
 				if err != nil {
 					log.Println(err.Error())
 					return nil, err
@@ -38,7 +41,8 @@ var query = graphql.NewObject(graphql.ObjectConfig{
 				var result = []Song{}
 				for _, song := range user {
 
-					in := Song{Name: song.FullTrack.Name}
+					log.Println()
+					in := Song{Name: song.FullTrack.Name, Images: song.Album.Images, URI: string(song.FullTrack.URI)}
 					result = append(result, in)
 
 				}
@@ -63,7 +67,15 @@ var query = graphql.NewObject(graphql.ObjectConfig{
 				user, err := spotify.PlayerState(p.Context.Value(tools.Key("token")).(string))
 				if err != nil {
 					log.Println(err.Error())
-					return nil, err
+					playing := spotify2.CurrentlyPlaying{
+						Timestamp:       0,
+						PlaybackContext: spotify2.PlaybackContext{},
+						Progress:        0,
+						Playing:         false,
+						Item:            nil,
+					}
+					djdj := spotify2.PlayerState{CurrentlyPlaying: playing}
+					return djdj, err
 				}
 				hss, err := json.MarshalIndent(user, "", "  ")
 				if err != nil {
