@@ -7,12 +7,18 @@ import {onError} from "apollo-link-error";
 import * as React from "react"
 import {ApolloProvider} from 'react-apollo';
 import {BrowserRouter as Router, Route, RouteComponentProps, withRouter} from "react-router-dom";
-import {API_URL} from "../app/shared/api";
 import {AuthComponent} from "./auth";
 import {Auth} from "./auth_store";
 import {AppBarSpotify} from "./bar";
 import {Player} from './dashboard';
 import {HomeComponent} from "./home";
+
+export const API_URL = () => {
+  if (document.location.protocol === "https:") {
+    return "https://spotifyapi.cescoferraro.xyz"
+  }
+  return document.location.protocol + "//" + document.location.hostname + ":8080"
+};
 
 const auth = new Auth();
 
@@ -26,7 +32,7 @@ const client = ({history}: { history: any }) => new ApolloClient({
         };
       }),
       onError(({graphQLErrors, networkError}) => {
-        if(networkError){
+        if (networkError) {
 
           console.log(networkError)
         }
