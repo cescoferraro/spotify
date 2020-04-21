@@ -4,25 +4,33 @@ import {useEffect} from "react";
 import {ChildProps, graphql} from 'react-apollo';
 import ReactJkMusicPlayer from "react-jinke-music-player";
 import {RouteComponentProps, withRouter} from "react-router";
+import {Auth} from "../store/auth_store";
 import {PlayerComponentQuery} from "../types/PlayerComponentQuery";
-import {Auth} from "./auth_store";
 
 type PlayerProps = ChildProps<{ auth: Auth } & RouteComponentProps, PlayerComponentQuery>;
+
 const query = gql`
   query PlayerComponentQuery{
-    mySongs {
-      name
-      uri
-      images {
-        url
-        height
-        width
-      }
-    }
     nowPlaying {
-      Device {
-        Name
-
+      repeat_state
+      shuffle_state
+      CurrentlyPlaying {
+        is_playing
+        timestamp
+        context{
+          href
+          type
+          uri
+        }
+        progress_ms
+      }
+      device {
+        id
+        is_active
+        is_restricted
+        name
+        type
+        volume_percent
       }
     }
   }
@@ -32,14 +40,18 @@ const Name = ({data, auth}: PlayerProps) => {
   console.log("data");
   console.log("data");
   console.log(data);
-  const device = data?.nowPlaying?.Device;
+  // const device = data?.nowPlaying?.device;
   return (
-    <div>
-      <h2>{device?.Name}</h2>
+    <div
+      onClick={() => {
+        data?.refetch({}).then(() => true).catch(() => true);
+      }}
+    >
       <p>{auth.token}</p>
     </div>
   );
 };
+
 export const Player = (
   withRouter(
     graphql<PlayerProps>(query)(
@@ -47,23 +59,26 @@ export const Player = (
         const {data, auth, history} = props;
         console.info(props);
         useEffect(() => {
-          if (["initial", ""].includes(auth.token)) {
-            // history.push("/")
-          }
+          // console.log(data?.nowPlaying?.device?.volume_percent)
+          // console.log(data?.nowPlaying?.device?.volume_percent)
         }, [auth, history]);
-        if (data?.loading) {
-          return <div>Fetching</div>;
-        }
+        useEffect(() => {
+        }, [data?.nowPlaying]);
         const notListeniing = data?.error?.message.includes("204");
-        if (data?.error && !notListeniing) {
-          // auth.setToken("");
-          return <div>Error</div>;
-        }
         return (
           <React.Fragment>
-            <p>
-              {auth.token}
-            </p>
+            <div>
+
+              {(data?.error && !notListeniing) ?
+                <div>Error</div> :
+                (data?.loading ? <div>Fetching</div> :
+                    (
+                      (!notListeniing && data?.nowPlaying) ?
+                        <Name {...props}/> :
+                        "not listening")
+                )
+              }
+            </div>
             <ReactJkMusicPlayer
               audioLists={audioList1}
               defaultPlayIndex={0}
@@ -100,11 +115,6 @@ export const Player = (
               autoHiddenCover={true}
               spaceBar={true}
             />
-            <div onClick={() => {
-              data?.refetch({}).then(() => true).catch(() => true);
-            }}>
-              {!notListeniing && data?.nowPlaying ? <Name {...props}/> : "not listening"}
-            </div>
           </React.Fragment>
         )
       }

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useEffect} from "react";
 import {RouteComponentProps, withRouter} from "react-router";
-import {Auth} from "./auth_store";
+import {Auth} from "../store/auth_store";
 
 export const AuthComponent = withRouter(
   ({auth, ...other}: RouteComponentProps<{}> & { auth: Auth }) => {

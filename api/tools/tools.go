@@ -17,6 +17,14 @@ func IsProd() bool {
 	return false
 }
 
+func Contains(all []string, scalar string) bool {
+	for _, ddd := range all {
+		if ddd == scalar {
+			return true
+		}
+	}
+	return false
+}
 func GetLocalIP() string {
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {

@@ -5,16 +5,14 @@ schema {
   mutation: Mutation
 }
 
-type Device {
-  Active: Boolean
-  Name: String
-  Restricted: Boolean
-  Type: String
-  Volume: Int
+type CurrentlyPlaying {
+  Item: FullTrack
+  context: PlaybackContext
+  is_playing: Boolean
 }
 
-type Followers {
-  Endpoint: String
+type FullTrack {
+  popularity: String
 }
 
 type Mutation {
@@ -22,48 +20,11 @@ type Mutation {
 }
 
 type PlaybackContext {
-  Endpoint: String
-  Type: String
-}
-
-type PlayerState {
-  Device: Device
-  PlaybackContext: PlaybackContext
-  Playing: Boolean
-  Progress: Int
-  RepeatState: String
-  ShuffleState: Boolean
-  Timestamp: Int
-}
-
-type PrivateUser {
-  Birthdate: String
-  Country: String
-  DisplayName: String
-  Email: String
-  Endpoint: String
-  Followers: Followers
-  ID: String
-  Images: [images]
-  Product: String
-  URI: String
-}
-
-type Query {
-  login: String
-  me: PrivateUser
-  mySongs: [SavedTrack]
-  nowPlaying: PlayerState
-}
-
-type SavedTrack {
-  images: [images]
-  name: String
+  href: String
+  type: String
   uri: String
 }
 
-type images {
-  height: Int
-  url: String
-  width: Int
+type Query {
+  test: CurrentlyPlaying
 }

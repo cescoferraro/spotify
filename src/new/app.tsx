@@ -8,7 +8,7 @@ import * as React from "react"
 import {ApolloProvider} from 'react-apollo';
 import {BrowserRouter as Router, Route, RouteComponentProps, withRouter} from "react-router-dom";
 import {AuthComponent} from "./auth";
-import {Auth} from "./auth_store";
+import {Auth} from "../store/auth_store";
 import {AppBarSpotify} from "./bar";
 import {Player} from './dashboard';
 import {HomeComponent} from "./home";

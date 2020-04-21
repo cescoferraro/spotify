@@ -7,31 +7,30 @@
 // GraphQL query operation: PlayerComponentQuery
 // ====================================================
 
-export interface PlayerComponentQuery_mySongs_images {
-  __typename: "images";
-  url: string | null;
-  height: number | null;
-  width: number | null;
+export interface PlayerComponentQuery_nowPlaying_CurrentlyPlaying {
+  __typename: "CurrentlyPlaying";
+  is_playing: boolean | null;
+  timestamp: number | null;
 }
 
-export interface PlayerComponentQuery_mySongs {
-  __typename: "SavedTrack";
+export interface PlayerComponentQuery_nowPlaying_device {
+  __typename: "PlayerDevice";
+  id: string | null;
+  is_active: boolean | null;
+  is_restricted: boolean | null;
   name: string | null;
-  uri: string | null;
-  images: (PlayerComponentQuery_mySongs_images | null)[] | null;
-}
-
-export interface PlayerComponentQuery_nowPlaying_Device {
-  __typename: "Device";
-  Name: string | null;
+  type: string | null;
+  volume_percent: number | null;
 }
 
 export interface PlayerComponentQuery_nowPlaying {
   __typename: "PlayerState";
-  Device: PlayerComponentQuery_nowPlaying_Device | null;
+  repeat_state: string | null;
+  shuffle_state: boolean | null;
+  CurrentlyPlaying: PlayerComponentQuery_nowPlaying_CurrentlyPlaying | null;
+  device: PlayerComponentQuery_nowPlaying_device | null;
 }
 
 export interface PlayerComponentQuery {
-  mySongs: (PlayerComponentQuery_mySongs | null)[] | null;
   nowPlaying: PlayerComponentQuery_nowPlaying | null;
 }

@@ -2,8 +2,8 @@ import {gql} from "@apollo/client";
 import IconButton from "material-ui/IconButton";
 import * as React from "react";
 import {ChildProps, graphql} from "react-apollo";
+import {Auth} from "../store/auth_store";
 import {HomeComponentQuery} from "../types/HomeComponentQuery";
-import {Auth} from "./auth_store";
 
 type HomeComponentProps = ChildProps<{ auth: Auth }, HomeComponentQuery>;
 

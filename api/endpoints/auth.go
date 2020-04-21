@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/cescoferraro/spotify/api/spotify"
+	"github.com/cescoferraro/spotify/api/ispotify"
 	"github.com/cescoferraro/spotify/api/tools"
 )
 
@@ -21,7 +21,7 @@ func RootEndPoint(w http.ResponseWriter, r *http.Request) {
 	code := r.URL.Query().Get("code")
 	state := r.URL.Query().Get("state")
 	if r.URL.RawQuery != "" {
-		go spotify.ProcessToken(code)
+		go ispotify.ProcessToken(code)
 		buffer.WriteString(code)
 		buffer.WriteString("/")
 		buffer.WriteString(state)

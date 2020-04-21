@@ -1,88 +1,53 @@
 package schema
 
 import (
-	"encoding/json"
-	"github.com/cescoferraro/spotify/api/schema/types"
-	"github.com/cescoferraro/spotify/api/spotify"
+	"github.com/cescoferraro/spotify/api/ispotify"
+	"github.com/cescoferraro/spotify/api/structql"
 	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/graphql-go/graphql"
-	spotify2 "github.com/zmb3/spotify"
-	"log"
+	"github.com/zmb3/spotify"
 )
 
-type Song struct {
-	Name   string
-	URI    string
-	Images []spotify2.Image
-}
-
-var query = graphql.NewObject(graphql.ObjectConfig{
+var Query = graphql.NewObject(graphql.ObjectConfig{
 	Name: "Query",
 	Fields: graphql.Fields{
 		"login": &graphql.Field{
 			Type: graphql.String,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return spotify.Auth().AuthURL("dashboard"), nil
+				return ispotify.Auth().AuthURL("dashboard"), nil
 			},
 		},
-		"mySongs": &graphql.Field{
-			Type: graphql.NewList(types.SavedTrackGqlType),
+		"test": &graphql.Field{
+			Type: structql.GenerateType(spotify.SimpleArtist{}),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				user, err := spotify.Songs(p.Context.Value(tools.Key("token")).(string))
-				if err != nil {
-					log.Println(err.Error())
-					return nil, err
-				}
-				eee, err := json.MarshalIndent(&user[0], "", "    ")
-				if err != nil {
-					log.Println(err.Error())
-					return nil, err
-				}
-				var result = []Song{}
-				for _, song := range user {
-
-					log.Println()
-					in := Song{Name: song.FullTrack.Name, Images: song.Album.Images, URI: string(song.FullTrack.URI)}
-					result = append(result, in)
-
-				}
-				log.Println(string(eee))
-				return result, nil
-			},
-		},
-		"me": &graphql.Field{
-			Type: types.PrivateUserGqlType,
-			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				user, err := spotify.GetProfile(p.Context.Value(tools.Key("token")).(string))
-				if err != nil {
-					log.Println(err.Error())
-					return nil, err
-				}
-				return user, nil
+				return spotify.SimpleArtist{
+					Name:     "sdkjf",
+					ID:       "sdfk",
+					URI:      "sdkfj",
+					Endpoint: "osdf",
+				}, nil
 			},
 		},
 		"nowPlaying": &graphql.Field{
-			Type: types.PlayerStateGqlType,
+			Type: structql.GenerateType(spotify.PlayerState{
+				CurrentlyPlaying: spotify.CurrentlyPlaying{
+					Item: &spotify.FullTrack{
+						SimpleTrack: spotify.SimpleTrack{
+							Artists: []spotify.SimpleArtist{},
+						},
+						Album: spotify.SimpleAlbum{
+							AvailableMarkets: []string{},
+							Images:           []spotify.Image{},
+						},
+					},
+				},
+			}),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				user, err := spotify.PlayerState(p.Context.Value(tools.Key("token")).(string))
+				token := p.Context.Value(tools.Key("token")).(string)
+				user, err := ispotify.PlayerState(token)
 				if err != nil {
-					log.Println(err.Error())
-					playing := spotify2.CurrentlyPlaying{
-						Timestamp:       0,
-						PlaybackContext: spotify2.PlaybackContext{},
-						Progress:        0,
-						Playing:         false,
-						Item:            nil,
-					}
-					djdj := spotify2.PlayerState{CurrentlyPlaying: playing}
-					return djdj, err
+					return ispotify.EmptyResponseMeansNotListening(err, user)
 				}
-				hss, err := json.MarshalIndent(user, "", "  ")
-				if err != nil {
-					log.Println(err.Error())
-					return nil, err
-				}
-				log.Println(string(hss))
 				return user, nil
 			},
 		},

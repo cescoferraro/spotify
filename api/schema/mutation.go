@@ -2,7 +2,7 @@ package schema
 
 import "github.com/graphql-go/graphql"
 
-var mutation = graphql.NewObject(
+var Mutation = graphql.NewObject(
 	graphql.ObjectConfig{
 		Name:        "Mutation",
 		Description: "",
