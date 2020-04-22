@@ -1,7 +1,6 @@
 package structql
 
 import (
-	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/graphql-go/graphql"
 	"log"
 	"reflect"
@@ -46,20 +45,6 @@ func DeepFields(iface interface{}) *graphql.Object {
 			}
 			fields[fieldName] = &graphql.Field{
 				Type: GenerateType(irValue.Interface()),
-				//Resolve: func(e graphql.ResolveParams) (interface{}, error) {
-				//	log.Println(")))))))))))))))))")
-				//	log.Println(fieldName)
-				//	log.Println(itValue.Name)
-				//	log.Println(itValue.Type)
-				//	of := reflect.ValueOf(e.Source)
-				//	er := of.FieldByName(itValue.Name)
-				//	eee, _ := json.MarshalIndent(of.Interface(), "", " ")
-				//	log.Println(string(eee))
-				//	i2 := er.Interface()
-				//	ee, _ := json.MarshalIndent(i2, "", " ")
-				//	log.Println(string(ee))
-				//	return i2, nil
-				//},
 			}
 			continue
 		case reflect.Slice:
@@ -83,21 +68,16 @@ func DeepFields(iface interface{}) *graphql.Object {
 			i2 := reflect.Indirect(reflect.ValueOf(irValue.Interface()))
 			fields[fieldName] = &graphql.Field{
 				Type: GenerateType(i2.Interface()),
-				//Resolve: func(e graphql.ResolveParams) (interface{}, error) {
-				//	valueOf := reflect.ValueOf(e.Source)
-				//	i3 := valueOf.FieldByName(jsonTag)
-				//	return i3.Interface(), nil
-				//},
 			}
 			continue
 		default:
 			if irValue.CanInterface() {
-				if tools.Contains(cardinals, reflect.TypeOf(irValue.Interface()).Kind().String()) {
+				if Contains(cardinals, reflect.TypeOf(irValue.Interface()).Kind().String()) {
 					fields[jsonTag] = &graphql.Field{Type: MapReflectScalar(irValue)}
 					continue
 				}
 			}
-			if tools.Contains(cardinals, itValue.Type.String()) {
+			if Contains(cardinals, itValue.Type.String()) {
 				fields[jsonTag] = &graphql.Field{Type: MapReflectScalar(irValue)}
 			}
 		}
@@ -173,4 +153,12 @@ func split(t reflect.Type) string {
 
 func StructName(myvar interface{}) string {
 	return reflect.TypeOf(myvar).Name()
+}
+func Contains(all []string, scalar string) bool {
+	for _, ddd := range all {
+		if ddd == scalar {
+			return true
+		}
+	}
+	return false
 }
