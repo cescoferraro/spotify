@@ -14,15 +14,20 @@ type CurrentlyPlaying {
 }
 
 type FullTrack {
+  SimpleTrack: SimpleTrack
   album: SimpleAlbum
   popularity: Int
-  simple_track: SimpleTrack
 }
 
 type Image {
   height: Int
   url: String
   width: Int
+}
+
+type LocalTest {
+  cesco: String
+  whatever: Whatever
 }
 
 type Mutation {
@@ -45,7 +50,7 @@ type PlayerDevice {
 }
 
 type PlayerState {
-  currently_playing: CurrentlyPlaying
+  CurrentlyPlaying: CurrentlyPlaying
   device: PlayerDevice
   repeat_state: String
   shuffle_state: Boolean
@@ -91,6 +96,12 @@ type SimpleTrack {
 type Token {
   access_token: String
   expiry: Int
+  inner_token: LocalTest
   refresh_token: String
   token_type: String
+  whatever: Whatever
+}
+
+type Whatever {
+  whatever: String
 }

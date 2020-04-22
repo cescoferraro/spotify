@@ -7,10 +7,18 @@
 // GraphQL query operation: PlayerComponentQuery
 // ====================================================
 
+export interface PlayerComponentQuery_nowPlaying_CurrentlyPlaying_context {
+  __typename: "PlaybackContext";
+  href: string | null;
+  type: string | null;
+}
+
 export interface PlayerComponentQuery_nowPlaying_CurrentlyPlaying {
   __typename: "CurrentlyPlaying";
   is_playing: boolean | null;
   timestamp: number | null;
+  context: PlayerComponentQuery_nowPlaying_CurrentlyPlaying_context | null;
+  progress_ms: number | null;
 }
 
 export interface PlayerComponentQuery_nowPlaying_device {
