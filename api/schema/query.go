@@ -8,14 +8,21 @@ import (
 	"time"
 )
 
+type Whatever struct {
+	Whatever string `json:"whatever"`
+}
 type LocalTest struct {
-	Name  []*string `json:"name"`
-	Cesco string    `json:"cesco"`
+	Cesco    string    `json:"cesco"`
+	Whatever *Whatever `json:"whatever"`
 }
 
 type Token struct {
 	// AccessToken is the token that authorizes and authenticates
 	// the requests.
+	Whatever Whatever `json:"whatever"`
+
+	InnerToken LocalTest `json:"inner_token"`
+
 	AccessToken string `json:"access_token"`
 
 	// TokenType is the type of token.
@@ -49,7 +56,21 @@ var Query = graphql.NewObject(graphql.ObjectConfig{
 			},
 		},
 		"token": &graphql.Field{
-			Type: structql.GenerateType(Token{}),
+			Type: structql.GenerateType(Token{
+				Whatever: Whatever{
+					Whatever: "",
+				},
+				InnerToken: LocalTest{
+					Cesco: "",
+					Whatever: &Whatever{
+						Whatever: "",
+					},
+				},
+				AccessToken:  "",
+				TokenType:    "",
+				RefreshToken: "",
+				Expiry:       time.Time{},
+			}),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				return Token{
 					AccessToken:  "sdfkj",
@@ -90,41 +111,17 @@ var Query = graphql.NewObject(graphql.ObjectConfig{
 				//if err != nil {
 				//	return ispotify.EmptyResponseMeansNotListening(err, user)
 				//}
-				artists := []spotify.SimpleArtist{{
-					Name:     "",
-					ID:       "",
-					URI:      "",
-					Endpoint: "",
-				}}
-				images := []spotify.Image{{
-					Height: 0,
-					Width:  0,
-					URL:    "",
-				}}
+				artists := []spotify.SimpleArtist{{}}
+				images := []spotify.Image{{}}
 				item := spotify.FullTrack{
 					SimpleTrack: spotify.SimpleTrack{
 						Artists:          artists,
 						AvailableMarkets: nil,
-						DiscNumber:       0,
-						Duration:         0,
-						Explicit:         false,
-						ExternalURLs:     nil,
-						Endpoint:         "",
-						ID:               "",
-						Name:             "",
-						PreviewURL:       "",
-						TrackNumber:      0,
 						URI:              "",
 					},
 					Album: spotify.SimpleAlbum{
-						Name:             "sdfsdf",
-						AlbumType:        "",
-						ID:               "",
-						URI:              "",
-						AvailableMarkets: nil,
-						Endpoint:         "",
-						Images:           images,
-						ExternalURLs:     nil,
+						Name:   "sdfsdf",
+						Images: images,
 					},
 					ExternalIDs: nil,
 					Popularity:  3230,
