@@ -20,7 +20,6 @@ const query = gql`
         context{
           href
           type
-          uri
         }
         progress_ms
       }

@@ -9,10 +9,20 @@ type CurrentlyPlaying {
   Item: FullTrack
   context: PlaybackContext
   is_playing: Boolean
+  progress_ms: Int
+  timestamp: Int
 }
 
 type FullTrack {
-  popularity: String
+  album: SimpleAlbum
+  popularity: Int
+  simple_track: SimpleTrack
+}
+
+type Image {
+  height: Int
+  url: String
+  width: Int
 }
 
 type Mutation {
@@ -25,6 +35,62 @@ type PlaybackContext {
   uri: String
 }
 
+type PlayerDevice {
+  id: String
+  is_active: Boolean
+  is_restricted: Boolean
+  name: String
+  type: String
+  volume_percent: Int
+}
+
+type PlayerState {
+  currently_playing: CurrentlyPlaying
+  device: PlayerDevice
+  repeat_state: String
+  shuffle_state: Boolean
+}
+
 type Query {
-  test: CurrentlyPlaying
+  login: String
+  nowPlaying: PlayerState
+  test: SimpleArtist
+  token: Token
+}
+
+type SimpleAlbum {
+  album_type: String
+  available_markets: [String]
+  href: String
+  id: String
+  images: [Image]
+  name: String
+  uri: String
+}
+
+type SimpleArtist {
+  href: String
+  id: String
+  name: String
+  uri: String
+}
+
+type SimpleTrack {
+  artists: [SimpleArtist]
+  disc_number: Int
+  duration_ms: Int
+  explicit: Boolean
+  href: String
+  id: String
+  name: String
+  preview_url: String
+  track_number: Int
+  uri: String
+}
+
+type Token {
+  access_token: String
+  expiry: Int
+  refresh_token: String
+  token_type: String
 }
