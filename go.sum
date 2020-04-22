@@ -1,6 +1,10 @@
 github.com/SonicRoshan/straf v1.0.3 h1:iMqe2cCX1kAvvluw75DF5yKG5Maujef+mgxMV5rdLnU=
 github.com/SonicRoshan/straf v2.0.0+incompatible h1:vVTIgqoClTiG4v9HOJevsoD+gNxkuc1bB+D6oTHNrew=
 github.com/SonicRoshan/straf v2.0.0+incompatible/go.mod h1:g3kp5UNrljuSZFiph4NEBWoK80Xt8Z0MQ9SCf7CrBlg=
+github.com/cescoferraro/structql v0.0.0-20200422111404-a08bfa30328b h1:gqMSWKphovxB0tf3Z02yech52zNukRVkxkM5SGIf2TM=
+github.com/cescoferraro/structql v0.0.0-20200422111404-a08bfa30328b/go.mod h1:X/aW7MAjlP8/eAeC5+O+D2KuVnI5dPIAHWTSEEREEUM=
+github.com/cescoferraro/structql v0.0.0-20200422112426-72de44a22d79 h1:scanwopKxUVtohYrbE3osDHOh5gtmIoe6swoVqroB2Y=
+github.com/cescoferraro/structql v0.0.0-20200422112426-72de44a22d79/go.mod h1:X/aW7MAjlP8/eAeC5+O+D2KuVnI5dPIAHWTSEEREEUM=
 github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8 h1:DujepqpGd1hyOd7aW59XpK7Qymp8iy83xq74fLr21is=
 github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8/go.mod h1:xkRDCp4j0OGD1HRkm4kmhM+pmpv3AKq5SU7GMg4oO/Q=
 github.com/go-chi/chi v3.1.5+incompatible h1:TcUFIZz4n9dleJjD6lxsoqPJDiEVQEWcNjj3mevAEFQ=

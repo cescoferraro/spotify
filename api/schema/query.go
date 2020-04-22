@@ -2,7 +2,7 @@ package schema
 
 import (
 	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/spotify/api/structql"
+	"github.com/cescoferraro/structql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 	"time"
@@ -17,33 +17,25 @@ type LocalTest struct {
 }
 
 type Token struct {
-	// AccessToken is the token that authorizes and authenticates
-	// the requests.
-	Whatever Whatever `json:"whatever"`
+	Code string `json:"code"`
 
-	InnerToken LocalTest `json:"inner_token"`
+	Max int `json:"max"`
 
-	AccessToken string `json:"access_token"`
+	Valid bool `json:"valid"`
 
-	// TokenType is the type of token.
-	// The Type method returns either this or "Bearer", the default.
-	TokenType string `json:"token_type"`
-
-	// RefreshToken is a token that's used by the application
-	// (as opposed to the user) to refresh the access token
-	// if it expires.
-	RefreshToken string `json:"refresh_token"`
-
-	// Expiry is the optional expiration time of the access token.
-	//
-	// If zero, TokenSource implementations will reuse the same
-	// token forever and RefreshToken or equivalent
-	// mechanisms for that TokenSource will not be used.
 	Expiry time.Time `json:"expiry"`
 
-	//// raw optionally contains extra metadata from the server
-	//// when updating a token.
-	raw interface{}
+	Data Data `json:"data"`
+}
+
+type Data struct {
+	Name string `json:"name"`
+
+	Trys int `json:"trys"`
+
+	Valid bool `json:"valid"`
+
+	Expiry time.Time `json:"expiry"`
 }
 
 var Query = graphql.NewObject(graphql.ObjectConfig{
@@ -56,27 +48,19 @@ var Query = graphql.NewObject(graphql.ObjectConfig{
 			},
 		},
 		"token": &graphql.Field{
-			Type: structql.GenerateType(Token{
-				Whatever: Whatever{
-					Whatever: "",
-				},
-				InnerToken: LocalTest{
-					Cesco: "",
-					Whatever: &Whatever{
-						Whatever: "",
-					},
-				},
-				AccessToken:  "",
-				TokenType:    "",
-				RefreshToken: "",
-				Expiry:       time.Time{},
-			}),
+			Type: structql.GenerateType(Token{}),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 				return Token{
-					AccessToken:  "sdfkj",
-					TokenType:    "sdfkj",
-					RefreshToken: "sdkfj",
-					Expiry:       time.Now(),
+					Code:   "super-secret",
+					Max:    2,
+					Valid:  false,
+					Expiry: time.Now(),
+					Data: Data{
+						Name:   "yay",
+						Trys:   40,
+						Valid:  true,
+						Expiry: time.Now(),
+					},
 				}, nil
 			},
 		},
