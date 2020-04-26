@@ -43,7 +43,7 @@ export const AuthComponent = withRouter(
           props.auth.setOAuth(data?.auth as OAuthToken)
           props.history.push("/dashboard")
         }
-      }, [data, props.auth])
+      }, [data, props.auth, props.location, props.history])
       return (
         <React.Fragment>
           <div>
