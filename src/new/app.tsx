@@ -7,8 +7,8 @@ import {onError} from "apollo-link-error";
 import * as React from "react"
 import {ApolloProvider} from 'react-apollo';
 import {BrowserRouter as Router, Route, RouteComponentProps, withRouter} from "react-router-dom";
-import {AuthComponent} from "./auth";
 import {Auth} from "../store/auth_store";
+import {AuthComponent} from "./auth";
 import {AppBarSpotify} from "./bar";
 import {Player} from './dashboard';
 import {HomeComponent} from "./home";
@@ -55,6 +55,7 @@ const client = ({history}: { history: any }) => new ApolloClient({
 });
 
 const HomeContainerStyles: React.CSSProperties = {
+  backgroundColor: "black",
   width: "100vw",
   height: "calc( 100vh - 64px )",
   display: "flex",
@@ -69,13 +70,15 @@ const WholeApp = withRouter((props: RouteComponentProps & {}) => {
       <Route path="/auth">
         <AuthComponent auth={auth}/>
       </Route>
-      <Route path="/dashboard">
-        <div style={{width: "100vw", height: "calc( 100vh - 64px )"}}><Player auth={auth}/></div>
-      </Route>
       <Route path="/" exact={true}>
         <AppBarSpotify auth={auth}/>
         <div style={HomeContainerStyles}>
           <div style={{height: "min-content"}}><HomeComponent auth={auth}/></div>
+        </div>
+      </Route>
+      <Route path="/dashboard">
+        <div style={{...HomeContainerStyles, height: "100vh"}}>
+          <Player auth={auth}/>
         </div>
       </Route>
     </ApolloProvider>

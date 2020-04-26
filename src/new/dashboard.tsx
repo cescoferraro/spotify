@@ -1,4 +1,5 @@
 import {gql} from "@apollo/client";
+import Button from "material-ui/RaisedButton";
 import * as React from "react";
 import {ChildProps, graphql} from 'react-apollo';
 import ReactJkMusicPlayer from "react-jinke-music-player";
@@ -55,15 +56,25 @@ const query = gql`
   }
 `;
 
-const Name = ({data, auth}: PlayerProps) => {
+const Name = ({data, auth, history}: PlayerProps) => {
   console.log(data?.mySongs)
   return (
     <div
+      style={{padding: 20, width: "100vw"}}
       onClick={() => {
         data?.refetch({}).then(() => true).catch(() => true);
       }}
     >
-      <p>{auth.token}</p>
+      <p style={{color: "white"}}>{auth.token}</p>
+      <Button
+        style={{backgroundColor: "red"}}
+        onClick={() => {
+          auth.setToken("")
+          history.push("/")
+        }}
+      >
+        Logout
+      </Button>
       <ReactJkMusicPlayer
         audioLists={data ? (data?.mySongs ? data?.mySongs
 
@@ -128,18 +139,16 @@ export const Player = (
         const notListeniing = data?.error?.message.includes("204");
         return (
           <React.Fragment>
-            <div>
 
-              {(data?.error && !notListeniing) ?
-                <div>Error</div> :
-                (data?.loading ? <div>Fetching</div> :
-                    (
-                      (!notListeniing && data?.nowPlaying) ?
-                        <Name {...props}/> :
-                        "not listening")
-                )
-              }
-            </div>
+            {(data?.error && !notListeniing) ?
+              <div>Error</div> :
+              (data?.loading ? <div>Fetching</div> :
+                  (
+                    (!notListeniing && data?.nowPlaying) ?
+                      <Name {...props}/> :
+                      "not listening")
+              )
+            }
           </React.Fragment>
         )
       }
