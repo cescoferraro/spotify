@@ -2,8 +2,8 @@ import {gql} from "@apollo/client";
 import IconButton from "material-ui/IconButton";
 import * as React from "react";
 import {ChildProps, graphql} from "react-apollo";
-import {Auth} from "../store/auth_store";
-import {HomeComponentQuery} from "../types/HomeComponentQuery";
+import {Auth} from "../../store/auth_store";
+import {HomeComponentQuery} from "../../types/HomeComponentQuery";
 
 type HomeComponentProps = ChildProps<{ auth: Auth }, HomeComponentQuery>;
 
@@ -23,8 +23,10 @@ const SpotifyLogoSvg = () => {
   );
 };
 
+const query = gql`query HomeComponentQuery ($state:String) { login(state:$state) } `;
+
 export const HomeComponent = graphql<HomeComponentProps>
-(gql`query HomeComponentQuery  { login } `)(
+(query, {options: {variables: {state: "dashboard"}}})(
   ({data}: HomeComponentProps) => {
     if (data && !data.loading && data.login) {
       const width = 168;

@@ -11,7 +11,7 @@ import {Auth} from "../store/auth_store";
 import {AuthComponent} from "./auth";
 import {AppBarSpotify} from "./bar";
 import {Player} from './dashboard/dashboard';
-import {HomeComponent} from "./home";
+import {HomeComponent} from "./home/home";
 
 export const API_URL = () => {
   if (document.location.protocol === "https:") {
@@ -27,12 +27,13 @@ const client = ({history}: { history: any }) => new ApolloClient({
   link: ApolloLink.from([
       setContext((yay: any, {headers}: any) => {
         return {
-          body: auth.token,
+          body: auth.code,
           headers: {
             ...headers,
             "Access-Token": `${auth.access_token}`,
             "Refresh-Token": `${auth.refresh_token}`,
-            "Code": `${auth.token}`,
+            "Code": `${auth.code}`,
+            "State": `${auth.state}`,
             "Expiry": `${auth.expiry}`,
             "Token-Type": `${auth.token_type}`,
 

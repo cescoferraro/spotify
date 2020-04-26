@@ -34,7 +34,9 @@ export class OAuthToken {
 export class Auth extends OAuthToken {
 
   @observable
-  public token: string | initialType = initial;
+  public code: string | initialType = initial;
+  @observable
+  public state: string | initialType = initial;
 
   constructor() {
     super()
@@ -42,8 +44,13 @@ export class Auth extends OAuthToken {
   }
 
   @action
-  public setToken(st: string) {
-    this.token = st;
+  public setState(st: string) {
+    this.state = st;
+  }
+
+  @action
+  public setCode(st: string) {
+    this.code = st;
   }
 
   @action
@@ -59,7 +66,8 @@ export class Auth extends OAuthToken {
     this.access_token = initial;
     this.refresh_token = initial;
     this.token_type = initial;
-    this.token = initial;
+    this.code = initial;
+    this.state = initial;
     this.expiry = 0;
   }
 }

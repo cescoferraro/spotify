@@ -12,7 +12,7 @@ type Key string
 func Cors(h http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		they := "Accept, Content-Type, Content-Length, " +
-			"Accept-Encoding, X-CSRF-Token, Authorization, X-Requested-With, Access-Token, Refresh-Token, Code, Expiry, Token-Type"
+			"Accept-Encoding, X-CSRF-Token, Authorization, X-Requested-With, Access-Token, State, Refresh-Token, Code, Expiry, Token-Type"
 		if origin := r.Header.Get("Origin"); origin != "" {
 			w.Header().Set("Access-Control-Allow-Origin", origin)
 			w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
@@ -33,6 +33,7 @@ func HttpHeaderMiddleware(next *handler.Handler) http.Handler {
 		ctx = context.WithValue(ctx, Key("refresh-token"), r.Header.Get("Refresh-Token"))
 		ctx = context.WithValue(ctx, Key("access-token"), r.Header.Get("Access-Token"))
 		ctx = context.WithValue(ctx, Key("expiry"), r.Header.Get("Expiry"))
+		ctx = context.WithValue(ctx, Key("state"), r.Header.Get("State"))
 		ctx = context.WithValue(ctx, Key("token-type"), r.Header.Get("Token-Type"))
 		next.ContextHandler(ctx, w, r)
 	})

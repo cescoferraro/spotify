@@ -17,7 +17,7 @@ const PlayerCompoennt = ({data, auth, history}: PlayerProps) => {
       s
       {(data?.error && !notListeniing) ?
         <div>Error</div> :
-        <p style={{color: "white", width: "calc( 100vw - 40px )", overflowWrap: "break-word"}}>{auth.token}</p>
+        <p style={{color: "white", width: "calc( 100vw - 40px )", overflowWrap: "break-word"}}>{auth.code}</p>
       }
       <Button
         style={{backgroundColor: "red"}}
@@ -28,7 +28,7 @@ const PlayerCompoennt = ({data, auth, history}: PlayerProps) => {
       >
         Logout
       </Button>
-      <ActualPalyer data={data || null}/>
+      <ActualPalyer data={data}/>
     </div>
   );
 };

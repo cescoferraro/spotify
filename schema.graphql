@@ -53,7 +53,7 @@ type PlayerState {
 
 type Query {
   auth(code: String): Token
-  login: String
+  login(state: String): String
   mySongs: [SavedTrack]
   nowPlaying: PlayerState
 }

@@ -16,8 +16,13 @@ var Query = graphql.NewObject(graphql.ObjectConfig{
 	Fields: graphql.Fields{
 		"login": &graphql.Field{
 			Type: graphql.String,
+			Args: graphql.FieldConfigArgument{"state": &graphql.ArgumentConfig{Type: graphql.String}},
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				return ispotify.Auth().AuthURL("dashboard"), nil
+				state, ok := p.Args["state"].(string)
+				if !ok {
+					return "", errors.New("arg state not found")
+				}
+				return ispotify.Auth().AuthURL(state), nil
 			},
 		},
 		"auth": &graphql.Field{

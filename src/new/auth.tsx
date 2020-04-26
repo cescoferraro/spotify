@@ -32,25 +32,29 @@ export const AuthComponent = withRouter(
     }
   })(
     (props: AuthProps) => {
-      const {data} = props;
+      const {data, auth, history, location} = props;
       useEffect(() => {
-
         if (data?.auth) {
-          const code = props.location.pathname
-            .replace("/auth/", "")
-            .replace("/dashboard", "");
-          props.auth.setToken(code)
-          props.auth.setOAuth(data?.auth as OAuthToken)
-          props.history.push("/dashboard")
+          const path = location.pathname.split("/");
+          if (path.length === 4) {
+            const code = path[2];
+            const state = path[3];
+            auth.setCode(code)
+            auth.setState(state)
+            auth.setOAuth(data?.auth as OAuthToken)
+            history.push("/dashboard")
+          } else {
+            history.push("/")
+          }
         }
-      }, [data, props.auth, props.location, props.history])
+      }, [data, auth, location, history])
       return (
         <React.Fragment>
           <div>
             <h2> acess-token </h2>{props.auth?.access_token}
           </div>
           <div>
-            <h2> token </h2> {props.auth?.token}
+            <h2> token </h2> {props.auth?.code}
           </div>
         </React.Fragment>
       )
