@@ -1,20 +1,19 @@
 package ispotify
 
 import (
+	"context"
 	"fmt"
-	"log"
-	"net/http"
-
 	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
+	"log"
 )
 
 // ShowFeelings TODO: NEEDS COMMENT INFO
-func ShowFeelings(move bool, id string, token string, r *http.Request) (*spotify.FullArtist, error) {
+func ShowFeelings(move bool, id string, ctx context.Context) (*spotify.FullArtist, error) {
 	var Artist *spotify.FullArtist
-	client, err := Authss(token, r)
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return Artist, errors.Wrap(err, "retrieveToken")
+		return Artist, err
 	}
 	IDS, err := ArtistTrack(client, id)
 	if err != nil {
@@ -54,16 +53,6 @@ func ShowFeelings(move bool, id string, token string, r *http.Request) (*spotify
 		return Artist, errors.Wrap(err, "retrieveToken")
 	}
 	return Artist, nil
-}
-
-// Authss TODO: NEEDS COMMENT INFO
-func Authss(token string, r *http.Request) (spotify.Client, error) {
-	var OAUTH spotify.Client
-	OauthToken, err := ProcessToken(token)
-	if err != nil {
-		return OAUTH, errors.Wrap(err, "retrieveToken")
-	}
-	return Auth().NewClient(OauthToken), nil
 }
 
 // ArtistTrack TODO: NEEDS COMMENT INFO

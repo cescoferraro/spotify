@@ -1,8 +1,8 @@
 package ispotify
 
 import (
+	"context"
 	"log"
-	"net/http"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -10,12 +10,11 @@ import (
 )
 
 // PlayOpts TODO: NEEDS COMMENT INFO
-func PlayOpts(id string, code string, r *http.Request) error {
-	token, err := ProcessToken(code)
+func PlayOpts(id string, ctx context.Context) error {
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return errors.Wrap(err, "retrieveToken")
+		return err
 	}
-	client := Auth().NewClient(token)
 	err = client.PlayOpt(&spotify.PlayOptions{
 		URIs: []spotify.URI{spotify.URI(id)},
 	})
@@ -27,11 +26,10 @@ func PlayOpts(id string, code string, r *http.Request) error {
 }
 
 // PlayOpts TODO: NEEDS COMMENT INFO
-func PLAYPlaylist(songs []string, code string, r *http.Request) error {
-	token, err := ProcessToken(code)
+func PLAYPlaylist(songs []string, ctx context.Context) error {
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		log.Println(err.Error())
-		return errors.Wrap(err, "retrieveToken")
+		return err
 	}
 	var URIs []spotify.URI
 	log.Println(songs)
@@ -39,8 +37,6 @@ func PLAYPlaylist(songs []string, code string, r *http.Request) error {
 		log.Println(value)
 		URIs = append(URIs, spotify.URI(value))
 	}
-
-	client := Auth().NewClient(token)
 	err = client.PlayOpt(&spotify.PlayOptions{
 		URIs: URIs,
 	})

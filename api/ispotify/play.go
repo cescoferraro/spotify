@@ -1,18 +1,16 @@
 package ispotify
 
 import (
-	"net/http"
-
+	"context"
 	"github.com/pkg/errors"
 )
 
 // Play TODO: NEEDS COMMENT INFO
-func Play(code string, r *http.Request) error {
-	token, err := ProcessToken(code)
+func Play(ctx context.Context) error {
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return errors.Wrap(err, "retrieveToken")
+		return err
 	}
-	client := Auth().NewClient(token)
 	err = client.Play()
 	if err != nil {
 		return errors.Wrap(err, "play error")

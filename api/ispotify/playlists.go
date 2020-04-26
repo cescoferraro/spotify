@@ -1,21 +1,20 @@
 package ispotify
 
 import (
-	"log"
-	"net/http"
-
+	"context"
 	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
+	"log"
 )
 
 // GetPLaylists TODO: NEEDS COMMENT INFO
-func GetPLaylists(code string, r *http.Request) ([]spotify.SimplePlaylist, error) {
+func GetPLaylists(ctx context.Context) ([]spotify.SimplePlaylist, error) {
 	var playlists = new(spotify.SimplePlaylistPage)
-	token, err := ProcessToken(code)
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return playlists.Playlists, errors.Wrap(err, "retrieveToken")
+		return playlists.Playlists, errors.Wrap(err, "client.CurrentUser")
 	}
-	client := Auth().NewClient(token)
+
 	playlists, err = client.CurrentUsersPlaylists()
 	if err != nil {
 		return playlists.Playlists, errors.Wrap(err, "client.CurrentUser")

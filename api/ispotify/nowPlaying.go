@@ -1,8 +1,8 @@
 package ispotify
 
 import (
+	"context"
 	"github.com/cescoferraro/structql"
-	"net/http"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -10,14 +10,12 @@ import (
 )
 
 // NowPlaying TODO: NEEDS COMMENT INFO
-func NowPlaying(code string, r *http.Request) (*spotify.CurrentlyPlaying, error) {
+func NowPlaying(ctx context.Context) (*spotify.CurrentlyPlaying, error) {
 	var CurrentlyPlaying *spotify.CurrentlyPlaying
-	token, err := ProcessToken(code)
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return CurrentlyPlaying, errors.Wrap(err, "retrieveToken")
+		return CurrentlyPlaying, err
 	}
-	client := Auth().NewClient(token)
-
 	CurrentlyPlaying, err = client.PlayerCurrentlyPlaying()
 	if err != nil {
 		return CurrentlyPlaying, errors.Wrap(err, "next error")

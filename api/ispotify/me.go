@@ -1,21 +1,19 @@
 package ispotify
 
 import (
-	"github.com/pkg/errors"
+	"context"
 	"github.com/zmb3/spotify"
 	"log"
 )
 
 // GetProfile TODO: NEEDS COMMENT INFO
-func GetProfile(code string) (*spotify.PrivateUser, error) {
+func GetProfile(ctx context.Context) (*spotify.PrivateUser, error) {
 	var user *spotify.PrivateUser
 	var err error
 	log.Println("before retrieving code")
-	token, err := ProcessToken(code)
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return user, errors.Wrap(err, "retrieveToken")
+		return user, err
 	}
-	log.Println("after retrieving code")
-	client := Auth().NewClient(token)
 	return client.CurrentUser()
 }

@@ -1,19 +1,18 @@
 package ispotify
 
 import (
-	"log"
-	"net/http"
-
+	"context"
 	"github.com/pkg/errors"
+	"log"
 )
 
 // Repeat TODO: NEEDS COMMENT INFO
-func Repeat(state string, code string, r *http.Request) error {
-	token, err := ProcessToken(code)
+func Repeat(state string, ctx context.Context) error {
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return errors.Wrap(err, "retrieveToken")
+		return errors.Wrap(err, "client.Previous")
 	}
-	client := Auth().NewClient(token)
+
 	log.Println(" 7777")
 	err = client.Repeat(state)
 	if err != nil {

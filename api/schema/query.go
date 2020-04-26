@@ -1,17 +1,14 @@
 package schema
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/cescoferraro/structql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 	"golang.org/x/oauth2"
 	"log"
-	"time"
 )
 
 var Query = graphql.NewObject(graphql.ObjectConfig{
@@ -42,11 +39,13 @@ var Query = graphql.NewObject(graphql.ObjectConfig{
 		"mySongs": &graphql.Field{
 			Type: graphql.NewList(ispotify.SavedTrack),
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				log.Println("mySongs")
-				token := getOAuthToken(p.Context)
-				client := ispotify.Auth().NewClient(token)
-				pace := 40
 				var main []spotify.SavedTrack
+				log.Println("mySongs")
+				client, err := ispotify.SpotifyClientFromContext(p.Context)
+				if err != nil {
+					return main, err
+				}
+				pace := 40
 				for i := 0; i < 1; i++ {
 					fmt.Println(i * pace)
 					localTracks, err := ispotify.Tracks(i*pace, client)
@@ -61,29 +60,17 @@ var Query = graphql.NewObject(graphql.ObjectConfig{
 		"nowPlaying": &graphql.Field{
 			Type: ispotify.PlayerStateGraphQLType,
 			Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-				token := getOAuthToken(p.Context)
-				client := ispotify.Auth().NewClient(token)
+				client, err := ispotify.SpotifyClientFromContext(p.Context)
+				if err != nil {
+					return spotify.PlayerState{}, err
+				}
 				CurrentlyPlaying, err := client.PlayerState()
 				if err != nil {
 					log.Println(err.Error())
 					return ispotify.EmptyResponseMeansNotListening(errors.New("204"))
 				}
-				//return user, nil
 				return CurrentlyPlaying, nil
 			},
 		},
 	},
 })
-
-func getOAuthToken(ctx context.Context) *oauth2.Token {
-	atoken := ctx.Value(tools.Key("access-token")).(string)
-	rtoken := ctx.Value(tools.Key("refresh-token")).(string)
-	tokenType := ctx.Value(tools.Key("token-type")).(string)
-	//expiry := ctx.Value(tools.Key("expiry")).(string)
-	token := new(oauth2.Token)
-	token.AccessToken = atoken
-	token.RefreshToken = rtoken
-	token.Expiry = time.Now()
-	token.TokenType = tokenType
-	return token
-}

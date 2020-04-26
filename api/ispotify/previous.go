@@ -1,18 +1,17 @@
 package ispotify
 
 import (
-	"net/http"
-
+	"context"
 	"github.com/pkg/errors"
 )
 
 // Next Previous: NEEDS COMMENT INFO
-func Previous(code string, r *http.Request) error {
-	token, err := ProcessToken(code)
+func Previous(ctx context.Context) error {
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return errors.Wrap(err, "retrieveToken")
+		return errors.Wrap(err, "client.Previous")
 	}
-	client := Auth().NewClient(token)
+
 	err = client.Previous()
 	if err != nil {
 		errors.Wrap(err, "next error")

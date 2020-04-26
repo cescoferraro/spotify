@@ -1,6 +1,8 @@
 package ispotify
 
 import (
+	"context"
+	"errors"
 	"github.com/cescoferraro/spotify/api/tools"
 	"log"
 	"sync"
@@ -53,28 +55,31 @@ func Auth() spotify.Authenticator {
 	return auth
 }
 
-// ProcessToken TODO: NEEDS COMMENT INFO
-func ProcessToken(code string) (*oauth2.Token, error) {
-	log.Println("before LOck")
-	TokenHUB.Lock()
-	defer TokenHUB.Unlock()
-	log.Println("cheking existence")
-	if TokenHUB.Tokens[code] != nil {
-		log.Println("token found")
-		return TokenHUB.Tokens[code], nil
-	}
-	var err error
-	log.Println("exchanging")
-	TokenHUB.Tokens[code], err = Auth().Exchange(code)
+func SpotifyClientFromContext(ctx context.Context) (spotify.Client, error) {
+	token, err := getOAuthTokenFromContext(ctx)
 	if err != nil {
-		delete(TokenHUB.Tokens, code)
-		return nil, err
+		return spotify.Client{}, err
 	}
-	log.Println("gouroutine delete")
-	return TokenHUB.Tokens[code], err
+	return Auth().NewClient(token), nil
 }
 
-func deleteToken(code string, tokens map[string]*oauth2.Token) {
-	time.Sleep(10 * time.Minute)
-	delete(tokens, code)
+func getOAuthTokenFromContext(ctx context.Context) (*oauth2.Token, error) {
+	atoken, ok := ctx.Value(tools.Key("access-token")).(string)
+	if !ok {
+		return &oauth2.Token{}, errors.New("cast error")
+	}
+	rtoken, ok := ctx.Value(tools.Key("refresh-token")).(string)
+	if !ok {
+		return &oauth2.Token{}, errors.New("cast error")
+	}
+	tokenType, ok := ctx.Value(tools.Key("token-type")).(string)
+	if !ok {
+		return &oauth2.Token{}, errors.New("cast error")
+	}
+	token := new(oauth2.Token)
+	token.AccessToken = atoken
+	token.RefreshToken = rtoken
+	token.Expiry = time.Now()
+	token.TokenType = tokenType
+	return token, nil
 }

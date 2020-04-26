@@ -1,21 +1,19 @@
 package ispotify
 
 import (
-	"net/http"
-
+	"context"
 	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
 )
 
 // GetRecommendations TODO: NEEDS COMMENT INFO
-func GetRecommendations(artists []string, code string, r *http.Request) (*spotify.Recommendations, error) {
+func GetRecommendations(artists []string, ctx context.Context) (*spotify.Recommendations, error) {
 	recommendations := new(spotify.Recommendations)
 	var err error
-	token, err := ProcessToken(code)
+	client, err := SpotifyClientFromContext(ctx)
 	if err != nil {
-		return recommendations, errors.Wrap(err, "retrieveToken")
+		return recommendations, err
 	}
-	client := Auth().NewClient(token)
 	artistSeed := []spotify.ID{}
 	for _, artist := range artists {
 		artistSeed = append(artistSeed, spotify.ID(artist))

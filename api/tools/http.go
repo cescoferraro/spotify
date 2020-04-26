@@ -29,8 +29,7 @@ func Cors(h http.Handler) http.Handler {
 
 func HttpHeaderMiddleware(next *handler.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := context.WithValue(r.Context(), Key("token"), r.Header.Get("Authorization"))
-		ctx = context.WithValue(ctx, Key("code"), r.Header.Get("Code"))
+		ctx := context.WithValue(r.Context(), Key("code"), r.Header.Get("Code"))
 		ctx = context.WithValue(ctx, Key("refresh-token"), r.Header.Get("Refresh-Token"))
 		ctx = context.WithValue(ctx, Key("access-token"), r.Header.Get("Access-Token"))
 		ctx = context.WithValue(ctx, Key("expiry"), r.Header.Get("Expiry"))

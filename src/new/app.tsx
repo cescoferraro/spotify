@@ -30,7 +30,6 @@ const client = ({history}: { history: any }) => new ApolloClient({
           body: auth.token,
           headers: {
             ...headers,
-            Authorization: `${auth.access_token}`,
             "Access-Token": `${auth.access_token}`,
             "Refresh-Token": `${auth.refresh_token}`,
             "Code": `${auth.token}`,
