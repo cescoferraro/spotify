@@ -1,9 +1,11 @@
 package schema
 
 import (
+	"encoding/json"
 	"github.com/cescoferraro/spotify/api/ispotify"
 	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/graphql-go/graphql"
+	"log"
 )
 
 var Query = graphql.NewObject(graphql.ObjectConfig{
@@ -23,6 +25,11 @@ var Query = graphql.NewObject(graphql.ObjectConfig{
 				if err != nil {
 					return ispotify.EmptyResponseMeansNotListening(err, user)
 				}
+				www, err := json.MarshalIndent(user, "", "  ")
+				if err != nil {
+					return user, err
+				}
+				log.Println(string(www))
 				return user, nil
 			},
 		},

@@ -25,11 +25,6 @@ type Image {
   width: Int
 }
 
-type LocalTest {
-  cesco: String
-  whatever: Whatever
-}
-
 type Mutation {
   test: String
 }
@@ -58,9 +53,13 @@ type PlayerState {
 
 type Query {
   login: String
+  mySongs: [SavedTrack]
   nowPlaying: PlayerState
-  test: SimpleArtist
-  token: Token
+}
+
+type SavedTrack {
+  added_at: String
+  track: FullTrack
 }
 
 type SimpleAlbum {
@@ -91,17 +90,4 @@ type SimpleTrack {
   preview_url: String
   track_number: Int
   uri: String
-}
-
-type Token {
-  access_token: String
-  expiry: Int
-  inner_token: LocalTest
-  refresh_token: String
-  token_type: String
-  whatever: Whatever
-}
-
-type Whatever {
-  whatever: String
 }

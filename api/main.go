@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"github.com/cescoferraro/spotify/api/endpoints"
 	"github.com/cescoferraro/spotify/api/schema"
 	"github.com/cescoferraro/spotify/api/tools"
@@ -25,10 +24,7 @@ func main() {
 	r.Get("/version", endpoints.VersionEndPoint(version))
 	r.Handle("/graphql", tools.HttpHeaderMiddleware(
 		handler.New(&handler.Config{
-			Schema: &generatedSchema,
-			RootObjectFn: func(ctx context.Context, r *http.Request) map[string]interface{} {
-				return map[string]interface{}{"rootValue": "foo"}
-			},
+			Schema:     &generatedSchema,
 			Pretty:     true,
 			GraphiQL:   false,
 			Playground: true,

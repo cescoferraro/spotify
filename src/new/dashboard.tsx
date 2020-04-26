@@ -10,6 +10,27 @@ type PlayerProps = ChildProps<{ auth: Auth } & RouteComponentProps, PlayerCompon
 
 const query = gql`
   query PlayerComponentQuery{
+    mySongs {
+      track {
+        popularity
+        album {
+          images {
+            url
+          }
+        }
+        SimpleTrack {
+          name
+          uri
+          href
+
+          preview_url
+          artists {
+            name
+            href
+          }
+        }
+      }
+    }
     nowPlaying {
       repeat_state
       shuffle_state
@@ -35,6 +56,7 @@ const query = gql`
 `;
 
 const Name = ({data, auth}: PlayerProps) => {
+  console.log(data?.mySongs)
   return (
     <div
       onClick={() => {
@@ -43,7 +65,23 @@ const Name = ({data, auth}: PlayerProps) => {
     >
       <p>{auth.token}</p>
       <ReactJkMusicPlayer
-        audioLists={audioList1}
+        audioLists={data ? (data?.mySongs ? data?.mySongs
+
+          .map((e) => {
+
+            console.log(e?.track?.SimpleTrack?.preview_url)
+            const images = e?.track?.album?.images || []
+            const artists = e?.track?.SimpleTrack?.artists || []
+            console.log(images[0])
+            return ({
+              name: e?.track?.SimpleTrack?.name,
+              musicSrc: e?.track?.SimpleTrack?.preview_url || " ",
+              singer: artists.length === 0 ? "" : artists.map((r) => (r?.name)).join(" "),
+              cover: images.length === 0 ? "" : (images[images.length - 1]?.url || ""),
+              // musicSrc: '//cdn.lijinke.cn/gaoshang.mp3',
+              lyric: "sadf",
+            })
+          }) : []) : []}
         defaultPlayIndex={0}
         mode={"full"}
         bounds={'body'}
