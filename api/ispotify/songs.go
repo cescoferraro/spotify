@@ -2,9 +2,24 @@ package ispotify
 
 import (
 	"fmt"
+	"github.com/cescoferraro/structql"
 	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
 )
+
+var SavedTrack = structql.GenerateType(spotify.SavedTrack{
+	AddedAt: "",
+	FullTrack: spotify.FullTrack{
+		SimpleTrack: spotify.SimpleTrack{
+			Artists:          []spotify.SimpleArtist{},
+			AvailableMarkets: []string{""},
+		},
+		Album: spotify.SimpleAlbum{
+			AvailableMarkets: []string{""},
+			Images:           []spotify.Image{{}},
+		},
+	},
+})
 
 // Getfollowing TODO: NEEDS COMMENT INFO
 func Songs(code string) ([]spotify.SavedTrack, error) {

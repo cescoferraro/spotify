@@ -1,6 +1,5 @@
 import {gql} from "@apollo/client";
 import * as React from "react";
-import {useEffect} from "react";
 import {ChildProps, graphql} from 'react-apollo';
 import ReactJkMusicPlayer from "react-jinke-music-player";
 import {RouteComponentProps, withRouter} from "react-router";
@@ -36,10 +35,6 @@ const query = gql`
 `;
 
 const Name = ({data, auth}: PlayerProps) => {
-  console.log("data");
-  console.log("data");
-  console.log(data);
-  // const device = data?.nowPlaying?.device;
   return (
     <div
       onClick={() => {
@@ -47,6 +42,42 @@ const Name = ({data, auth}: PlayerProps) => {
       }}
     >
       <p>{auth.token}</p>
+      <ReactJkMusicPlayer
+        audioLists={audioList1}
+        defaultPlayIndex={0}
+        mode={"full"}
+        bounds={'body'}
+        clearPriorAudioLists={false}
+        autoPlayInitLoadPlayList={false}
+        preload={false}
+        glassBg={false}
+        remember={false}
+        remove={false}
+        defaultPosition={{
+          top: 300,
+          left: 120,
+        }}
+        once={false}
+        autoPlay={false}
+        toggleMode={true}
+        showMiniModeCover={true}
+        drag={true}
+        seeked={false}
+        showMediaSession={false}
+        showPlay={true}
+        showReload={false}
+        showDownload={true}
+        showPlayMode={true}
+        showThemeSwitch={false}
+        showLyric={false}
+        showDestroy={false}
+        extendsContent={false}
+        defaultVolume={1}
+        playModeShowTime={600}
+        loadAudioErrorPlayNext={true}
+        autoHiddenCover={true}
+        spaceBar={true}
+      />
     </div>
   );
 };
@@ -56,11 +87,6 @@ export const Player = (
     graphql<PlayerProps>(query)(
       (props: PlayerProps) => {
         const {data} = props;
-        console.info(props);
-        useEffect(() => {
-          console.log(data?.nowPlaying?.device?.volume_percent)
-          console.log(data?.nowPlaying?.device?.name)
-        }, [data]);
         const notListeniing = data?.error?.message.includes("204");
         return (
           <React.Fragment>
@@ -76,49 +102,13 @@ export const Player = (
                 )
               }
             </div>
-            <ReactJkMusicPlayer
-              audioLists={audioList1}
-              defaultPlayIndex={0}
-              mode={"full"}
-              bounds={'body'}
-              clearPriorAudioLists={false}
-              autoPlayInitLoadPlayList={false}
-              preload={false}
-              glassBg={false}
-              remember={false}
-              remove={false}
-              defaultPosition={{
-                top: 300,
-                left: 120,
-              }}
-              once={false}
-              autoPlay={false}
-              toggleMode={true}
-              showMiniModeCover={true}
-              drag={true}
-              seeked={false}
-              showMediaSession={false}
-              showPlay={true}
-              showReload={false}
-              showDownload={true}
-              showPlayMode={true}
-              showThemeSwitch={false}
-              showLyric={false}
-              showDestroy={false}
-              extendsContent={false}
-              defaultVolume={1}
-              playModeShowTime={600}
-              loadAudioErrorPlayNext={true}
-              autoHiddenCover={true}
-              spaceBar={true}
-            />
           </React.Fragment>
         )
       }
     )
   ));
 
-const audioList1 = [
+export const audioList1 = [
   {
     name: '高尚',
     singer: '薛之谦',
