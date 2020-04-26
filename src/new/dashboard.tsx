@@ -55,14 +55,12 @@ export const Player = (
   withRouter(
     graphql<PlayerProps>(query)(
       (props: PlayerProps) => {
-        const {data, auth, history} = props;
+        const {data} = props;
         console.info(props);
         useEffect(() => {
-          // console.log(data?.nowPlaying?.device?.volume_percent)
-          // console.log(data?.nowPlaying?.device?.volume_percent)
-        }, [auth, history]);
-        useEffect(() => {
-        }, [data?.nowPlaying]);
+          console.log(data?.nowPlaying?.device?.volume_percent)
+          console.log(data?.nowPlaying?.device?.name)
+        }, [data]);
         const notListeniing = data?.error?.message.includes("204");
         return (
           <React.Fragment>

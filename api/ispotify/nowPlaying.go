@@ -1,6 +1,7 @@
 package ispotify
 
 import (
+	"github.com/cescoferraro/structql"
 	"log"
 	"net/http"
 	"strings"
@@ -24,6 +25,20 @@ func NowPlaying(code string, r *http.Request) (*spotify.CurrentlyPlaying, error)
 	}
 	return CurrentlyPlaying, nil
 }
+
+var PlayerStateGraphQLType = structql.GenerateType(spotify.PlayerState{
+	CurrentlyPlaying: spotify.CurrentlyPlaying{
+		Item: &spotify.FullTrack{
+			SimpleTrack: spotify.SimpleTrack{
+				Artists: []spotify.SimpleArtist{{}},
+			},
+			Album: spotify.SimpleAlbum{
+				AvailableMarkets: []string{""},
+				Images:           []spotify.Image{{}},
+			},
+		},
+	},
+})
 
 // PlayerState TODO: NEEDS COMMENT INFO
 func PlayerState(code string) (*spotify.PlayerState, error) {
