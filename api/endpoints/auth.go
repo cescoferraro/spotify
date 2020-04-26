@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/cescoferraro/spotify/api/ispotify"
 	"github.com/cescoferraro/spotify/api/tools"
 )
 
@@ -18,16 +17,13 @@ func RootEndPoint(w http.ResponseWriter, r *http.Request) {
 	} else {
 		buffer.WriteString("http://" + strings.Split(r.Host, ":")[0] + ":3000/auth/")
 	}
-	code := r.URL.Query().Get("code")
-	state := r.URL.Query().Get("state")
 	if r.URL.RawQuery != "" {
-		go ispotify.ProcessToken(code)
+		code := r.URL.Query().Get("code")
+		state := r.URL.Query().Get("state")
 		buffer.WriteString(code)
 		buffer.WriteString("/")
 		buffer.WriteString(state)
 	}
-	log.Println(r.URL.Query().Get("code"))
-	log.Println(r.URL.Query().Get("state"))
 	log.Println("redirenting to " + buffer.String())
 	http.Redirect(w, r, buffer.String(), http.StatusTemporaryRedirect)
 }

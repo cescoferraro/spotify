@@ -5,6 +5,8 @@ import (
 	"github.com/cescoferraro/structql"
 	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
+	"golang.org/x/oauth2"
+	"time"
 )
 
 var SavedTrack = structql.GenerateType(spotify.SavedTrack{
@@ -24,13 +26,22 @@ var SavedTrack = structql.GenerateType(spotify.SavedTrack{
 // Getfollowing TODO: NEEDS COMMENT INFO
 func Songs(code string) ([]spotify.SavedTrack, error) {
 	var main []spotify.SavedTrack
-	var err error
-	token, err := ProcessToken(code)
-	if err != nil {
-		return main, errors.Wrap(err, "retrieveToken")
-	}
+	//var err error
+	//token, err := ProcessToken(code)
+	//if err != nil {
+	//	return main, errors.Wrap(err, "retrieveToken")
+	//}
+	//token, err := Auth().Token(code, r)
+	//if err != nil {
+	//	return main, errors.Wrap(err, "retrieveToken")
+	//}
+	token := new(oauth2.Token)
+	token.AccessToken = code
+	token.RefreshToken = code
+	token.Expiry = time.Now()
+	token.TokenType = "credencial"
 	client := Auth().NewClient(token)
-
+	//
 	pace := 40
 	total, err := TotalTracks(client)
 	if err != nil {

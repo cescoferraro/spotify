@@ -4,8 +4,8 @@ import * as React from "react";
 import {ChildProps, graphql} from 'react-apollo';
 import ReactJkMusicPlayer from "react-jinke-music-player";
 import {RouteComponentProps, withRouter} from "react-router";
-import {Auth} from "../store/auth_store";
-import {PlayerComponentQuery} from "../types/PlayerComponentQuery";
+import {Auth} from "../../store/auth_store";
+import {PlayerComponentQuery} from "../../types/PlayerComponentQuery";
 
 type PlayerProps = ChildProps<{ auth: Auth } & RouteComponentProps, PlayerComponentQuery>;
 
@@ -56,7 +56,7 @@ const query = gql`
   }
 `;
 
-const Name = ({data, auth, history}: PlayerProps) => {
+const PlayerCompoennt = ({data, auth, history}: PlayerProps) => {
   console.log(data?.mySongs)
   return (
     <div
@@ -65,7 +65,7 @@ const Name = ({data, auth, history}: PlayerProps) => {
         data?.refetch({}).then(() => true).catch(() => true);
       }}
     >
-      <p style={{color: "white"}}>{auth.token}</p>
+      <p style={{color: "white", width: "calc( 100vw - 40px )", overflowWrap: "break-word"}}>{auth.token}</p>
       <Button
         style={{backgroundColor: "red"}}
         onClick={() => {
@@ -109,7 +109,7 @@ const Name = ({data, auth, history}: PlayerProps) => {
         once={false}
         autoPlay={false}
         toggleMode={true}
-        showMiniModeCover={true}
+        showMiniModeCover={false}
         drag={true}
         seeked={false}
         showMediaSession={false}
@@ -139,16 +139,13 @@ export const Player = (
         const notListeniing = data?.error?.message.includes("204");
         return (
           <React.Fragment>
-
             {(data?.error && !notListeniing) ?
               <div>Error</div> :
-              (data?.loading ? <div>Fetching</div> :
-                  (
-                    (!notListeniing && data?.nowPlaying) ?
-                      <Name {...props}/> :
-                      "not listening")
-              )
-            }
+              (data?.loading ?
+                  <div>Fetching</div> : (
+                    // TODO REview
+                    <PlayerCompoennt {...props}/>)
+              )}
           </React.Fragment>
         )
       }

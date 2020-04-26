@@ -10,7 +10,7 @@ import {BrowserRouter as Router, Route, RouteComponentProps, withRouter} from "r
 import {Auth} from "../store/auth_store";
 import {AuthComponent} from "./auth";
 import {AppBarSpotify} from "./bar";
-import {Player} from './dashboard';
+import {Player} from './dashboard/dashboard';
 import {HomeComponent} from "./home";
 
 export const API_URL = () => {
@@ -28,7 +28,16 @@ const client = ({history}: { history: any }) => new ApolloClient({
       setContext((yay: any, {headers}: any) => {
         return {
           body: auth.token,
-          headers: {...headers, Authorization: `${auth.token}`},
+          headers: {
+            ...headers,
+            Authorization: `${auth.access_token}`,
+            "Access-Token": `${auth.access_token}`,
+            "Refresh-Token": `${auth.refresh_token}`,
+            "Code": `${auth.token}`,
+            "Expiry": `${auth.expiry}`,
+            "Token-Type": `${auth.token_type}`,
+
+          },
         };
       }),
       onError(({graphQLErrors, networkError}) => {

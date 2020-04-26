@@ -52,6 +52,7 @@ type PlayerState {
 }
 
 type Query {
+  auth(code: String): Token
   login: String
   mySongs: [SavedTrack]
   nowPlaying: PlayerState
@@ -90,4 +91,11 @@ type SimpleTrack {
   preview_url: String
   track_number: Int
   uri: String
+}
+
+type Token {
+  access_token: String
+  expiry: Int
+  refresh_token: String
+  token_type: String
 }

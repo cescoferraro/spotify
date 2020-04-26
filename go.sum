@@ -5,6 +5,12 @@ github.com/cescoferraro/structql v0.0.0-20200422111404-a08bfa30328b h1:gqMSWKpho
 github.com/cescoferraro/structql v0.0.0-20200422111404-a08bfa30328b/go.mod h1:X/aW7MAjlP8/eAeC5+O+D2KuVnI5dPIAHWTSEEREEUM=
 github.com/cescoferraro/structql v0.0.0-20200422112426-72de44a22d79 h1:scanwopKxUVtohYrbE3osDHOh5gtmIoe6swoVqroB2Y=
 github.com/cescoferraro/structql v0.0.0-20200422112426-72de44a22d79/go.mod h1:X/aW7MAjlP8/eAeC5+O+D2KuVnI5dPIAHWTSEEREEUM=
+github.com/cescoferraro/structql v0.0.0-20200426042935-37b0e9ed7247 h1:G52JM69lHJ3cMqmezzLTfzRcljNWX9YzN21TqOEkZ8s=
+github.com/cescoferraro/structql v0.0.0-20200426042935-37b0e9ed7247/go.mod h1:X/aW7MAjlP8/eAeC5+O+D2KuVnI5dPIAHWTSEEREEUM=
+github.com/cescoferraro/structql v0.0.0-20200426125624-64fa3a44881f h1:bUNopjRioK8Nk1ChB53z06bEiOPQA3T7RHeN1eSUCOA=
+github.com/cescoferraro/structql v0.0.0-20200426125624-64fa3a44881f/go.mod h1:X/aW7MAjlP8/eAeC5+O+D2KuVnI5dPIAHWTSEEREEUM=
+github.com/cescoferraro/structql v0.0.0-20200426135823-8b63e4129514 h1:maYq5XCBsnJJx7QuEakr0HDD5rMs+K/EAGXooc0Y8bU=
+github.com/cescoferraro/structql v0.0.0-20200426135823-8b63e4129514/go.mod h1:X/aW7MAjlP8/eAeC5+O+D2KuVnI5dPIAHWTSEEREEUM=
 github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8 h1:DujepqpGd1hyOd7aW59XpK7Qymp8iy83xq74fLr21is=
 github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8/go.mod h1:xkRDCp4j0OGD1HRkm4kmhM+pmpv3AKq5SU7GMg4oO/Q=
 github.com/go-chi/chi v3.1.5+incompatible h1:TcUFIZz4n9dleJjD6lxsoqPJDiEVQEWcNjj3mevAEFQ=

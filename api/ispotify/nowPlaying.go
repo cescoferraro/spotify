@@ -2,7 +2,6 @@ package ispotify
 
 import (
 	"github.com/cescoferraro/structql"
-	"log"
 	"net/http"
 	"strings"
 
@@ -43,25 +42,23 @@ var PlayerStateGraphQLType = structql.GenerateType(spotify.PlayerState{
 // PlayerState TODO: NEEDS COMMENT INFO
 func PlayerState(code string) (*spotify.PlayerState, error) {
 	var CurrentlyPlaying *spotify.PlayerState
-	token, err := ProcessToken(code)
+	token, err := Auth().Exchange(code)
 	if err != nil {
 		return CurrentlyPlaying, errors.Wrap(err, "retrieveToken")
 	}
 	client := Auth().NewClient(token)
-
 	CurrentlyPlaying, err = client.PlayerState()
 	if err != nil {
 		return CurrentlyPlaying, errors.Wrap(err, "next error")
 	}
 	return CurrentlyPlaying, nil
 }
-func EmptyResponseMeansNotListening(err error, user interface{}) (interface{}, error) {
-	log.Println(err.Error())
+func EmptyResponseMeansNotListening(err error) (interface{}, error) {
 	if strings.Contains(err.Error(), "204") {
 		return spotify.PlayerState{
 			CurrentlyPlaying: spotify.CurrentlyPlaying{
 				Playing: false,
 			}}, nil
 	}
-	return user, nil
+	return nil, err
 }

@@ -4,7 +4,7 @@ go 1.13
 
 require (
 	github.com/SonicRoshan/straf v2.0.0+incompatible // indirect
-	github.com/cescoferraro/structql v0.0.0-20200422112426-72de44a22d79
+	github.com/cescoferraro/structql v0.0.0-20200426135823-8b63e4129514
 	github.com/globalsign/mgo v0.0.0-20181015135952-eeefdecb41b8 // indirect
 	github.com/go-chi/chi v3.1.5+incompatible
 	github.com/go-chi/render v1.0.1
