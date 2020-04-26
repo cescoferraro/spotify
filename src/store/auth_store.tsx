@@ -54,4 +54,12 @@ export class Auth extends OAuthToken {
     this.expiry = a.expiry;
   }
 
+  @action
+  logout() {
+    this.access_token = initial;
+    this.refresh_token = initial;
+    this.token_type = initial;
+    this.token = initial;
+    this.expiry = 0;
+  }
 }

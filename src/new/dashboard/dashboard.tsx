@@ -62,15 +62,15 @@ const PlayerCompoennt = ({data, auth, history}: PlayerProps) => {
     <div
       style={{padding: 20, width: "100vw"}}
       onClick={() => {
-        data?.refetch({}).then(() => true).catch(() => true);
+        // data?.refetch({}).then(() => true).catch(() => true);
       }}
     >
       <p style={{color: "white", width: "calc( 100vw - 40px )", overflowWrap: "break-word"}}>{auth.token}</p>
       <Button
         style={{backgroundColor: "red"}}
         onClick={() => {
-          auth.setToken("")
           history.push("/")
+          auth.logout()
         }}
       >
         Logout
