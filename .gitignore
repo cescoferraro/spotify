@@ -15,4 +15,4 @@ coverage/
 
 *.log
 
-src/types/groblaTypes.ts
+src/types/globalTypes.ts
