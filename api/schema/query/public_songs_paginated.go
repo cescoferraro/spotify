@@ -63,7 +63,7 @@ var PublicSongsPaginatedQuery = graphql.Fields{
 			}
 			return PublicSongsPaginated{
 				Total:  localTracks.Tracks.Total,
-				Cursor: cursor + pace,
+				Cursor: cursor + len(result),
 				Songs:  result,
 			}, nil
 		},
