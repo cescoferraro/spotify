@@ -1,6 +1,7 @@
 package tools
 
 import (
+	"github.com/graphql-go/graphql"
 	"log"
 	"net"
 	"os"
@@ -19,6 +20,12 @@ func IsProd() bool {
 	return false
 }
 
+func MergeGraphQlQuery(a graphql.Fields, b graphql.Fields) graphql.Fields {
+	for k, v := range b {
+		a[k] = v
+	}
+	return a
+}
 func Contains(all []string, scalar string) bool {
 	for _, ddd := range all {
 		if ddd == scalar {

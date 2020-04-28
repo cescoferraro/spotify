@@ -51,6 +51,9 @@ export const ActualPalyer = ({data}: { data?: ChildProps<any, PlayerComponentQue
       loadAudioErrorPlayNext={true}
       autoHiddenCover={true}
       spaceBar={true}
+      onAudioPlay={(d) => {
+        console.log(d)
+      }}
     />
   );
 };

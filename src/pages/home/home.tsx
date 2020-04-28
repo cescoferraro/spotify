@@ -2,6 +2,8 @@ import {gql} from "@apollo/client";
 import IconButton from "material-ui/IconButton";
 import * as React from "react";
 import {ChildProps, graphql} from "react-apollo";
+import {AppBarSpotify} from "../../components/bar/bar";
+import {HomeContainerStyles} from "../../shared/styles";
 import {Auth} from "../../store/auth_store";
 import {HomeComponentQuery} from "../../types/HomeComponentQuery";
 
@@ -27,10 +29,11 @@ const query = gql`query HomeComponentQuery ($state:String) { login(state:$state)
 
 export const HomeComponent = graphql<HomeComponentProps>
 (query, {options: {variables: {state: "dashboard"}}})(
-  ({data}: HomeComponentProps) => {
+  ({data, auth}: HomeComponentProps) => {
+    let content = null
     if (data && !data.loading && data.login) {
       const width = 168;
-      return (
+      content = (
         <IconButton
           style={{width: width, height: width}}
           onClick={() => window.location.href = data?.login as string}
@@ -39,7 +42,16 @@ export const HomeComponent = graphql<HomeComponentProps>
         </IconButton>
       );
     }
-    return null;
+    return (
+      <React.Fragment>
+        <AppBarSpotify auth={auth}/>
+        <div style={HomeContainerStyles}>
+          <div style={{height: "min-content"}}>
+            {content}
+          </div>
+        </div>
+      </React.Fragment>
+    );
   }
 );
 

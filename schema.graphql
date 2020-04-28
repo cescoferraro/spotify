@@ -29,6 +29,12 @@ type Mutation {
   test: String
 }
 
+type MySongsPaginated {
+  cursor: Int
+  songs: [SavedTrack]
+  total: Int
+}
+
 type PlaybackContext {
   href: String
   type: String
@@ -55,6 +61,8 @@ type Query {
   auth(code: String): Token
   login(state: String): String
   mySongs: [SavedTrack]
+  mySongsPaginated(cursor: Int): MySongsPaginated
+  mySongsTotal: Int
   nowPlaying: PlayerState
 }
 

@@ -7,6 +7,33 @@
 // GraphQL query operation: PlayerComponentQuery
 // ====================================================
 
+export interface PlayerComponentQuery_mySongsPaginated_songs_track_album_images {
+  __typename: "Image";
+  url: string | null;
+}
+
+export interface PlayerComponentQuery_mySongsPaginated_songs_track_album {
+  __typename: "SimpleAlbum";
+  images: (PlayerComponentQuery_mySongsPaginated_songs_track_album_images | null)[] | null;
+}
+
+export interface PlayerComponentQuery_mySongsPaginated_songs_track {
+  __typename: "FullTrack";
+  album: PlayerComponentQuery_mySongsPaginated_songs_track_album | null;
+}
+
+export interface PlayerComponentQuery_mySongsPaginated_songs {
+  __typename: "SavedTrack";
+  track: PlayerComponentQuery_mySongsPaginated_songs_track | null;
+}
+
+export interface PlayerComponentQuery_mySongsPaginated {
+  __typename: "MySongsPaginated";
+  total: number | null;
+  cursor: number | null;
+  songs: (PlayerComponentQuery_mySongsPaginated_songs | null)[] | null;
+}
+
 export interface PlayerComponentQuery_mySongs_track_album_images {
   __typename: "Image";
   url: string | null;
@@ -77,6 +104,12 @@ export interface PlayerComponentQuery_nowPlaying {
 }
 
 export interface PlayerComponentQuery {
+  mySongsPaginated: PlayerComponentQuery_mySongsPaginated | null;
+  mySongsTotal: number | null;
   mySongs: (PlayerComponentQuery_mySongs | null)[] | null;
   nowPlaying: PlayerComponentQuery_nowPlaying | null;
+}
+
+export interface PlayerComponentQueryVariables {
+  cursor?: number | null;
 }

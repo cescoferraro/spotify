@@ -10,3 +10,7 @@
 export interface HomeComponentQuery {
   login: string | null;
 }
+
+export interface HomeComponentQueryVariables {
+  state?: string | null;
+}

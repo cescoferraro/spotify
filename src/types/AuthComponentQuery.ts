@@ -11,10 +11,14 @@ export interface AuthComponentQuery_auth {
   __typename: "Token";
   access_token: string | null;
   refresh_token: string | null;
-  expiry: number | null;
   token_type: string | null;
+  expiry: number | null;
 }
 
 export interface AuthComponentQuery {
   auth: AuthComponentQuery_auth | null;
+}
+
+export interface AuthComponentQueryVariables {
+  code?: string | null;
 }
