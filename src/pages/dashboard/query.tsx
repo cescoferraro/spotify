@@ -1,8 +1,8 @@
 import {gql} from "@apollo/client";
 
 export const query = gql`
-  query PlayerComponentQuery($cursor:Int){
-    mySongsPaginated(cursor: $cursor){
+  query PlayerComponentQuery($cursor:Int, $pace: Int){
+    mySongsPaginated(cursor: $cursor, pace: $pace){
       total
       cursor
       songs {
@@ -17,34 +17,11 @@ export const query = gql`
             name
             uri
             href
-
-            preview_url
             artists {
               name
-              href
+              uri
             }
-          }
-        }
-      }
-    }
-    mySongsTotal
-    mySongs {
-      track {
-        popularity
-        album {
-          images {
-            url
-          }
-        }
-        SimpleTrack {
-          name
-          uri
-          href
-
-          preview_url
-          artists {
-            name
-            href
+            preview_url
           }
         }
       }

@@ -9,9 +9,8 @@ import (
 func Query() *graphql.Object {
 	fields := tools.MergeGraphQlQuery(query.LoginQuery, query.AuthQuery)
 	fields = tools.MergeGraphQlQuery(fields, query.NowPlayingQuery)
-	fields = tools.MergeGraphQlQuery(fields, query.MySongsQuery)
-	fields = tools.MergeGraphQlQuery(fields, query.MySongsTotalQuery)
 	fields = tools.MergeGraphQlQuery(fields, query.MySongsPaginatedQuery)
+	fields = tools.MergeGraphQlQuery(fields, query.PublicSongsPaginatedQuery)
 	return graphql.NewObject(graphql.ObjectConfig{
 		Name:   "Query",
 		Fields: fields,

@@ -5,22 +5,19 @@ import (
 	"github.com/cescoferraro/spotify/api/ispotify"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
+	"time"
 )
 
-type SavedTrack struct {
-	Name string `json:"name"`
-}
-
-type MySongsPaginated struct {
+type PublicSongsPaginated struct {
 	Cursor int                  `json:"cursor"`
 	Total  int                  `json:"total"`
 	Songs  []spotify.SavedTrack `json:"yayy"`
 }
 
-var MySongsPaginatedQuery = graphql.Fields{
-	"mySongsPaginated": &graphql.Field{
+var PublicSongsPaginatedQuery = graphql.Fields{
+	"publicSongsPaginated": &graphql.Field{
 		Type: graphql.NewObject(graphql.ObjectConfig{
-			Name: "MySongsPaginated",
+			Name: "PublicSongsPaginated",
 			Fields: graphql.Fields{
 				"cursor": &graphql.Field{Type: graphql.Int},
 				"total":  &graphql.Field{Type: graphql.Int},
@@ -32,7 +29,7 @@ var MySongsPaginatedQuery = graphql.Fields{
 			"pace":   &graphql.ArgumentConfig{Type: graphql.Int},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			client, err := ispotify.SpotifyClientFromContext(p.Context)
+			client, err := ispotify.SpotifyPublicClient()
 			if err != nil {
 				return MySongsPaginated{}, err
 			}
@@ -42,19 +39,27 @@ var MySongsPaginatedQuery = graphql.Fields{
 			}
 			cursor, ok := p.Args["cursor"].(int)
 			if !ok {
-				return MySongsPaginated{}, errors.New("arg state not found")
+				return "", errors.New("arg state not found")
 			}
-			localTracks, err := client.CurrentUsersTracksOpt(&spotify.Options{
-				Offset: &cursor,
+			localTracks, err := client.SearchOpt("blues", spotify.SearchTypeTrack, &spotify.Options{
 				Limit:  &pace,
+				Offset: &cursor,
 			})
 			if err != nil {
-				return MySongsPaginated{}, err
+				return localTracks, err
 			}
-			return MySongsPaginated{
-				Total:  localTracks.Total,
+			tracks := localTracks.Tracks.Tracks
+			var result []spotify.SavedTrack
+			for _, hey := range tracks {
+				result = append(result, spotify.SavedTrack{
+					AddedAt:   time.Now().String(),
+					FullTrack: hey,
+				})
+			}
+			return PublicSongsPaginated{
+				Total:  localTracks.Tracks.Total,
 				Cursor: cursor + pace,
-				Songs:  localTracks.Tracks,
+				Songs:  result,
 			}, nil
 		},
 	},

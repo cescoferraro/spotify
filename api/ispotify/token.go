@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/structql"
+	"golang.org/x/oauth2/clientcredentials"
 	"log"
 	"sync"
 	"time"
@@ -42,19 +44,35 @@ var (
 	}
 )
 
+var ClientID = "29341ec7d73e4383b58db00e354dc89c"
+var secretKey = "3ef3543b524a4978ae5f7b14fdc63a6d"
+
 func Auth() spotify.Authenticator {
 	redirectURI := "http://localhost:8080/auth"
 	log.Println("kube kube *********")
 	if tools.IsProd() {
 		redirectURI = "https://spotifyapi.cescoferraro.xyz/auth"
 	}
-	ClientID := "29341ec7d73e4383b58db00e354dc89c"
-	secretKey := "3ef3543b524a4978ae5f7b14fdc63a6d"
+
 	auth := spotify.NewAuthenticator(redirectURI, Scopes...)
 	auth.SetAuthInfo(ClientID, secretKey)
 	return auth
 }
 
+func SpotifyPublicClient() (spotify.Client, error) {
+	auth := Auth()
+	config := &clientcredentials.Config{
+		ClientID:     ClientID,
+		ClientSecret: secretKey,
+		Scopes:       Scopes,
+		TokenURL:     spotify.TokenURL,
+	}
+	token, err := config.Token(context.Background())
+	if err != nil {
+		log.Fatalf("couldn't get token: %v", err)
+	}
+	return auth.NewClient(token), nil
+}
 func SpotifyClientFromContext(ctx context.Context) (spotify.Client, error) {
 	token, err := getOAuthTokenFromContext(ctx)
 	if err != nil {
@@ -83,3 +101,17 @@ func getOAuthTokenFromContext(ctx context.Context) (*oauth2.Token, error) {
 	token.TokenType = tokenType
 	return token, nil
 }
+
+var SavedTrack = structql.GenerateType(spotify.SavedTrack{
+	AddedAt: "",
+	FullTrack: spotify.FullTrack{
+		SimpleTrack: spotify.SimpleTrack{
+			Artists:          []spotify.SimpleArtist{{}},
+			AvailableMarkets: []string{""},
+		},
+		Album: spotify.SimpleAlbum{
+			AvailableMarkets: []string{""},
+			Images:           []spotify.Image{{}},
+		},
+	},
+})

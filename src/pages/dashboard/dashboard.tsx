@@ -11,16 +11,19 @@ import MDSpinner from "react-md-spinner";
 import {RouteComponentProps, withRouter} from "react-router";
 import {InfiniteLoader, List, WindowScroller} from "react-virtualized";
 import {Auth} from "../../store/auth_store";
-import {PlayerComponentQuery, PlayerComponentQuery_mySongs} from "../../types/PlayerComponentQuery";
+import {
+  PlayerComponentQuery,
+  PlayerComponentQuery_mySongsPaginated_songs
+} from "../../types/PlayerComponentQuery";
 import {query} from "./query";
 
 type IPlayerQueryResult = ChildProps<any, PlayerComponentQuery>;
 
-const isRowLoaded = ({list}: { list: (PlayerComponentQuery_mySongs | null)[] }) => ({index}: any) => !!list[index];
+const isRowLoaded = ({list}: { list: (PlayerComponentQuery_mySongsPaginated_songs | null)[] }) => ({index}: any) => !!list[index];
 
-const loadMoreRows = ({cursor, fetchMore}: { cursor: number, fetchMore: any }) => () => {
+const loadMoreRows = ({cursor, pace, fetchMore}: { pace: number, cursor: number, fetchMore: any }) => () => {
   return fetchMore({
-    variables: {cursor},
+    variables: {cursor, pace},
     updateQuery: (previousResult: IPlayerQueryResult, {fetchMoreResult}: { fetchMoreResult: IPlayerQueryResult }) => {
       let songs = previousResult.mySongsPaginated.songs
       if (previousResult.mySongsPaginated?.songs?.length === cursor) {
@@ -38,7 +41,9 @@ const loadMoreRows = ({cursor, fetchMore}: { cursor: number, fetchMore: any }) =
     },
   })
 };
-const rowRenderer = ({list}: { list: (PlayerComponentQuery_mySongs | null)[] }) => ({key, index, style}: any) => {
+
+
+const rowRenderer = ({list}: { list: (PlayerComponentQuery_mySongsPaginated_songs  | null)[] }) => ({key, index, style}: any) => {
   let listElement = list[index];
   let images = listElement?.track?.album?.images || [];
   let artists = listElement?.track?.SimpleTrack?.artists || [];
@@ -70,12 +75,13 @@ const rowRenderer = ({list}: { list: (PlayerComponentQuery_mySongs | null)[] }) 
 };
 export const Player = withRouter(
   (props: { auth: Auth } & RouteComponentProps) => {
+    const pace = 40;
     return (
-      <Query<IPlayerQueryResult, { cursor: number }>
+      <Query<IPlayerQueryResult, { cursor: number, pace: number }>
         notifyOnNetworkStatusChange={true}
         context={{debounceKey: "294334", debounceTimeout: 1200}}
         query={query}
-        variables={{cursor: 0}}
+        variables={{cursor: 0, pace}}
       >
         {({data, fetchMore, loading}) => {
           let songs = data?.mySongsPaginated.songs || [];
@@ -86,7 +92,7 @@ export const Player = withRouter(
                 <React.Fragment>
                   <InfiniteLoader
                     isRowLoaded={isRowLoaded({list: songs})}
-                    loadMoreRows={loadMoreRows({cursor: data?.mySongsPaginated?.cursor, fetchMore})}
+                    loadMoreRows={loadMoreRows({pace, cursor: data?.mySongsPaginated?.cursor, fetchMore})}
                     rowCount={data?.mySongsPaginated?.total || 0}
                   >
                     {({onRowsRendered, registerChild,}) => (

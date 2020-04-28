@@ -57,13 +57,18 @@ type PlayerState {
   shuffle_state: Boolean
 }
 
+type PublicSongsPaginated {
+  cursor: Int
+  songs: [SavedTrack]
+  total: Int
+}
+
 type Query {
   auth(code: String): Token
   login(state: String): String
-  mySongs: [SavedTrack]
-  mySongsPaginated(cursor: Int): MySongsPaginated
-  mySongsTotal: Int
+  mySongsPaginated(cursor: Int, pace: Int): MySongsPaginated
   nowPlaying: PlayerState
+  publicSongsPaginated(cursor: Int, pace: Int): PublicSongsPaginated
 }
 
 type SavedTrack {
@@ -90,6 +95,7 @@ type SimpleArtist {
 
 type SimpleTrack {
   artists: [SimpleArtist]
+  available_markets: [String]
   disc_number: Int
   duration_ms: Int
   explicit: Boolean
