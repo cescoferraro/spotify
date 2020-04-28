@@ -25,6 +25,7 @@ var PublicSongsPaginatedQuery = graphql.Fields{
 			},
 		}),
 		Args: graphql.FieldConfigArgument{
+			"query":  &graphql.ArgumentConfig{Type: graphql.String},
 			"cursor": &graphql.ArgumentConfig{Type: graphql.Int},
 			"pace":   &graphql.ArgumentConfig{Type: graphql.Int},
 		},
@@ -32,6 +33,10 @@ var PublicSongsPaginatedQuery = graphql.Fields{
 			client, err := ispotify.SpotifyPublicClient()
 			if err != nil {
 				return MySongsPaginated{}, err
+			}
+			query, ok := p.Args["query"].(string)
+			if !ok {
+				return MySongsPaginated{}, errors.New("arg query not found")
 			}
 			pace, ok := p.Args["pace"].(int)
 			if !ok {
@@ -41,7 +46,7 @@ var PublicSongsPaginatedQuery = graphql.Fields{
 			if !ok {
 				return "", errors.New("arg state not found")
 			}
-			localTracks, err := client.SearchOpt("blues", spotify.SearchTypeTrack, &spotify.Options{
+			localTracks, err := client.SearchOpt(query, spotify.SearchTypeTrack, &spotify.Options{
 				Limit:  &pace,
 				Offset: &cursor,
 			})
