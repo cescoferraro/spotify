@@ -3,6 +3,7 @@ package istructql
 import (
 	"github.com/graphql-go/graphql"
 	"log"
+	"math/rand"
 	"reflect"
 	"strings"
 	"time"
@@ -68,6 +69,7 @@ func deepFields(iface interface{}) *graphql.Object {
 				kind := irValue.Index(i).Kind()
 				switch kind {
 				case reflect.Struct:
+					log.Println(jsonTag)
 					fields[fieldName] = &graphql.Field{
 						Type: graphql.NewList(GenerateType(irValue.Index(0).Interface())),
 					}
@@ -99,10 +101,27 @@ func deepFields(iface interface{}) *graphql.Object {
 		}
 	}
 	return graphql.NewObject(graphql.ObjectConfig{
-		Name:   structName(iface),
+		Name:   structName(iface) + String(3),
 		Fields: fields,
 	})
+}
 
+func String(length int) string {
+	return StringWithCharset(length, charset)
+}
+
+const charset = "abcdefghijklmnopqrstuvwxyz" +
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+var seededRand *rand.Rand = rand.New(
+	rand.NewSource(time.Now().UnixNano()))
+
+func StringWithCharset(length int, charset string) string {
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
 }
 
 var cardinals = []string{

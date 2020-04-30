@@ -8,22 +8,9 @@ import (
 	"time"
 )
 
-type PublicSongsPaginated struct {
-	Cursor int                  `json:"cursor"`
-	Total  int                  `json:"total"`
-	Songs  []spotify.SavedTrack `json:"yayy"`
-}
-
 var PublicSongsPaginatedQuery = graphql.Fields{
 	"publicSongsPaginated": &graphql.Field{
-		Type: graphql.NewObject(graphql.ObjectConfig{
-			Name: "PublicSongsPaginated",
-			Fields: graphql.Fields{
-				"cursor": &graphql.Field{Type: graphql.Int},
-				"total":  &graphql.Field{Type: graphql.Int},
-				"songs":  &graphql.Field{Type: graphql.NewList(ispotify.SavedTrack)},
-			},
-		}),
+		Type: MySongsPaginatedQL,
 		Args: graphql.FieldConfigArgument{
 			"query":  &graphql.ArgumentConfig{Type: graphql.String},
 			"cursor": &graphql.ArgumentConfig{Type: graphql.Int},
@@ -53,19 +40,22 @@ var PublicSongsPaginatedQuery = graphql.Fields{
 			if err != nil {
 				return localTracks, err
 			}
-			tracks := localTracks.Tracks.Tracks
-			var result []spotify.SavedTrack
-			for _, hey := range tracks {
-				result = append(result, spotify.SavedTrack{
-					AddedAt:   time.Now().String(),
-					FullTrack: hey,
-				})
-			}
-			return PublicSongsPaginated{
+			return MySongsPaginated{
 				Total:  localTracks.Tracks.Total,
-				Cursor: cursor + len(result),
-				Songs:  result,
+				Cursor: cursor + len(localTracks.Tracks.Tracks),
+				Songs:  mapSongs(localTracks.Tracks.Tracks),
 			}, nil
 		},
 	},
+}
+
+func mapSongs(localTracks []spotify.FullTrack) []spotify.SavedTrack {
+	result := make([]spotify.SavedTrack, 0)
+	for _, hey := range localTracks {
+		result = append(result, spotify.SavedTrack{
+			AddedAt:   time.Now().String(),
+			FullTrack: hey,
+		})
+	}
+	return result
 }

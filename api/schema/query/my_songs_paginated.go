@@ -17,16 +17,17 @@ type MySongsPaginated struct {
 	Songs  []spotify.SavedTrack `json:"yayy"`
 }
 
+var MySongsPaginatedQL = graphql.NewObject(graphql.ObjectConfig{
+	Name: "MySongsPaginated",
+	Fields: graphql.Fields{
+		"cursor": &graphql.Field{Type: graphql.Int},
+		"total":  &graphql.Field{Type: graphql.Int},
+		"songs":  &graphql.Field{Type: graphql.NewList(ispotify.SavedTrack)},
+	},
+})
 var MySongsPaginatedQuery = graphql.Fields{
 	"mySongsPaginated": &graphql.Field{
-		Type: graphql.NewObject(graphql.ObjectConfig{
-			Name: "MySongsPaginated",
-			Fields: graphql.Fields{
-				"cursor": &graphql.Field{Type: graphql.Int},
-				"total":  &graphql.Field{Type: graphql.Int},
-				"songs":  &graphql.Field{Type: graphql.NewList(ispotify.SavedTrack)},
-			},
-		}),
+		Type: MySongsPaginatedQL,
 		Args: graphql.FieldConfigArgument{
 			"cursor": &graphql.ArgumentConfig{Type: graphql.Int},
 			"pace":   &graphql.ArgumentConfig{Type: graphql.Int},
