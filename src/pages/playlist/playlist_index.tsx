@@ -24,7 +24,20 @@ const loadMoreRows = ({owner, playID, cursor, pace, fetchMore}: { owner: string,
     variables: {cursor, pace, owner, playID},
     updateQuery: (previousResult: Created, {fetchMoreResult}: { fetchMoreResult: Created }) => {
       console.log(fetchMoreResult);
-      return previousResult;
+
+      let songs = previousResult.playlistSongsPaginated.songs
+      if (previousResult.playlistSongsPaginated?.songs?.length === cursor) {
+        const future = fetchMoreResult.playlistSongsPaginated.songs
+        songs = [...songs, ...future];
+      }
+      return {
+        ...previousResult,
+        playlistSongsPaginated: {
+          cursor: fetchMoreResult.playlistSongsPaginated.cursor,
+          total: fetchMoreResult.playlistSongsPaginated.total,
+          songs: songs,
+        }
+      };
     },
   })
 };
