@@ -1,13 +1,19 @@
 import {gql} from "@apollo/client";
-import IconButton from "material-ui/IconButton";
+import {isWidthUp, withWidth, WithWidthProps} from "@material-ui/core";
+import Avatar from "@material-ui/core/Avatar";
+import UIList from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@material-ui/core/Typography";
+import {GridList} from "material-ui/GridList/GridList";
+import {GridTile} from "material-ui/GridList/GridTile";
 import * as React from "react";
-import {ChildProps, graphql} from "react-apollo";
-import {AppBarSpotify} from "../../components/bar/bar";
+import {ChildProps, Query} from "react-apollo";
+import {List, WindowScroller} from "react-virtualized";
 import {HomeContainerStyles} from "../../shared/styles";
 import {Auth} from "../../store/auth_store";
-import {HomeComponentQuery} from "../../types/HomeComponentQuery";
-
-type HomeComponentProps = ChildProps<{ auth: Auth }, HomeComponentQuery>;
+import {HomeComponentQuery, HomeComponentQuery_categoriesPaginated_categories} from "../../types/HomeComponentQuery";
 
 const SpotifyLogoSvg = () => {
   return (
@@ -25,33 +31,155 @@ const SpotifyLogoSvg = () => {
   );
 };
 
-const query = gql`query HomeComponentQuery ($state:String) { login(state:$state) } `;
-
-export const HomeComponent = graphql<HomeComponentProps>
-(query, {options: {variables: {state: "dashboard"}}})(
-  ({data, auth}: HomeComponentProps) => {
-    let content = null
-    if (data && !data.loading && data.login) {
-      const width = 168;
-      content = (
-        <IconButton
-          style={{width: width, height: width}}
-          onClick={() => window.location.href = data?.login as string}
-        >
-          <SpotifyLogoSvg/>
-        </IconButton>
-      );
+const query = gql`query HomeComponentQuery ($state:String) {
+  login(state:$state)
+  categoriesPaginated(cursor: 0, pace: 36){
+    total
+    categories{
+      name
+      icons {
+        url
+      }
     }
-    return (
-      <React.Fragment>
-        <AppBarSpotify auth={auth}/>
-        <div style={HomeContainerStyles}>
-          <div style={{height: "min-content"}}>
-            {content}
-          </div>
-        </div>
-      </React.Fragment>
-    );
   }
-);
+} `;
 
+type Created = ChildProps<any, HomeComponentQuery>;
+
+const isRowLoaded = ({list}: { list: (HomeComponentQuery_categoriesPaginated_categories | null)[] }) => ({index}: any) => !!list[index];
+
+const loadMoreRows = ({cursor, pace, fetchMore}: { pace: number, cursor: number, fetchMore: any }) => () => {
+  return fetchMore({
+    variables: {cursor, pace},
+    updateQuery: (previousResult: Created, {fetchMoreResult}: { fetchMoreResult: Created }) => {
+      let songs = previousResult.mySongsPaginated.songs
+      if (previousResult.mySongsPaginated?.songs?.length === cursor) {
+        const future = fetchMoreResult.mySongsPaginated.songs
+        songs = [...songs, ...future];
+      }
+      return {
+        ...previousResult,
+        mySongsPaginated: {
+          cursor: fetchMoreResult.mySongsPaginated.cursor,
+          total: fetchMoreResult.mySongsPaginated.total,
+          songs: songs,
+        }
+      };
+    },
+  })
+};
+
+const rowRenderer = ({list}: { list: (HomeComponentQuery_categoriesPaginated_categories | null)[] }) => ({key, index, style}: any) => {
+  let listElement = list[index];
+  return (
+    <ListItem
+      key={key}
+      style={style}
+    >
+      <ListItemAvatar>
+        <Avatar src={"https://material-ui.com/static/images/avatar/2.jpg"}/>
+      </ListItemAvatar>
+      <ListItemText
+        primary={listElement?.name}
+        secondary={
+          <React.Fragment>
+            <Typography
+              component="span"
+              variant="body2"
+              color="textPrimary"
+            >
+              {"yay"}
+            </Typography>
+            {"  Popularity - "}
+          </React.Fragment>
+        }
+      />
+    </ListItem>
+  );
+};
+
+export const HomeComponent = withWidth()(({auth, width}: { auth: Auth } & WithWidthProps) => {
+  console.log(width)
+  return (
+    <Query
+      <Created, { state: string }>
+      query={query}
+      notifyOnNetworkStatusChange={true}
+      context={{debounceKey: "294", debounceTimeout: 900}}
+      variables={{state: "dashboard"}}
+    >
+      {({data, fetchMore}) => {
+        let categories = data?.categoriesPaginated?.categories || [];
+        return (
+          <div style={HomeContainerStyles}>
+            <div style={{height: "min-content"}}>
+              <div style={{display: "flex", justifyContent: "center"}}>
+                <div
+                  onClick={() => {
+                    window.location.href = data?.login
+                  }}
+                  style={{display: "flex", flexDirection: "row"}}>
+                  <SpotifyLogoSvg/>
+                  <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                    <h2 style={{display: "flex", justifyContent: "center"}}>
+                      Spotify
+                    </h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                <GridList cellHeight={160} cols={3}>
+                  {[{img: "hs", cols: 1, title: "hello"}].map((tile: any) => (
+                    <GridListTile key={tile.img} cols={tile.cols || 1}>
+                      <img src={tile.img} alt={tile.title}/>
+                    </GridListTile>
+                  ))}
+                </GridList>
+              </div>
+              <WindowScroller>
+                {({width, height, isScrolling, registerChild, scrollTop}) => (
+                  <React.Fragment>
+                    <header> Table header</header>
+                    <div ref={registerChild}>
+                      <UIList>
+                        <List
+                          autoHeight
+                          height={height}
+                          isScrolling={isScrolling}
+                          rowCount={categories.length}
+                          rowHeight={60}
+                          rowRenderer={rowRenderer({list: categories})}
+                          scrollTop={scrollTop}
+                          width={width}
+                        /></UIList>
+                    </div>
+                  </React.Fragment>
+                )}
+              </WindowScroller>
+
+            </div>
+          </div>
+        )
+      }}
+    </Query>
+  );
+});
+
+const getGridListCols = ({width}: WithWidthProps) => {
+  let screenWidth = width || "lg";
+  if (isWidthUp('xl', screenWidth)) {
+    return 4;
+  }
+
+  if (isWidthUp('lg', screenWidth)) {
+    return 3;
+  }
+
+  if (isWidthUp('md', screenWidth)) {
+    return 2;
+  }
+
+  return 1;
+}
