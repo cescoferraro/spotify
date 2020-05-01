@@ -43,6 +43,7 @@ const loadMoreRows = ({cursor, pace, fetchMore}: { pace: number, cursor: number,
 };
 
 
+
 const rowRenderer = ({list}: { list: (PlayerComponentQuery_mySongsPaginated_songs  | null)[] }) => ({key, index, style}: any) => {
   let listElement = list[index];
   let images = listElement?.track?.album?.images || [];

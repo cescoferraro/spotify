@@ -36,7 +36,7 @@ var PlaylistSongsPaginatedQuery = graphql.Fields{
 			}
 			cursor, ok := p.Args["cursor"].(int)
 			if !ok {
-				return "", errors.New("arg state not found")
+				return "", errors.New("arg state cursor not found")
 			}
 			localTracks, err := client.GetPlaylistTracksOpt(owner, spotify.ID(playID), &spotify.Options{
 				Limit:  &pace,

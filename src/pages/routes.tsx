@@ -17,7 +17,7 @@ export const RoutesComponent = withRouter((props: RouteComponentProps & { auth: 
       <Route path="/" exact={true}> <HomeComponent auth={auth}/> </Route>
       <Route path="/dashboard"> <Player auth={auth}/> </Route>
       <Route path="/playlists/:catID" exact={true}> <PlaylistsPage/> </Route>
-      <Route path="/playlists/:catID/:playlistID" exact={true}><PlaylistPage/></Route>
+      <Route path="/playlists/:catID/:owner/:playlistID" exact={true}><PlaylistPage/></Route>
 
     </ApolloProvider>
   );

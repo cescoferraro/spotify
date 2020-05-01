@@ -20,11 +20,12 @@ export const PlaylistList = withRouter(
           {props.playlists
             .map((f: FullPlaylist, i: number) => {
               if (!f) return null
-              console.log(f)
               let images = f.images || [];
               let randomIcon = images[images.length - 1];
               return (
-                <GridListTile onClick={() => props.history.push("/playlists/" + props.catID + "/" + f.id)} key={i}>
+                <GridListTile
+                  onClick={() => props.history.push("/playlists/" + props.catID + "/" + f.owner?.id + "/" + f.id)}
+                  key={i}>
                   <img src={randomIcon?.url || "image"} alt={f.name || "random"}/>
                   <GridListTileBar title={f.name}/>
                 </GridListTile>
