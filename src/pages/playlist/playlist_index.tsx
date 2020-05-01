@@ -44,7 +44,7 @@ const loadMoreRows = ({owner, playID, cursor, pace, fetchMore}: { owner: string,
 
 const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_songs | null)[] }) => ({key, index, style}: any) => {
   let listElement = list[index];
-  // let images = listElement?.track?.album|| [];
+  let images = listElement?.track?.album?.images || [];
   // let images = ""
   // let artists = listElement?.track?.SimpleTrack?.name || [];
   return (
@@ -53,7 +53,7 @@ const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_s
       style={style}
     >
       <ListItemAvatar>
-        <Avatar src={"https://material-ui.com/static/images/avatar/2.jpg"}/>
+        <Avatar src={images[images.length - 1]?.url || "https://material-ui.com/static/images/avatar/2.jpg"}/>
       </ListItemAvatar>
       <ListItemText
         primary={listElement?.track?.SimpleTrack?.name}

@@ -9,6 +9,9 @@ export const playlistQuery = gql`
         track {
           album {
             name
+            images {
+              url
+            }
           }
           SimpleTrack {
             name

@@ -7,9 +7,15 @@
 // GraphQL query operation: FullPlaylistQuery
 // ====================================================
 
+export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_album_images {
+  __typename: "Image";
+  url: string | null;
+}
+
 export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_album {
   __typename: "SimpleAlbum";
   name: string | null;
+  images: (FullPlaylistQuery_playlistSongsPaginated_songs_track_album_images | null)[] | null;
 }
 
 export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_SimpleTrack {
