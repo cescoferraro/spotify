@@ -8,12 +8,12 @@
 // ====================================================
 
 export interface HomeComponentQuery_categoriesPaginated_categories_icons {
-  __typename: "Imageg5b";
+  __typename: "Image";
   url: string | null;
 }
 
 export interface HomeComponentQuery_categoriesPaginated_categories {
-  __typename: "Categoryk8Y";
+  __typename: "Category";
   id: string | null;
   name: string | null;
   icons: (HomeComponentQuery_categoriesPaginated_categories_icons | null)[] | null;

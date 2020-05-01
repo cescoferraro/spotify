@@ -14,7 +14,7 @@ type SavedTrack struct {
 type MySongsPaginated struct {
 	Cursor int                  `json:"cursor"`
 	Total  int                  `json:"total"`
-	Songs  []spotify.SavedTrack `json:"yayy"`
+	Songs  []spotify.SavedTrack `json:"songs"`
 }
 
 var MySongsPaginatedQL = graphql.NewObject(graphql.ObjectConfig{

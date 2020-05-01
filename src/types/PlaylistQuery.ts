@@ -7,14 +7,20 @@
 // GraphQL query operation: PlaylistQuery
 // ====================================================
 
+export interface PlaylistQuery_playlistsPaginated_playlists_owner {
+  __typename: "User";
+  id: string | null;
+}
+
 export interface PlaylistQuery_playlistsPaginated_playlists_images {
-  __typename: "Imageg5b";
+  __typename: "Image";
   url: string | null;
 }
 
 export interface PlaylistQuery_playlistsPaginated_playlists {
-  __typename: "SimplePlayliste52";
+  __typename: "SimplePlaylist";
   id: string | null;
+  owner: PlaylistQuery_playlistsPaginated_playlists_owner | null;
   name: string | null;
   images: (PlaylistQuery_playlistsPaginated_playlists_images | null)[] | null;
 }

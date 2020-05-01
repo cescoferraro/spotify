@@ -20,6 +20,7 @@ export const PlaylistList = withRouter(
           {props.playlists
             .map((f: FullPlaylist, i: number) => {
               if (!f) return null
+              console.log(f)
               let images = f.images || [];
               let randomIcon = images[images.length - 1];
               return (

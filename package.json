@@ -47,7 +47,7 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "types": "yarn run apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --includes=src/**/*.tsx --excludes=node_modules/* --tagName=gql --addTypename  --outputFlat src/types"
+    "types": "rm -rf src/types/* && yarn run apollo codegen:generate --localSchemaFile=schema.graphql --target=typescript --includes=src/**/*.tsx --excludes=node_modules/* --tagName=gql --addTypename  --outputFlat src/types && rm src/types/globalTypes.ts"
   },
   "eslintConfig": {
     "extends": "react-app"

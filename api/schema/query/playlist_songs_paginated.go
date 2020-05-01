@@ -8,8 +8,8 @@ import (
 	"time"
 )
 
-var PlaylistsSongsPaginatedQuery = graphql.Fields{
-	"PlaylistsSongsPaginated": &graphql.Field{
+var PlaylistSongsPaginatedQuery = graphql.Fields{
+	"playlistSongsPaginated": &graphql.Field{
 		Type: MySongsPaginatedQL,
 		Args: graphql.FieldConfigArgument{
 			"cursor": &graphql.ArgumentConfig{Type: graphql.Int},
@@ -24,7 +24,7 @@ var PlaylistsSongsPaginatedQuery = graphql.Fields{
 			}
 			owner, ok := p.Args["owner"].(string)
 			if !ok {
-				return MySongsPaginated{}, errors.New("arg playID not found")
+				return MySongsPaginated{}, errors.New("arg owner not found")
 			}
 			playID, ok := p.Args["playID"].(string)
 			if !ok {

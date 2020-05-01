@@ -8,11 +8,16 @@ import (
 
 func Query() *graphql.Object {
 	fields := tools.MergeGraphQlQuery(query.LoginQuery, query.AuthQuery)
+
+	// dashbard
 	fields = tools.MergeGraphQlQuery(fields, query.NowPlayingQuery)
 	fields = tools.MergeGraphQlQuery(fields, query.MySongsPaginatedQuery)
+
 	fields = tools.MergeGraphQlQuery(fields, query.PublicSongsPaginatedQuery)
+
 	fields = tools.MergeGraphQlQuery(fields, query.CategoriesPaginatedQuery)
 	fields = tools.MergeGraphQlQuery(fields, query.PlaylistsPaginatedQuery)
-	fields = tools.MergeGraphQlQuery(fields, query.PlaylistsSongsPaginatedQuery)
+	fields = tools.MergeGraphQlQuery(fields, query.PlaylistSongsPaginatedQuery)
+
 	return graphql.NewObject(graphql.ObjectConfig{Name: "Query", Fields: fields})
 }

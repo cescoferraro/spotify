@@ -6,14 +6,14 @@ schema {
 }
 
 type CategoriesPaginated {
-  categories: [Categoryk8Y]
+  categories: [Category]
   cursor: Int
   total: Int
 }
 
-type Categoryk8Y {
+type Category {
   href: String
-  icons: [Imageg5b]
+  icons: [Image]
   id: String
   name: String
 }
@@ -26,7 +26,7 @@ type CurrentlyPlaying {
   timestamp: Int
 }
 
-type FollowersUmm {
+type Followers {
   href: String
 }
 
@@ -37,12 +37,6 @@ type FullTrack {
 }
 
 type Image {
-  height: Int
-  url: String
-  width: Int
-}
-
-type Imageg5b {
   height: Int
   url: String
   width: Int
@@ -80,23 +74,23 @@ type PlayerState {
   shuffle_state: Boolean
 }
 
-type PlaylistTracksScJ {
+type PlaylistTracks {
   href: String
 }
 
 type PlaylistsPaginated {
   cursor: Int
-  playlists: [SimplePlayliste52]
+  playlists: [SimplePlaylist]
   total: Int
 }
 
 type Query {
-  PlaylistsSongsPaginated(cursor: Int, owner: String, pace: Int, playID: String): MySongsPaginated
   auth(code: String): Token
   categoriesPaginated(cursor: Int, pace: Int): CategoriesPaginated
   login(state: String): String
   mySongsPaginated(cursor: Int, pace: Int): MySongsPaginated
   nowPlaying: PlayerState
+  playlistSongsPaginated(cursor: Int, owner: String, pace: Int, playID: String): MySongsPaginated
   playlistsPaginated(catID: String, cursor: Int, pace: Int): PlaylistsPaginated
   publicSongsPaginated(cursor: Int, pace: Int, query: String): MySongsPaginated
 }
@@ -123,16 +117,16 @@ type SimpleArtist {
   uri: String
 }
 
-type SimplePlayliste52 {
+type SimplePlaylist {
   collaborative: Boolean
   href: String
   id: String
-  images: [Imageg5b]
+  images: [Image]
   name: String
-  owner: UsergRy
+  owner: User
   public: Boolean
   snapshot_id: String
-  tracks: PlaylistTracksScJ
+  tracks: PlaylistTracks
   uri: String
 }
 
@@ -157,9 +151,9 @@ type Token {
   token_type: String
 }
 
-type UsergRy {
+type User {
   display_name: String
-  followers: FollowersUmm
+  followers: Followers
   href: String
   id: String
   uri: String
