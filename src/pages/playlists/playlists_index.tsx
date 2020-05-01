@@ -12,7 +12,7 @@ export const PlaylistsPage = withRouter(
       <Query
         <DataValue<any, PlaylistQuery>, PlaylistQueryVariables>
         query={playlistQuery}
-        variables={{catID: catID, cursor: 0, pace: 20}}
+        variables={{catID: catID, cursor: 0, pace: 40}}
       >
         {({data}) => {
           return (
