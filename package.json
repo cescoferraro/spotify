@@ -27,6 +27,7 @@
     "mobx-react": "^6.2.2",
     "react": "^16.13.1",
     "react-apollo": "^3.1.5",
+    "react-bouncing-preloader": "^1.0.0",
     "react-dom": "^16.13.1",
     "react-jinke-music-player": "4.11.2",
     "react-request": "^3.1.2",

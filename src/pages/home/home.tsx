@@ -14,11 +14,10 @@ export const HomeComponent = ({auth}: { auth: Auth }) => {
       variables={{state: "dashboard"}}
     >
       {({data}) => {
-        let categories = data?.categoriesPaginated?.categories || [];
         return (
           <React.Fragment>
-            <Explanation auth={auth}onClick={() => window.location.href = data?.login}/>
-            <CategoriesList categories={categories}/>
+            <Explanation auth={auth} onClick={() => window.location.href = data?.login}/>
+            <CategoriesList categories={data?.categoriesPaginated?.categories || []}/>
           </React.Fragment>
         )
       }}

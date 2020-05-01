@@ -6,3 +6,4 @@ interface IAudio {
   lyric: string;
   name: string | null | undefined
 }
+declare module 'react-bouncing-preloader'

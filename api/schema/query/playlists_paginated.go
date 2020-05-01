@@ -3,7 +3,7 @@ package query
 import (
 	"errors"
 	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/spotify/api/istructql"
+	"github.com/cescoferraro/structql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 )
@@ -22,7 +22,7 @@ var PlaylistsPaginatedQuery = graphql.Fields{
 				"cursor": &graphql.Field{Type: graphql.Int},
 				"total":  &graphql.Field{Type: graphql.Int},
 				"playlists": &graphql.Field{Type: graphql.NewList(
-					istructql.GenerateType(spotify.SimplePlaylist{
+					structql.GenerateType(spotify.SimplePlaylist{
 						Images: []spotify.Image{{}},
 					}))},
 			},

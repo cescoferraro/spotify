@@ -7,24 +7,16 @@ import (
 	"github.com/cescoferraro/structql"
 	"golang.org/x/oauth2/clientcredentials"
 	"log"
-	"sync"
 	"time"
 
 	"github.com/zmb3/spotify"
 	"golang.org/x/oauth2"
 )
 
-// AuthHub TODO: NEEDS COMMENT INFO
-type AuthHub struct {
-	sync.Mutex
-	Tokens map[string]*oauth2.Token
-}
-
 // TokenHUB TODO: NEEDS COMMENT INFO
 var (
-	TokenHUB = AuthHub{Tokens: make(map[string]*oauth2.Token)}
-	State    = "dashboard"
-	Scopes   = []string{
+	State  = "dashboard"
+	Scopes = []string{
 		spotify.ScopeImageUpload,
 		spotify.ScopePlaylistReadPrivate,
 		spotify.ScopePlaylistModifyPublic,

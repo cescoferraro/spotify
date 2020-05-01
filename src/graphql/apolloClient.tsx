@@ -3,9 +3,9 @@ import {InMemoryCache} from "apollo-cache-inmemory";
 import ApolloClient from "apollo-client";
 import {ApolloLink} from "apollo-link";
 import {setContext} from "apollo-link-context";
+import DebounceLink from "apollo-link-debounce";
 import {onError} from "apollo-link-error";
 import {Auth} from "../store/auth_store";
-import DebounceLink from "apollo-link-debounce";
 
 export const API_URL = () => {
   if (document.location.protocol === "https:") {
@@ -17,7 +17,7 @@ const DEFAULT_DEBOUNCE_TIMEOUT = 500;
 export const apolloClient = ({history, auth}: { auth: Auth, history: any }) => new ApolloClient({
   cache: new InMemoryCache({addTypename: false}),
   link: ApolloLink.from([
-    new DebounceLink(DEFAULT_DEBOUNCE_TIMEOUT),
+      new DebounceLink(DEFAULT_DEBOUNCE_TIMEOUT),
       setContext((yay: any, {headers}: any) => {
         return {
           body: auth.code,
@@ -29,7 +29,6 @@ export const apolloClient = ({history, auth}: { auth: Auth, history: any }) => n
             "State": `${auth.state}`,
             "Expiry": `${auth.expiry}`,
             "Token-Type": `${auth.token_type}`,
-
           },
         };
       }),

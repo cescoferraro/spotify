@@ -14,12 +14,14 @@ export interface HomeComponentQuery_categoriesPaginated_categories_icons {
 
 export interface HomeComponentQuery_categoriesPaginated_categories {
   __typename: "Categoryk8Y";
+  id: string | null;
   name: string | null;
   icons: (HomeComponentQuery_categoriesPaginated_categories_icons | null)[] | null;
 }
 
 export interface HomeComponentQuery_categoriesPaginated {
   __typename: "CategoriesPaginated";
+  total: number | null;
   categories: (HomeComponentQuery_categoriesPaginated_categories | null)[] | null;
 }
 

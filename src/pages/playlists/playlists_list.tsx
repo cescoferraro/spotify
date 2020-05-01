@@ -2,12 +2,12 @@ import {GridList, GridListTile, isWidthUp, withWidth, WithWidthProps} from "@mat
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import * as React from "react";
 import {RouteComponentProps, withRouter} from "react-router";
-import {HomeComponentQuery_categoriesPaginated_categories} from "../../types/HomeComponentQuery";
+import {PlaylistQuery_playlistsPaginated_playlists} from "../../types/PlaylistQuery";
 
-type FullCategorie = HomeComponentQuery_categoriesPaginated_categories;
-type CategoriesListProps = WithWidthProps & RouteComponentProps & { categories: FullCategorie[] };
+type FullPlaylist = PlaylistQuery_playlistsPaginated_playlists;
+type CategoriesListProps = WithWidthProps & RouteComponentProps & { catID: string, playlists: FullPlaylist[] };
 
-export const CategoriesList = withRouter(
+export const PlaylistList = withRouter(
   withWidth()(
     (props: CategoriesListProps) => {
       return (
@@ -17,13 +17,13 @@ export const CategoriesList = withRouter(
           spacing={30}
           cellHeight={180}
         >
-          {props.categories
-            .map((f: FullCategorie, i: number) => {
+          {props.playlists
+            .map((f: FullPlaylist, i: number) => {
               if (!f) return null
-              let icons = f.icons || [];
-              let randomIcon = icons[icons.length - 1];
+              let images = f.images || [];
+              let randomIcon = images[images.length - 1];
               return (
-                <GridListTile onClick={() => props.history.push("/playlists/" + f.id)} key={i}>
+                <GridListTile onClick={() => props.history.push("/playlists/" + props.catID + "/" + f.id)} key={i}>
                   <img src={randomIcon?.url || "image"} alt={f.name || "random"}/>
                   <GridListTileBar title={f.name}/>
                 </GridListTile>
