@@ -12,7 +12,6 @@ export const PlaylistList = withRouter(
     (props: CategoriesListProps) => {
       return (
         <GridList
-          style={{padding: 30}}
           cols={getGridListCols({width: props.width})}
           spacing={30}
           cellHeight={180}

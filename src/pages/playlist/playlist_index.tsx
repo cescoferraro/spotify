@@ -1,8 +1,12 @@
 import Avatar from "@material-ui/core/Avatar";
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import UIList from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import ListItemText from "@material-ui/core/ListItemText";
+import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
 import {ChildProps, Query} from "react-apollo";
@@ -14,6 +18,7 @@ import {
   FullPlaylistQuery_playlistSongsPaginated_songs,
   FullPlaylistQueryVariables
 } from "../../types/FullPlaylistQuery";
+import {AppBarProtoType} from "../playlists/app_bar";
 import {playlistQuery} from "./query";
 
 type Created = ChildProps<any, FullPlaylistQuery>;
@@ -64,6 +69,7 @@ const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_s
               variant="body2"
               color="textPrimary"
             >
+
               {/*{artists.map((d, index) => d?.name + (index + 1 !== artists.length ? ", " : ""))}*/}
             </Typography>
             {/*{"  Popularity - " + listElement?.track?.popularity}*/}
@@ -77,15 +83,15 @@ export const PlaylistPage = withRouter(
   (props: RouteChildrenProps<{ owner: string, playlistID: string }>) => {
     const playID = props.match?.params.playlistID || "erro";
     const owner = props.match?.params.owner || "spotify";
+    const pace = 20
     return (
       <Query
         <Created, FullPlaylistQueryVariables>
         query={playlistQuery}
-        variables={{owner, cursor: 0, pace: 20, playID}}
+        variables={{owner, cursor: 0, pace, playID}}
       >
         {({data, fetchMore, loading}) => {
           const songs = data?.playlistSongsPaginated?.songs || [];
-          const pace = 15
           return (
             <InfiniteLoader
               isRowLoaded={isRowLoaded({list: songs})}
@@ -102,19 +108,33 @@ export const PlaylistPage = withRouter(
                 <WindowScroller ref={registerChild}>
                   {({width, height, isScrolling, registerChild, scrollTop}) => (
                     <div ref={registerChild}>
-                      <UIList>
-                        <List
-                          autoHeight
-                          height={height}
-                          onRowsRendered={onRowsRendered}
-                          isScrolling={isScrolling}
-                          rowCount={songs.length}
-                          rowHeight={60}
-                          rowRenderer={rowRenderer({list: songs})}
-                          scrollTop={scrollTop}
-                          width={width}
-                        /></UIList>
-                      {loading && (<MDSpinner/>)}
+
+                      <CssBaseline/>
+                      <AppBarProtoType
+                        query={""}
+                        setQuery={(d: string) => {
+                          console.log(d)
+                        }}
+                      />
+                      <Toolbar/>
+                      <Container style={{background: "#313131"}}>
+                        <Box my={0} style={{paddingBottom: 20}}>
+                          <UIList>
+                            <List
+                              autoHeight
+                              height={height}
+                              onRowsRendered={onRowsRendered}
+                              isScrolling={isScrolling}
+                              rowCount={songs.length}
+                              rowHeight={60}
+                              rowRenderer={rowRenderer({list: songs})}
+                              scrollTop={scrollTop}
+                              width={width}
+                            />
+                            {loading && (<MDSpinner/>)}
+                          </UIList>
+                        </Box>
+                      </Container>
                     </div>
                   )}
                 </WindowScroller>
