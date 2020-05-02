@@ -5,7 +5,7 @@ import {Auth} from "../../store/auth_store";
 import {SpotifyAuthUrl} from "./home";
 import {SpotifyLogoSvg} from "./spotify_icon";
 
-type ExplanationProps = WithWidthProps & { auth: Auth, onClick: () => void };
+type ExplanationProps = WithWidthProps & { auth: Auth };
 
 export const Explanation = withWidth()
 (({width}: ExplanationProps) => {

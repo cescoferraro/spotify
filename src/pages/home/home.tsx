@@ -1,3 +1,5 @@
+import Box from "@material-ui/core/Box";
+import Container from "@material-ui/core/Container";
 import {gql} from "apollo-boost";
 import * as React from "react";
 import {ChildProps, Query} from "react-apollo";
@@ -21,29 +23,25 @@ export const SpotifyAuthUrl = withRouter(({location, children}: RouteComponentPr
 
   )
 })
-export const HomeComponent = withRouter(
-  ({location, auth}:
-     RouteComponentProps & { auth: Auth }) => {
-    return (
-      <Query
-        <ChildProps<any, HomeComponentQuery>, { state: string }>
-        query={query}
-      >
-        {({data}) => {
-          return (
-            <React.Fragment>
-              <Explanation auth={auth} onClick={() => {
-                console.log(location)
-                // variables={{state: btoa(location.pathname)}}
-                // window.location.href = data?.login;
-              }}/>
-              <CategoriesList categories={data?.categoriesPaginated?.categories || []}/>
-            </React.Fragment>
-          )
-        }}
-      </Query>
-    );
-  }
-  )
-;
+export const HomeComponent = ({auth}: { auth: Auth }) => {
+  return (
+    <Query
+      <ChildProps<any, HomeComponentQuery>, { state: string }>
+      query={query}
+    >
+      {({data}) => {
+        return (
+          <React.Fragment>
+            <Explanation auth={auth}/>
+            <Container>
+              <Box py={3}>
+                <CategoriesList categories={data?.categoriesPaginated?.categories || []}/>
+              </Box>
+            </Container>
+          </React.Fragment>
+        )
+      }}
+    </Query>
+  );
+};
 
