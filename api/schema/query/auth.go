@@ -3,7 +3,7 @@ package query
 import (
 	"errors"
 	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/structql"
+	"github.com/cescoferraro/spotify/api/istructql"
 	"github.com/graphql-go/graphql"
 	"golang.org/x/oauth2"
 	"log"
@@ -11,7 +11,7 @@ import (
 
 var AuthQuery = graphql.Fields{
 	"auth": &graphql.Field{
-		Type: structql.GenerateType(oauth2.Token{}),
+		Type: istructql.GenerateType(oauth2.Token{}),
 		Args: graphql.FieldConfigArgument{"code": &graphql.ArgumentConfig{Type: graphql.String}},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 			code, ok := p.Args["code"].(string)

@@ -3,8 +3,8 @@ package ispotify
 import (
 	"context"
 	"errors"
+	"github.com/cescoferraro/spotify/api/istructql"
 	"github.com/cescoferraro/spotify/api/tools"
-	"github.com/cescoferraro/structql"
 	"golang.org/x/oauth2/clientcredentials"
 	"log"
 	"time"
@@ -94,7 +94,7 @@ func getOAuthTokenFromContext(ctx context.Context) (*oauth2.Token, error) {
 	return token, nil
 }
 
-var SavedTrack = structql.GenerateType(spotify.SavedTrack{
+var SavedTrack = istructql.GenerateType(spotify.SavedTrack{
 	AddedAt: "",
 	FullTrack: spotify.FullTrack{
 		SimpleTrack: spotify.SimpleTrack{

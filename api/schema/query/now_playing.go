@@ -3,7 +3,7 @@ package query
 import (
 	"errors"
 	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/structql"
+	"github.com/cescoferraro/spotify/api/istructql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 	"log"
@@ -12,7 +12,7 @@ import (
 
 var NowPlayingQuery = graphql.Fields{
 	"nowPlaying": &graphql.Field{
-		Type: structql.GenerateType(spotify.PlayerState{
+		Type: istructql.GenerateType(spotify.PlayerState{
 			CurrentlyPlaying: spotify.CurrentlyPlaying{
 				Item: &spotify.FullTrack{
 					SimpleTrack: spotify.SimpleTrack{

@@ -9,10 +9,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
-import {ChildProps, Query} from "react-apollo";
+import {ChildDataProps, ChildProps, Query} from "react-apollo";
 import MDSpinner from "react-md-spinner";
-import {RouteChildrenProps, withRouter} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router";
 import {InfiniteLoader, List, WindowScroller} from "react-virtualized";
+import {Auth} from "../../store/auth_store";
 import {
   FullPlaylistQuery,
   FullPlaylistQuery_playlistSongsPaginated_songs,
@@ -22,6 +23,7 @@ import {AppBarProtoType} from "../playlists/app_bar";
 import {playlistQuery} from "./query";
 
 type Created = ChildProps<any, FullPlaylistQuery>;
+
 const isRowLoaded = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_songs | null)[] }) => ({index}: any) => !!list[index];
 
 const loadMoreRows = ({owner, playID, cursor, pace, fetchMore}: { owner: string, playID: string, pace: number, cursor: number, fetchMore: any }) => () => {
@@ -79,14 +81,14 @@ const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_s
   );
 };
 export const PlaylistPage = withRouter(
-  ({match, history, pace = 20}: { pace?: number } & RouteChildrenProps<{ catID: string, owner: string, playlistID: string }>) => {
+  ({auth,match, history, pace = 20}: RouteComponentProps<{ catID: string, owner: string, playlistID: string }> & { pace?: number, auth: Auth }) => {
     const catID = match?.params.catID || "erro";
     const playID = match?.params.playlistID || "erro";
     const owner = match?.params.owner || "spotify";
     const [query, setQuery] = React.useState("");
     return (
       <Query
-        <Created, FullPlaylistQueryVariables>
+        <ChildDataProps<FullPlaylistQuery>, FullPlaylistQueryVariables>
         query={playlistQuery}
         variables={{owner, cursor: 0, pace, playID}}
       >
@@ -99,10 +101,10 @@ export const PlaylistPage = withRouter(
                 owner,
                 playID,
                 pace,
-                cursor: data?.playlistSongsPaginated?.cursor,
+                cursor: data?.playlistSongsPaginated?.cursor || 0,
                 fetchMore
               })}
-              rowCount={data?.playlistSongsPaginated.total || 0}
+              rowCount={data?.playlistSongsPaginated?.total || 0}
             >
               {({onRowsRendered, registerChild,}) => (
                 <WindowScroller ref={registerChild}>
@@ -115,6 +117,7 @@ export const PlaylistPage = withRouter(
                           history.push("/playlists/" + catID);
                         }}
                         query={query}
+                        auth={auth}
                         setQuery={setQuery}
                       />
                       <Toolbar/>

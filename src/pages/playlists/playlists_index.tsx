@@ -4,7 +4,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from "@material-ui/core/Toolbar";
 import React from "react";
 import {ChildProps, Query} from "react-apollo";
-import {RouteChildrenProps, withRouter} from "react-router";
+import {RouteComponentProps, withRouter} from "react-router";
+import {Auth} from "../../store/auth_store";
 import {
   PlaylistQuery,
   PlaylistQuery_playlistsPaginated_playlists,
@@ -31,7 +32,7 @@ const extracted = (data: PlaylistQueryProps, query: string) => {
 };
 
 export const PlaylistsPage = withRouter(
-  (props: RouteChildrenProps<{ catID: string }>) => {
+  (props: RouteComponentProps<{ catID: string }> & { auth: Auth }) => {
     const [query, setQuery] = React.useState("");
     const catID = props.match?.params.catID || "hiphop";
     console.log(props.location)
@@ -47,7 +48,8 @@ export const PlaylistsPage = withRouter(
           return (
             <React.Fragment>
               <CssBaseline/>
-              <AppBarProtoType onClick={() => props.history.push("/")} query={query} setQuery={setQuery}/>
+              <AppBarProtoType auth={props.auth} onClick={() => props.history.push("/")} query={query}
+                               setQuery={setQuery}/>
               <Toolbar/>
               <Container style={{background: "#313131"}}>
                 <Box my={0} style={{paddingBottom: 20, paddingTop: 20}}>

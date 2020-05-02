@@ -8,10 +8,10 @@ import makeStyles from "@material-ui/core/styles/makeStyles";
 import Toolbar from "@material-ui/core/Toolbar";
 import useScrollTrigger from "@material-ui/core/useScrollTrigger";
 import SearchIcon from '@material-ui/icons/Search';
-import SettingsIcon from "@material-ui/icons/Settings";
 import React from "react";
 import {RouteComponentProps, withRouter} from "react-router";
-import {SpotifyAuthUrl} from "../home/home";
+import {Auth} from "../../store/auth_store";
+import {LeftPart} from "./left";
 
 const HideOnScroll = ({children}: { children: any }) => {
   const trigger = useScrollTrigger({disableHysteresis: true, threshold: 150});
@@ -21,12 +21,17 @@ const HideOnScroll = ({children}: { children: any }) => {
     </Slide>
   );
 };
+
 export const AppBarProtoType = withRouter((
   {
+    auth,
     onClick = () => {
     }, label = "Pesquise por playlists", query, setQuery
   }:
-    { onClick?: () => void, label?: string, query: string, setQuery: (query: string) => void } & RouteComponentProps
+    {
+      auth: Auth,
+      onClick?: () => void, label?: string, query: string, setQuery: (query: string) => void
+    } & RouteComponentProps
 ) => {
   const styles = makeStyles({root: {background: "#313131"}})();
   const input = makeStyles({root: {background: "#8E8D8D"}})();
@@ -63,17 +68,9 @@ export const AppBarProtoType = withRouter((
               </Paper>
             </div>
 
-            <SpotifyAuthUrl>
-              {(url: string) => {
-                return (
-                  <IconButton
-                    onClick={() => window.location.href = url}
-                    edge="end" color="inherit" aria-label="open drawer">
-                    <SettingsIcon/>
-                  </IconButton>
-                )
-              }}
-            </SpotifyAuthUrl>
+            <LeftPart
+              auth={auth}
+            />
           </Toolbar>
         </AppBar>
       </Box>
