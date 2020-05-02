@@ -26,10 +26,5 @@ export interface HomeComponentQuery_categoriesPaginated {
 }
 
 export interface HomeComponentQuery {
-  login: string | null;
   categoriesPaginated: HomeComponentQuery_categoriesPaginated | null;
-}
-
-export interface HomeComponentQueryVariables {
-  state?: string | null;
 }

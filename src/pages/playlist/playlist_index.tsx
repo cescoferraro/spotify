@@ -51,7 +51,7 @@ const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_s
   let listElement = list[index];
   let images = listElement?.track?.album?.images || [];
   // let images = ""
-  // let artists = listElement?.track?.SimpleTrack?.name || [];
+  let artists = listElement?.track?.SimpleTrack?.artists || [];
   return (
     <ListItem
       key={key}
@@ -69,10 +69,9 @@ const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_s
               variant="body2"
               color="textPrimary"
             >
-
-              {/*{artists.map((d, index) => d?.name + (index + 1 !== artists.length ? ", " : ""))}*/}
+              {artists.map((d, index) => d?.name + (index + 1 !== artists.length ? ", " : ""))}
             </Typography>
-            {/*{"  Popularity - " + listElement?.track?.popularity}*/}
+            {"  Popularity - " + listElement?.track?.popularity}
           </React.Fragment>
         }
       />
@@ -80,11 +79,11 @@ const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_s
   );
 };
 export const PlaylistPage = withRouter(
-  (props: RouteChildrenProps<{ owner: string, playlistID: string }>) => {
-    const playID = props.match?.params.playlistID || "erro";
-    const owner = props.match?.params.owner || "spotify";
+  ({match, history, pace = 20}: { pace?: number } & RouteChildrenProps<{ catID: string, owner: string, playlistID: string }>) => {
+    const catID = match?.params.catID || "erro";
+    const playID = match?.params.playlistID || "erro";
+    const owner = match?.params.owner || "spotify";
     const [query, setQuery] = React.useState("");
-    const pace = 20
     return (
       <Query
         <Created, FullPlaylistQueryVariables>
@@ -109,9 +108,12 @@ export const PlaylistPage = withRouter(
                 <WindowScroller ref={registerChild}>
                   {({width, height, isScrolling, registerChild, scrollTop}) => (
                     <div ref={registerChild}>
-
                       <CssBaseline/>
                       <AppBarProtoType
+                        onClick={() => {
+                          console.log("run")
+                          history.push("/playlists/" + catID);
+                        }}
                         query={query}
                         setQuery={setQuery}
                       />

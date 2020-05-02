@@ -35,17 +35,10 @@ export class Auth extends OAuthToken {
 
   @observable
   public code: string | initialType = initial;
-  @observable
-  public state: string | initialType = initial;
 
   constructor() {
     super()
     autoSave(this);
-  }
-
-  @action
-  public setState(st: string) {
-    this.state = st;
   }
 
   @action
@@ -67,7 +60,6 @@ export class Auth extends OAuthToken {
     this.refresh_token = initial;
     this.token_type = initial;
     this.code = initial;
-    this.state = initial;
     this.expiry = 0;
   }
 }

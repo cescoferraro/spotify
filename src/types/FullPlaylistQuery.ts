@@ -18,13 +18,20 @@ export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_album {
   images: (FullPlaylistQuery_playlistSongsPaginated_songs_track_album_images | null)[] | null;
 }
 
+export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_SimpleTrack_artists {
+  __typename: "SimpleArtist";
+  name: string | null;
+}
+
 export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_SimpleTrack {
   __typename: "SimpleTrack";
   name: string | null;
+  artists: (FullPlaylistQuery_playlistSongsPaginated_songs_track_SimpleTrack_artists | null)[] | null;
 }
 
 export interface FullPlaylistQuery_playlistSongsPaginated_songs_track {
   __typename: "FullTrack";
+  popularity: number | null;
   album: FullPlaylistQuery_playlistSongsPaginated_songs_track_album | null;
   SimpleTrack: FullPlaylistQuery_playlistSongsPaginated_songs_track_SimpleTrack | null;
 }

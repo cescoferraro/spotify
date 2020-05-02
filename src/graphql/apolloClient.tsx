@@ -26,7 +26,6 @@ export const apolloClient = ({history, auth}: { auth: Auth, history: any }) => n
             "Access-Token": `${auth.access_token}`,
             "Refresh-Token": `${auth.refresh_token}`,
             "Code": `${auth.code}`,
-            "State": `${auth.state}`,
             "Expiry": `${auth.expiry}`,
             "Token-Type": `${auth.token_type}`,
           },

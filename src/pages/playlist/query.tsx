@@ -7,14 +7,19 @@ export const playlistQuery = gql`
       cursor
       songs {
         track {
+          popularity
           album {
             name
             images {
               url
             }
+
           }
           SimpleTrack {
             name
+            artists {
+              name
+            }
           }
         }
       }

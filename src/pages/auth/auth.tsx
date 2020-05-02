@@ -18,11 +18,19 @@ const query = gql`
 
 type AuthProps = ChildProps<{ auth: Auth } & RouteComponentProps, AuthComponentQuery>;
 
+const extract = ({path}: { path: string }) => {
+  const spath = path.split("/");
+  return {
+    path: spath,
+    code: spath[2] || "",
+    state: spath[3] || ""
+  }
+};
+
 export const AuthComponent = withRouter(
   graphql<AuthProps>(query, {
     options: (props: AuthProps) => {
-      const path = props.location.pathname.split("/");
-      const code = path[2] || "";
+      const {code} = extract({path: props.location.pathname})
       return {variables: {code}}
     }
   })
@@ -30,15 +38,12 @@ export const AuthComponent = withRouter(
     (props: AuthProps) => {
       const {data, auth, history, location} = props;
       useEffect(() => {
-        const path = location.pathname.split("/");
+        const {path, state, code} = extract({path: location?.pathname})
         if (path.length === 4) {
           if (data?.auth) {
-            const code = path[2];
-            const state = path[3];
             auth.setCode(code)
-            auth.setState(state)
             auth.setOAuth(data?.auth as OAuthToken)
-            history.push("/dashboard")
+            history.push(atob(state))
           }
         } else {
           history.push("/")

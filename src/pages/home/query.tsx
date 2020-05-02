@@ -1,8 +1,7 @@
 import {gql} from "@apollo/client";
 
 export const query = gql`
-  query HomeComponentQuery ($state:String) {
-    login(state:$state)
+  query HomeComponentQuery {
     categoriesPaginated(cursor: 0, pace: 36){
       total
       categories{
