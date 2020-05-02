@@ -1,8 +1,9 @@
-import {GridList, GridListTile, isWidthUp, withWidth, WithWidthProps} from "@material-ui/core";
+import {GridList, GridListTile, withWidth, WithWidthProps} from "@material-ui/core";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import * as React from "react";
 import {RouteComponentProps, withRouter} from "react-router";
 import {PlaylistQuery_playlistsPaginated_playlists} from "../../types/PlaylistQuery";
+import {getGridListCols} from "../home/categories_list";
 
 type FullPlaylist = PlaylistQuery_playlistsPaginated_playlists;
 type CategoriesListProps = WithWidthProps & RouteComponentProps & { catID: string, playlists: FullPlaylist[] };
@@ -13,12 +14,12 @@ export const PlaylistList = withRouter(
       return (
         <GridList
           cols={getGridListCols({width: props.width})}
-          spacing={30}
+          spacing={16}
           cellHeight={180}
         >
           {props.playlists
+            .filter((f: FullPlaylist) => !!f)
             .map((f: FullPlaylist, i: number) => {
-              if (!f) return null
               let images = f.images || [];
               let randomIcon = images[images.length - 1];
               return (
@@ -37,11 +38,3 @@ export const PlaylistList = withRouter(
   )
 );
 
-const getGridListCols = ({width}: WithWidthProps) => {
-  const screenWidth = width || "lg";
-  if (isWidthUp('xl', screenWidth)) return 6;
-  if (isWidthUp('lg', screenWidth)) return 5;
-  if (isWidthUp('md', screenWidth)) return 4;
-  if (isWidthUp('sm', screenWidth)) return 3;
-  return 2;
-}

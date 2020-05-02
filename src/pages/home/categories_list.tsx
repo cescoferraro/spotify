@@ -35,7 +35,7 @@ export const CategoriesList = withRouter(
   )
 );
 
-const getGridListCols = ({width}: WithWidthProps) => {
+export const getGridListCols = ({width}: WithWidthProps) => {
   const screenWidth = width || "lg";
   if (isWidthUp('xl', screenWidth)) return 6;
   if (isWidthUp('lg', screenWidth)) return 5;
