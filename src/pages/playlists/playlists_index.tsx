@@ -42,7 +42,7 @@ export const PlaylistsPage = withRouter(
         query={playlistQuery}
         variables={{catID: catID, cursor: 0, pace: 40}}
       >
-        {({data}: PlaylistQueryProps) => {
+        {({data, loading}: PlaylistQueryProps) => {
           const playlists = extracted(data, query);
           console.log(playlists)
           return (
@@ -53,7 +53,7 @@ export const PlaylistsPage = withRouter(
               <Toolbar/>
               <Container style={{background: "#313131"}}>
                 <Box my={0} style={{paddingBottom: 20, paddingTop: 20}}>
-                  <PlaylistList catID={catID} playlists={playlists}/>
+                  <PlaylistList loading={loading} catID={catID} playlists={playlists}/>
                 </Box>
               </Container>
             </React.Fragment>
