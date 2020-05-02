@@ -83,6 +83,7 @@ export const PlaylistPage = withRouter(
   (props: RouteChildrenProps<{ owner: string, playlistID: string }>) => {
     const playID = props.match?.params.playlistID || "erro";
     const owner = props.match?.params.owner || "spotify";
+    const [query, setQuery] = React.useState("");
     const pace = 20
     return (
       <Query
@@ -111,10 +112,8 @@ export const PlaylistPage = withRouter(
 
                       <CssBaseline/>
                       <AppBarProtoType
-                        query={""}
-                        setQuery={(d: string) => {
-                          console.log(d)
-                        }}
+                        query={query}
+                        setQuery={setQuery}
                       />
                       <Toolbar/>
                       <Container style={{background: "#313131"}}>
