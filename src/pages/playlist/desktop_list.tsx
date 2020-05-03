@@ -70,7 +70,7 @@ export const DesktopList = (props: {
   playID: string,
   history: any,
   pace: number,
-  data: ChildDataProps<FullPlaylistQuery> |undefined,
+  data: ChildDataProps<FullPlaylistQuery> | undefined,
   fetchMore: any
 }) => {
   return (
