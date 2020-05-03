@@ -22,22 +22,28 @@ const HideOnScroll = ({children}: { children: any }) => {
   );
 };
 
+type AppBarProtoProps = {
+  searchable?: boolean, auth: Auth, onClick?: () => void, label?: string, query?: string, setQuery?: (query: string) => void
+} & RouteComponentProps;
+let emptyFN = () => ({});
+
 export const AppBarProtoType = withRouter((
   {
     auth,
-    onClick = () => {
-    }, label = "Pesquise por playlists", query, setQuery
-  }:
-    {
-      auth: Auth,
-      onClick?: () => void, label?: string, query: string, setQuery: (query: string) => void
-    } & RouteComponentProps
+    onClick = emptyFN,
+    searchable = true,
+    label = "Pesquise por playlists",
+    query = "",
+    setQuery = (e) => {
+      console.log(3)
+    }
+  }: AppBarProtoProps
 ) => {
   const styles = makeStyles({root: {background: "#313131"}})();
   const input = makeStyles({root: {background: "#8E8D8D"}})();
   return (
     <HideOnScroll>
-      <Box boxShadow={3}>
+      <Box boxShadow={searchable ? 3 : 0}>
         <AppBar classes={{root: styles.root}}>
           <Toolbar style={{paddingLeft: 8, paddingRight: 8}}>
             <IconButton
@@ -52,7 +58,7 @@ export const AppBarProtoType = withRouter((
               </svg>
             </IconButton>
             <div style={{width: "100%"}}>
-              <Paper style={{background: "#8E8D8D", display: "flex", alignItems: "center"}}>
+              {searchable && <Paper style={{background: "#8E8D8D", display: "flex", alignItems: "center"}}>
                 <IconButton type="submit" aria-label="search">
                   <SearchIcon/>
                 </IconButton>
@@ -65,7 +71,7 @@ export const AppBarProtoType = withRouter((
                   fullWidth={true}
                   style={{transform: "translate( -10px )", width: "calc( 100% + 20px )"}}
                 />
-              </Paper>
+              </Paper>}
             </div>
 
             <LeftPart

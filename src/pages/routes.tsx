@@ -18,7 +18,6 @@ export const RoutesComponent = withRouter((props: RouteComponentProps & { auth: 
       <Route path="/dashboard"> <Player auth={auth}/> </Route>
       <Route path="/playlists/:catID" exact={true}> <PlaylistsPage auth={auth}/> </Route>
       <Route path="/playlists/:catID/:owner/:playlistID" exact={true}> <PlaylistPage auth={auth}/> </Route>
-
     </ApolloProvider>
   );
 });
