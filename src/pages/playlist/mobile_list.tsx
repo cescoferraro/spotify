@@ -17,8 +17,8 @@ import {FullPlaylistQuery, FullPlaylistQuery_playlistSongsPaginated_songs} from 
 import {AppBarProtoType} from "../playlists/app_bar";
 
 type Created = ChildProps<any, FullPlaylistQuery>;
-const isRowLoaded = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_songs | null)[] }) => ({index}: any) => !!list[index];
-const loadMoreRows = ({owner, playID, cursor, pace, fetchMore}: { owner: string, playID: string, pace: number, cursor: number, fetchMore: any }) => () => {
+export const isRowLoaded = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_songs | null)[] }) => ({index}: any) => !!list[index];
+export const loadMoreRows = ({owner, playID, cursor, pace, fetchMore}: { owner: string, playID: string, pace: number, cursor: number, fetchMore: any }) => () => {
   return fetchMore({
     variables: {cursor, pace, owner, playID},
     updateQuery: (previousResult: Created, {fetchMoreResult}: { fetchMoreResult: Created }) => {
@@ -40,7 +40,7 @@ const loadMoreRows = ({owner, playID, cursor, pace, fetchMore}: { owner: string,
     },
   })
 };
-const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_songs | null)[] }) =>
+export const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_songs | null)[] }) =>
   ({key, index, style}: any) => {
     let listElement = list[index];
     let images = listElement?.track?.album?.images || [];
