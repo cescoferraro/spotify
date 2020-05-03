@@ -29,13 +29,13 @@ export const HomeComponent = ({auth}: { auth: Auth }) => {
       <ChildProps<any, HomeComponentQuery>, { state: string }>
       query={query}
     >
-      {({data}) => {
+      {({data, loading}) => {
         return (
           <React.Fragment>
             <Explanation auth={auth}/>
             <Container>
               <Box py={3}>
-                <CategoriesList categories={data?.categoriesPaginated?.categories || []}/>
+                <CategoriesList loading={loading} categories={data?.categoriesPaginated?.categories || []}/>
               </Box>
             </Container>
           </React.Fragment>

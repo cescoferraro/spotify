@@ -1,3 +1,4 @@
+import {withWidth, WithWidthProps} from "@material-ui/core";
 import Avatar from "@material-ui/core/Avatar";
 import Box from "@material-ui/core/Box";
 import Container from "@material-ui/core/Container";
@@ -80,8 +81,9 @@ const rowRenderer = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_s
     </ListItem>
   );
 };
-export const PlaylistPage = withRouter(
-  ({auth,match, history, pace = 20}: RouteComponentProps<{ catID: string, owner: string, playlistID: string }> & { pace?: number, auth: Auth }) => {
+
+export const PlaylistPage = withWidth()(withRouter(
+  ({auth, match, history, pace = 20}: WithWidthProps & RouteComponentProps<{ catID: string, owner: string, playlistID: string }> & { pace?: number, auth: Auth }) => {
     const catID = match?.params.catID || "erro";
     const playID = match?.params.playlistID || "erro";
     const owner = match?.params.owner || "spotify";
@@ -148,4 +150,4 @@ export const PlaylistPage = withRouter(
         }}
       </Query>
     );
-  })
+  }))
