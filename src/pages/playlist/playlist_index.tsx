@@ -1,11 +1,10 @@
-import {isWidthUp, withWidth, WithWidthProps} from "@material-ui/core";
 import React from "react";
 import {ChildDataProps, Query} from "react-apollo";
 import {match, RouteComponentProps, withRouter} from "react-router";
 import {Auth} from "../../store/auth_store";
 import {FullPlaylistQuery, FullPlaylistQueryVariables} from "../../types/FullPlaylistQuery";
-import {DesktopList} from "./desktop_list";
-import {MobileList} from "./mobile_list";
+import {DesktopList} from "./desktop/desktop_list";
+import {MobileList} from "./mobile/mobile_list";
 import {playlistQuery} from "./query";
 
 const varsFromMatchParams = (input: match<{ catID: string; owner: string; playlistID: string }>) => {
@@ -15,13 +14,11 @@ const varsFromMatchParams = (input: match<{ catID: string; owner: string; playli
   return {catID, playID, owner};
 };
 
-type PlaylistPage =
-  WithWidthProps
-  & RouteComponentProps<{ catID: string, owner: string, playlistID: string }>
+type PlaylistPage = RouteComponentProps<{ catID: string, owner: string, playlistID: string }>
   & { pace?: number, auth: Auth };
 
-export const PlaylistPage = withWidth()(withRouter(
-  ({width, auth, match, history, pace = 20}: PlaylistPage) => {
+export const PlaylistPage = withRouter(
+  ({auth, match, history, pace = 20}: PlaylistPage) => {
     const {catID, playID, owner} = varsFromMatchParams(match);
     const [query, setQuery] = React.useState("");
     return (
@@ -32,7 +29,7 @@ export const PlaylistPage = withWidth()(withRouter(
       >
         {({data, fetchMore, loading}) => {
           const songs = data?.playlistSongsPaginated?.songs || [];
-          return isWidthUp(width || "xs", "xs") ?
+          return <div>
             <MobileList
               catID={catID}
               loading={loading}
@@ -47,7 +44,7 @@ export const PlaylistPage = withWidth()(withRouter(
               data={data}
               fetchMore={fetchMore}
             />
-            :
+
             <DesktopList
               catID={catID}
               loading={loading}
@@ -62,8 +59,9 @@ export const PlaylistPage = withWidth()(withRouter(
               data={data}
               fetchMore={fetchMore}
             />
+          </div>
         }}
       </Query>
     );
-  })
+  }
 );

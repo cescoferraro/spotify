@@ -15,9 +15,8 @@ type CategoriesListProps = WithWidthProps & RouteComponentProps & { loading: boo
 export const CategoriesList = withRouter(
   withWidth()(
     (props: CategoriesListProps) => {
-      const {width, height} = useWindowSize();
-      console.log(width, height)
-      return (
+      const {width} = useWindowSize();
+     return (
         <GridList
           cols={getGridListCols22({width})}
           spacing={16}

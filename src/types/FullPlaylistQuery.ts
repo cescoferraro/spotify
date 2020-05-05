@@ -7,6 +7,18 @@
 // GraphQL query operation: FullPlaylistQuery
 // ====================================================
 
+export interface FullPlaylistQuery_playlistInfo_images {
+  __typename: "Image";
+  url: string | null;
+}
+
+export interface FullPlaylistQuery_playlistInfo {
+  __typename: "PlaylistInfo";
+  name: string | null;
+  description: string | null;
+  images: (FullPlaylistQuery_playlistInfo_images | null)[] | null;
+}
+
 export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_album_images {
   __typename: "Image";
   url: string | null;
@@ -42,13 +54,14 @@ export interface FullPlaylistQuery_playlistSongsPaginated_songs {
 }
 
 export interface FullPlaylistQuery_playlistSongsPaginated {
-  __typename: "MySongsPaginated";
+  __typename: "PlaylistSongsPaginated";
   total: number | null;
   cursor: number | null;
   songs: (FullPlaylistQuery_playlistSongsPaginated_songs | null)[] | null;
 }
 
 export interface FullPlaylistQuery {
+  playlistInfo: FullPlaylistQuery_playlistInfo | null;
   playlistSongsPaginated: FullPlaylistQuery_playlistSongsPaginated | null;
 }
 

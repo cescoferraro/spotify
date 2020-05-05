@@ -36,7 +36,6 @@ export const apolloClient = ({history, auth}: { auth: Auth, history: any }) => n
           console.log(
             `[NetworkError error]: Message: ${networkError.message}, Stack: ${networkError.stack}, Name: ${networkError.name}`,
           )
-          history.push("/")
         }
         if (graphQLErrors) {
           graphQLErrors.map(({message, locations, path}) =>
@@ -44,7 +43,7 @@ export const apolloClient = ({history, auth}: { auth: Auth, history: any }) => n
               `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
             ),
           );
-          history.push("/")
+          // history.push("/")
         }
       })
     ]

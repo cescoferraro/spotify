@@ -10,7 +10,14 @@ import (
 
 var PlaylistSongsPaginatedQuery = graphql.Fields{
 	"playlistSongsPaginated": &graphql.Field{
-		Type: MySongsPaginatedQL,
+		Type: graphql.NewObject(graphql.ObjectConfig{
+			Name: "PlaylistSongsPaginated",
+			Fields: graphql.Fields{
+				"cursor": &graphql.Field{Type: graphql.Int},
+				"total":  &graphql.Field{Type: graphql.Int},
+				"songs":  &graphql.Field{Type: graphql.NewList(ispotify.SavedTrack)},
+			},
+		}),
 		Args: graphql.FieldConfigArgument{
 			"cursor": &graphql.ArgumentConfig{Type: graphql.Int},
 			"pace":   &graphql.ArgumentConfig{Type: graphql.Int},

@@ -26,7 +26,8 @@ export const SpotifyAuthUrl = withRouter(({location, children}: RouteComponentPr
 export const HomeComponent = ({auth}: { auth: Auth }) => {
   return (
     <Query
-      <ChildProps<any, HomeComponentQuery>, { state: string }>
+      <ChildProps<any, HomeComponentQuery>, any>
+
       query={query}
     >
       {({data, loading}) => {

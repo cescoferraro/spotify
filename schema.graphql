@@ -74,6 +74,18 @@ type PlayerState {
   shuffle_state: Boolean
 }
 
+type PlaylistInfo {
+  description: String
+  images: [Image]
+  name: String
+}
+
+type PlaylistSongsPaginated {
+  cursor: Int
+  songs: [SavedTrack]
+  total: Int
+}
+
 type PlaylistTracks {
   href: String
 }
@@ -96,7 +108,8 @@ type Query {
   login(state: String): String
   mySongsPaginated(cursor: Int, pace: Int): MySongsPaginated
   nowPlaying: PlayerState
-  playlistSongsPaginated(cursor: Int, owner: String, pace: Int, playID: String): MySongsPaginated
+  playlistInfo(owner: String, playID: String): PlaylistInfo
+  playlistSongsPaginated(cursor: Int, owner: String, pace: Int, playID: String): PlaylistSongsPaginated
   playlistsPaginated(catID: String, cursor: Int, pace: Int): PlaylistsPaginated
   profile: Profile
   publicSongsPaginated(cursor: Int, pace: Int, query: String): MySongsPaginated
