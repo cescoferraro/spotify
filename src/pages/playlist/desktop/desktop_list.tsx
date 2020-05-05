@@ -70,7 +70,7 @@ export const DesktopList = withWidth()((props: {
           </Box>
         </div>
         <div style={{height: "65vh", backgroundColor: "#646464"}}>
-          <Box style={{display: "flex"}}>
+          <Box style={{height: "100%", display: "flex"}}>
             <Box style={{width: "35%", display: "flex"}}>
               <img
                 alt={"desktop_playlist_image"}
@@ -97,7 +97,7 @@ export const DesktopList = withWidth()((props: {
                 rowCount={props.data?.playlistSongsPaginated?.total || 0}
               >
                 {({onRowsRendered, registerChild,}) => (
-                  <div style={{width: "100%", height: 500}}>
+                  <div style={{width: "100%", height: "100%"}}>
                     <AutoSizer ref={registerChild}>
                       {({height, width}) => (
                         <List
