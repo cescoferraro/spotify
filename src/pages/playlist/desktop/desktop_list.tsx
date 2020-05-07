@@ -1,27 +1,19 @@
-import {Box, isWidthDown, Typography, WithWidthProps} from "@material-ui/core";
+import {Box, isWidthDown, Typography} from "@material-ui/core";
 import Toolbar from "@material-ui/core/Toolbar";
 import withWidth from "@material-ui/core/withWidth";
 import React from "react";
 import {AutoSizer, InfiniteLoader, List} from "react-virtualized";
-import {Auth} from "../../../store/auth_store";
-import {FullPlaylistQuery} from "../../../types/FullPlaylistQuery";
+import {flexer} from "../../../shared/layout";
+import {SpotifyLogo} from "../../../shared/spotify_logo";
 import {LeftPart} from "../../playlists/left";
-import {flexer, isRowLoaded, loadMoreRows, PlayLoveDuoButton, rowRenderer, SpotifyLogo} from "../mobile/mobile_list";
+import {PlayLoveDuoButton} from "../mobile/mobile_list";
+import {isRowLoaded} from "../shared/isRowLoaded";
+import {loadMoreRows} from "../shared/loadMore";
+import {rowRenderer} from "../shared/rowRenderer";
+import {PlaylistProps} from "../shared/types";
 
-export const DesktopList = withWidth()((props: {
-  songs: any[],
-  auth: Auth,
-  catID: string,
-  query: string,
-  loading: boolean,
-  setQuery: (r: string) => void,
-  owner: string,
-  playID: string,
-  history: any,
-  pace: number,
-  data: FullPlaylistQuery | undefined,
-  fetchMore: any
-} & WithWidthProps) => {
+export const DesktopPage = withWidth()((props: PlaylistProps) => {
+  const {player} = props;
   let images = props.data?.playlistInfo?.images || [];
   return !isWidthDown("sm", props.width || "xs") ? (
       <React.Fragment>
@@ -30,10 +22,8 @@ export const DesktopList = withWidth()((props: {
             <SpotifyLogo
               onClick={() => {
                 const url = "/playlists/" + props.catID;
-                console.log(324)
                 console.log(url)
                 props.history.goBack();
-                // window.location.href = url;
               }}
             />
           </Toolbar>
@@ -105,7 +95,7 @@ export const DesktopList = withWidth()((props: {
                           onRowsRendered={onRowsRendered}
                           rowCount={props.songs.length}
                           rowHeight={60}
-                          rowRenderer={rowRenderer({list: props.songs})}
+                          rowRenderer={rowRenderer({list: props.songs, player})}
                           width={width}
                         />
                       )}

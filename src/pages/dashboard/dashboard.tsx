@@ -74,7 +74,7 @@ const rowRenderer = ({list}: { list: (PlayerComponentQuery_mySongsPaginated_song
     </ListItem>
   );
 };
-export const Player = withRouter(
+export const PlayerComponentDashboard = withRouter(
   (props: { auth: Auth } & RouteComponentProps) => {
     const pace = 40;
     return (

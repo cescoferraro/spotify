@@ -2,9 +2,10 @@ import React from "react";
 import {ChildDataProps, Query} from "react-apollo";
 import {match, RouteComponentProps, withRouter} from "react-router";
 import {Auth} from "../../store/auth_store";
+import {Player} from "../../store/player_store";
 import {FullPlaylistQuery, FullPlaylistQueryVariables} from "../../types/FullPlaylistQuery";
-import {DesktopList} from "./desktop/desktop_list";
-import {MobileList} from "./mobile/mobile_list";
+import {DesktopPage} from "./desktop/desktop_list";
+import {MobilePage} from "./mobile/mobile_list";
 import {playlistQuery} from "./query";
 
 const varsFromMatchParams = (input: match<{ catID: string; owner: string; playlistID: string }>) => {
@@ -15,10 +16,10 @@ const varsFromMatchParams = (input: match<{ catID: string; owner: string; playli
 };
 
 type PlaylistPage = RouteComponentProps<{ catID: string, owner: string, playlistID: string }>
-  & { pace?: number, auth: Auth };
+  & { player: Player, pace?: number, auth: Auth };
 
 export const PlaylistPage = withRouter(
-  ({auth, match, history, pace = 20}: PlaylistPage) => {
+  ({auth, player, match, history, pace = 20}: PlaylistPage) => {
     const {catID, playID, owner} = varsFromMatchParams(match);
     const [query, setQuery] = React.useState("");
     return (
@@ -29,36 +30,24 @@ export const PlaylistPage = withRouter(
       >
         {({data, fetchMore, loading}) => {
           const songs = data?.playlistSongsPaginated?.songs || [];
+          const sharedProps = {
+            catID,
+            player,
+            loading,
+            history,
+            auth,
+            songs,
+            query,
+            setQuery,
+            owner,
+            playID,
+            pace,
+            data,
+            fetchMore
+          }
           return <div>
-            <MobileList
-              catID={catID}
-              loading={loading}
-              history={history}
-              auth={auth}
-              songs={songs}
-              query={query}
-              setQuery={setQuery}
-              owner={owner}
-              playID={playID}
-              pace={pace}
-              data={data}
-              fetchMore={fetchMore}
-            />
-
-            <DesktopList
-              catID={catID}
-              loading={loading}
-              history={history}
-              auth={auth}
-              songs={songs}
-              query={query}
-              setQuery={setQuery}
-              owner={owner}
-              playID={playID}
-              pace={pace}
-              data={data}
-              fetchMore={fetchMore}
-            />
+            <MobilePage {...sharedProps} />
+            <DesktopPage {...sharedProps} />
           </div>
         }}
       </Query>

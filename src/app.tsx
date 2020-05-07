@@ -3,8 +3,10 @@ import * as React from "react"
 import {BrowserRouter as Router} from "react-router-dom";
 import {RoutesComponent} from "./pages/routes";
 import {Auth} from "./store/auth_store";
+import {Player} from "./store/player_store";
 
 const auth = new Auth();
+const player = new Player();
 
 export const App = () => {
   const theme = createMuiTheme((
@@ -23,7 +25,7 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <RoutesComponent auth={auth}/>
+        <RoutesComponent player={player} auth={auth}/>
       </Router>
     </ThemeProvider>
   );
