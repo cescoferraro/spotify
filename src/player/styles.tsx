@@ -6,9 +6,10 @@ export const paperStyle = (desktop: boolean): React.CSSProperties => {
   return ({
     ...flexer,
     position: "absolute",
+    backgroundColor: "#313131",
     bottom: 0,
     width: "100vw",
-    height: desktop ? 120 : "35vh"
+    height: desktop ? 120 : 300
   });
 };
 export const backgroundStyle = (opened: boolean): CSSProperties => ({
