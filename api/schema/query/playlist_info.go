@@ -2,8 +2,8 @@ package query
 
 import (
 	"errors"
-	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/spotify/api/istructql"
+	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/structql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 )
@@ -21,7 +21,7 @@ var PlaylistInfoQuery = graphql.Fields{
 			Fields: graphql.Fields{
 				"name":        &graphql.Field{Type: graphql.String},
 				"description": &graphql.Field{Type: graphql.String},
-				"images":      &graphql.Field{Type: graphql.NewList(istructql.GenerateType(spotify.Image{}))},
+				"images":      &graphql.Field{Type: graphql.NewList(structql.GenerateType(spotify.Image{}))},
 			},
 		}),
 		Args: graphql.FieldConfigArgument{
@@ -29,7 +29,7 @@ var PlaylistInfoQuery = graphql.Fields{
 			"owner":  &graphql.ArgumentConfig{Type: graphql.String},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			client, err := ispotify.SpotifyPublicClient()
+			client, err := tools.SpotifyPublicClient()
 			if err != nil {
 				return PlaylistInfo{}, err
 			}

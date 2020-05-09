@@ -2,7 +2,7 @@ package schema
 
 import (
 	"errors"
-	"github.com/cescoferraro/spotify/api/ispotify"
+	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 	"log"
@@ -21,7 +21,7 @@ var Mutation = graphql.NewObject(
 					"devID": &graphql.ArgumentConfig{Type: graphql.String},
 				},
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-					client, err := ispotify.SpotifyClientFromContext(p.Context)
+					client, err := tools.SpotifyClientFromContext(p.Context)
 					if err != nil {
 						return false, err
 					}

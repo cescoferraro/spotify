@@ -1,11 +1,12 @@
-package ispotify
+package tools
 
 import (
 	"context"
 	"errors"
-	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/graphql-go/handler"
 	"golang.org/x/oauth2/clientcredentials"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/zmb3/spotify"
@@ -40,7 +41,7 @@ var secretKey = "3ef3543b524a4978ae5f7b14fdc63a6d"
 func Auth() spotify.Authenticator {
 	redirectURI := "http://localhost:8080/auth"
 	log.Println("kube kube *********")
-	if tools.IsProd() {
+	if IsProd() {
 		redirectURI = "https://spotifyapi.cescoferraro.xyz/auth"
 	}
 
@@ -72,15 +73,15 @@ func SpotifyClientFromContext(ctx context.Context) (spotify.Client, error) {
 }
 
 func getOAuthTokenFromContext(ctx context.Context) (*oauth2.Token, error) {
-	atoken, ok := ctx.Value(tools.Key("access-token")).(string)
+	atoken, ok := ctx.Value(Key("access-token")).(string)
 	if !ok {
 		return &oauth2.Token{}, errors.New("cast error")
 	}
-	rtoken, ok := ctx.Value(tools.Key("refresh-token")).(string)
+	rtoken, ok := ctx.Value(Key("refresh-token")).(string)
 	if !ok {
 		return &oauth2.Token{}, errors.New("cast error")
 	}
-	tokenType, ok := ctx.Value(tools.Key("token-type")).(string)
+	tokenType, ok := ctx.Value(Key("token-type")).(string)
 	if !ok {
 		return &oauth2.Token{}, errors.New("cast error")
 	}
@@ -90,4 +91,16 @@ func getOAuthTokenFromContext(ctx context.Context) (*oauth2.Token, error) {
 	token.Expiry = time.Now()
 	token.TokenType = tokenType
 	return token, nil
+}
+
+func HttpHeaderMiddleware(next *handler.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.WithValue(r.Context(), Key("code"), r.Header.Get("Code"))
+		ctx = context.WithValue(ctx, Key("refresh-token"), r.Header.Get("Refresh-Token"))
+		ctx = context.WithValue(ctx, Key("access-token"), r.Header.Get("Access-Token"))
+		ctx = context.WithValue(ctx, Key("expiry"), r.Header.Get("Expiry"))
+		ctx = context.WithValue(ctx, Key("state"), r.Header.Get("State"))
+		ctx = context.WithValue(ctx, Key("token-type"), r.Header.Get("Token-Type"))
+		next.ContextHandler(ctx, w, r)
+	})
 }

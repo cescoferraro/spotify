@@ -1,11 +1,11 @@
 package types
 
 import (
-	"github.com/cescoferraro/spotify/api/istructql"
+	"github.com/cescoferraro/structql"
 	"github.com/zmb3/spotify"
 )
 
-var SavedTrack = istructql.GenerateType(spotify.SavedTrack{
+var SavedTrack = structql.GenerateType(spotify.SavedTrack{
 	AddedAt: "",
 	FullTrack: spotify.FullTrack{
 		SimpleTrack: spotify.SimpleTrack{

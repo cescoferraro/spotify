@@ -2,7 +2,7 @@ package query
 
 import (
 	"errors"
-	"github.com/cescoferraro/spotify/api/ispotify"
+	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/graphql-go/graphql"
 )
 
@@ -15,7 +15,7 @@ var LoginQuery = graphql.Fields{
 			if !ok {
 				return "", errors.New("arg state not found")
 			}
-			return ispotify.Auth().AuthURL(state), nil
+			return tools.Auth().AuthURL(state), nil
 		},
 	},
 }

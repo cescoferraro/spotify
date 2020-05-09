@@ -2,8 +2,8 @@ package query
 
 import (
 	"errors"
-	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/spotify/api/istructql"
+	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/structql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 )
@@ -22,7 +22,7 @@ var PlaylistsPaginatedQuery = graphql.Fields{
 				"cursor": &graphql.Field{Type: graphql.Int},
 				"total":  &graphql.Field{Type: graphql.Int},
 				"playlists": &graphql.Field{Type: graphql.NewList(
-					istructql.GenerateType(spotify.SimplePlaylist{
+					structql.GenerateType(spotify.SimplePlaylist{
 						Images: []spotify.Image{{}},
 					}))},
 			},
@@ -33,7 +33,7 @@ var PlaylistsPaginatedQuery = graphql.Fields{
 			"catID":  &graphql.ArgumentConfig{Type: graphql.String},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			client, err := ispotify.SpotifyPublicClient()
+			client, err := tools.SpotifyPublicClient()
 			if err != nil {
 				return MySongsPaginated{}, err
 			}

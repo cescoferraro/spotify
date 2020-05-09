@@ -2,8 +2,8 @@ package query
 
 import (
 	"errors"
-	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/spotify/api/istructql"
+	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/structql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 	"log"
@@ -12,7 +12,7 @@ import (
 
 var NowPlayingQuery = graphql.Fields{
 	"nowPlaying": &graphql.Field{
-		Type: istructql.GenerateType(spotify.PlayerState{
+		Type: structql.GenerateType(spotify.PlayerState{
 			CurrentlyPlaying: spotify.CurrentlyPlaying{
 				Item: &spotify.FullTrack{
 					SimpleTrack: spotify.SimpleTrack{
@@ -26,7 +26,7 @@ var NowPlayingQuery = graphql.Fields{
 			},
 		}),
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			client, err := ispotify.SpotifyClientFromContext(p.Context)
+			client, err := tools.SpotifyClientFromContext(p.Context)
 			if err != nil {
 				return spotify.PlayerState{}, err
 			}

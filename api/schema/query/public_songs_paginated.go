@@ -2,7 +2,7 @@ package query
 
 import (
 	"errors"
-	"github.com/cescoferraro/spotify/api/ispotify"
+	"github.com/cescoferraro/spotify/api/tools"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 	"time"
@@ -17,7 +17,7 @@ var PublicSongsPaginatedQuery = graphql.Fields{
 			"pace":   &graphql.ArgumentConfig{Type: graphql.Int},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			client, err := ispotify.SpotifyPublicClient()
+			client, err := tools.SpotifyPublicClient()
 			if err != nil {
 				return MySongsPaginated{}, err
 			}

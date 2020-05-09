@@ -1,9 +1,9 @@
 package query
 
 import (
-	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/spotify/api/istructql"
 	"github.com/cescoferraro/spotify/api/schema/types"
+	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/structql"
 	"github.com/graphql-go/graphql"
 	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
@@ -37,7 +37,7 @@ var MySongsPaginatedQuery = graphql.Fields{
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
 			var paceArgNotFound = errors.New("arg pace not found")
 			var cursorArgNotFound = errors.New("arg state not found")
-			client, err := ispotify.SpotifyClientFromContext(p.Context)
+			client, err := tools.SpotifyClientFromContext(p.Context)
 			if err != nil {
 				return MySongsPaginated{}, err
 			}
@@ -67,9 +67,9 @@ var MySongsPaginatedQuery = graphql.Fields{
 
 var MyDevicesQuery = graphql.Fields{
 	"myDevices": &graphql.Field{
-		Type: graphql.NewList(istructql.GenerateType(spotify.PlayerDevice{})),
+		Type: graphql.NewList(structql.GenerateType(spotify.PlayerDevice{})),
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			client, err := ispotify.SpotifyClientFromContext(p.Context)
+			client, err := tools.SpotifyClientFromContext(p.Context)
 			if err != nil {
 				return []spotify.PlayerDevice{}, err
 			}

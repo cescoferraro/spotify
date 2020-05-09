@@ -1,8 +1,8 @@
 package query
 
 import (
-	"github.com/cescoferraro/spotify/api/ispotify"
-	"github.com/cescoferraro/spotify/api/istructql"
+	"github.com/cescoferraro/spotify/api/tools"
+	"github.com/cescoferraro/structql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 )
@@ -20,11 +20,11 @@ var ProfileQuery = graphql.Fields{
 			Fields: graphql.Fields{
 				"name":   &graphql.Field{Type: graphql.String},
 				"email":  &graphql.Field{Type: graphql.String},
-				"images": &graphql.Field{Type: graphql.NewList(istructql.GenerateType(spotify.Image{}))},
+				"images": &graphql.Field{Type: graphql.NewList(structql.GenerateType(spotify.Image{}))},
 			},
 		}),
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			client, err := ispotify.SpotifyClientFromContext(p.Context)
+			client, err := tools.SpotifyClientFromContext(p.Context)
 			if err != nil {
 				return Profile{}, err
 			}

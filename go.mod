@@ -13,7 +13,7 @@ require (
 	github.com/graphql-go/graphql v0.7.9
 	github.com/graphql-go/handler v0.2.3
 	github.com/lab259/go-graphql-struct v1.0.2 // indirect
-	github.com/pkg/errors v0.8.0 // indirect
+	github.com/pkg/errors v0.8.0
 	github.com/pressly/chi v3.0.0+incompatible // indirect
 	github.com/zmb3/spotify v0.0.0-20170728001740-69bbd6f6bcb8
 	golang.org/x/net v0.0.0-20170808001146-945ddfdd3bb8 // indirect
