@@ -3,6 +3,7 @@ package query
 import (
 	"errors"
 	"github.com/cescoferraro/spotify/api/ispotify"
+	"github.com/cescoferraro/spotify/api/schema/types"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 	"time"
@@ -15,7 +16,7 @@ var PlaylistSongsPaginatedQuery = graphql.Fields{
 			Fields: graphql.Fields{
 				"cursor": &graphql.Field{Type: graphql.Int},
 				"total":  &graphql.Field{Type: graphql.Int},
-				"songs":  &graphql.Field{Type: graphql.NewList(ispotify.SavedTrack)},
+				"songs":  &graphql.Field{Type: graphql.NewList(types.SavedTrack)},
 			},
 		}),
 		Args: graphql.FieldConfigArgument{

@@ -3,7 +3,6 @@ package ispotify
 import (
 	"context"
 	"errors"
-	"github.com/cescoferraro/spotify/api/istructql"
 	"github.com/cescoferraro/spotify/api/tools"
 	"golang.org/x/oauth2/clientcredentials"
 	"log"
@@ -13,9 +12,8 @@ import (
 	"golang.org/x/oauth2"
 )
 
-// TokenHUB TODO: NEEDS COMMENT INFO
+// TokenHUB constanta information
 var (
-	State  = "dashboard"
 	Scopes = []string{
 		spotify.ScopeImageUpload,
 		spotify.ScopePlaylistReadPrivate,
@@ -93,17 +91,3 @@ func getOAuthTokenFromContext(ctx context.Context) (*oauth2.Token, error) {
 	token.TokenType = tokenType
 	return token, nil
 }
-
-var SavedTrack = istructql.GenerateType(spotify.SavedTrack{
-	AddedAt: "",
-	FullTrack: spotify.FullTrack{
-		SimpleTrack: spotify.SimpleTrack{
-			Artists:          []spotify.SimpleArtist{{}},
-			AvailableMarkets: []string{""},
-		},
-		Album: spotify.SimpleAlbum{
-			AvailableMarkets: []string{""},
-			Images:           []spotify.Image{{}},
-		},
-	},
-})

@@ -1,10 +1,11 @@
 package query
 
 import (
-	"errors"
 	"github.com/cescoferraro/spotify/api/ispotify"
 	"github.com/cescoferraro/spotify/api/istructql"
+	"github.com/cescoferraro/spotify/api/schema/types"
 	"github.com/graphql-go/graphql"
+	"github.com/pkg/errors"
 	"github.com/zmb3/spotify"
 )
 
@@ -23,7 +24,7 @@ var MySongsPaginatedQL = graphql.NewObject(graphql.ObjectConfig{
 	Fields: graphql.Fields{
 		"cursor": &graphql.Field{Type: graphql.Int},
 		"total":  &graphql.Field{Type: graphql.Int},
-		"songs":  &graphql.Field{Type: graphql.NewList(ispotify.SavedTrack)},
+		"songs":  &graphql.Field{Type: graphql.NewList(types.SavedTrack)},
 	},
 })
 var MySongsPaginatedQuery = graphql.Fields{
@@ -34,17 +35,19 @@ var MySongsPaginatedQuery = graphql.Fields{
 			"pace":   &graphql.ArgumentConfig{Type: graphql.Int},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+			var paceArgNotFound = errors.New("arg pace not found")
+			var cursorArgNotFound = errors.New("arg state not found")
 			client, err := ispotify.SpotifyClientFromContext(p.Context)
 			if err != nil {
 				return MySongsPaginated{}, err
 			}
 			pace, ok := p.Args["pace"].(int)
 			if !ok {
-				return MySongsPaginated{}, errors.New("arg pace not found")
+				return MySongsPaginated{}, paceArgNotFound
 			}
 			cursor, ok := p.Args["cursor"].(int)
 			if !ok {
-				return MySongsPaginated{}, errors.New("arg state not found")
+				return MySongsPaginated{}, cursorArgNotFound
 			}
 			localTracks, err := client.CurrentUsersTracksOpt(&spotify.Options{
 				Offset: &cursor,
