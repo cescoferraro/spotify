@@ -61,6 +61,7 @@ var MySongsPaginatedQuery = graphql.Fields{
 		},
 	},
 }
+
 var MyDevicesQuery = graphql.Fields{
 	"myDevices": &graphql.Field{
 		Type: graphql.NewList(istructql.GenerateType(spotify.PlayerDevice{})),
