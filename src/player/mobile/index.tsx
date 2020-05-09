@@ -1,19 +1,15 @@
-import {Box, IconButton, Slider, WithWidthProps} from "@material-ui/core";
+import {Box, IconButton, Select, Slider, WithWidthProps} from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
+import {Observer} from "mobx-react";
 import * as React from "react";
 import {flexer} from "../../shared/layout";
 import {Player} from "../../store/player_store";
-
-export const PlayButton = () => {
-  return <IconButton>
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M19.9999 0C8.95994 0 -6.10352e-05 8.96 -6.10352e-05 20C-6.10352e-05 31.04 8.95994 40 19.9999 40C31.0399 40 39.9999 31.04 39.9999 20C39.9999 8.96 31.0399 0 19.9999 0ZM15.9999 29V11L27.9999 20L15.9999 29Z"
-        fill="white"/>
-    </svg>
-  </IconButton>;
-};
+import {MyDevicesQuery_myDevices} from "../../types/MyDevicesQuery";
+import {PlayButton} from "./play";
 
 export const BackButton = () => {
   return <IconButton>
@@ -31,7 +27,7 @@ export const FFButton = () => {
   </IconButton>;
 };
 
-export const ActionBox = (props: { desktop: boolean }) => {
+export const ActionBox = (props: { player: Player, desktop: boolean }) => {
   return (
     <Box
       px={props.desktop ? 1 : 3}
@@ -42,7 +38,7 @@ export const ActionBox = (props: { desktop: boolean }) => {
       }}
     >
       <BackButton/>
-      <PlayButton/>
+      <PlayButton player={props.player}/>
       <FFButton/>
     </Box>
   );
@@ -111,6 +107,37 @@ export const SliderBox = (props: { desktop: boolean }) => {
   );
 };
 
+export const DeviceBox = (props: WithWidthProps & { devices: (null | MyDevicesQuery_myDevices)[], desktop: boolean, player: Player }) => {
+  return (
+    <Observer>
+      {() => (
+        <Box
+          px={props.desktop ? 1 : 3}
+          style={{...flexer, width: props.desktop ? "33%" : `calc( 100% - ${24 * 2}px)`}}>
+          <Box style={{width: "100%"}}>
+            <Typography variant={"h5"} style={{color: "white"}} align={"center"}>
+              <FormControl fullWidth={true}>
+                <InputLabel>Age</InputLabel>
+                <Select
+                  value={props.player.device}
+
+                  onChange={(e) => {
+                    props.player.setDevice(e.target.value as string)
+                  }}
+                >
+                  {props.devices
+                    .map((r) => {
+                      return <MenuItem key={r?.id || ""} value={r?.id || ""}>{r?.name || ""}</MenuItem>;
+                    })}
+                </Select>
+              </FormControl>
+            </Typography>
+          </Box>
+        </Box>
+      )}
+    </Observer>
+  );
+};
 export const InfoBox = (props: { desktop: boolean, props: WithWidthProps & { player: Player } }) => {
   return (
     <Box

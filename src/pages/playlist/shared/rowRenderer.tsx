@@ -11,10 +11,11 @@ export const rowRenderer = ({player, list}: { player: Player, list: (FullPlaylis
     let listElement = list[index];
     let images = listElement?.track?.album?.images || [];
     let image = images[images.length - 1]?.url || "https://material-ui.com/static/images/avatar/2.jpg";
-    let name = listElement?.track?.SimpleTrack?.name || "name";
+    const name = listElement?.track?.SimpleTrack?.name || "name";
+    const uri = listElement?.track?.SimpleTrack?.uri || "uri";
     let artist = listElement?.track?.SimpleTrack?.artists?.map((t) => t?.name).join(", ") || "name";
     return (
-      <ListItem onClick={() => player.setCurrentSong({name, image, artist})} key={key} style={style}>
+      <ListItem onClick={() => player.setCurrentSong({name, image, artist, uri})} key={key} style={style}>
         <ListItemAvatar>
           <Avatar src={image}/>
         </ListItemAvatar>

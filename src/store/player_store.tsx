@@ -2,6 +2,7 @@ import {action, observable} from "mobx";
 
 interface CurrentSong {
   name: string;
+  uri: string;
   artist: string;
   image: string;
 }
@@ -14,9 +15,13 @@ export class Player {
   public opened: boolean = false;
 
   @observable
+  public device: string= "";
+
+  @observable
   public current_song: CurrentSong = {
     name: initial,
     artist: initial,
+    uri: initial,
     image: initial,
   };
 
@@ -26,6 +31,11 @@ export class Player {
     this.current_song = st;
   }
 
+
+  @action
+  public setDevice(st: string) {
+    this.device = st;
+  }
   @action
   public setOpened(st: boolean) {
     this.opened = st;

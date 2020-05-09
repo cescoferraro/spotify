@@ -3,6 +3,7 @@ package query
 import (
 	"errors"
 	"github.com/cescoferraro/spotify/api/ispotify"
+	"github.com/cescoferraro/spotify/api/istructql"
 	"github.com/graphql-go/graphql"
 	"github.com/zmb3/spotify"
 )
@@ -57,6 +58,22 @@ var MySongsPaginatedQuery = graphql.Fields{
 				Cursor: cursor + len(localTracks.Tracks),
 				Songs:  localTracks.Tracks,
 			}, nil
+		},
+	},
+}
+var MyDevicesQuery = graphql.Fields{
+	"myDevices": &graphql.Field{
+		Type: graphql.NewList(istructql.GenerateType(spotify.PlayerDevice{})),
+		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+			client, err := ispotify.SpotifyClientFromContext(p.Context)
+			if err != nil {
+				return []spotify.PlayerDevice{}, err
+			}
+			devices, err := client.PlayerDevices()
+			if err != nil {
+				return []spotify.PlayerDevice{}, err
+			}
+			return devices, nil
 		},
 	},
 }

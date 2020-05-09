@@ -24,6 +24,7 @@ export const playlistQuery = gql`
           }
           SimpleTrack {
             name
+            uri
             artists {
               name
             }

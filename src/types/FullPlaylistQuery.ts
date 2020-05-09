@@ -38,6 +38,7 @@ export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_SimpleTrac
 export interface FullPlaylistQuery_playlistSongsPaginated_songs_track_SimpleTrack {
   __typename: "SimpleTrack";
   name: string | null;
+  uri: string | null;
   artists: (FullPlaylistQuery_playlistSongsPaginated_songs_track_SimpleTrack_artists | null)[] | null;
 }
 
