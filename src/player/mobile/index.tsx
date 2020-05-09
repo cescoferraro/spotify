@@ -96,7 +96,8 @@ export const SliderBox = (props: { desktop: boolean }) => {
         <Slider
           classes={{colorPrimary: styles.root}}
           value={0}
-          onChange={(e) => {
+          onChange={(e:any) => {
+            console.log(e)
           }}
           aria-labelledby="continuous-slider"
         />

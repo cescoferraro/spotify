@@ -34,8 +34,8 @@ export const AppBarProtoType = withRouter((
     searchable = true,
     label = "Pesquise por playlists",
     query = "",
-    setQuery = (e) => {
-      console.log(3)
+    setQuery = (e:any) => {
+      console.log(3,e)
     }
   }: AppBarProtoProps
 ) => {

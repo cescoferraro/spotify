@@ -14,7 +14,7 @@ export const API_URL = () => {
   return document.location.protocol + "//" + document.location.hostname + ":8080"
 };
 const DEFAULT_DEBOUNCE_TIMEOUT = 500;
-export const apolloClient = ({history, auth}: { auth: Auth, history: any }) => new ApolloClient({
+export const apolloClient = ({auth}: { auth: Auth, history: any }) => new ApolloClient({
   cache: new InMemoryCache({addTypename: false}),
   link: ApolloLink.from([
       new DebounceLink(DEFAULT_DEBOUNCE_TIMEOUT),

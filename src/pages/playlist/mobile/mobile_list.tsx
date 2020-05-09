@@ -35,7 +35,7 @@ const mobileListStyles = makeStyles({
   button: {background: "green"}
 })
 
-export const PlayLoveDuoButton = (props: any) => {
+export const PlayLoveDuoButton = () => {
   // const {player} = props;
   const classes = mobileListStyles();
   return (
@@ -131,6 +131,7 @@ export const MobilePage = withWidth()((props: PlaylistProps) => {
                           className="List"
                           autoHeight
                           height={height}
+                          isScrolling={isScrolling}
                           width={width}
                           onRowsRendered={onRowsRendered}
                           rowCount={props.songs.length}

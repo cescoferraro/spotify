@@ -48,11 +48,3 @@ export const PlaylistList = withRouter(
     }
   )
 );
-export const bb = (url: string) => (
-  {
-    backgroundImage: "url(" + url + ")",
-    backgroundPosition: "center",
-    backgroundRepeat: "no-repeat",
-    position: "absolute", width: "100%", height: "100%"
-  }
-);

@@ -6,6 +6,7 @@ import {Auth} from "./store/auth_store";
 import {Player} from "./store/player_store";
 
 const auth = new Auth();
+
 const player = new Player();
 
 export const App = () => {
