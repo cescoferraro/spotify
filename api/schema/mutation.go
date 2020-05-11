@@ -14,6 +14,20 @@ var Mutation = graphql.NewObject(
 		Description: "",
 		Interfaces:  nil,
 		Fields: graphql.Fields{
+			"stop": &graphql.Field{
+				Type: graphql.Boolean,
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					client, err := tools.SpotifyClientFromContext(p.Context)
+					if err != nil {
+						return false, err
+					}
+					err = client.Pause()
+					if err != nil {
+						return false, err
+					}
+					return true, nil
+				},
+			},
 			"play": &graphql.Field{
 				Type: graphql.Boolean,
 				Args: graphql.FieldConfigArgument{

@@ -26,6 +26,8 @@ export const PlaylistPage = withRouter(
       <Query
         <ChildDataProps<FullPlaylistQuery>, FullPlaylistQueryVariables>
         query={playlistQuery}
+        fetchPolicy={"cache-first"}
+        context={{debounceKey: "233", debounceTimeout: 1200}}
         variables={{owner, cursor: 0, pace, playID}}
       >
         {({data, fetchMore, loading}) => {

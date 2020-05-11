@@ -44,6 +44,7 @@ type Image {
 
 type Mutation {
   play(devID: String, uri: String): Boolean
+  stop: Boolean
   test: String
 }
 
@@ -106,6 +107,7 @@ type Profile {
 type Query {
   auth(code: String): Token
   categoriesPaginated(cursor: Int, pace: Int): CategoriesPaginated
+  isLogged: Boolean
   login(state: String): String
   myDevices: [PlayerDevice]
   mySongsPaginated(cursor: Int, pace: Int): MySongsPaginated

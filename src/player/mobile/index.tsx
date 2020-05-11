@@ -1,14 +1,17 @@
+import {useMutation} from "@apollo/react-hooks";
 import {Box, IconButton, Select, Slider, WithWidthProps} from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
+import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import {gql} from "apollo-boost";
 import {Observer} from "mobx-react";
 import * as React from "react";
 import {flexer} from "../../shared/layout";
-import {Player} from "../../store/player_store";
 import {MyDevicesQuery_myDevices} from "../../types/MyDevicesQuery";
+import {StopMutation} from "../../types/StopMutation";
 import {PlayButton} from "./play";
 
 export const BackButton = () => {
@@ -27,7 +30,35 @@ export const FFButton = () => {
   </IconButton>;
 };
 
-export const ActionBox = (props: { player: Player, desktop: boolean }) => {
+const stopMutation = gql`
+  mutation StopMutation {
+    stop
+  }
+`;
+
+function StopButton({refetch}: { refetch: () => void }) {
+  const [stop, {data}] = useMutation<StopMutation>(stopMutation);
+  return (
+    <IconButton
+      onClick={() => {
+        stop()
+          .catch((e: any) => {
+            console.log(e)
+          })
+          .then((e: any) => {
+            refetch()
+            console.log(e, data?.stop)
+          })
+      }}
+    >
+      <PauseCircleFilledIcon/>
+    </IconButton>
+  )
+}
+
+export const ActionBox = (props: {isPlaying:boolean, refetch: () => void, uri: string, device: string, playing: boolean, desktop: boolean }) => {
+
+  // const variables = {uri: player.current_song.uri, devID: player.device};
   return (
     <Box
       px={props.desktop ? 1 : 3}
@@ -38,7 +69,15 @@ export const ActionBox = (props: { player: Player, desktop: boolean }) => {
       }}
     >
       <BackButton/>
-      <PlayButton player={props.player}/>
+      {props.playing ? <StopButton
+          refetch={props.refetch}
+        /> :
+        <PlayButton
+          isPlaying={props.isPlaying}
+          devID={props.device}
+          uri={props.uri}
+        />
+      }
       <FFButton/>
     </Box>
   );
@@ -96,9 +135,9 @@ export const SliderBox = (props: { desktop: boolean }) => {
         <Slider
           classes={{colorPrimary: styles.root}}
           value={0}
-          onChange={(e:any) => {
-            console.log(e)
-          }}
+          // onChange={(e: any) => {
+            // console.log(e)
+          // }}
           aria-labelledby="continuous-slider"
         />
       </Box>
@@ -108,7 +147,8 @@ export const SliderBox = (props: { desktop: boolean }) => {
   );
 };
 
-export const DeviceBox = (props: WithWidthProps & { devices: (null | MyDevicesQuery_myDevices)[], desktop: boolean, player: Player }) => {
+export const DeviceBox = (props: WithWidthProps & { device: string, loading: boolean, devices: MyDevicesQuery_myDevices[], desktop: boolean }) => {
+  const classes = makeStyles({root: {background: "#313131"}})();
   return (
     <Observer>
       {() => (
@@ -118,14 +158,18 @@ export const DeviceBox = (props: WithWidthProps & { devices: (null | MyDevicesQu
           <Box style={{width: "100%"}}>
             <Typography variant={"h5"} style={{color: "white"}} align={"center"}>
               <FormControl fullWidth={true}>
-                <InputLabel>Age</InputLabel>
+                <InputLabel></InputLabel>
                 <Select
-                  value={props.player.device}
+                  classes={{root: classes.root}}
+                  displayEmpty={true}
+                  disableUnderline={false}
+                  value={props.device}
 
                   onChange={(e) => {
-                    props.player.setDevice(e.target.value as string)
+                    // player.setDevice(e.target.value as string)
                   }}
                 >
+                  <MenuItem value={""}>{"Nenhum Device"}</MenuItem>
                   {props.devices
                     .map((r) => {
                       return <MenuItem key={r?.id || ""} value={r?.id || ""}>{r?.name || ""}</MenuItem>;
@@ -139,17 +183,17 @@ export const DeviceBox = (props: WithWidthProps & { devices: (null | MyDevicesQu
     </Observer>
   );
 };
-export const InfoBox = (props: { desktop: boolean, props: WithWidthProps & { player: Player } }) => {
+export const InfoBox = (props: WithWidthProps & { title: string, artists: string, desktop: boolean }) => {
   return (
     <Box
       px={props.desktop ? 1 : 3}
       style={{...flexer, width: props.desktop ? "33%" : `calc( 100% - ${24 * 2}px)`}}>
       <Box>
         <Typography variant={"h5"} style={{color: "white"}} align={"center"}>
-          {props.props.player.current_song.name}
+          {props.title}
         </Typography>
         <Typography style={{color: "white"}} align={"center"}>
-          {props.props.player.current_song.artist}
+          {props.artists}
         </Typography>
       </Box>
     </Box>

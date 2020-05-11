@@ -19,7 +19,7 @@ export const rowRenderer = ({player, list}: { player: Player, list: (FullPlaylis
         <ListItemAvatar>
           <Avatar src={image}/>
         </ListItemAvatar>
-        <ListItemText primary={name}/>
+        <ListItemText primary={`#${(index + 1).toString()} ${name}`}/>
       </ListItem>
     );
   };
