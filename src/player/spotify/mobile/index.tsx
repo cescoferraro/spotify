@@ -9,9 +9,9 @@ import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
 import {gql} from "apollo-boost";
 import {Observer} from "mobx-react";
 import * as React from "react";
-import {flexer} from "../../shared/layout";
-import {MyDevicesQuery_myDevices} from "../../types/MyDevicesQuery";
-import {StopMutation} from "../../types/StopMutation";
+import {flexer} from "../../../shared/layout";
+import {MyDevicesQuery_myDevices} from "../../../types/MyDevicesQuery";
+import {StopMutation} from "../../../types/StopMutation";
 import {PlayButton} from "./play";
 
 export const BackButton = () => {
@@ -56,7 +56,7 @@ function StopButton({refetch}: { refetch: () => void }) {
   )
 }
 
-export const ActionBox = (props: {isPlaying:boolean, refetch: () => void, uri: string, device: string, playing: boolean, desktop: boolean }) => {
+export const ActionBox = (props: { isPlaying: boolean, refetch: () => void, uri: string, device: string, playing: boolean, desktop: boolean }) => {
 
   // const variables = {uri: player.current_song.uri, devID: player.device};
   return (
@@ -136,7 +136,7 @@ export const SliderBox = (props: { desktop: boolean }) => {
           classes={{colorPrimary: styles.root}}
           value={0}
           // onChange={(e: any) => {
-            // console.log(e)
+          // console.log(e)
           // }}
           aria-labelledby="continuous-slider"
         />

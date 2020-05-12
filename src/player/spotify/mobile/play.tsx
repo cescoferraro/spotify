@@ -3,7 +3,7 @@ import {IconButton} from "@material-ui/core";
 import {gql} from "apollo-boost";
 import {Observer} from "mobx-react";
 import * as React from "react";
-import {PlayMutation, PlayMutationVariables} from "../../types/PlayMutation";
+import {PlayMutation, PlayMutationVariables} from "../../../types/PlayMutation";
 
 const mutation = gql`
   mutation PlayMutation($uri:String, $devID:String) {

@@ -3,7 +3,7 @@ import {ReactElement} from "react";
 import {NowPlayingQuery} from "../../types/NowPlayingQuery";
 import {nowquery2} from "./query";
 
-export const NowPlaying = ({children}: {
+export const SpotifyPLayerProvider = ({children}: {
   children: (props: { refetch: () => void, artists: string, playing: boolean, title: string }) => ReactElement | null
 }) => {
   const {data, refetch} = useQuery<NowPlayingQuery>(nowquery2, { pollInterval: 1000 ,fetchPolicy: "no-cache"});
