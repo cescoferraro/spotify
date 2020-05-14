@@ -12,6 +12,7 @@ type PlaylistInfo struct {
 	Name        string          `json:"name"`
 	Description string          `json:"description"`
 	Images      []spotify.Image `json:"images"`
+	ID          spotify.ID      `json:"id"`
 }
 
 var PlaylistInfoQuery = graphql.Fields{
@@ -19,6 +20,7 @@ var PlaylistInfoQuery = graphql.Fields{
 		Type: graphql.NewObject(graphql.ObjectConfig{
 			Name: "PlaylistInfo",
 			Fields: graphql.Fields{
+				"id":          &graphql.Field{Type: graphql.String},
 				"name":        &graphql.Field{Type: graphql.String},
 				"description": &graphql.Field{Type: graphql.String},
 				"images":      &graphql.Field{Type: graphql.NewList(structql.GenerateType(spotify.Image{}))},
@@ -47,6 +49,7 @@ var PlaylistInfoQuery = graphql.Fields{
 				return localTracks, err
 			}
 			return PlaylistInfo{
+				ID:          localTracks.ID,
 				Name:        localTracks.Name,
 				Description: localTracks.Description,
 				Images:      localTracks.Images,

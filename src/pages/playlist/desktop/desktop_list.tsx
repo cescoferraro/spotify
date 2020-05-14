@@ -13,8 +13,10 @@ import {rowRenderer} from "../shared/rowRenderer";
 import {PlaylistProps} from "../shared/types";
 
 export const DesktopPage = withWidth()((props: PlaylistProps) => {
-  const {player} = props;
+  const {player, owner} = props;
   let images = props.data?.playlistInfo?.images || [];
+  console.log(props.data?.playlistInfo)
+  const playlistId = props.data?.playlistInfo?.id || "";
   return !isWidthDown("sm", props.width || "xs") ? (
       <React.Fragment>
         <div style={{height: "35vh", display: "flex"}}>
@@ -54,7 +56,7 @@ export const DesktopPage = withWidth()((props: PlaylistProps) => {
               <br/>
               <br/>
               <Box style={{...flexer, justifyContent: "flex-start"}}>
-                <PlayLoveDuoButton/>
+                <PlayLoveDuoButton owner={owner} playlistId={playlistId}/>
               </Box>
             </Box>
           </Box>

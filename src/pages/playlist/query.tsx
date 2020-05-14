@@ -3,6 +3,7 @@ import {gql} from "apollo-boost";
 export const playlistQuery = gql`
   query FullPlaylistQuery($playID:String,$owner:String, $cursor:Int, $pace: Int) {
     playlistInfo(owner: $owner,playID: $playID){
+      id
       name
       description
       images {

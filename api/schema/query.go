@@ -22,6 +22,7 @@ func Query() *graphql.Object {
 	fields = tools.MergeGraphQlQuery(fields, query.PlaylistInfoQuery)
 	fields = tools.MergeGraphQlQuery(fields, query.MyDevicesQuery)
 	fields = tools.MergeGraphQlQuery(fields, query.LoggedQuery)
+	fields = tools.MergeGraphQlQuery(fields, query.FollowPlaylist)
 
 	return graphql.NewObject(graphql.ObjectConfig{Name: "Query", Fields: fields})
 }

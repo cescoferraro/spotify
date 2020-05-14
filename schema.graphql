@@ -43,6 +43,7 @@ type Image {
 }
 
 type Mutation {
+  followPlaylist(owner: String, playlistId: String, unfollow: Boolean): Boolean
   play(devID: String, uri: String): Boolean
   stop: Boolean
   test: String
@@ -78,6 +79,7 @@ type PlayerState {
 
 type PlaylistInfo {
   description: String
+  id: String
   images: [Image]
   name: String
 }
@@ -107,6 +109,7 @@ type Profile {
 type Query {
   auth(code: String): Token
   categoriesPaginated(cursor: Int, pace: Int): CategoriesPaginated
+  followPlaylist(playlistId: String): Boolean
   isLogged: Boolean
   login(state: String): String
   myDevices: [PlayerDevice]

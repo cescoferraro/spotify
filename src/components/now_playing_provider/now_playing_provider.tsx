@@ -1,5 +1,5 @@
 import {useQuery} from "@apollo/react-hooks";
-import {ReactElement, useEffect, useState} from "react";
+import {ReactElement, useEffect, useReducer, useState} from "react";
 import {notEmpty} from "../../shared/typescript";
 import {Player} from "../../store/player_store";
 import {NowPlayingQuery, NowPlayingQuery_myDevices} from "../../types/NowPlayingQuery";
@@ -18,13 +18,30 @@ interface ChildrenParams {
   title: string
 }
 
-export const SpotifyPLayerProvider = ({children, player}: {
+const initial = {
+  count: 0
+};
+
+function reducer(state: any, action: any) {
+  switch (action.type) {
+    case 'increment':
+      return {count: state.count + 1};
+    case 'decrement':
+      return {count: state.count - 1};
+    default:
+      throw new Error();
+  }
+}
+
+export const SpotifyPLayerProvider = ({children}: {
   player: Player,
   children: (props: ChildrenParams) => ReactElement | null
 }) => {
 
   const {data, loading, refetch} = useQuery<NowPlayingQuery>(nowquery2, {pollInterval: 5000, fetchPolicy: "no-cache"});
 
+  const [state, setState] = useReducer(reducer, initial)
+  console.log(state, setState)
   const [device, setDevice] = useState("")
   useEffect(() => {
     const devID = data?.nowPlaying?.device?.id || "";
@@ -57,10 +74,9 @@ export const SpotifyPLayerProvider = ({children, player}: {
 
   const [title, setTitle] = useState("")
   useEffect(() => {
-    const obj = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.name || player.current_song.name || "";
-    // const obj = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.name || "";
+    const obj = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.name || "";
     if (obj !== "") setTitle(obj)
-  }, [data, setTitle, title, player.current_song.name])
+  }, [data, setTitle, title])
 
   const [artists, setArtists] = useState("")
   useEffect(() => {
@@ -70,10 +86,9 @@ export const SpotifyPLayerProvider = ({children, player}: {
 
   const [uri, setUri] = useState("")
   useEffect(() => {
-    const id = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.uri || player.current_song.uri || "";
-    // const id = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.uri || "";
+    const id = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.uri || "";
     if (id !== "") setUri(id)
-  }, [data, uri, setUri, player.current_song.uri])
+  }, [data, uri, setUri])
 
   const [duration, setDuration] = useState(0)
   useEffect(() => {
@@ -108,7 +123,7 @@ export const SpotifyPLayerProvider = ({children, player}: {
 
   return children({
     loading,
-    progress:internal_progress,
+    progress: internal_progress,
     duration,
     playing,
     devices,

@@ -21,3 +21,4 @@ var LoggedQuery = graphql.Fields{
 		},
 	},
 }
+

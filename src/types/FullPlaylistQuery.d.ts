@@ -14,6 +14,7 @@ export interface FullPlaylistQuery_playlistInfo_images {
 
 export interface FullPlaylistQuery_playlistInfo {
   __typename: "PlaylistInfo";
+  id: string | null;
   name: string | null;
   description: string | null;
   images: (FullPlaylistQuery_playlistInfo_images | null)[] | null;

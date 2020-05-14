@@ -1,4 +1,4 @@
-import {Box, Fab, isWidthDown, List as UIList} from "@material-ui/core";
+import {Box, isWidthDown, List as UIList} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -14,6 +14,7 @@ import {isRowLoaded} from "../shared/isRowLoaded";
 import {loadMoreRows} from "../shared/loadMore";
 import {rowRenderer} from "../shared/rowRenderer";
 import {PlaylistProps} from "../shared/types";
+import {FollowButton} from "./follow";
 
 const backgroundColor = "rgba(255, 255, 255, 0.3)";
 const mobileListStyles = makeStyles({
@@ -35,7 +36,7 @@ const mobileListStyles = makeStyles({
   button: {background: "green"}
 })
 
-export const PlayLoveDuoButton = () => {
+export const PlayLoveDuoButton = ({owner, playlistId}: { owner: string, playlistId: string }) => {
   // const {player} = props;
   const classes = mobileListStyles();
   return (
@@ -47,23 +48,19 @@ export const PlayLoveDuoButton = () => {
       >
         Play
       </Button>
-      <Fab
-        classes={{root: classes.circle}}
-        color="primary" aria-label="add">
-        <svg width="22" height="20" viewBox="0 0 22 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M15.75 0.500004C13.9133 0.500004 12.1506 1.355 11 2.70611C9.84946 1.355 8.08668 0.500004 6.25001 0.500004C2.9989 0.500004 0.444458 3.05445 0.444458 6.30556C0.444458 10.2956 4.03335 13.5467 9.46946 18.4867L11 19.8694L12.5306 18.4761C17.9667 13.5467 21.5556 10.2956 21.5556 6.30556C21.5556 3.05445 19.0011 0.500004 15.75 0.500004ZM11.1056 16.9139L11 17.0194L10.8945 16.9139C5.87001 12.3644 2.55557 9.35611 2.55557 6.30556C2.55557 4.19445 4.1389 2.61111 6.25001 2.61111C7.87557 2.61111 9.4589 3.65611 10.0183 5.10223H11.9922C12.5411 3.65611 14.1245 2.61111 15.75 2.61111C17.8611 2.61111 19.4445 4.19445 19.4445 6.30556C19.4445 9.35611 16.13 12.3644 11.1056 16.9139Z"
-            fill="white"/>
-        </svg>
-      </Fab>
+      <FollowButton
+        owner={owner}
+        playlistId={playlistId}
+      />
     </React.Fragment>
   );
 };
 
 export const MobilePage = withWidth()((props: PlaylistProps) => {
     console.log(props.width)
-    const {player} = props
+    const {player, owner} = props
     const images = props.data?.playlistInfo?.images || [];
+    const playlistId = props.data?.playlistInfo?.id || "";
     return isWidthDown("sm", props.width || "xs") ? (
       <React.Fragment>
         <Toolbar style={{background: "grey", display: "flex", justifyContent: "space-between"}}>
@@ -102,7 +99,7 @@ export const MobilePage = withWidth()((props: PlaylistProps) => {
               </Tooltip>
 
               <Box style={{...flexer, transform: "translate( 30px )"}}>
-                <PlayLoveDuoButton/>
+                <PlayLoveDuoButton owner={owner} playlistId={playlistId}/>
               </Box>
             </Box>
           </Box>

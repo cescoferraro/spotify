@@ -14,6 +14,49 @@ var Mutation = graphql.NewObject(
 		Description: "",
 		Interfaces:  nil,
 		Fields: graphql.Fields{
+			"followPlaylist": &graphql.Field{
+				Type: graphql.Boolean,
+				Args: graphql.FieldConfigArgument{
+					"playlistId": &graphql.ArgumentConfig{Type: graphql.String},
+					"owner":      &graphql.ArgumentConfig{Type: graphql.String},
+					"unfollow":   &graphql.ArgumentConfig{Type: graphql.Boolean},
+				},
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					unfollow, ok := p.Args["unfollow"].(bool)
+					if !ok {
+						return false, errors.New("arg unfollow not found")
+					}
+					owner, ok := p.Args["owner"].(string)
+					if !ok {
+						return false, errors.New("arg owner not found")
+					}
+					playlistId, ok := p.Args["playlistId"].(string)
+					if !ok {
+						return false, errors.New("arg playlistId not found")
+					}
+					client, err := tools.SpotifyClientFromContext(p.Context)
+					if err != nil {
+						return false, nil
+					}
+					id := spotify.ID(owner)
+					playlist := spotify.ID(playlistId)
+					if unfollow {
+						err = client.UnfollowPlaylist(id, playlist)
+						if err != nil {
+							log.Println(err.Error())
+							return false, nil
+						}
+					} else {
+						err = client.FollowPlaylist(id, playlist, true)
+						if err != nil {
+							log.Println(err.Error())
+							return false, nil
+						}
+
+					}
+					return true, nil
+				},
+			},
 			"stop": &graphql.Field{
 				Type: graphql.Boolean,
 				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
