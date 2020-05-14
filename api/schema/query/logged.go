@@ -13,7 +13,7 @@ var LoggedQuery = graphql.Fields{
 			if err != nil {
 				return false, nil
 			}
-			_, err = client.CurrentUser()
+			_, err = client.CurrentUsersTracks()
 			if err != nil {
 				return false, nil
 			}

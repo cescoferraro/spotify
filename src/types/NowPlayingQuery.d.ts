@@ -7,6 +7,13 @@
 // GraphQL query operation: NowPlayingQuery
 // ====================================================
 
+export interface NowPlayingQuery_myDevices {
+  __typename: "PlayerDevice";
+  name: string | null;
+  id: string | null;
+  is_active: boolean | null;
+}
+
 export interface NowPlayingQuery_nowPlaying_CurrentlyPlaying_Item_SimpleTrack_artists {
   __typename: "SimpleArtist";
   name: string | null;
@@ -14,6 +21,9 @@ export interface NowPlayingQuery_nowPlaying_CurrentlyPlaying_Item_SimpleTrack_ar
 
 export interface NowPlayingQuery_nowPlaying_CurrentlyPlaying_Item_SimpleTrack {
   __typename: "SimpleTrack";
+  duration_ms: number | null;
+  uri: string | null;
+  id: string | null;
   name: string | null;
   artists: (NowPlayingQuery_nowPlaying_CurrentlyPlaying_Item_SimpleTrack_artists | null)[] | null;
 }
@@ -33,11 +43,13 @@ export interface NowPlayingQuery_nowPlaying_CurrentlyPlaying {
   __typename: "CurrentlyPlaying";
   is_playing: boolean | null;
   progress_ms: number | null;
+  timestamp: number | null;
   Item: NowPlayingQuery_nowPlaying_CurrentlyPlaying_Item | null;
 }
 
 export interface NowPlayingQuery_nowPlaying_device {
   __typename: "PlayerDevice";
+  id: string | null;
   is_active: boolean | null;
   name: string | null;
   volume_percent: number | null;
@@ -51,5 +63,6 @@ export interface NowPlayingQuery_nowPlaying {
 }
 
 export interface NowPlayingQuery {
+  myDevices: (NowPlayingQuery_myDevices | null)[] | null;
   nowPlaying: NowPlayingQuery_nowPlaying | null;
 }

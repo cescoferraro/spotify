@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Typography from "@material-ui/core/Typography";
 import PauseCircleFilledIcon from '@material-ui/icons/PauseCircleFilled';
+import {Skeleton} from "@material-ui/lab";
 import {gql} from "apollo-boost";
 import {Observer} from "mobx-react";
 import * as React from "react";
@@ -119,35 +120,52 @@ export const ControlBox = (props: { desktop: boolean }) => {
   );
 };
 
-export const SliderBox = (props: { desktop: boolean }) => {
+export const SliderBox = ({playing, progress, duration, desktop}: { playing: boolean, progress: number, duration: number, desktop: boolean }) => {
   const styles = makeStyles({root: {color: "white"}})();
+  let internal_progress = progress;
+  let time = duration - internal_progress;
+  let ration = (internal_progress / duration) * 100;
   return (
     <Box
-      px={props.desktop ? 1 : 3}
+      px={desktop ? 1 : 3}
       style={{
-        width: props.desktop ? "33%" : `calc( 100% - ${24 * 2}px)`,
+        width: desktop ? "33%" : `calc( 100% - ${24 * 2}px)`,
         display: "flex",
       }}>
       <Box style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <Typography style={{color: "white"}} align={"center"}> 00:00 </Typography></Box>
+        <Typography style={{color: "white"}} align={"center"}> {fancyTimeFormat(internal_progress)} </Typography></Box>
       <Box
         style={{...flexer, transform: "translate( 0px, 0px)", width: "100%", paddingLeft: 24, paddingRight: 24}}>
         <Slider
           classes={{colorPrimary: styles.root}}
-          value={0}
-          // onChange={(e: any) => {
-          // console.log(e)
-          // }}
+          value={ration}
           aria-labelledby="continuous-slider"
         />
       </Box>
       <Box style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <Typography style={{color: "white"}} align={"center"}> 03:00 </Typography></Box>
+        <Typography style={{color: "white"}} align={"center"}> {fancyTimeFormat(time)} </Typography></Box>
     </Box>
   );
 };
 
-export const DeviceBox = (props: WithWidthProps & { device: string, loading: boolean, devices: MyDevicesQuery_myDevices[], desktop: boolean }) => {
+const fancyTimeFormat = (time: number) => {
+  // Hours, minutes and seconds
+  var hrs = ~~(time / 3600);
+  var mins = ~~((time % 3600) / 60);
+  var secs = ~~time % 60;
+
+  // Output like "1:01" or "4:03:59" or "123:03:59"
+  var ret = "";
+
+  if (hrs > 0) {
+    ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+  }
+
+  ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+  ret += "" + secs;
+  return ret;
+};
+export const DeviceBox = (props: WithWidthProps & { device: string, devices: MyDevicesQuery_myDevices[], desktop: boolean }) => {
   const classes = makeStyles({root: {background: "#313131"}})();
   return (
     <Observer>
@@ -164,7 +182,6 @@ export const DeviceBox = (props: WithWidthProps & { device: string, loading: boo
                   displayEmpty={true}
                   disableUnderline={false}
                   value={props.device}
-
                   onChange={(e) => {
                     // player.setDevice(e.target.value as string)
                   }}
@@ -183,18 +200,33 @@ export const DeviceBox = (props: WithWidthProps & { device: string, loading: boo
     </Observer>
   );
 };
-export const InfoBox = (props: WithWidthProps & { title: string, artists: string, desktop: boolean }) => {
+
+function NewComponent() {
+  return <React.Fragment>
+    <Skeleton variant={"text"} animation={"wave"}/>
+    <Skeleton variant={"text"} animation={"wave"}/>
+  </React.Fragment>
+}
+
+export const InfoBox = (props: WithWidthProps & { loading: boolean, title: string, artists: string, desktop: boolean }) => {
+  const {loading} = props
   return (
     <Box
       px={props.desktop ? 1 : 3}
       style={{...flexer, width: props.desktop ? "33%" : `calc( 100% - ${24 * 2}px)`}}>
-      <Box>
-        <Typography variant={"h5"} style={{color: "white"}} align={"center"}>
-          {props.title}
-        </Typography>
-        <Typography style={{color: "white"}} align={"center"}>
-          {props.artists}
-        </Typography>
+      <Box style={{width: "100%"}}>
+        {loading ?
+          <NewComponent/> :
+          <Typography variant={"h5"} style={{color: "white"}} align={"center"}>
+            {props.title}
+          </Typography>
+        }
+        {loading ?
+          <NewComponent/> :
+          <Typography style={{color: "white"}} align={"center"}>
+            {props.artists}
+          </Typography>
+        }
       </Box>
     </Box>
   );

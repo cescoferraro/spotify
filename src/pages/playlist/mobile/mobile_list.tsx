@@ -9,7 +9,7 @@ import React from "react";
 import {AutoSizer, InfiniteLoader, List, WindowScroller} from "react-virtualized";
 import {flexer} from "../../../shared/layout";
 import {SpotifyLogo} from "../../../shared/spotify_logo";
-import {LeftPart} from "../../playlists/left";
+import {LoginAvatar} from "../../playlists/left";
 import {isRowLoaded} from "../shared/isRowLoaded";
 import {loadMoreRows} from "../shared/loadMore";
 import {rowRenderer} from "../shared/rowRenderer";
@@ -68,7 +68,7 @@ export const MobilePage = withWidth()((props: PlaylistProps) => {
       <React.Fragment>
         <Toolbar style={{background: "grey", display: "flex", justifyContent: "space-between"}}>
           <SpotifyLogo/>
-          <LeftPart auth={props.auth}/>
+          <LoginAvatar auth={props.auth}/>
         </Toolbar>
         <Box
           style={{

@@ -22,65 +22,76 @@ const profileQuery = gql`
   }
 `;
 
-function withPhotosLabel({profile}: { profile: ProfileQuery_profile | null | undefined }) {
+const withPhotosLabel = ({profile}: { profile: ProfileQuery_profile | null | undefined }) => {
   const result: { src?: string } = {}
   let images = profile?.images || [];
   const image = images[images.length - 1];
   if (image) result.src = image?.url || "";
   return result;
-}
+};
 
 const SpotifyAvatar = ({auth}: { auth: Auth }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   return (
-    <Query
-      <ChildDataProps<ProfileQuery>, any>
-      query={profileQuery}
-    >
-      {({data}) => {
-        const result = withPhotosLabel({profile: data?.profile});
-        return (
-          <React.Fragment>
-            <Avatar onClick={(event: any) => setAnchorEl(event.currentTarget)} {...result} />
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={() => setAnchorEl(null)}
-            >
-              <MenuItem onClick={() => {
-                auth.logout()
-                setAnchorEl(null)
-              }}>Logout</MenuItem>
-            </Menu>
-          </React.Fragment>
-        );
-      }}
-    </Query>
+    <IconButton edge="end" color="inherit" aria-label="open drawer">
+      <Query<ChildDataProps<ProfileQuery>, any> query={profileQuery}>
+        {({data}) => {
+          const result = withPhotosLabel({profile: data?.profile});
+          return (
+            <React.Fragment>
+              <Avatar onClick={(event: any) => setAnchorEl(event.currentTarget)} {...result} />
+              <Menu
+                anchorEl={anchorEl}
+                keepMounted={true}
+                open={Boolean(anchorEl)}
+                onClose={() => setAnchorEl(null)}
+              >
+                <MenuItem
+                  onClick={() => {
+                    auth.logout()
+                    setAnchorEl(null)
+                  }}
+                >
+                  Logout
+                </MenuItem>
+              </Menu>
+            </React.Fragment>
+          );
+        }}
+      </Query>
+
+    </IconButton>
   );
 };
 
-export const LeftPart = ({auth}: { auth: Auth }) => {
-  console.log(auth)
+const LogoutAvatar = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
   return (
     <SpotifyAuthUrl>
       {(url: string) => (
-        <Observer>
-          {() => (
-            auth.access_token !== "initial" ?
-              <IconButton
-                edge="end" color="inherit" aria-label="open drawer">
-                <SpotifyAvatar auth={auth}/>
-              </IconButton> :
-              <IconButton
-                onClick={() => window.location.href = url}
-                edge="end" color="inherit" aria-label="open drawer">
-                <Avatar/>
-              </IconButton>
-          )}
-        </Observer>
+        <IconButton
+          edge="end" color="inherit" aria-label="open drawer">
+          <React.Fragment>
+            <Avatar onClick={(event: any) => setAnchorEl(event.currentTarget)}/>
+            <Menu
+              keepMounted={true}
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={() => setAnchorEl(null)}
+            >
+              <MenuItem onClick={() => window.location.href = url}>Conectar</MenuItem>
+            </Menu>
+          </React.Fragment>
+        </IconButton>
       )}
     </SpotifyAuthUrl>
+  )
+};
+
+export const LoginAvatar = ({auth}: { auth: Auth }) => {
+  return (
+    <Observer>
+      {() => (auth.access_token !== "initial" ? <SpotifyAvatar auth={auth}/> : <LogoutAvatar/>)}
+    </Observer>
   );
 };

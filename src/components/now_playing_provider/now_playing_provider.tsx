@@ -1,14 +1,121 @@
 import {useQuery} from "@apollo/react-hooks";
-import {ReactElement} from "react";
-import {NowPlayingQuery} from "../../types/NowPlayingQuery";
+import {ReactElement, useEffect, useState} from "react";
+import {notEmpty} from "../../shared/typescript";
+import {Player} from "../../store/player_store";
+import {NowPlayingQuery, NowPlayingQuery_myDevices} from "../../types/NowPlayingQuery";
 import {nowquery2} from "./query";
 
-export const SpotifyPLayerProvider = ({children}: {
-  children: (props: { refetch: () => void, artists: string, playing: boolean, title: string }) => ReactElement | null
+interface ChildrenParams {
+  devices: any[]
+  uri: string
+  loading: boolean
+  duration: number
+  progress: number
+  device: string
+  refetch: () => void
+  artists: string
+  playing: boolean
+  title: string
+}
+
+export const SpotifyPLayerProvider = ({children, player}: {
+  player: Player,
+  children: (props: ChildrenParams) => ReactElement | null
 }) => {
-  const {data, refetch} = useQuery<NowPlayingQuery>(nowquery2, { pollInterval: 1000 ,fetchPolicy: "no-cache"});
-  let playing = data?.nowPlaying?.CurrentlyPlaying?.is_playing || false;
-  let title = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.name || "";
-  let artists = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.artists?.map((t) => t?.name).join(", ") || "name";
-  return children({playing, title, artists, refetch});
+
+  const {data, loading, refetch} = useQuery<NowPlayingQuery>(nowquery2, {pollInterval: 5000, fetchPolicy: "no-cache"});
+
+  const [device, setDevice] = useState("")
+  useEffect(() => {
+    const devID = data?.nowPlaying?.device?.id || "";
+    if (devID !== "") {
+      setDevice(devID)
+    }
+  }, [data, device, setDevice])
+
+  const initialState: NowPlayingQuery_myDevices[] = [];
+  const [devices, setDevices] = useState(initialState)
+  useEffect(() => {
+    const d = data?.myDevices || []
+    if (d.length !== 0) {
+      if (d.length !== devices.length) {
+        console.log("set devices")
+        console.log(devices.length)
+        console.log(d.length)
+        setDevices(d.filter(notEmpty))
+      }
+    }
+  }, [data, devices, setDevices])
+
+  const [playing, setPlaying] = useState(false)
+  useEffect(() => {
+    let p = data?.nowPlaying?.CurrentlyPlaying?.is_playing || false;
+    if (p !== playing) {
+      setPlaying(p)
+    }
+  }, [data, setPlaying, playing])
+
+  const [title, setTitle] = useState("")
+  useEffect(() => {
+    const obj = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.name || player.current_song.name || "";
+    // const obj = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.name || "";
+    if (obj !== "") setTitle(obj)
+  }, [data, setTitle, title, player.current_song.name])
+
+  const [artists, setArtists] = useState("")
+  useEffect(() => {
+    let a = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.artists?.map((t) => t?.name).join(", ") || "";
+    if (a !== artists) setArtists(a)
+  }, [data, setArtists, artists])
+
+  const [uri, setUri] = useState("")
+  useEffect(() => {
+    const id = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.uri || player.current_song.uri || "";
+    // const id = data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.uri || "";
+    if (id !== "") setUri(id)
+  }, [data, uri, setUri, player.current_song.uri])
+
+  const [duration, setDuration] = useState(0)
+  useEffect(() => {
+    const id = Math.round((data?.nowPlaying?.CurrentlyPlaying?.Item?.SimpleTrack?.duration_ms || 0) / 1000)
+    if (id !== 0) {
+      if (id !== duration) {
+        setDuration(id)
+      }
+    }
+  }, [data, duration, setDuration])
+
+  const [progress, setProgress] = useState(0)
+  useEffect(() => {
+    const id = Math.round((data?.nowPlaying?.CurrentlyPlaying?.progress_ms || 0) / 1000)
+    if (id !== 0) {
+      if (id !== progress) {
+        setProgress(id)
+      }
+    }
+  }, [data, progress, setProgress])
+
+  let [internal_progress, set_internal_progress] = useState(progress);
+  useEffect(() => {
+    set_internal_progress(progress)
+  }, [progress])
+  useEffect(() => {
+    if (playing) {
+      const timer = setInterval(() => set_internal_progress(internal_progress + 1), 1000);
+      return () => clearInterval(timer);
+    }
+  }, [internal_progress, playing]);
+
+  return children({
+    loading,
+    progress:internal_progress,
+    duration,
+    playing,
+    devices,
+    title,
+    artists,
+    refetch,
+    device,
+    uri
+  });
 }

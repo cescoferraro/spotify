@@ -5,7 +5,7 @@ import React from "react";
 import {AutoSizer, InfiniteLoader, List} from "react-virtualized";
 import {flexer} from "../../../shared/layout";
 import {SpotifyLogo} from "../../../shared/spotify_logo";
-import {LeftPart} from "../../playlists/left";
+import {LoginAvatar} from "../../playlists/left";
 import {PlayLoveDuoButton} from "../mobile/mobile_list";
 import {isRowLoaded} from "../shared/isRowLoaded";
 import {loadMoreRows} from "../shared/loadMore";
@@ -36,7 +36,7 @@ export const DesktopPage = withWidth()((props: PlaylistProps) => {
             width: "65%"
           }}>
             <Toolbar style={{display: "flex", justifyContent: "flex-end"}}>
-              <Box><LeftPart auth={props.auth}/></Box>
+              <Box><LoginAvatar auth={props.auth}/></Box>
             </Toolbar>
             <Box style={{marginBottom: 24}}>
               <Typography
