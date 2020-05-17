@@ -1,5 +1,5 @@
 import {useQuery} from "@apollo/react-hooks";
-import {ReactElement, useEffect, useReducer, useState} from "react";
+import {ReactElement, useEffect, useState} from "react";
 import {notEmpty} from "../../shared/typescript";
 import {Player} from "../../store/player_store";
 import {NowPlayingQuery, NowPlayingQuery_myDevices} from "../../types/NowPlayingQuery";
@@ -18,21 +18,6 @@ interface ChildrenParams {
   title: string
 }
 
-const initial = {
-  count: 0
-};
-
-function reducer(state: any, action: any) {
-  switch (action.type) {
-    case 'increment':
-      return {count: state.count + 1};
-    case 'decrement':
-      return {count: state.count - 1};
-    default:
-      throw new Error();
-  }
-}
-
 export const SpotifyPLayerProvider = ({children}: {
   player: Player,
   children: (props: ChildrenParams) => ReactElement | null
@@ -40,8 +25,8 @@ export const SpotifyPLayerProvider = ({children}: {
 
   const {data, loading, refetch} = useQuery<NowPlayingQuery>(nowquery2, {pollInterval: 5000, fetchPolicy: "no-cache"});
 
-  const [state, setState] = useReducer(reducer, initial)
-  console.log(state, setState)
+  // const _ = useReducer(reducer, initial)
+  // console.log(state, setState)
   const [device, setDevice] = useState("")
   useEffect(() => {
     const devID = data?.nowPlaying?.device?.id || "";
@@ -116,7 +101,11 @@ export const SpotifyPLayerProvider = ({children}: {
   }, [progress])
   useEffect(() => {
     if (playing) {
-      const timer = setInterval(() => set_internal_progress(internal_progress + 1), 1000);
+      const timer = setInterval(() => {
+        let number = internal_progress + 1;
+        console.log(number)
+        set_internal_progress(number);
+      }, 1000);
       return () => clearInterval(timer);
     }
   }, [internal_progress, playing]);

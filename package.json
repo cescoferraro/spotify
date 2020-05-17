@@ -90,7 +90,7 @@
     "@types/redux-storage": "^4.1.0",
     "@types/redux-storage-engine-localstorage": "^1.1.1",
     "apollo": "^2.27.0",
-    "classnames": "^2.2.6",
+    "classnames": "2.2.6",
     "gh-pages": "^2.2.0",
     "history": "^4.10.1",
     "material-ui": "^0.20.2",

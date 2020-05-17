@@ -1,58 +1,47 @@
+import {useQuery} from "@apollo/react-hooks";
 import React from "react";
-import {ChildDataProps, Query} from "react-apollo";
+import {QueryResult} from "react-apollo";
 import {match, RouteComponentProps, withRouter} from "react-router";
 import {Auth} from "../../store/auth_store";
 import {Player} from "../../store/player_store";
 import {FullPlaylistQuery, FullPlaylistQueryVariables} from "../../types/FullPlaylistQuery";
-import {DesktopPage} from "./desktop/desktop_list";
-import {MobilePage} from "./mobile/mobile_list";
+import {DesktopPage} from "./desktop/desktop";
+import {MobilePage} from "./mobile/header";
 import {playlistQuery} from "./query";
 
-const varsFromMatchParams = (input: match<{ catID: string; owner: string; playlistID: string }>) => {
-  const catID = input?.params.catID || "erro";
-  const playID = input?.params.playlistID || "erro";
-  const owner = input?.params.owner || "spotify";
-  return {catID, playID, owner};
+type PlaylistPageUrlProps = { catID: string, owner: string, playID: string };
+
+type PlaylistPageBaseProps = { pace?: number, player: Player, auth: Auth };
+
+type PlaylistPage = RouteComponentProps<PlaylistPageUrlProps> & PlaylistPageBaseProps;
+
+export type PlaylistProps =
+  { pace: number, songs: any[] }
+  & PlaylistPageBaseProps
+  & PlaylistPageUrlProps
+  & FullPlaylistQueryVariables
+  & QueryResult<FullPlaylistQuery> ;
+
+const varsFromMatchParams = (input: match<PlaylistPageUrlProps>): PlaylistPageUrlProps => {
+  return {
+    catID: input?.params.catID || "erro",
+    playID: input?.params.playID || "erro",
+    owner: input?.params.owner || "spotify"
+  };
 };
 
-type PlaylistPage = RouteComponentProps<{ catID: string, owner: string, playlistID: string }>
-  & { player: Player, pace?: number, auth: Auth };
-
 export const PlaylistPage = withRouter(
-  ({auth, player, match, history, pace = 20}: PlaylistPage) => {
-    const {catID, playID, owner} = varsFromMatchParams(match);
-    const [query, setQuery] = React.useState("");
+  ({auth, player, match, pace = 20}: PlaylistPage) => {
+    const urlProps = varsFromMatchParams(match);
+    const variables = {pace, cursor: 0, owner: urlProps.owner, playID: urlProps.playID};
+    const queryResult = useQuery<FullPlaylistQuery, FullPlaylistQueryVariables>(playlistQuery, {variables});
+    const songs = queryResult.data?.playlistSongsPaginated?.songs || [];
+    const props = {pace, auth, player, songs, ...urlProps, ...variables, ...queryResult}
     return (
-      <Query
-        <ChildDataProps<FullPlaylistQuery>, FullPlaylistQueryVariables>
-        query={playlistQuery}
-        fetchPolicy={"cache-first"}
-        context={{debounceKey: "233", debounceTimeout: 1200}}
-        variables={{owner, cursor: 0, pace, playID}}
-      >
-        {({data, fetchMore, loading}) => {
-          const songs = data?.playlistSongsPaginated?.songs || [];
-          const sharedProps = {
-            catID,
-            player,
-            loading,
-            history,
-            auth,
-            songs,
-            query,
-            setQuery,
-            owner,
-            playID,
-            pace,
-            data,
-            fetchMore
-          }
-          return <div>
-            <MobilePage {...sharedProps} />
-            <DesktopPage {...sharedProps} />
-          </div>
-        }}
-      </Query>
+      <React.Fragment>
+        <MobilePage {...props} />
+        <DesktopPage  {...props} />
+      </React.Fragment>
     );
   }
 );

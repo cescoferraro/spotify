@@ -12,13 +12,8 @@ var FollowPlaylist = graphql.Fields{
 		Type: graphql.Boolean,
 		Args: graphql.FieldConfigArgument{
 			"playlistId": &graphql.ArgumentConfig{Type: graphql.String},
-			"owner": &graphql.ArgumentConfig{Type: graphql.String},
 		},
 		Resolve: func(p graphql.ResolveParams) (interface{}, error) {
-			owner, ok := p.Args["owner"].(string)
-			if !ok {
-				return PlaylistInfo{}, errors.New("arg owner not found")
-			}
 			playlistId, ok := p.Args["playlistId"].(string)
 			if !ok {
 				return PlaylistInfo{}, errors.New("arg playlistId not found")

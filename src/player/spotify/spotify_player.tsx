@@ -3,11 +3,10 @@ import {SpotifyPLayerProvider} from "../../components/now_playing_provider/now_p
 import {Player} from "../../store/player_store";
 import {ActionBox, ControlBox, DeviceBox, InfoBox, SliderBox} from "./mobile";
 
-export const SpotifyPlayer = (props: { player: Player, mobile: boolean }) => {
-  const {mobile} = props
+export const SpotifyPlayer = ({mobile, player}: { player: Player, mobile: boolean }) => {
   return (
-    <SpotifyPLayerProvider player={props.player}>
-      {({playing,progress,duration, title, devices, loading, artists, refetch, device, uri}) => {
+    <SpotifyPLayerProvider player={player}>
+      {({playing, progress, duration, title, devices, loading, artists, refetch, device, uri}) => {
         return (
           <React.Fragment>
             <DeviceBox device={device} devices={devices} desktop={!mobile}/>
@@ -21,6 +20,7 @@ export const SpotifyPlayer = (props: { player: Player, mobile: boolean }) => {
               desktop={!mobile}
             />
             <SliderBox
+              player={player}
               playing={playing}
               duration={duration}
               progress={progress}

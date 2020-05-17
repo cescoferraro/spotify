@@ -15,9 +15,6 @@ export class Player {
   public opened: boolean = false;
 
   @observable
-  public device: string= "";
-
-  @observable
   public current_song: CurrentSong = {
     name: initial,
     artist: initial,
@@ -31,11 +28,6 @@ export class Player {
     this.current_song = st;
   }
 
-
-  @action
-  public setDevice(st: string) {
-    this.device = st;
-  }
   @action
   public setOpened(st: boolean) {
     this.opened = st;

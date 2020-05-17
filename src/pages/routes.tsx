@@ -28,7 +28,7 @@ export const RoutesComponent = withRouter((props: RouteComponentProps & { player
         <PlaylistsPage auth={auth}/>
       </Route>
       <Route
-        path="/playlists/:catID/:owner/:playlistID" exact={true}>
+        path="/playlists/:catID/:owner/:playID" exact={true}>
         <PlaylistPage player={player} auth={auth}/>
       </Route>
       <PlayerComponentDrawer player={player}/>

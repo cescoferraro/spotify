@@ -10,7 +10,9 @@ import {Skeleton} from "@material-ui/lab";
 import {gql} from "apollo-boost";
 import {Observer} from "mobx-react";
 import * as React from "react";
+import {useEffect} from "react";
 import {flexer} from "../../../shared/layout";
+import {Player} from "../../../store/player_store";
 import {MyDevicesQuery_myDevices} from "../../../types/MyDevicesQuery";
 import {StopMutation} from "../../../types/StopMutation";
 import {PlayButton} from "./play";
@@ -120,11 +122,20 @@ export const ControlBox = (props: { desktop: boolean }) => {
   );
 };
 
-export const SliderBox = ({playing, progress, duration, desktop}: { playing: boolean, progress: number, duration: number, desktop: boolean }) => {
+export const SliderBox = ({player, playing, progress, duration, desktop}: { player: Player, playing: boolean, progress: number, duration: number, desktop: boolean }) => {
   const styles = makeStyles({root: {color: "white"}})();
   let internal_progress = progress;
   let time = duration - internal_progress;
   let ration = (internal_progress / duration) * 100;
+  useEffect(() => {
+    if (time < 5 && progress !== 0) {
+      console.log("acbou a musica!")
+      player.setOpened(false)
+    } else {
+      console.log("tocando")
+    }
+
+  }, [time, player, progress])
   return (
     <Box
       px={desktop ? 1 : 3}
