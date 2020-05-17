@@ -14,7 +14,6 @@ import {Auth} from "../../../store/auth_store";
 import {FullPlaylistQuery, FullPlaylistQuery_playlistInfo} from "../../../types/FullPlaylistQuery";
 import {LoginAvatar} from "../../playlists/left";
 import {PlaylistProps} from "../playlist_index";
-// import {PlaylistProps} from "../shared/types";
 import {FollowButton} from "./follow";
 import {MobileInfiniteList} from "./mobile_list";
 
@@ -25,7 +24,17 @@ export const PlaylistPlayButton = () => {
     button: {background: spotifyGreen, marginRight: 30, height: 60, width: 203, borderRadius: 30}
   })();
   const classesObj = {root: classes.button, label: classes.label, contained: classes.contained};
-  return <Button variant={"contained"} classes={classesObj}> Play </Button>
+
+  return (
+    <Button
+      onClick={() => {
+      }}
+      variant={"contained"}
+      classes={classesObj}
+    >
+      Play
+    </Button>
+  )
 };
 
 const NewComponent = ({info}: { info: FullPlaylistQuery_playlistInfo }) => {

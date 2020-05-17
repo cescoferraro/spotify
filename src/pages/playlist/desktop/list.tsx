@@ -1,14 +1,14 @@
 import React from "react";
 import {AutoSizer, InfiniteLoader, List} from "react-virtualized";
-import {Player} from "../../../store/player_store";
+import {PlaylistProps} from "../playlist_index";
 import {isRowLoaded} from "../shared/isRowLoaded";
 import {loadMoreRows} from "../shared/loadMore";
 import {rowRenderer} from "../shared/rowRenderer";
 
-export const DesktopFixedHeightList = (props: { list: any[], owner: string, playID: string, pace: number, data: any, fetchMore: any, player: Player }) => {
+export const DesktopFixedHeightList = (props: PlaylistProps) => {
   return (
     <InfiniteLoader
-      isRowLoaded={isRowLoaded({list: props.list})}
+      isRowLoaded={isRowLoaded({list: props.songs})}
       loadMoreRows={loadMoreRows({
         owner: props.owner,
         playID: props.playID,
@@ -25,9 +25,12 @@ export const DesktopFixedHeightList = (props: { list: any[], owner: string, play
               <List
                 height={height}
                 onRowsRendered={onRowsRendered}
-                rowCount={props.list.length}
+                rowCount={props.songs.length}
                 rowHeight={60}
-                rowRenderer={rowRenderer({list: props.list, player: props.player})}
+                rowRenderer={rowRenderer({
+                  refresh: props.refreshLiked,
+                  list: props.songs, player: props.player, liked: props.liked
+                })}
                 width={width}
               />
             )}

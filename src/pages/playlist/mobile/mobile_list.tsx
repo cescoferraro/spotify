@@ -41,7 +41,12 @@ export const MobileInfiniteList = withWidth()((props: WithWidthProps & PlaylistP
                           onRowsRendered={onRowsRendered}
                           rowCount={props.songs.length}
                           rowHeight={60}
-                          rowRenderer={rowRenderer({list: props.songs, player})}
+                          rowRenderer={rowRenderer({
+                            refresh: props.refreshLiked,
+                            list: props.songs,
+                            player,
+                            liked: props.liked
+                          })}
                           scrollTop={scrollTop}
                         />
                       </UIList>

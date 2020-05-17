@@ -44,6 +44,7 @@ type Image {
 
 type Mutation {
   followPlaylist(owner: String, playlistId: String, unfollow: Boolean): Boolean
+  likeSong(id: String, unfollow: Boolean): Boolean
   play(devID: String, uri: String): Boolean
   stop: Boolean
   test: String
@@ -111,6 +112,7 @@ type Query {
   categoriesPaginated(cursor: Int, pace: Int): CategoriesPaginated
   followPlaylist(playlistId: String): Boolean
   isLogged: Boolean
+  likedSongs(ids: [String]): [String]
   login(state: String): String
   myDevices: [PlayerDevice]
   mySongsPaginated(cursor: Int, pace: Int): MySongsPaginated

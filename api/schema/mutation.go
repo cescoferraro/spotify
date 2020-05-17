@@ -14,6 +14,42 @@ var Mutation = graphql.NewObject(
 		Description: "",
 		Interfaces:  nil,
 		Fields: graphql.Fields{
+			"likeSong": &graphql.Field{
+				Type: graphql.Boolean,
+				Args: graphql.FieldConfigArgument{
+					"id":       &graphql.ArgumentConfig{Type: graphql.String},
+					"unfollow": &graphql.ArgumentConfig{Type: graphql.Boolean},
+				},
+				Resolve: func(p graphql.ResolveParams) (interface{}, error) {
+					unfollow, ok := p.Args["unfollow"].(bool)
+					if !ok {
+						return false, errors.New("arg unfollow not found")
+					}
+					id, ok := p.Args["id"].(string)
+					if !ok {
+						return false, errors.New("arg id not found")
+					}
+					client, err := tools.SpotifyClientFromContext(p.Context)
+					if err != nil {
+						return false, nil
+					}
+					if unfollow {
+						err = client.RemoveTracksFromLibrary([]spotify.ID{spotify.ID(id)}...)
+						if err != nil {
+							log.Println(err.Error())
+							return false, nil
+						}
+					} else {
+						err = client.AddTracksToLibrary([]spotify.ID{spotify.ID(id)}...)
+						if err != nil {
+							log.Println(err.Error())
+							return false, nil
+						}
+
+					}
+					return true, nil
+				},
+			},
 			"followPlaylist": &graphql.Field{
 				Type: graphql.Boolean,
 				Args: graphql.FieldConfigArgument{
