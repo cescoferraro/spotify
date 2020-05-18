@@ -11,10 +11,7 @@ import MDSpinner from "react-md-spinner";
 import {RouteComponentProps, withRouter} from "react-router";
 import {InfiniteLoader, List, WindowScroller} from "react-virtualized";
 import {Auth} from "../../store/auth_store";
-import {
-  PlayerComponentQuery,
-  PlayerComponentQuery_mySongsPaginated_songs
-} from "../../types/PlayerComponentQuery";
+import {PlayerComponentQuery, PlayerComponentQuery_mySongsPaginated_songs} from "../../types/PlayerComponentQuery";
 import {query} from "./query";
 
 type IPlayerQueryResult = ChildProps<any, PlayerComponentQuery>;
@@ -42,9 +39,7 @@ const loadMoreRows = ({cursor, pace, fetchMore}: { pace: number, cursor: number,
   })
 };
 
-
-
-const rowRenderer = ({list}: { list: (PlayerComponentQuery_mySongsPaginated_songs  | null)[] }) => ({key, index, style}: any) => {
+const rowRenderer = ({list}: { list: (PlayerComponentQuery_mySongsPaginated_songs | null)[] }) => ({key, index, style}: any) => {
   let listElement = list[index];
   let images = listElement?.track?.album?.images || [];
   let artists = listElement?.track?.SimpleTrack?.artists || [];

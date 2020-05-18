@@ -4,7 +4,7 @@ import React from "react";
 import {flexer} from "../../../shared/layout";
 import {SpotifyLogo} from "../../../shared/spotify_logo";
 import {LoginAvatar} from "../../playlists/left";
-import {FollowButton} from "../mobile/follow";
+import {FollowPlaylistButton} from "../mobile/follow";
 import {PlaylistPlayButton} from "../mobile/header";
 
 export const DesktopHead = (props: { props: any}) => {
@@ -31,7 +31,7 @@ export const DesktopHead = (props: { props: any}) => {
         </Box>
         <Box style={{...flexer, justifyContent: "flex-start"}}>
           <PlaylistPlayButton/>
-          <FollowButton owner={props.props.owner} playlistId={playlistId}/>
+          <FollowPlaylistButton owner={props.props.owner} playlistId={playlistId}/>
         </Box>
       </Box>
     </Box>

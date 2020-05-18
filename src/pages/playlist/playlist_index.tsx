@@ -36,6 +36,7 @@ interface SongsProviderChildrenProps extends PlaylistPageBaseProps, QueryResult<
 }
 
 interface LikedProviderChildrenProps {
+  loadingLiked: boolean
   refreshLiked: () => void
   liked: string[]
 }
@@ -69,7 +70,7 @@ const SongsProvider = ({children, pace, url, auth, player}: SongsProviderInputPr
 
 const LikedProvider = ({children, songs}: {
   songs: Song[]
-  children: (st: LikedProviderChildrenProps) => ReactElement
+  children: (st: { loading: boolean; refreshLiked: () => void; liked: string[] }) => React.ReactElement
 }) => {
   const [liked, setLiked] = useState<string[]>([]);
   const [fetchIDS, other] = useLazyQuery<LikedSongsQuery, LikedSongsQueryVariables>(query);
@@ -79,19 +80,20 @@ const LikedProvider = ({children, songs}: {
       const songIDs = songs.map((r) => r.track?.SimpleTrack?.id).filter(notEmpty);
       if (songIDs.length !== 0) {
         await fetchIDS({variables: {ids: songIDs}})
-        let local_liked = other.data?.likedSongs;
+        const local_liked = other.data?.likedSongs;
+        console.log("local_liked", local_liked)
         if (local_liked) {
-          if (local_liked.length !== liked.length) {
-            setLiked(local_liked.filter(notEmpty))
-          }
+          setLiked(local_liked.filter(notEmpty))
         }
       }
     }
     callback();
-  }, [songs, other.data, setLiked, liked, fetchIDS])
+  }, [songs, other.data, setLiked, fetchIDS])
   console.log(liked)
   return children({
-    liked, refreshLiked: () => {
+    loading: other.loading,
+    liked,
+    refreshLiked: () => {
       other.refetch({ids: songIDs});
     }
   })
@@ -111,10 +113,10 @@ export const PlaylistPage = withRouter(
       <SongsProvider auth={auth} player={player} pace={20} url={varsFromMatchParams(match)}>
         {(props: SongsProviderChildrenProps) => (
           <LikedProvider songs={props.songs}>
-            {({liked, refreshLiked}) =>
+            {({liked, refreshLiked, loading}) =>
               <React.Fragment>
-                <MobilePage refreshLiked={refreshLiked} liked={liked} {...props}/>
-                <DesktopPage refreshLiked={refreshLiked} liked={liked} {...props}/>
+                <MobilePage loadingLiked={loading} refreshLiked={refreshLiked} liked={liked} {...props}/>
+                <DesktopPage loadingLiked={loading} refreshLiked={refreshLiked} liked={liked} {...props}/>
               </React.Fragment>
             }
           </LikedProvider>

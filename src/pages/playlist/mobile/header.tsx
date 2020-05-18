@@ -14,7 +14,7 @@ import {Auth} from "../../../store/auth_store";
 import {FullPlaylistQuery, FullPlaylistQuery_playlistInfo} from "../../../types/FullPlaylistQuery";
 import {LoginAvatar} from "../../playlists/left";
 import {PlaylistProps} from "../playlist_index";
-import {FollowButton} from "./follow";
+import {FollowPlaylistButton} from "./follow";
 import {MobileInfiniteList} from "./mobile_list";
 
 export const PlaylistPlayButton = () => {
@@ -60,7 +60,7 @@ const HeaderInfo = (props: { owner: string, info: FullPlaylistQuery_playlistInfo
         </Tooltip>
         <Box style={{...flexer, transform: "translate( 30px )"}}>
           <PlaylistPlayButton/>
-          <FollowButton owner={props.owner} playlistId={props.info.id || ""}/>
+          <FollowPlaylistButton owner={props.owner} playlistId={props.info.id || ""}/>
         </Box>
       </Box>
     </Box>

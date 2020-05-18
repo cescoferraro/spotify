@@ -1,7 +1,11 @@
 import {ChildProps} from "react-apollo";
-import {FullPlaylistQuery} from "../../../types/FullPlaylistQuery";
+import {FullPlaylistQuery, FullPlaylistQuery_playlistSongsPaginated_songs} from "../../../types/FullPlaylistQuery";
 
 type Created = ChildProps<any, FullPlaylistQuery>;
+
+export const isRowLoaded = ({list}: { list: (FullPlaylistQuery_playlistSongsPaginated_songs | null)[] }) => ({index}: any) => {
+  return !!list[index];
+};
 
 export const loadMoreRows = ({owner, playID, cursor, pace, fetchMore}: { owner: string, playID: string, pace: number, cursor: number, fetchMore: any }) => () => {
   return fetchMore({

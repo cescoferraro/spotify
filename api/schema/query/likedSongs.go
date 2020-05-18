@@ -17,9 +17,9 @@ var LikedSongs = graphql.Fields{
 			idsReq := p.Args["ids"].([]interface{})
 			for _, v := range idsReq {
 				elems := v.(string)
-				log.Println(elems)
 				ids = append(ids, elems)
 			}
+			log.Println(len(ids))
 			client, err := tools.SpotifyClientFromContext(p.Context)
 			if err != nil {
 				return ids, err
@@ -28,6 +28,7 @@ var LikedSongs = graphql.Fields{
 			if err != nil {
 				return ids, err
 			}
+			log.Println(len(all.Tracks))
 			result := []string{}
 			for _, track := range all.Tracks {
 				if tools.Contains(ids, track.ID.String()) {
@@ -35,6 +36,7 @@ var LikedSongs = graphql.Fields{
 				}
 
 			}
+			log.Println(len(result))
 			return result, nil
 		},
 	},
