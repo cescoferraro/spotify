@@ -16,7 +16,7 @@ export const RoutesComponent = withRouter((props: RouteComponentProps & { player
   return (
     <ApolloProvider client={apolloClient({history, auth})}>
       <Route path="/auth">
-        <AuthComponent auth={auth}/>
+        <AuthComponent player={player} auth={auth}/>
       </Route>
       <Route path="/" exact={true}>
         <HomeComponent auth={auth}/>

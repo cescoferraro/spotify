@@ -3,6 +3,7 @@ import {useEffect} from "react";
 import {ChildProps, graphql} from "react-apollo";
 import {RouteComponentProps, withRouter} from "react-router";
 import {Auth, OAuthToken} from "../../store/auth_store";
+import {Player} from "../../store/player_store";
 import {AuthComponentQuery} from "../../types/AuthComponentQuery";
 
 const query = gql`
@@ -16,7 +17,7 @@ const query = gql`
   }
 `;
 
-type AuthProps = ChildProps<{ auth: Auth } & RouteComponentProps, AuthComponentQuery>;
+type AuthProps = ChildProps<{ auth: Auth, player: Player } & RouteComponentProps, AuthComponentQuery>;
 
 const extract = ({path}: { path: string }) => {
   const spath = path.split("/");
@@ -36,7 +37,7 @@ export const AuthComponent = withRouter(
   })
   (
     (props: AuthProps) => {
-      const {data, auth, history, location} = props;
+      const {player,data, auth, history, location} = props;
       useEffect(() => {
         const {path, state, code} = extract({path: location?.pathname})
         if (path.length === 4) {
@@ -44,11 +45,12 @@ export const AuthComponent = withRouter(
             auth.setCode(code)
             auth.setOAuth(data?.auth as OAuthToken)
             history.push(atob(state))
+            player.setMode("spotify")
           }
         } else {
           history.push("/")
         }
-      }, [data, auth, location, history])
+      }, [data, auth, location, history, player])
       return null
     }
   )

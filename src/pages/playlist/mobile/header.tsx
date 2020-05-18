@@ -13,7 +13,7 @@ import {Nullable} from "../../../shared/typescript";
 import {Auth} from "../../../store/auth_store";
 import {FullPlaylistQuery, FullPlaylistQuery_playlistInfo} from "../../../types/FullPlaylistQuery";
 import {LoginAvatar} from "../../playlists/left";
-import {PlaylistProps} from "../playlist_index";
+import {PlaylistProps} from "../types";
 import {FollowPlaylistButton} from "./follow";
 import {MobileInfiniteList} from "./mobile_list";
 

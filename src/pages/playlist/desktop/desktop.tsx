@@ -1,5 +1,5 @@
 import React from "react";
-import {PlaylistProps} from "../playlist_index";
+import {PlaylistProps} from "../types";
 import {DesktopHeaderContainer} from "./container";
 import {DesktopFixedHeightList} from "./list";
 

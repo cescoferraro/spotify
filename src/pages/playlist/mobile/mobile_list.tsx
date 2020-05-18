@@ -2,9 +2,9 @@ import {Box, isWidthDown, List as UIList, WithWidthProps} from "@material-ui/cor
 import withWidth from "@material-ui/core/withWidth";
 import React from "react";
 import {AutoSizer, InfiniteLoader, List, WindowScroller} from "react-virtualized";
-import {PlaylistProps} from "../playlist_index";
 import {isRowLoaded, loadMoreRows} from "../shared/loadMore";
 import {SongRenderer} from "../shared/songRenderer";
+import {PlaylistProps} from "../types";
 
 export const MobileInfiniteList = withWidth()((props: WithWidthProps & PlaylistProps) => {
     console.log(props.width)
@@ -41,6 +41,7 @@ export const MobileInfiniteList = withWidth()((props: WithWidthProps & PlaylistP
                           rowCount={props.songs.length}
                           rowHeight={60}
                           rowRenderer={SongRenderer({
+                            auth:props.auth,
                             loading: props.loadingLiked,
                             refresh: props.refreshLiked,
                             list: props.songs,

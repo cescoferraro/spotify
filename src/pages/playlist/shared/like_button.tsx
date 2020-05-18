@@ -5,8 +5,9 @@ import {Skeleton} from "@material-ui/lab";
 import {gql} from "apollo-boost";
 import React from "react";
 import {spotifyGreen} from "../../../shared/color";
+import {Auth} from "../../../store/auth_store";
 import {LikeSong, LikeSongVariables} from "../../../types/LikeSong";
-import {Song} from "../playlist_index";
+import {Song} from "../types";
 
 const follow_mutation = gql`
   mutation  LikeSong($id:String, $unfollow: Boolean) {
@@ -14,15 +15,16 @@ const follow_mutation = gql`
   }
 `;
 
-export const LoveSongsButton = (props: { loading: boolean, refresh: () => void, ids: string[], listElement: Song }) => {
+export const LoveSongsButton = (props: { auth: Auth, loading: boolean, refresh: () => void, ids: string[], listElement: Song }) => {
   const [followPlaylist, {data, loading}] = useMutation<LikeSong, LikeSongVariables>(follow_mutation);
-  let id = props.listElement?.track?.SimpleTrack?.id || "";
-  let unfollow = props.ids.includes(id);
-  const loadingFN = loading || props.loading
+  const id = props.listElement?.track?.SimpleTrack?.id || "";
+  const unfollow = props.ids.includes(id);
+  const disabled = props.auth.code === "initial";
   return (
     <LoveButton
       color={unfollow ? spotifyGreen : "white"}
-      loading={loadingFN}
+      disabled={disabled}
+      loading={loading || props.loading}
       onClick={async () => {
         await followPlaylist({variables: {id, unfollow}})
         props.refresh()
@@ -34,7 +36,7 @@ export const LoveSongsButton = (props: { loading: boolean, refresh: () => void, 
 };
 
 const backgroundColor = "#313131"
-export const LoveButton = ({loading, onClick, color = "white"}: { loading: boolean, onClick: () => void, color?: string }) => {
+export const LoveButton = ({disabled, loading, onClick, color = "white"}: { disabled: boolean, loading: boolean, onClick: () => void, color?: string }) => {
   const classes = makeStyles({
       circle: {backgroundColor, "&:hover": {backgroundColor}, width: 32, height: 32},
     }
@@ -43,6 +45,7 @@ export const LoveButton = ({loading, onClick, color = "white"}: { loading: boole
   return (
     <Fab
       onClick={onClick}
+      disabled={disabled}
       classes={{root: classes.circle}}
       color="primary"
     >

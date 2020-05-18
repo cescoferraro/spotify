@@ -1,5 +1,7 @@
 import {action, observable} from "mobx";
 
+type PlayerMode = "sample" | "spotify";
+
 export class Player {
 
   @observable
@@ -8,7 +10,15 @@ export class Player {
   public source: HTMLAudioElement = new Audio();
 
   @observable
+  public mode: PlayerMode = "sample";
+
+  @observable
   public opened: boolean = false;
+
+  @action
+  public setMode(st: PlayerMode) {
+    this.mode = st;
+  }
 
   @action
   public setSongs(st: any[]) {
