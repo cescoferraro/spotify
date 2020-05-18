@@ -3,7 +3,7 @@ import {AutoSizer, InfiniteLoader, List} from "react-virtualized";
 import {PlaylistProps} from "../playlist_index";
 import {isRowLoaded} from "../shared/isRowLoaded";
 import {loadMoreRows} from "../shared/loadMore";
-import {rowRenderer} from "../shared/rowRenderer";
+import {SongRenderer} from "../shared/songRenderer";
 
 export const DesktopFixedHeightList = (props: PlaylistProps) => {
   return (
@@ -27,7 +27,7 @@ export const DesktopFixedHeightList = (props: PlaylistProps) => {
                 onRowsRendered={onRowsRendered}
                 rowCount={props.songs.length}
                 rowHeight={60}
-                rowRenderer={rowRenderer({
+                rowRenderer={SongRenderer({
                   refresh: props.refreshLiked,
                   list: props.songs, player: props.player, liked: props.liked
                 })}

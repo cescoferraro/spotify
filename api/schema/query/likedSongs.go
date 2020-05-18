@@ -20,18 +20,13 @@ var LikedSongs = graphql.Fields{
 				log.Println(elems)
 				ids = append(ids, elems)
 			}
-			//ids, ok := p.Args["ids"].([]string)
-			//if !ok {
-			//	return false, errors.New("arg ids found")
-			//}
 			client, err := tools.SpotifyClientFromContext(p.Context)
 			if err != nil {
-				return ids, nil
+				return ids, err
 			}
-			//log.Println(ids)
 			all, err := client.CurrentUsersTracks()
 			if err != nil {
-				return ids, nil
+				return ids, err
 			}
 			result := []string{}
 			for _, track := range all.Tracks {

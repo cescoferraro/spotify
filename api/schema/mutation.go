@@ -31,21 +31,20 @@ var Mutation = graphql.NewObject(
 					}
 					client, err := tools.SpotifyClientFromContext(p.Context)
 					if err != nil {
-						return false, nil
+						return false, err
 					}
 					if unfollow {
 						err = client.RemoveTracksFromLibrary([]spotify.ID{spotify.ID(id)}...)
 						if err != nil {
 							log.Println(err.Error())
-							return false, nil
+							return false, err
 						}
 					} else {
 						err = client.AddTracksToLibrary([]spotify.ID{spotify.ID(id)}...)
 						if err != nil {
 							log.Println(err.Error())
-							return false, nil
+							return false, err
 						}
-
 					}
 					return true, nil
 				},

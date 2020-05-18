@@ -5,13 +5,13 @@ import {Observer} from "mobx-react";
 import * as React from "react";
 import {PlayMutation, PlayMutationVariables} from "../../../types/PlayMutation";
 
-const mutation = gql`
+export const playMutation = gql`
   mutation PlayMutation($uri:String, $devID:String) {
     play(uri:$uri, devID: $devID)
   }
 `;
 export const PlayButton = ({isPlaying, uri, devID}: { isPlaying: boolean, uri: string, devID: string }) => {
-  const [play, {data}] = useMutation<PlayMutation, PlayMutationVariables>(mutation);
+  const [play, {data}] = useMutation<PlayMutation, PlayMutationVariables>(playMutation);
   return (
     <Observer>
       {() => {

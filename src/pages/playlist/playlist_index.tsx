@@ -77,11 +77,13 @@ const LikedProvider = ({children, songs}: {
   useEffect(() => {
     const callback = async () => {
       const songIDs = songs.map((r) => r.track?.SimpleTrack?.id).filter(notEmpty);
-      await fetchIDS({variables: {ids: songIDs}})
-      let local_liked = other.data?.likedSongs;
-      if (local_liked) {
-        if (local_liked.length !== liked.length) {
-          setLiked(local_liked.filter(notEmpty))
+      if (songIDs.length !== 0) {
+        await fetchIDS({variables: {ids: songIDs}})
+        let local_liked = other.data?.likedSongs;
+        if (local_liked) {
+          if (local_liked.length !== liked.length) {
+            setLiked(local_liked.filter(notEmpty))
+          }
         }
       }
     }

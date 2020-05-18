@@ -15,7 +15,7 @@ const follow_query = gql`
   }
 `;
 
-export const PlayListButton = ({onClick, color = "white"}: { onClick: () => void, color?: string }) => {
+export const PlayListDumbButton = ({onClick, color = "white"}: { onClick: () => void, color?: string }) => {
   const classes = makeStyles({
     first: {marginRight: 8, border: "2px solid"},
     circle: {backgroundColor, "&:hover": {backgroundColor}, width: 32, height: 32},
@@ -79,7 +79,10 @@ const follow_mutation = gql`
 `;
 
 export const FollowButton = ({owner, playlistId}: { owner: string, playlistId: string }) => {
-  const {refetch, data} = useQuery<FollowQuery, FollowQueryVariables>(follow_query, {variables: {playlistId}});
+  const {refetch, data} = useQuery<FollowQuery, FollowQueryVariables>(follow_query, {
+    skip: playlistId === "",
+    variables: {playlistId}
+  });
   const [followPlaylist] = useMutation<FollowMutation, FollowMutationVariables>(follow_mutation);
   const [follow, setFollow] = useState(false);
   const unfollow = data?.followPlaylist || false;

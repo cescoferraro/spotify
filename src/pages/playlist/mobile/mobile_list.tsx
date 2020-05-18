@@ -5,7 +5,7 @@ import {AutoSizer, InfiniteLoader, List, WindowScroller} from "react-virtualized
 import {PlaylistProps} from "../playlist_index";
 import {isRowLoaded} from "../shared/isRowLoaded";
 import {loadMoreRows} from "../shared/loadMore";
-import {rowRenderer} from "../shared/rowRenderer";
+import {SongRenderer} from "../shared/songRenderer";
 
 export const MobileInfiniteList = withWidth()((props: WithWidthProps & PlaylistProps) => {
     console.log(props.width)
@@ -41,7 +41,7 @@ export const MobileInfiniteList = withWidth()((props: WithWidthProps & PlaylistP
                           onRowsRendered={onRowsRendered}
                           rowCount={props.songs.length}
                           rowHeight={60}
-                          rowRenderer={rowRenderer({
+                          rowRenderer={SongRenderer({
                             refresh: props.refreshLiked,
                             list: props.songs,
                             player,
